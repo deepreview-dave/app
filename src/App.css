@@ -1,0 +1,13 @@
+.main-body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
+  flex: 1;
+}
+
+.narrow-container {
+  max-width: 960px !important;
+}

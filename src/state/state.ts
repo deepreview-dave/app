@@ -6,19 +6,16 @@ export enum EAppStatus {
   STABLE = 'stable'
 };
 
-export type TInputError = 'Name is empty' | undefined;
 export type TResult = string;
 
 export type TAppState = {
   status: EAppStatus;
-  inputError: TInputError;
   inputEnabled: boolean;
   reviewedName: string;
   reviewedPerformanceScore: PerformanceScore;
   answer: TResult;
   updateName: (name: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
-  setError: (error: TInputError) => void;
   generateAnswer: (name: string, performanceScore: PerformanceScore) => Promise<void>;
 };
 
@@ -28,7 +25,7 @@ export const useAppState = create<TAppState>()((set) => ({
   inputEnabled: true,
   reviewedName: '',
   reviewedPerformanceScore: PerformanceScore.MEETS_EXPECTATIONS,
-  answer: "<Press 'Generate' to generate a review>",
+  answer: "<Press 'Generate' to create a review>",
   updateName: (reviewedName: string) => set((state) => ({
     ...state,
     inputError: undefined,
@@ -38,10 +35,6 @@ export const useAppState = create<TAppState>()((set) => ({
     ...state,
     inputError: undefined,
     reviewedPerformanceScore: score,
-  })),
-  setError: (inputError: TInputError) => set((state) => ({
-    ...state,
-    inputError,
   })),
   generateAnswer: async (name: string, performanceScore: PerformanceScore) => {
     set((state) => ({
