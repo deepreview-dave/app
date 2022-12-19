@@ -2,6 +2,10 @@
 
 Take the drudgery out of performance reviews!
 
+## Setup
+
+You need `npm`. Then `create-react-app`, and `wrangler` globally installed.
+
 ## Environment
 
 Write your own `.env.local` file at the root with the appropriate variables.
