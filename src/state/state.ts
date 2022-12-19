@@ -25,7 +25,7 @@ export const useAppState = create<TAppState>()((set) => ({
   inputEnabled: true,
   reviewedName: '',
   reviewedPerformanceScore: PerformanceScore.MEETS_EXPECTATIONS,
-  answer: "<Press 'Generate' to generate a review>",
+  answer: "<Press 'Generate' to create a review>",
   updateName: (reviewedName: string) => set((state) => ({
     ...state,
     inputError: undefined,
