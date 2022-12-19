@@ -39,7 +39,7 @@ const App = () => {
                 <div className='field'>
                   <label className='label'>Peformance score:</label>
                   <div className='select'>
-                    <select required onChange={(e) => updatePerformanceScore(e.target.value as PerformanceScore)}>
+                    <select required disabled={!inputEnabled} onChange={(e) => updatePerformanceScore(e.target.value as PerformanceScore)}>
                       <option value={PerformanceScore.BELOW_EXPECTATIONS}>Below expectations</option>
                       <option value={PerformanceScore.MEETS_EXPECTATIONS} selected>Meets expectations</option>
                       <option value={PerformanceScore.ABOVE_EXPECTATIONS}>Above expectations</option>
@@ -48,7 +48,7 @@ const App = () => {
                 </div>
 
                 <div className="control pt-4">
-                  <button className="button is-link is-fullwidth" disabled={isButtonDisabled} onClick={onSubmit}>Generate</button>
+                  <button className="button is-link is-fullwidth" disabled={isButtonDisabled || !inputEnabled} onClick={onSubmit}>Generate</button>
                 </div>
               </div>
             </div>
