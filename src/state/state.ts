@@ -1,10 +1,10 @@
-import { getSomeData, PerformanceScore } from '../smarts';
-import create from 'zustand';
+import { getSomeData, PerformanceScore } from "../smarts";
+import create from "zustand";
 
 export enum EAppStatus {
-  LOADING = 'loading',
-  STABLE = 'stable'
-};
+  LOADING = "loading",
+  STABLE = "stable",
+}
 
 export type TResult = string;
 
@@ -16,47 +16,52 @@ export type TAppState = {
   answer: TResult;
   updateName: (name: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
-  generateAnswer: (name: string, performanceScore: PerformanceScore) => Promise<void>;
+  generateAnswer: (
+    name: string,
+    performanceScore: PerformanceScore
+  ) => Promise<void>;
 };
 
 export const useAppState = create<TAppState>()((set) => ({
   status: EAppStatus.STABLE,
   inputError: undefined,
   inputEnabled: true,
-  reviewedName: '',
+  reviewedName: "",
   reviewedPerformanceScore: PerformanceScore.MEETS_EXPECTATIONS,
   answer: "<Press 'Generate' to create a review>",
-  updateName: (reviewedName: string) => set((state) => ({
-    ...state,
-    inputError: undefined,
-    reviewedName,
-  })),
-  updatePerformanceScore: (score: PerformanceScore) => set((state) => ({
-    ...state,
-    inputError: undefined,
-    reviewedPerformanceScore: score,
-  })),
+  updateName: (reviewedName: string) =>
+    set((state) => ({
+      ...state,
+      inputError: undefined,
+      reviewedName,
+    })),
+  updatePerformanceScore: (score: PerformanceScore) =>
+    set((state) => ({
+      ...state,
+      inputError: undefined,
+      reviewedPerformanceScore: score,
+    })),
   generateAnswer: async (name: string, performanceScore: PerformanceScore) => {
     set((state) => ({
       ...state,
       status: EAppStatus.LOADING,
-      inputEnabled: false
+      inputEnabled: false,
     }));
 
     const input = { name, performanceScore };
     const response = await getSomeData(input);
 
-    const answer = !!response ? response : 'An error occurred!';
+    const answer = !!response ? response : "An error occurred!";
     const status = EAppStatus.STABLE;
     const inputEnabled = true;
-    const reviewedName = '';
+    const reviewedName = "";
 
     set((state) => ({
       ...state,
       status,
       inputEnabled,
       reviewedName,
-      answer
+      answer,
     }));
   },
 }));
