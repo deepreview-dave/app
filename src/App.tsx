@@ -7,7 +7,6 @@ import { useAppState } from "./state/state";
 import { ResultBlock } from "./components/ResultBlock";
 
 const App = () => {
-  const answer = useAppState((state) => state.answer);
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const reviewedPerformanceScore = useAppState(
     (state) => state.reviewedPerformanceScore
@@ -43,7 +42,7 @@ const App = () => {
               </div>
             </div>
           </div>
-          <ResultBlock/>
+          <ResultBlock />
         </div>
       </div>
       <Footer />
