@@ -20,7 +20,7 @@ const App = () => {
   const isButtonDisabled = reviewedName.trim() === "";
 
   return (
-    <div className="gmain-body">
+    <div className="main-body">
       <Navbar />
       <div className="layout m-4">
         <div className="container narrow-container mt-6">
