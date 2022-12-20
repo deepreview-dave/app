@@ -13,6 +13,7 @@ export const PerformanceScoreEditor = () => {
       <div className="select">
         <select
           required
+          defaultValue={PerformanceScore.MEETS_EXPECTATIONS}
           disabled={!inputEnabled}
           onChange={(e) =>
             updatePerformanceScore(e.target.value as PerformanceScore)
@@ -21,7 +22,7 @@ export const PerformanceScoreEditor = () => {
           <option value={PerformanceScore.BELOW_EXPECTATIONS}>
             Below expectations
           </option>
-          <option value={PerformanceScore.MEETS_EXPECTATIONS} selected>
+          <option value={PerformanceScore.MEETS_EXPECTATIONS}>
             Meets expectations
           </option>
           <option value={PerformanceScore.ABOVE_EXPECTATIONS}>
