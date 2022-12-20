@@ -3,22 +3,12 @@ import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { NameEditor } from "./components/NameEditor";
 import { PerformanceScoreEditor } from "./components/PerformanceScoreEditor";
-import { useAppState } from "./state/state";
 import { ResultBlock } from "./components/ResultBlock";
+import { RoleEditor } from "./components/RoleEditor";
+import { DepartmentEditor } from "./components/DepartmentEditor";
+import { SubmitControl } from "./components/SubmitControl";
 
 const App = () => {
-  const inputEnabled = useAppState((state) => state.inputEnabled);
-  const reviewedPerformanceScore = useAppState(
-    (state) => state.reviewedPerformanceScore
-  );
-  const reviewedName = useAppState((state) => state.reviewedName);
-
-  const generateAnswer = useAppState((state) => state.generateAnswer);
-
-  const onSubmit = async () =>
-    await generateAnswer(reviewedName, reviewedPerformanceScore);
-  const isButtonDisabled = reviewedName.trim() === "";
-
   return (
     <div className="main-body">
       <Navbar />
@@ -29,16 +19,9 @@ const App = () => {
               <div className="content">
                 <NameEditor />
                 <PerformanceScoreEditor />
-
-                <div className="control pt-4">
-                  <button
-                    className="button is-link is-fullwidth"
-                    disabled={isButtonDisabled || !inputEnabled}
-                    onClick={onSubmit}
-                  >
-                    Generate
-                  </button>
-                </div>
+                <RoleEditor />
+                <DepartmentEditor />
+                <SubmitControl />
               </div>
             </div>
           </div>
