@@ -6,6 +6,10 @@ Take the drudgery out of performance reviews!
 
 You need `npm`. Then `create-react-app`, and `wrangler` globally installed.
 
+## Contribution
+
+Use `npm test` to test everything and `npm run format` to auto-format code before a check.
+
 ## Environment
 
 Write your own `.env.local` file at the root with the appropriate variables.
@@ -33,3 +37,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
+
+### `npm run format`
+
+Format the whole source tree according to non-negociable Prettier rules.

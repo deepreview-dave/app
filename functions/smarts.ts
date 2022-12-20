@@ -1,12 +1,11 @@
-interface Env {
-}
+interface Env {}
 
-interface Params {
-}
+interface Params {}
 
-interface Data {
-}
+interface Data {}
 
-export function onRequest(context: EventContext<Env, Params, Data>): Promise<Response> {
-  return new Response("Hello, world!")
+export function onRequest(
+  context: EventContext<Env, Params, Data>
+): Promise<Response> {
+  return new Response("Hello, world!");
 }
