@@ -4,6 +4,7 @@ import { Navbar } from "./components/Navbar";
 import { NameEditor } from "./components/NameEditor";
 import { PerformanceScoreEditor } from "./components/PerformanceScoreEditor";
 import { useAppState } from "./state/state";
+import { ResultBlock } from "./components/ResultBlock";
 
 const App = () => {
   const answer = useAppState((state) => state.answer);
@@ -42,13 +43,7 @@ const App = () => {
               </div>
             </div>
           </div>
-
-          <div className="message mt-6">
-            <div className="message-header">
-              <p>Your review</p>
-            </div>
-            <div className="message-body">{answer}</div>
-          </div>
+          <ResultBlock/>
         </div>
       </div>
       <Footer />
