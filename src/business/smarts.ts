@@ -15,6 +15,12 @@ export interface ReviewedDetails {
   department?: string;
 }
 
+export interface ReviewResult {
+  success: boolean;
+  answer?: string;
+  error?: string;
+}
+
 export class TextSmarts {
   apiKey: string;
   api: typeof OpenAIApi;
@@ -29,7 +35,7 @@ export class TextSmarts {
     this.api = new OpenAIApi(configuration);
   }
 
-  async getSomeData(details: ReviewedDetails): Promise<string | undefined> {
+  async getSomeData(details: ReviewedDetails): Promise<ReviewResult> {
     try {
       const response = await this.api.createCompletion({
         model: "text-davinci-003",
@@ -37,10 +43,10 @@ export class TextSmarts {
         temperature: 0,
         max_tokens: 100,
       });
-      return response.data.choices[0].text;
+      return { success: true, answer: response.data.choices[0].text };
     } catch (e) {
       console.log(`Something bad happened --> ${e}`);
-      return undefined;
+      return { success: false, error: `${e}` };
     }
   }
 

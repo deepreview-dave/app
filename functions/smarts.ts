@@ -65,5 +65,9 @@ export async function onRequest(
   const smarts = new TextSmarts(context.env.OPENAPI_KEY);
   const response = await smarts.getSomeData(params);
 
-  return new Response(`Hello, world! ${response}`);
+  if (!response.success) {
+    return new Response(`Server error: {response.error}`, { status: 500 });
+  }
+
+  return new Response(`${response.answer}`);
 }
