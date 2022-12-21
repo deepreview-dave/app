@@ -11,7 +11,7 @@ You need `npm`. Then `create-react-app`, and `wrangler` globally installed.
 Write a `.dev.vars` file in the root of the repo with your OpenAPI key like so:
 
 ```text
-OPENAPI_KEY=YOUR_SECRET_KEY_HERE
+OPENAI_KEY=YOUR_SECRET_KEY_HERE
 ```
 
 Use `wrangler pages dev -- npm start` to start a local development instance.
