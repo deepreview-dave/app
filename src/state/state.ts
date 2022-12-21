@@ -20,6 +20,7 @@ export type TAppState = {
   inputEnabled: boolean;
   inputs: TReviewInputs;
   answer: TResult;
+  clearInputs: () => void;
   updateName: (name: string) => void;
   updateRole: (role: string) => void;
   updateDepartment: (role: string) => void;
@@ -42,6 +43,15 @@ export const useAppState = create<TAppState>()((set) => ({
     department: undefined,
   },
   answer: "<Press 'Generate' to create a review>",
+  clearInputs: () => set((state) => ({
+    ...state,
+    inputs: {
+      name: '',
+      role: undefined,
+      department: undefined,
+      score: PerformanceScore.MEETS_EXPECTATIONS,
+    },
+  })),
   updateName: (name: string) =>
     set((state) => ({
       ...state,

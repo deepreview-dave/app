@@ -7,6 +7,7 @@ import { ResultBlock } from "./components/ResultBlock";
 import { RoleEditor } from "./components/RoleEditor";
 import { DepartmentEditor } from "./components/DepartmentEditor";
 import { SubmitControl } from "./components/SubmitControl";
+import { ReviewHeader } from "./components/ReviewHeader";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Navbar />
       <div className="layout m-4">
         <div className="container narrow-container mt-6">
+          <ReviewHeader/>
           <div className="card">
             <div className="card-content">
               <div className="content">
