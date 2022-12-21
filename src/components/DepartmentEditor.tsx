@@ -18,7 +18,7 @@ export const DepartmentEditor = () => {
           className="input"
           required
           disabled={!inputEnabled}
-          value={department}
+          value={department || ""}
           placeholder="Write a person's department here (optional)"
           onChange={onNameInputChange}
         ></input>
