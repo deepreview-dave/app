@@ -8,10 +8,16 @@ You need `npm`. Then `create-react-app`, and `wrangler` globally installed.
 
 ## Local Development
 
-Use `wrangler pages dev -- npm start` to start a local development instance.\
+Write a `.dev.vars` file in the root of the repo with your OpenAPI key like so:
+```text
+OPENAPI_KEY=YOUR_SECRET_KEY_HERE
+```
+
+Use `wrangler pages dev -- npm start` to start a local development instance.
+
 You need to go to `http://127.0.0.1:3000/` to see the page. Don't use the `[b]`
 wrangler command, because it's borked. But after that you have auto-reload and all
-development goodies for both the SPA and `function` side.
+development goodies for both the React and Pages Function side.
 
 Ports `3000` and `8788` hold special significance for the system.
 
@@ -26,10 +32,6 @@ identify hanging processes and `kill` them.
 ## Contribution
 
 Use `npm test` to test everything and `npm run format` to auto-format code before a check.
-
-## Environment
-
-Write your own `.env.local` file at the root with the appropriate variables.
 
 ## Available Scripts
 
