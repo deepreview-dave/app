@@ -1,4 +1,4 @@
-import { getSomeData, PerformanceScore } from "../smarts";
+import { PerformanceScore } from "../domain/smarts";
 import create from "zustand";
 
 export enum EAppStatus {
@@ -48,10 +48,19 @@ export const useAppState = create<TAppState>()((set) => ({
       inputEnabled: false,
     }));
 
-    const input = { name, performanceScore };
-    const response = await getSomeData(input);
+    const smartsParams = new URLSearchParams();
+    smartsParams.append("name", name);
+    smartsParams.append("performanceScore", performanceScore);
 
-    const answer = !!response ? response : "An error occurred!";
+    let answer: string = "";
+    try {
+      const response = await fetch(`/smarts?${smartsParams}`, { method: "GET" });
+      answer = await response.text();
+    } catch (e) {
+      console.log(`An error occurred: ${e}`);
+      answer = "An error occurred!";
+    }
+
     const status = EAppStatus.STABLE;
     const inputEnabled = true;
     const reviewedName = "";

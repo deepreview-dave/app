@@ -1,5 +1,5 @@
 import { useAppState } from "../state/state";
-import { PerformanceScore } from "../smarts";
+import { PerformanceScore } from "../domain/smarts";
 
 export const PerformanceScoreEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
