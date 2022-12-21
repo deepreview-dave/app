@@ -11,3 +11,8 @@
 .narrow-container {
   max-width: 960px !important;
 }
+
+/** override bulma default to make modal header look good */
+.modal-card-title {
+  margin-bottom: 0 !important;
+}

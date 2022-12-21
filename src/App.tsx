@@ -8,6 +8,7 @@ import { RoleEditor } from "./components/RoleEditor";
 import { DepartmentEditor } from "./components/DepartmentEditor";
 import { SubmitControl } from "./components/SubmitControl";
 import { ReviewHeader } from "./components/ReviewHeader";
+import { MoreAttributes } from "./components/MoreAttributes";
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
       <Navbar />
       <div className="layout m-4">
         <div className="container narrow-container mt-6">
-          <ReviewHeader/>
+          <ReviewHeader />
           <div className="card">
             <div className="card-content">
               <div className="content">
@@ -23,6 +24,8 @@ const App = () => {
                 <PerformanceScoreEditor />
                 <RoleEditor />
                 <DepartmentEditor />
+                <MoreAttributes />
+                <hr/>
                 <SubmitControl />
               </div>
             </div>
