@@ -1,4 +1,4 @@
-import { PerformanceScore } from "../domain/smarts";
+import { PerformanceScore } from "../business/smarts";
 import create from "zustand";
 
 export enum EAppStatus {

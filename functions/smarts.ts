@@ -1,6 +1,6 @@
 import { Validator } from "@cfworker/json-schema";
 
-import { TextSmarts, PerformanceScore } from "../src/domain/smarts";
+import { TextSmarts, PerformanceScore } from "../src/business/smarts";
 
 interface Env {}
 

@@ -10,8 +10,18 @@ You need `npm`. Then `create-react-app`, and `wrangler` globally installed.
 
 Use `wrangler pages dev -- npm start` to start a local development instance.\
 You need to go to `http://127.0.0.1:3000/` to see the page. Don't use the `[b]`
-wrangler command, because it's effect. But after that you have auto-reload and all
+wrangler command, because it's borked. But after that you have auto-reload and all
 development goodies for both the SPA and `function` side.
+
+Ports `3000` and `8788` hold special significance for the system. 
+
+### Troubleshooting
+
+Ports `3000` or `8788` might be in use. Sometimes because of a previous crash of the
+process. Compilation errors in the React part might get `wrangler` in a borked state and it
+needs to be restarted. But it might leave various subprocesses still running, which prevents
+a clean restart. Use `netstat -vanp tcp | grep 3000` and `netstat -vanp tcp | grep 8788` to
+identify hanging processes and `kill` them.
 
 ## Contribution
 
