@@ -1,4 +1,4 @@
-import { getSomeData, PerformanceScore } from "../smarts";
+import { getSomeData, PerformanceScore } from "../business/smarts";
 import create from "zustand";
 
 export enum EAppStatus {
@@ -8,59 +8,104 @@ export enum EAppStatus {
 
 export type TResult = string;
 
+export type TReviewInputs = {
+  name: string;
+  score: PerformanceScore;
+  role?: string;
+  department?: string;
+};
+
 export type TAppState = {
   status: EAppStatus;
   inputEnabled: boolean;
-  reviewedName: string;
-  reviewedPerformanceScore: PerformanceScore;
+  inputs: TReviewInputs;
   answer: TResult;
+  clearInputs: () => void;
   updateName: (name: string) => void;
+  updateRole: (role: string) => void;
+  updateDepartment: (role: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
   generateAnswer: (
     name: string,
-    performanceScore: PerformanceScore
+    performanceScore: PerformanceScore,
+    role?: string,
+    department?: string,
   ) => Promise<void>;
 };
 
 export const useAppState = create<TAppState>()((set) => ({
   status: EAppStatus.STABLE,
-  inputError: undefined,
   inputEnabled: true,
-  reviewedName: "",
-  reviewedPerformanceScore: PerformanceScore.MEETS_EXPECTATIONS,
+  inputs: {
+    name: '',
+    score: PerformanceScore.MEETS_EXPECTATIONS,
+    role: undefined,
+    department: undefined,
+  },
   answer: "<Press 'Generate' to create a review>",
-  updateName: (reviewedName: string) =>
+  clearInputs: () => set((state) => ({
+    ...state,
+    inputs: {
+      name: '',
+      role: undefined,
+      department: undefined,
+      score: PerformanceScore.MEETS_EXPECTATIONS,
+    },
+  })),
+  updateName: (name: string) =>
     set((state) => ({
       ...state,
       inputError: undefined,
-      reviewedName,
+      inputs: {
+        ...state.inputs,
+        name,
+      },
+    })),
+  updateRole: (role: string) =>
+    set((state) => ({
+      ...state,
+      inputError: undefined,
+      inputs: {
+        ...state.inputs,
+        role,
+      },
+    })),
+  updateDepartment: (department: string) =>
+    set((state) => ({
+      ...state,
+      inputError: undefined,
+      inputs: {
+        ...state.inputs,
+        department,
+      },
     })),
   updatePerformanceScore: (score: PerformanceScore) =>
     set((state) => ({
       ...state,
       inputError: undefined,
-      reviewedPerformanceScore: score,
+      inputs: {
+        ...state.inputs,
+        score,
+      },
     })),
-  generateAnswer: async (name: string, performanceScore: PerformanceScore) => {
+  generateAnswer: async (name: string, performanceScore: PerformanceScore, role?: string, department?: string,) => {
     set((state) => ({
       ...state,
       status: EAppStatus.LOADING,
       inputEnabled: false,
     }));
 
-    const input = { name, performanceScore };
+    const input = { name, performanceScore, role, department };
     const response = await getSomeData(input);
 
     const answer = !!response ? response : "An error occurred!";
     const status = EAppStatus.STABLE;
     const inputEnabled = true;
-    const reviewedName = "";
 
     set((state) => ({
       ...state,
       status,
       inputEnabled,
-      reviewedName,
       answer,
     }));
   },

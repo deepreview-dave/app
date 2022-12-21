@@ -13,11 +13,12 @@ export enum PerformanceScore {
 export interface ReviewedDetails {
   name: string;
   performanceScore: PerformanceScore;
+  role?: string;
+  department?: string;
 }
 
-export async function getSomeData(
-  details: ReviewedDetails
-): Promise<string | undefined> {
+export const getSomeData = async (details: ReviewedDetails): Promise<string | undefined> => {
+
   const openai = new OpenAIApi(configuration);
 
   try {
@@ -34,13 +35,31 @@ export async function getSomeData(
   }
 }
 
-function buildPrompt(details: ReviewedDetails): string {
-  switch (details.performanceScore) {
-    case PerformanceScore.BELOW_EXPECTATIONS:
-      return `Write a performance review for ${details.name} who is below expectations`;
-    case PerformanceScore.MEETS_EXPECTATIONS:
-      return `Write a performance review for ${details.name} who meets expectations`;
-    case PerformanceScore.ABOVE_EXPECTATIONS:
-      return `Write a performance review for ${details.name} who is above expectations`;
+const buildPrompt = (details: ReviewedDetails): string => {
+  let promt = `Write a performace review for ${details.name} `;
+
+  if (details.role) {
+    promt += `who is in the ${details.role} `;
   }
+
+  if (details.department) {
+    promt += `in the ${details.department} department `;
+  }
+
+  switch (details.performanceScore) {
+    case PerformanceScore.BELOW_EXPECTATIONS: {
+      promt += `and is performing below expectations `;
+      break;
+    }
+    case PerformanceScore.MEETS_EXPECTATIONS: {
+      promt += `and is meeting expectations `;
+      break;
+    }
+    case PerformanceScore.ABOVE_EXPECTATIONS: {
+      promt += `and is performing above expectations `;
+      break;
+    }
+  }
+
+  return promt;
 }
