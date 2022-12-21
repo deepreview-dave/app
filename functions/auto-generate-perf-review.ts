@@ -1,12 +1,11 @@
 import { Validator } from "@cfworker/json-schema";
 
-import { TextSmarts, PerformanceScore } from "../src/business/smarts";
+import { AutoPerfReviewGenerator } from "../src/business/auto-perf-review-generator";
+import { PerformanceScore } from "../src/business/common";
 
-interface Env {}
-
-interface Params {}
-
-interface Data {}
+interface Env {
+  OPENAI_KEY: string;
+}
 
 interface RequestParams {
   name: string;
@@ -33,10 +32,10 @@ const RequestParamsSchema = {
   additionalProperties: false,
 };
 
-const validator = new Validator(RequestParamsSchema);
+const REQUEST_VALIDATOR = new Validator(RequestParamsSchema);
 
 export async function onRequest(
-  context: EventContext<Env, Params, Data>
+  context: EventContext<Env, string, null>
 ): Promise<Response> {
   const url = new URL(context.request.url);
   const paramsRaw = {};
@@ -44,7 +43,7 @@ export async function onRequest(
     paramsRaw[key] = value;
   }
 
-  const validation = validator.validate(paramsRaw);
+  const validation = REQUEST_VALIDATOR.validate(paramsRaw);
 
   if (!validation.valid) {
     let errorStr = "";
@@ -52,22 +51,24 @@ export async function onRequest(
       errorStr += `${errorInfo.error} `;
     }
     return new Response(`Invalid input: ${errorStr}`, { status: 400 });
-  } else if (paramsRaw.name.trim() === "") {
+  }
+
+  const params: RequestParams = paramsRaw as RequestParams;
+
+  if (params.name.trim() === "") {
     return new Response(`Invalid input: Empty name`, { status: 400 });
-  } else if (paramsRaw.role?.trim() == "") {
+  } else if (params.role?.trim() == "") {
     return new Response(`Invalid input: Empty role`, { status: 400 });
-  } else if (paramsRaw.department?.trim() == "") {
+  } else if (params.department?.trim() == "") {
     return new Response(`Invalid input: Empty department`, { status: 400 });
   }
 
-  const params: RequestParams = paramsRaw as Params;
+  const smarts = new AutoPerfReviewGenerator(context.env.OPENAI_KEY);
 
-  const smarts = new TextSmarts(context.env.OPENAI_KEY);
-  const response = await smarts.getSomeData(params);
-
-  if (!response.success) {
-    return new Response(`Server error: {response.error}`, { status: 500 });
+  try {
+    const response = await smarts.getSomeData(params);
+    return new Response(response.perfReview);
+  } catch (e) {
+    return new Response(`Server error: ${e}`, { status: 500 });
   }
-
-  return new Response(`${response.answer}`);
 }

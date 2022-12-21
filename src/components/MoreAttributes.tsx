@@ -4,7 +4,8 @@ import {
   AllAttributeDefinitions,
   getAttributeDescription,
 } from "../state/defaults";
-import { TAttribute, useAppState } from "../state/state";
+import { useAppState } from "../state/state";
+import { WorkAttribute } from "../business/common";
 
 const AttributeModal = () => {
   const selectedType = useAppState(
@@ -16,16 +17,13 @@ const AttributeModal = () => {
 
   const [text, setText] = useState("");
 
-  const onTextChange = (e: FormEvent<HTMLInputElement>) =>
-    setText(e.currentTarget.value);
-
   const onClose = () => {
     setText("");
     closeAttributeModal();
   };
 
   const onSave = () => {
-    const attribute: TAttribute = {
+    const attribute: WorkAttribute = {
       uuid: generateUUID(),
       name: text,
       type: selectedType!,
@@ -64,7 +62,7 @@ const AttributeModal = () => {
                 required
                 value={text}
                 placeholder=""
-                onChange={onTextChange}
+                onChange={(e) => setText(e.currentTarget.value)}
               ></input>
             </div>
           </div>
