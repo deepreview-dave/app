@@ -192,6 +192,7 @@ export const useAppState = create<TAppState>()((set) => ({
       const response = await fetch(`/smarts?${smartsParams}`, {
         method: "GET",
       });
+      // TODO: handle HTTP errors here.
       answer = await response.text();
     } catch (e) {
       console.log(`An error occurred: ${e}`);

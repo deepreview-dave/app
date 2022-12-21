@@ -62,7 +62,7 @@ export async function onRequest(
 
   const params: RequestParams = paramsRaw as Params;
 
-  const smarts = new TextSmarts(context.env.OPENAPI_KEY);
+  const smarts = new TextSmarts(context.env.OPENAI_KEY);
   const response = await smarts.getSomeData(params);
 
   if (!response.success) {
