@@ -54,7 +54,7 @@ export async function onRequest(
 
   const params: RequestParams = paramsRaw as Params;
 
-  const smarts = new TextSmarts(context.env.REACT_APP_OPENAI_KEY);
+  const smarts = new TextSmarts(context.env.OPENAPI_KEY);
   const response = await smarts.getSomeData({
     name: params.name,
     performanceScore: params.performanceScore,
