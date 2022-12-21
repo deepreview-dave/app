@@ -1,8 +1,6 @@
-const { Configuration, OpenAIApi } = require("openai");
+import fetchAdapter from "@haverstack/axios-fetch-adapter";
 
-const configuration = new Configuration({
-  apiKey: process.env.REACT_APP_OPENAI_KEY,
-});
+const { Configuration, OpenAIApi } = require("openai");
 
 export enum PerformanceScore {
   BELOW_EXPECTATIONS = "below-expectations",
@@ -17,49 +15,67 @@ export interface ReviewedDetails {
   department?: string;
 }
 
-export const getSomeData = async (details: ReviewedDetails): Promise<string | undefined> => {
-
-  const openai = new OpenAIApi(configuration);
-
-  try {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: buildPrompt(details),
-      temperature: 0,
-      max_tokens: 100,
-    });
-    return response.data.choices[0].text;
-  } catch (e) {
-    console.log(`Something bad happened ${e}`);
-    return undefined;
-  }
+export interface ReviewResult {
+  success: boolean;
+  answer?: string;
+  error?: string;
 }
 
-const buildPrompt = (details: ReviewedDetails): string => {
-  let promt = `Write a performace review for ${details.name} `;
+export class TextSmarts {
+  apiKey: string;
+  api: typeof OpenAIApi;
 
-  if (details.role) {
-    promt += `who is in the ${details.role} `;
+  constructor(apiKey: string) {
+    const configuration = new Configuration({
+      apiKey: apiKey,
+      baseOptions: { adapter: fetchAdapter },
+    });
+
+    this.apiKey = apiKey;
+    this.api = new OpenAIApi(configuration);
   }
 
-  if (details.department) {
-    promt += `in the ${details.department} department `;
-  }
-
-  switch (details.performanceScore) {
-    case PerformanceScore.BELOW_EXPECTATIONS: {
-      promt += `and is performing below expectations `;
-      break;
-    }
-    case PerformanceScore.MEETS_EXPECTATIONS: {
-      promt += `and is meeting expectations `;
-      break;
-    }
-    case PerformanceScore.ABOVE_EXPECTATIONS: {
-      promt += `and is performing above expectations `;
-      break;
+  async getSomeData(details: ReviewedDetails): Promise<ReviewResult> {
+    try {
+      const response = await this.api.createCompletion({
+        model: "text-davinci-003",
+        prompt: this.buildPrompt(details),
+        temperature: 0,
+        max_tokens: 100,
+      });
+      return { success: true, answer: response.data.choices[0].text };
+    } catch (e) {
+      console.log(`Something bad happened --> ${e}`);
+      return { success: false, error: `${e}` };
     }
   }
 
-  return promt;
+  private buildPrompt(details: ReviewedDetails): string {
+    let prompt = `Write a performance review for ${details.name} `;
+
+    if (details.role) {
+      prompt += `who is in the ${details.role} `;
+    }
+
+    if (details.department) {
+      prompt += `in the ${details.department} department `;
+    }
+
+    switch (details.performanceScore) {
+      case PerformanceScore.BELOW_EXPECTATIONS: {
+        prompt += `and is performing below expectations `;
+        break;
+      }
+      case PerformanceScore.MEETS_EXPECTATIONS: {
+        prompt += `and is meeting expectations `;
+        break;
+      }
+      case PerformanceScore.ABOVE_EXPECTATIONS: {
+        prompt += `and is performing above expectations `;
+        break;
+      }
+    }
+
+    return prompt;
+  }
 }

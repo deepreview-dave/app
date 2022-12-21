@@ -1,5 +1,6 @@
-import { getSomeData, PerformanceScore } from "../business/smarts";
 import create from "zustand";
+
+import { PerformanceScore } from "../business/smarts";
 
 export enum EAppStatus {
   LOADING = "loading",
@@ -9,13 +10,13 @@ export enum EAppStatus {
 export type TResult = string;
 
 export enum EAttributeType {
-  SKILL = 'Skill',
-  TRAIT = 'Trait',
-  PROJECT = 'Project',
-  GROWTH = 'Growth',
-  IMPROVE = 'To improve',
-  GOAL = 'Goal' 
-};
+  SKILL = "Skill",
+  TRAIT = "Trait",
+  PROJECT = "Project",
+  GROWTH = "Growth",
+  IMPROVE = "To improve",
+  GOAL = "Goal",
+}
 
 export type TAttribute = {
   uuid: string;
@@ -25,7 +26,7 @@ export type TAttribute = {
 
 export type TAttributeModalState = {
   isOpened: boolean;
-  selectedType?: EAttributeType;  
+  selectedType?: EAttributeType;
 };
 
 export type TReviewInputs = {
@@ -55,15 +56,17 @@ export type TAppState = {
     name: string,
     performanceScore: PerformanceScore,
     role?: string,
-    department?: string,
+    department?: string
   ) => Promise<void>;
 };
+
+const DEFAULT_ANSWER: TResult = "<Press 'Generate' to create a review>";
 
 export const useAppState = create<TAppState>()((set) => ({
   status: EAppStatus.STABLE,
   inputEnabled: true,
   inputs: {
-    name: '',
+    name: "",
     score: PerformanceScore.MEETS_EXPECTATIONS,
     role: undefined,
     department: undefined,
@@ -73,17 +76,19 @@ export const useAppState = create<TAppState>()((set) => ({
     selectedType: undefined,
     isOpened: false,
   },
-  answer: "<Press 'Generate' to create a review>",
-  clearInputs: () => set((state) => ({
-    ...state,
-    inputs: {
-      name: '',
-      role: undefined,
-      department: undefined,
-      score: PerformanceScore.MEETS_EXPECTATIONS,
-      attributes: [],
-    },
-  })),
+  answer: DEFAULT_ANSWER,
+  clearInputs: () =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        name: "",
+        role: undefined,
+        department: undefined,
+        score: PerformanceScore.MEETS_EXPECTATIONS,
+        attributes: [],
+      },
+      answer: DEFAULT_ANSWER,
+    })),
   updateName: (name: string) =>
     set((state) => ({
       ...state,
@@ -120,51 +125,80 @@ export const useAppState = create<TAppState>()((set) => ({
         score,
       },
     })),
-  addAttribute: (attribute: TAttribute) => set((state) => {
-    const attributes = [...state.inputs.attributes, attribute];
-    const inputs = { ...state.inputs, attributes };
-    return {
-      ...state,
-      inputs,
-    };
-  }),
-  removeAttribute: (attribute: TAttribute) => set((state) => {
-    const attributes = state.inputs.attributes.filter(attr => attr.uuid !== attribute.uuid);
-    const inputs = { ...state.inputs, attributes };
-    return {
-      ...state,
-      inputs,
-    };
-  }),
-  openAttributeModal: (type: EAttributeType) => set((state) => {
-    return {
-      ...state,
-      attributeModal: {
-        isOpened: true,
-        selectedType: type,
-      },
-    };
-  }),
-  closeAttributeModal: () => set((state) => {
-    return {
-      ...state,
-      attributeModal: {
-        isOpened: false,
-        selectedType: undefined,
-      },
-    };
-  }),
-  generateAnswer: async (name: string, performanceScore: PerformanceScore, role?: string, department?: string,) => {
+  addAttribute: (attribute: TAttribute) =>
+    set((state) => {
+      const attributes = [...state.inputs.attributes, attribute];
+      const inputs = { ...state.inputs, attributes };
+      return {
+        ...state,
+        inputs,
+      };
+    }),
+  removeAttribute: (attribute: TAttribute) =>
+    set((state) => {
+      const attributes = state.inputs.attributes.filter(
+        (attr) => attr.uuid !== attribute.uuid
+      );
+      const inputs = { ...state.inputs, attributes };
+      return {
+        ...state,
+        inputs,
+      };
+    }),
+  openAttributeModal: (type: EAttributeType) =>
+    set((state) => {
+      return {
+        ...state,
+        attributeModal: {
+          isOpened: true,
+          selectedType: type,
+        },
+      };
+    }),
+  closeAttributeModal: () =>
+    set((state) => {
+      return {
+        ...state,
+        attributeModal: {
+          isOpened: false,
+          selectedType: undefined,
+        },
+      };
+    }),
+  generateAnswer: async (
+    name: string,
+    performanceScore: PerformanceScore,
+    role?: string,
+    department?: string
+  ) => {
     set((state) => ({
       ...state,
       status: EAppStatus.LOADING,
       inputEnabled: false,
     }));
 
-    const input = { name, performanceScore, role, department };
-    const response = await getSomeData(input);
+    const smartsParams = new URLSearchParams();
+    smartsParams.append("name", name);
+    smartsParams.append("performanceScore", performanceScore);
+    if (role !== undefined) {
+      smartsParams.append("role", role);
+    }
+    if (department !== undefined) {
+      smartsParams.append("department", department);
+    }
 
-    const answer = !!response ? response : "An error occurred!";
+    let answer: string = "";
+    try {
+      const response = await fetch(`/smarts?${smartsParams}`, {
+        method: "GET",
+      });
+      // TODO: handle HTTP errors here.
+      answer = await response.text();
+    } catch (e) {
+      console.log(`An error occurred: ${e}`);
+      answer = "An error occurred!";
+    }
+
     const status = EAppStatus.STABLE;
     const inputEnabled = true;
 

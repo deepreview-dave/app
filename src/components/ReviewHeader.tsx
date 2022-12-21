@@ -1,18 +1,24 @@
-import { useAppState } from '../state/state'
+import { useAppState } from "../state/state";
 
 export const ReviewHeader = () => {
-  const clearInputs = useAppState(state => state.clearInputs);
+  const inputEnabled = useAppState((state) => state.inputEnabled);
+
+  const clearInputs = useAppState((state) => state.clearInputs);
 
   return (
-    <div className='columns is-vcentered is-mobile'>
-      <div className='column'>
-        <strong>
-          Performance review:
-        </strong>
+    <div className="columns is-vcentered is-mobile">
+      <div className="column">
+        <strong>Performance review:</strong>
       </div>
-      <div className='column is-narrow'>
-        <button className='button is-info' onClick={clearInputs}>New</button>
+      <div className="column is-narrow">
+        <button
+          disabled={!inputEnabled}
+          className="button is-info"
+          onClick={clearInputs}
+        >
+          New
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};

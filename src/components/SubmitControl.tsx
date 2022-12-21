@@ -4,12 +4,18 @@ export const SubmitControl = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const reviewedPerformanceScore = useAppState((state) => state.inputs.score);
   const reviewedName = useAppState((state) => state.inputs.name);
-  const role = useAppState(state => state.inputs.role);
-  const department = useAppState(state => state.inputs.department);
+  const role = useAppState((state) => state.inputs.role);
+  const department = useAppState((state) => state.inputs.department);
 
   const isButtonDisabled = reviewedName.trim() === "";
 
-  const onSubmit = async () => await generateAnswer(reviewedName, reviewedPerformanceScore, role, department);
+  const onSubmit = async () =>
+    await generateAnswer(
+      reviewedName,
+      reviewedPerformanceScore,
+      role,
+      department
+    );
   const generateAnswer = useAppState((state) => state.generateAnswer);
 
   return (
@@ -22,5 +28,5 @@ export const SubmitControl = () => {
         Generate
       </button>
     </div>
-  )
-}
+  );
+};

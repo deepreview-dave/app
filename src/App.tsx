@@ -25,7 +25,7 @@ const App = () => {
                 <RoleEditor />
                 <DepartmentEditor />
                 <MoreAttributes />
-                <hr/>
+                <hr />
                 <SubmitControl />
               </div>
             </div>
