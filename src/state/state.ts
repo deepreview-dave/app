@@ -1,56 +1,45 @@
 import create from "zustand";
 
-import { PerformanceScore } from "../business/smarts";
+import {
+  PerformanceScore,
+  WorkAttribute,
+  WorkAttributeType,
+} from "../business/common";
 
-export enum EAppStatus {
+export enum AppStatus {
   LOADING = "loading",
   STABLE = "stable",
 }
 
-export type TResult = string;
+export type Result = string;
 
-export enum EAttributeType {
-  SKILL = "Skill",
-  TRAIT = "Trait",
-  PROJECT = "Project",
-  GROWTH = "Growth",
-  IMPROVE = "To improve",
-  GOAL = "Goal",
+interface AttributeModalState {
+  isOpened: boolean;
+  selectedType?: WorkAttributeType;
 }
 
-export type TAttribute = {
-  uuid: string;
-  type: EAttributeType;
-  name: string;
-};
-
-export type TAttributeModalState = {
-  isOpened: boolean;
-  selectedType?: EAttributeType;
-};
-
-export type TReviewInputs = {
+interface ReviewInputs {
   name: string;
   score: PerformanceScore;
   role?: string;
   department?: string;
-  attributes: TAttribute[];
-};
+  attributes: WorkAttribute[];
+}
 
-export type TAppState = {
-  status: EAppStatus;
+interface AppState {
+  status: AppStatus;
   inputEnabled: boolean;
-  inputs: TReviewInputs;
-  answer: TResult;
-  attributeModal: TAttributeModalState;
+  inputs: ReviewInputs;
+  answer: Result;
+  attributeModal: AttributeModalState;
   clearInputs: () => void;
   updateName: (name: string) => void;
   updateRole: (role: string) => void;
   updateDepartment: (role: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
-  addAttribute: (attribute: TAttribute) => void;
-  removeAttribute: (attribute: TAttribute) => void;
-  openAttributeModal: (type: EAttributeType) => void;
+  addAttribute: (attribute: WorkAttribute) => void;
+  removeAttribute: (attribute: WorkAttribute) => void;
+  openAttributeModal: (type: WorkAttributeType) => void;
   closeAttributeModal: () => void;
   generateAnswer: (
     name: string,
@@ -58,12 +47,12 @@ export type TAppState = {
     role?: string,
     department?: string
   ) => Promise<void>;
-};
+}
 
-const DEFAULT_ANSWER: TResult = "<Press 'Generate' to create a review>";
+const DEFAULT_ANSWER: Result = "<Press 'Generate' to create a review>";
 
-export const useAppState = create<TAppState>()((set) => ({
-  status: EAppStatus.STABLE,
+export const useAppState = create<AppState>()((set) => ({
+  status: AppStatus.STABLE,
   inputEnabled: true,
   inputs: {
     name: "",
@@ -125,7 +114,7 @@ export const useAppState = create<TAppState>()((set) => ({
         score,
       },
     })),
-  addAttribute: (attribute: TAttribute) =>
+  addAttribute: (attribute: WorkAttribute) =>
     set((state) => {
       const attributes = [...state.inputs.attributes, attribute];
       const inputs = { ...state.inputs, attributes };
@@ -134,7 +123,7 @@ export const useAppState = create<TAppState>()((set) => ({
         inputs,
       };
     }),
-  removeAttribute: (attribute: TAttribute) =>
+  removeAttribute: (attribute: WorkAttribute) =>
     set((state) => {
       const attributes = state.inputs.attributes.filter(
         (attr) => attr.uuid !== attribute.uuid
@@ -145,7 +134,7 @@ export const useAppState = create<TAppState>()((set) => ({
         inputs,
       };
     }),
-  openAttributeModal: (type: EAttributeType) =>
+  openAttributeModal: (type: WorkAttributeType) =>
     set((state) => {
       return {
         ...state,
@@ -173,33 +162,38 @@ export const useAppState = create<TAppState>()((set) => ({
   ) => {
     set((state) => ({
       ...state,
-      status: EAppStatus.LOADING,
+      status: AppStatus.LOADING,
       inputEnabled: false,
     }));
 
-    const smartsParams = new URLSearchParams();
-    smartsParams.append("name", name);
-    smartsParams.append("performanceScore", performanceScore);
+    const autoGeneratePerfReviewParams = new URLSearchParams();
+    autoGeneratePerfReviewParams.append("name", name);
+    autoGeneratePerfReviewParams.append("performanceScore", performanceScore);
     if (role !== undefined) {
-      smartsParams.append("role", role);
+      autoGeneratePerfReviewParams.append("role", role);
     }
     if (department !== undefined) {
-      smartsParams.append("department", department);
+      autoGeneratePerfReviewParams.append("department", department);
     }
 
     let answer: string = "";
     try {
-      const response = await fetch(`/smarts?${smartsParams}`, {
-        method: "GET",
-      });
-      // TODO: handle HTTP errors here.
-      answer = await response.text();
+      const response = await fetch(
+        `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`
+      );
+
+      if (response.ok) {
+        answer = await response.text();
+      } else {
+        const errorAnswer = await response.text();
+        answer = `An error occurred: ${response.status} ${response.statusText} ${errorAnswer}`;
+      }
     } catch (e) {
       console.log(`An error occurred: ${e}`);
-      answer = "An error occurred!";
+      answer = `An error occurred: ${e}`;
     }
 
-    const status = EAppStatus.STABLE;
+    const status = AppStatus.STABLE;
     const inputEnabled = true;
 
     set((state) => ({

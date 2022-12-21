@@ -1,13 +1,9 @@
-import { FormEvent } from "react";
-
 import { useAppState } from "../state/state";
 
 export const DepartmentEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const department = useAppState((state) => state.inputs.department);
   const updateDepartment = useAppState((state) => state.updateDepartment);
-  const onNameInputChange = (e: FormEvent<HTMLInputElement>) =>
-    updateDepartment(e.currentTarget.value);
 
   return (
     <div className="field">
@@ -20,7 +16,7 @@ export const DepartmentEditor = () => {
           disabled={!inputEnabled}
           value={department || ""}
           placeholder="Write a person's department here (optional)"
-          onChange={onNameInputChange}
+          onChange={(e) => updateDepartment(e.currentTarget.value)}
         ></input>
       </div>
     </div>

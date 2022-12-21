@@ -1,8 +1,8 @@
-import { EAppStatus, useAppState } from "../state/state";
+import { AppStatus, useAppState } from "../state/state";
 
 export const ResultBlock = () => {
   const answer = useAppState((state) => state.answer);
-  const isLoading = useAppState((state) => state.status === EAppStatus.LOADING);
+  const isLoading = useAppState((state) => state.status === AppStatus.LOADING);
 
   return (
     <div className="message mt-6">

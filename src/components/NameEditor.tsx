@@ -1,13 +1,9 @@
-import { FormEvent } from "react";
-
 import { useAppState } from "../state/state";
 
 export const NameEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const reviewedName = useAppState((state) => state.inputs.name);
   const updateName = useAppState((state) => state.updateName);
-  const onNameInputChange = (e: FormEvent<HTMLInputElement>) =>
-    updateName(e.currentTarget.value);
 
   return (
     <div className="field">
@@ -20,7 +16,7 @@ export const NameEditor = () => {
           disabled={!inputEnabled}
           value={reviewedName}
           placeholder="Write a person's name here"
-          onChange={onNameInputChange}
+          onChange={(e) => updateName(e.currentTarget.value)}
         ></input>
       </div>
     </div>

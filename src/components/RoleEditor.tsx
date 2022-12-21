@@ -1,13 +1,9 @@
-import { FormEvent } from "react";
-
 import { useAppState } from "../state/state";
 
 export const RoleEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const role = useAppState((state) => state.inputs.role);
   const updateRole = useAppState((state) => state.updateRole);
-  const onNameInputChange = (e: FormEvent<HTMLInputElement>) =>
-    updateRole(e.currentTarget.value);
 
   return (
     <div className="field">
@@ -20,7 +16,7 @@ export const RoleEditor = () => {
           disabled={!inputEnabled}
           value={role || ""}
           placeholder="Write a person's role here (optional)"
-          onChange={onNameInputChange}
+          onChange={(e) => updateRole(e.currentTarget.value)}
         ></input>
       </div>
     </div>
