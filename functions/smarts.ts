@@ -11,6 +11,8 @@ interface Data {}
 interface RequestParams {
   name: string;
   performanceScore: PerformanceScore;
+  role?: string;
+  department?: string;
 }
 
 const RequestParamsSchema = {
@@ -24,6 +26,8 @@ const RequestParamsSchema = {
         PerformanceScore.ABOVE_EXPECTATIONS,
       ],
     },
+    role: { type: "string", minLength: 1, maxLength: 100 },
+    department: { type: "string", minLength: 1, maxLength: 100 },
   },
   required: ["name", "performanceScore"],
   additionalProperties: false,
@@ -50,15 +54,16 @@ export async function onRequest(
     return new Response(`Invalid input: ${errorStr}`, { status: 400 });
   } else if (paramsRaw.name.trim() === "") {
     return new Response(`Invalid input: Empty name`, { status: 400 });
+  } else if (paramsRaw.role?.trim() == "") {
+    return new Response(`Invalid input: Empty role`, { status: 400 });
+  } else if (paramsRaw.department?.trim() == "") {
+    return new Response(`Invalid input: Empty department`, { status: 400 });
   }
 
   const params: RequestParams = paramsRaw as Params;
 
   const smarts = new TextSmarts(context.env.OPENAPI_KEY);
-  const response = await smarts.getSomeData({
-    name: params.name,
-    performanceScore: params.performanceScore,
-  });
+  const response = await smarts.getSomeData(params);
 
   return new Response(`Hello, world! ${response}`);
 }

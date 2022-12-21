@@ -11,6 +11,8 @@ export enum PerformanceScore {
 export interface ReviewedDetails {
   name: string;
   performanceScore: PerformanceScore;
+  role?: string;
+  department?: string;
 }
 
 export class TextSmarts {
@@ -43,13 +45,31 @@ export class TextSmarts {
   }
 
   private buildPrompt(details: ReviewedDetails): string {
-    switch (details.performanceScore) {
-      case PerformanceScore.BELOW_EXPECTATIONS:
-        return `Write a performance review for ${details.name} who is below expectations`;
-      case PerformanceScore.MEETS_EXPECTATIONS:
-        return `Write a performance review for ${details.name} who meets expectations`;
-      case PerformanceScore.ABOVE_EXPECTATIONS:
-        return `Write a performance review for ${details.name} who is above expectations`;
+    let prompt = `Write a performance review for ${details.name} `;
+
+    if (details.role) {
+      prompt += `who is in the ${details.role} `;
     }
+
+    if (details.department) {
+      prompt += `in the ${details.department} department `;
+    }
+
+    switch (details.performanceScore) {
+      case PerformanceScore.BELOW_EXPECTATIONS: {
+        prompt += `and is performing below expectations `;
+        break;
+      }
+      case PerformanceScore.MEETS_EXPECTATIONS: {
+        prompt += `and is meeting expectations `;
+        break;
+      }
+      case PerformanceScore.ABOVE_EXPECTATIONS: {
+        prompt += `and is performing above expectations `;
+        break;
+      }
+    }
+
+    return prompt;
   }
 }

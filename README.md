@@ -13,7 +13,7 @@ You need to go to `http://127.0.0.1:3000/` to see the page. Don't use the `[b]`
 wrangler command, because it's borked. But after that you have auto-reload and all
 development goodies for both the SPA and `function` side.
 
-Ports `3000` and `8788` hold special significance for the system. 
+Ports `3000` and `8788` hold special significance for the system.
 
 ### Troubleshooting
 
