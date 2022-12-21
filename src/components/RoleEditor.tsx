@@ -18,7 +18,7 @@ export const RoleEditor = () => {
           className="input"
           required
           disabled={!inputEnabled}
-          value={role}
+          value={role || ""}
           placeholder="Write a person's role here (optional)"
           onChange={onNameInputChange}
         ></input>
