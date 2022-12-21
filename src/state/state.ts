@@ -91,16 +91,11 @@ export const useAppState = create<TAppState>()((set) => ({
     const answer = !!response ? response : "An error occurred!";
     const status = EAppStatus.STABLE;
     const inputEnabled = true;
-    const reviewedName = "";
 
     set((state) => ({
       ...state,
       status,
       inputEnabled,
-      inputs: {
-        ...state.inputs,
-        name: reviewedName,
-      },
       answer,
     }));
   },
