@@ -4,7 +4,7 @@ export const ReviewHeader = () => {
   const clearInputs = useAppState(state => state.clearInputs);
 
   return (
-    <div className='columns is-vcentered'>
+    <div className='columns is-vcentered is-mobile'>
       <div className='column'>
         <strong>
           Performance review:
