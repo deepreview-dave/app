@@ -2,6 +2,7 @@ import { useAppState } from "../state/state";
 import { PerformanceScore } from "../business/common";
 
 export const PerformanceScoreEditor = () => {
+  const score = useAppState((state) => state.inputs.score);
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const updatePerformanceScore = useAppState(
     (state) => state.updatePerformanceScore
@@ -13,6 +14,7 @@ export const PerformanceScoreEditor = () => {
       <div className="select">
         <select
           required
+          value={score}
           defaultValue={PerformanceScore.MEETS_EXPECTATIONS}
           disabled={!inputEnabled}
           onChange={(e) =>
