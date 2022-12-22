@@ -139,13 +139,13 @@ export const useAppState = create<AppState>()((set) => ({
     const autoGeneratePerfReviewParams = new URLSearchParams();
     autoGeneratePerfReviewParams.append("name", name);
     autoGeneratePerfReviewParams.append("performanceScore", performanceScore);
+    autoGeneratePerfReviewParams.append("attributes", JSON.stringify(attributes));
     if (role !== undefined) {
       autoGeneratePerfReviewParams.append("role", role);
     }
     if (department !== undefined) {
       autoGeneratePerfReviewParams.append("department", department);
     }
-    autoGeneratePerfReviewParams.append("attributes", JSON.stringify(attributes));
 
     let answer = "";
     try {

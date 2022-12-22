@@ -2,7 +2,7 @@ import { PerformanceScore, PersonDetails, WorkAttribute, WorkAttributeType } fro
 
 export class PromptBuilder {
 
-  build(details: PersonDetails, attributes: WorkAttribute[]): string {
+  build(details: PersonDetails): string {
     let prompt = `Write a performance review for ${details.name} `;
 
     if (details.role) {
@@ -30,7 +30,7 @@ export class PromptBuilder {
 
     prompt += '.';
 
-    for (const attribute of attributes) {
+    for (const attribute of details.attributes) {
       switch (attribute.type) {
         case WorkAttributeType.GOAL: {
           prompt += `Mention ${attribute.name} as a goal they have set for the next review cycle.`;

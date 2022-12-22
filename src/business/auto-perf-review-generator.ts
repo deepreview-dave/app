@@ -1,7 +1,7 @@
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 import { Configuration, OpenAIApi } from "openai";
 
-import { PersonDetails, WorkAttribute } from "./common";
+import { PersonDetails } from "./common";
 import { PromptBuilder } from "./prompt-builder";
 
 export interface PersonPerfReviewResult {
@@ -24,12 +24,12 @@ export class AutoPerfReviewGenerator {
     this.builder = new PromptBuilder();
   }
 
-  async getSomeData(details: PersonDetails, attributes: WorkAttribute[]): Promise<PersonPerfReviewResult> {
+  async getSomeData(details: PersonDetails): Promise<PersonPerfReviewResult> {
     let response = null;
     try {
       response = await this.api.createCompletion({
         model: "text-davinci-003",
-        prompt: this.builder.build(details, attributes),
+        prompt: this.builder.build(details),
         temperature: 0,
         max_tokens: 100,
       });

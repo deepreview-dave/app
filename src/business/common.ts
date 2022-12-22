@@ -22,6 +22,7 @@ export interface WorkAttribute {
 export interface PersonDetails {
   name: string;
   performanceScore: PerformanceScore;
+  attributes: WorkAttribute[];
   role?: string;
   department?: string;
 }
