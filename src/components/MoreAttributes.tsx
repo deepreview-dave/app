@@ -1,19 +1,20 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { generateUUID } from "../business/utils";
 import {
   AllAttributeDefinitions,
   getAttributeDescription,
 } from "../state/defaults";
-import { useAppState } from "../state/state";
+import { useAppState } from "../state/app.state";
 import { WorkAttribute } from "../business/common";
+import { useModalState } from "../state/modal.state";
 
 const AttributeModal = () => {
-  const selectedType = useAppState(
-    (state) => state.attributeModal.selectedType
+  const selectedType = useModalState(
+    (state) => state.selectedType
   );
-  const isOpened = useAppState((state) => state.attributeModal.isOpened);
+  const isOpened = useModalState((state) => state.isOpened);
   const addAttribute = useAppState((state) => state.addAttribute);
-  const closeAttributeModal = useAppState((state) => state.closeAttributeModal);
+  const closeAttributeModal = useModalState((state) => state.closeAttributeModal);
 
   const [text, setText] = useState("");
 
@@ -87,7 +88,7 @@ const AttributeModal = () => {
 export const MoreAttributes = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
 
-  const openAttributeModal = useAppState((state) => state.openAttributeModal);
+  const openAttributeModal = useModalState((state) => state.openAttributeModal);
   const attributes = useAppState((state) => state.inputs.attributes);
   const removeAttribute = useAppState((state) => state.removeAttribute);
 

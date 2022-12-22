@@ -1,4 +1,4 @@
-import { AppStatus, useAppState } from "../state/state";
+import { AppStatus, useAppState } from "../state/app.state";
 
 export const ResultBlock = () => {
   const answer = useAppState((state) => state.answer);
