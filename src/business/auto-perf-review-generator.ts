@@ -1,7 +1,6 @@
+import { PerformanceScore } from "./common";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 const { Configuration, OpenAIApi } = require("openai");
-
-import { PerformanceScore } from "./common";
 
 export interface PersonDetails {
   name: string;

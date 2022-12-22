@@ -57,9 +57,9 @@ export async function onRequest(
 
   if (params.name.trim() === "") {
     return new Response(`Invalid input: Empty name`, { status: 400 });
-  } else if (params.role?.trim() == "") {
+  } else if (params.role?.trim() === "") {
     return new Response(`Invalid input: Empty role`, { status: 400 });
-  } else if (params.department?.trim() == "") {
+  } else if (params.department?.trim() === "") {
     return new Response(`Invalid input: Empty department`, { status: 400 });
   }
 
