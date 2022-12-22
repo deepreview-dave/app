@@ -10,6 +10,7 @@ interface Env {
 interface RequestParams {
   name: string;
   performanceScore: PerformanceScore;
+  attributes: string;
   role?: string;
   department?: string;
 }
@@ -25,6 +26,7 @@ const REQUEST_PARAMS_SCHEMA = {
         PerformanceScore.ABOVE_EXPECTATIONS,
       ],
     },
+    attributes: { type: "string", },
     role: { type: "string", minLength: 1, maxLength: 100 },
     department: { type: "string", minLength: 1, maxLength: 100 },
   },
@@ -34,12 +36,8 @@ const REQUEST_PARAMS_SCHEMA = {
 
 const REQUEST_VALIDATOR = new Validator(REQUEST_PARAMS_SCHEMA);
 
-interface RequestBody {
-  attributes: WorkAttribute[],
-};
-
 export async function onRequest(
-  context: EventContext<Env, string, string>
+  context: EventContext<Env, string, null>
 ): Promise<Response> {
   const url = new URL(context.request.url);
   const paramsRaw = {};
@@ -68,10 +66,10 @@ export async function onRequest(
   }
 
   const smarts = new AutoPerfReviewGenerator(context.env.OPENAI_KEY);
-  const body = JSON.parse(context.data) as RequestBody;
+  const attributes = JSON.parse(params.attributes) as WorkAttribute[];
 
   try {
-    const response = await smarts.getSomeData(params, body.attributes);
+    const response = await smarts.getSomeData(params, attributes);
     return new Response(response.perfReview);
   } catch (e) {
     return new Response(`Server error: ${e}`, { status: 500 });

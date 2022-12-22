@@ -145,19 +145,12 @@ export const useAppState = create<AppState>()((set) => ({
     if (department !== undefined) {
       autoGeneratePerfReviewParams.append("department", department);
     }
-
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({
-        attributes: attributes,
-      }),
-    };
+    autoGeneratePerfReviewParams.append("attributes", JSON.stringify(attributes));
 
     let answer = "";
     try {
       const response = await fetch(
         `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`,
-        options
       );
 
       if (response.ok) {
