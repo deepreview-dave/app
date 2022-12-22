@@ -1,9 +1,6 @@
 import create from "zustand";
 
-import {
-  PerformanceScore,
-  WorkAttribute,
-} from "../business/common";
+import { PerformanceScore, WorkAttribute } from "../business/common";
 
 export enum AppStatus {
   LOADING = "loading",
@@ -156,7 +153,7 @@ export const useAppState = create<AppState>()((set) => ({
       }),
     };
 
-    let answer: string = "";
+    let answer = "";
     try {
       const response = await fetch(
         `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`,

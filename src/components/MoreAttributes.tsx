@@ -9,12 +9,12 @@ import { WorkAttribute } from "../business/common";
 import { useModalState } from "../state/modal.state";
 
 const AttributeModal = () => {
-  const selectedType = useModalState(
-    (state) => state.selectedType
-  );
+  const selectedType = useModalState((state) => state.selectedType);
   const isOpened = useModalState((state) => state.isOpened);
   const addAttribute = useAppState((state) => state.addAttribute);
-  const closeAttributeModal = useModalState((state) => state.closeAttributeModal);
+  const closeAttributeModal = useModalState(
+    (state) => state.closeAttributeModal
+  );
 
   const [text, setText] = useState("");
 
@@ -27,7 +27,7 @@ const AttributeModal = () => {
     const attribute: WorkAttribute = {
       uuid: generateUUID(),
       name: text,
-      type: selectedType!,
+      type: selectedType!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
     };
     addAttribute(attribute);
     onClose();
