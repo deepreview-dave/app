@@ -39,7 +39,7 @@ interface RequestBody {
 };
 
 export async function onRequest(
-  context: EventContext<Env, string, RequestBody>
+  context: EventContext<Env, string, string>
 ): Promise<Response> {
   const url = new URL(context.request.url);
   const paramsRaw = {};
@@ -68,9 +68,10 @@ export async function onRequest(
   }
 
   const smarts = new AutoPerfReviewGenerator(context.env.OPENAI_KEY);
+  const body = JSON.parse(context.data) as RequestBody;
 
   try {
-    const response = await smarts.getSomeData(params, context.data.attributes);
+    const response = await smarts.getSomeData(params, body.attributes);
     return new Response(response.perfReview);
   } catch (e) {
     return new Response(`Server error: ${e}`, { status: 500 });
