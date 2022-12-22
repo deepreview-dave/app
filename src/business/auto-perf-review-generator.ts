@@ -1,5 +1,5 @@
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
-const { Configuration, OpenAIApi } = require("openai");
+import { Configuration, OpenAIApi } from "openai";
 
 import { PerformanceScore } from "./common";
 
@@ -16,7 +16,7 @@ export interface PersonPerfReviewResult {
 
 export class AutoPerfReviewGenerator {
   apiKey: string;
-  api: typeof OpenAIApi;
+  api: OpenAIApi;
 
   constructor(apiKey: string) {
     const configuration = new Configuration({
@@ -29,25 +29,30 @@ export class AutoPerfReviewGenerator {
   }
 
   async getSomeData(details: PersonDetails): Promise<PersonPerfReviewResult> {
+    let response = null;
     try {
-      const response = await this.api.createCompletion({
+      response = await this.api.createCompletion({
         model: "text-davinci-003",
         prompt: this.buildPrompt(details),
         temperature: 0,
         max_tokens: 100,
       });
-
-      if (response.status !== 200) {
-        throw new Error(
-          `OpenAI error: ${response.status} ${response.statusText}`
-        );
-      }
-
-      return { perfReview: response.data.choices[0].text };
     } catch (e) {
       console.log(`Something bad happened: ${e}`);
       throw e;
     }
+
+    if (response.status !== 200) {
+      throw new Error(
+        `OpenAI error: ${response.status} ${response.statusText}`
+      );
+    } else if (response.data.choices.length === 0) {
+      throw new Error(`OpenAI error: no content`);
+    } else if (response.data.choices[0].text === undefined) {
+      throw new Error("OpenAI error: missing text in content");
+    }
+
+    return { perfReview: response.data.choices[0].text };
   }
 
   private buildPrompt(details: PersonDetails): string {

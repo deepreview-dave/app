@@ -1,4 +1,3 @@
-import { Result } from "./app.state";
 import { WorkAttributeType } from "../business/common";
 
 export type AttributeDefinition = {
@@ -10,7 +9,7 @@ export type AttributeDefinition = {
 export const AllAttributeDefinitions: AttributeDefinition[] = [
   {
     type: WorkAttributeType.SKILL,
-    description: "Add a skill your colleague posseses",
+    description: "Add a skill your colleague possesses",
     colorClass: "is-success",
   },
   {
@@ -44,4 +43,14 @@ export const AllAttributeDefinitions: AttributeDefinition[] = [
 
 export const getAttributeDescription = (
   type: WorkAttributeType
-): AttributeDefinition => AllAttributeDefinitions.find((e) => e.type === type)!;
+): AttributeDefinition => {
+  const result = AllAttributeDefinitions.find((e) => e.type === type);
+
+  if (result === undefined) {
+    throw new Error(
+      `Something bad has happened trying to find attribute ${type}`
+    );
+  }
+
+  return result;
+};
