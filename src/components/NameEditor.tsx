@@ -1,4 +1,4 @@
-import { useAppState } from "../state/state";
+import { useAppState } from "../state/app.state";
 
 export const NameEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);

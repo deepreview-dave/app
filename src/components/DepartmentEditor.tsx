@@ -1,4 +1,4 @@
-import { useAppState } from "../state/state";
+import { useAppState } from "../state/app.state";
 
 export const DepartmentEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);

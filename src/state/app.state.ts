@@ -3,7 +3,6 @@ import create from "zustand";
 import {
   PerformanceScore,
   WorkAttribute,
-  WorkAttributeType,
 } from "../business/common";
 
 export enum AppStatus {
@@ -12,11 +11,6 @@ export enum AppStatus {
 }
 
 export type Result = string;
-
-interface AttributeModalState {
-  isOpened: boolean;
-  selectedType?: WorkAttributeType;
-}
 
 interface ReviewInputs {
   name: string;
@@ -31,7 +25,6 @@ interface AppState {
   inputEnabled: boolean;
   inputs: ReviewInputs;
   answer: Result;
-  attributeModal: AttributeModalState;
   clearInputs: () => void;
   updateName: (name: string) => void;
   updateRole: (role: string) => void;
@@ -39,8 +32,6 @@ interface AppState {
   updatePerformanceScore: (score: PerformanceScore) => void;
   addAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
-  openAttributeModal: (type: WorkAttributeType) => void;
-  closeAttributeModal: () => void;
   generateAnswer: (
     name: string,
     performanceScore: PerformanceScore,
@@ -132,26 +123,6 @@ export const useAppState = create<AppState>()((set) => ({
       return {
         ...state,
         inputs,
-      };
-    }),
-  openAttributeModal: (type: WorkAttributeType) =>
-    set((state) => {
-      return {
-        ...state,
-        attributeModal: {
-          isOpened: true,
-          selectedType: type,
-        },
-      };
-    }),
-  closeAttributeModal: () =>
-    set((state) => {
-      return {
-        ...state,
-        attributeModal: {
-          isOpened: false,
-          selectedType: undefined,
-        },
       };
     }),
   generateAnswer: async (

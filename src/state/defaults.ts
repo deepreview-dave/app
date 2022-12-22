@@ -1,4 +1,4 @@
-import { Result } from "./state";
+import { Result } from "./app.state";
 import { WorkAttributeType } from "../business/common";
 
 export type AttributeDefinition = {
