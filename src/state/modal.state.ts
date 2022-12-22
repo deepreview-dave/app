@@ -1,4 +1,4 @@
-import { WorkAttributeType } from '../business/common';
+import { WorkAttributeType } from "../business/common";
 import create from "zustand";
 
 export interface AttributeModalState {
@@ -6,7 +6,7 @@ export interface AttributeModalState {
   selectedType?: WorkAttributeType;
   openAttributeModal: (type: WorkAttributeType) => void;
   closeAttributeModal: () => void;
-};
+}
 
 export const useModalState = create<AttributeModalState>()((set) => ({
   isOpened: false,

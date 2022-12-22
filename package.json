@@ -27,6 +27,8 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20221111.1",
     "@types/uuid": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
     "eslint-config-prettier": "^8.5.0",
     "husky": "^8.0.0",
     "prettier": "2.8.1",
@@ -45,7 +47,12 @@
     "extends": [
       "react-app",
       "react-app/jest",
+      "plugin:@typescript-eslint/recommended",
       "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
     ]
   },
   "proxy": "http://127.0.0.1:8788/",
