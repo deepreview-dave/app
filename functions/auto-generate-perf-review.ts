@@ -1,7 +1,7 @@
 import { Validator } from "@cfworker/json-schema";
 
 import { AutoPerfReviewGenerator } from "../src/business/auto-perf-review-generator";
-import { PerformanceScore } from "../src/business/common";
+import { PerformanceScore, WorkAttribute } from "../src/business/common";
 
 interface Env {
   OPENAI_KEY: string;
@@ -34,8 +34,12 @@ const RequestParamsSchema = {
 
 const REQUEST_VALIDATOR = new Validator(RequestParamsSchema);
 
+interface RequestBody {
+  attributes: WorkAttribute[],
+};
+
 export async function onRequest(
-  context: EventContext<Env, string, null>
+  context: EventContext<Env, string, RequestBody>
 ): Promise<Response> {
   const url = new URL(context.request.url);
   const paramsRaw = {};
@@ -66,7 +70,7 @@ export async function onRequest(
   const smarts = new AutoPerfReviewGenerator(context.env.OPENAI_KEY);
 
   try {
-    const response = await smarts.getSomeData(params);
+    const response = await smarts.getSomeData(params, context.data.attributes);
     return new Response(response.perfReview);
   } catch (e) {
     return new Response(`Server error: ${e}`, { status: 500 });

@@ -18,3 +18,10 @@ export interface WorkAttribute {
   type: WorkAttributeType;
   name: string;
 }
+
+export interface PersonDetails {
+  name: string;
+  performanceScore: PerformanceScore;
+  role?: string;
+  department?: string;
+}

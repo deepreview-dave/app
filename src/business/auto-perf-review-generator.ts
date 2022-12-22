@@ -1,14 +1,8 @@
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 const { Configuration, OpenAIApi } = require("openai");
 
-import { PerformanceScore } from "./common";
-
-export interface PersonDetails {
-  name: string;
-  performanceScore: PerformanceScore;
-  role?: string;
-  department?: string;
-}
+import { PersonDetails, WorkAttribute } from "./common";
+import { PromptBuilder } from "./prompt-builder";
 
 export interface PersonPerfReviewResult {
   perfReview: string;
@@ -17,6 +11,7 @@ export interface PersonPerfReviewResult {
 export class AutoPerfReviewGenerator {
   apiKey: string;
   api: typeof OpenAIApi;
+  builder: PromptBuilder
 
   constructor(apiKey: string) {
     const configuration = new Configuration({
@@ -26,13 +21,14 @@ export class AutoPerfReviewGenerator {
 
     this.apiKey = apiKey;
     this.api = new OpenAIApi(configuration);
+    this.builder = new PromptBuilder();
   }
 
-  async getSomeData(details: PersonDetails): Promise<PersonPerfReviewResult> {
+  async getSomeData(details: PersonDetails, attributes: WorkAttribute[]): Promise<PersonPerfReviewResult> {
     try {
       const response = await this.api.createCompletion({
         model: "text-davinci-003",
-        prompt: this.buildPrompt(details),
+        prompt: this.builder.build(details, attributes),
         temperature: 0,
         max_tokens: 100,
       });
@@ -48,34 +44,5 @@ export class AutoPerfReviewGenerator {
       console.log(`Something bad happened: ${e}`);
       throw e;
     }
-  }
-
-  private buildPrompt(details: PersonDetails): string {
-    let prompt = `Write a performance review for ${details.name} `;
-
-    if (details.role) {
-      prompt += `who is in the ${details.role} `;
-    }
-
-    if (details.department) {
-      prompt += `in the ${details.department} department `;
-    }
-
-    switch (details.performanceScore) {
-      case PerformanceScore.BELOW_EXPECTATIONS: {
-        prompt += `and is performing below expectations `;
-        break;
-      }
-      case PerformanceScore.MEETS_EXPECTATIONS: {
-        prompt += `and is meeting expectations `;
-        break;
-      }
-      case PerformanceScore.ABOVE_EXPECTATIONS: {
-        prompt += `and is performing above expectations `;
-        break;
-      }
-    }
-
-    return prompt;
   }
 }

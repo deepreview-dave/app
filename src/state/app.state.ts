@@ -35,8 +35,9 @@ interface AppState {
   generateAnswer: (
     name: string,
     performanceScore: PerformanceScore,
+    attributes: WorkAttribute[],
     role?: string,
-    department?: string
+    department?: string,
   ) => Promise<void>;
 }
 
@@ -128,8 +129,9 @@ export const useAppState = create<AppState>()((set) => ({
   generateAnswer: async (
     name: string,
     performanceScore: PerformanceScore,
+    attributes: WorkAttribute[],
     role?: string,
-    department?: string
+    department?: string,
   ) => {
     set((state) => ({
       ...state,
@@ -147,10 +149,18 @@ export const useAppState = create<AppState>()((set) => ({
       autoGeneratePerfReviewParams.append("department", department);
     }
 
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({
+        attributes: attributes,
+      }),
+    };
+
     let answer: string = "";
     try {
       const response = await fetch(
-        `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`
+        `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`,
+        options
       );
 
       if (response.ok) {
