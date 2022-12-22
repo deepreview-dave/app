@@ -14,7 +14,7 @@ interface RequestParams {
   department?: string;
 }
 
-const RequestParamsSchema = {
+const REQUEST_PARAMS_SCHEMA = {
   type: "object",
   properties: {
     name: { type: "string", minLength: 1, maxLength: 100 },
@@ -32,7 +32,7 @@ const RequestParamsSchema = {
   additionalProperties: false,
 };
 
-const REQUEST_VALIDATOR = new Validator(RequestParamsSchema);
+const REQUEST_VALIDATOR = new Validator(REQUEST_PARAMS_SCHEMA);
 
 export async function onRequest(
   context: EventContext<Env, string, null>
