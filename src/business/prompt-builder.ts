@@ -1,4 +1,4 @@
-import { PerformanceScore, PersonDetails, WorkAttribute } from './common';
+import { PerformanceScore, PersonDetails, WorkAttribute, WorkAttributeType } from './common';
 
 export class PromptBuilder {
 
@@ -25,6 +25,37 @@ export class PromptBuilder {
       case PerformanceScore.ABOVE_EXPECTATIONS: {
         prompt += `and is performing above expectations `;
         break;
+      }
+    }
+
+    prompt += '.';
+
+    for (const attribute of attributes) {
+      switch (attribute.type) {
+        case WorkAttributeType.GOAL: {
+          prompt += `Mention ${attribute.name} as a goal they have set for the next review cycle.`;
+          break;
+        }
+        case WorkAttributeType.GROWTH: {
+          prompt += `Mention ${attribute.name} as an area where they have grown in this review cycle.`;
+          break;
+        }
+        case WorkAttributeType.IMPROVE: {
+          prompt += `Mention ${attribute.name} as an area where they need to improve.`;
+          break;
+        }
+        case WorkAttributeType.PROJECT: {
+          prompt += `Mention ${attribute.name} as a project they have worked on.`;
+          break;
+        }
+        case WorkAttributeType.SKILL: {
+          prompt += `Mention ${attribute.name} as a skill they are good at.`;
+          break;
+        }
+        case WorkAttributeType.TRAIT: {
+          prompt += `Mention ${attribute.name} as a good trait they have.`;
+          break;
+        }
       }
     }
 
