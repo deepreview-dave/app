@@ -1,7 +1,6 @@
-import { PerformanceScore, PersonDetails, WorkAttribute, WorkAttributeType } from './common';
+import { PerformanceScore, PersonDetails, WorkAttributeType } from "./common";
 
 export class PromptBuilder {
-
   build(details: PersonDetails): string {
     let prompt = `Write a performance review for ${details.name} `;
 
@@ -28,7 +27,7 @@ export class PromptBuilder {
       }
     }
 
-    prompt += '.';
+    prompt += ".";
 
     for (const attribute of details.attributes) {
       switch (attribute.type) {
