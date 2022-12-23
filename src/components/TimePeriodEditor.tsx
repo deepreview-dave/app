@@ -1,3 +1,4 @@
+import React from "react";
 import { TimePeriod } from "../business/common";
 import { useAppState } from "../state/app.state";
 
@@ -6,8 +7,8 @@ export const TimePeriodEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const updateTimePeriod = useAppState((state) => state.updateTimePeriod);
 
-  const onChange = (e: any) => {
-    const value = e.target.value as TimePeriod;
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.currentTarget.value as TimePeriod;
     const period = !value ? undefined : value;
     updateTimePeriod(period);
   };
