@@ -12,7 +12,8 @@ export const AllAttributeDefinitions: AttributeDefinition[] = [
   {
     type: WorkAttributeType.SKILL,
     title: "Add a Skill",
-    description: "Add a specific skill with a tool or technique your colleague possesses.",
+    description:
+      "Add a specific skill with a tool or technique your colleague possesses.",
     placeholder: "Excell, sales, accounting, etc",
     colorClass: "is-success",
   },
@@ -34,7 +35,8 @@ export const AllAttributeDefinitions: AttributeDefinition[] = [
   {
     type: WorkAttributeType.GROWTH,
     title: "Add an area of recent Growth",
-    description: "Add a skill or trait your colleague has improved on in this review cycle.",
+    description:
+      "Add a skill or trait your colleague has improved on in this review cycle.",
     placeholder: "Communication, Excell, etc",
     colorClass: "is-success",
   },

@@ -1,4 +1,9 @@
-import { PerformanceScore, PersonDetails, WorkAttributeType } from "./common";
+import {
+  PerformanceScore,
+  PersonDetails,
+  TimePeriod,
+  WorkAttributeType,
+} from "./common";
 
 export class PromptBuilder {
   build(details: PersonDetails): string {
@@ -24,6 +29,27 @@ export class PromptBuilder {
       case PerformanceScore.ABOVE_EXPECTATIONS: {
         prompt += `and is performing above expectations `;
         break;
+      }
+    }
+
+    if (details.timePeriod) {
+      switch (details.timePeriod) {
+        case TimePeriod.LAST_MONTH: {
+          prompt += `in the last month `;
+          break;
+        }
+        case TimePeriod.LAST_3_MONTHS: {
+          prompt += `in the last 3 months `;
+          break;
+        }
+        case TimePeriod.LAST_6_MONTHS: {
+          prompt += `in the last 6 months `;
+          break;
+        }
+        case TimePeriod.LAST_12_MONTHS: {
+          prompt += `in the last 12 months `;
+          break;
+        }
       }
     }
 

@@ -1,6 +1,10 @@
 import create from "zustand";
 
-import { PerformanceScore, WorkAttribute } from "../business/common";
+import {
+  PerformanceScore,
+  TimePeriod,
+  WorkAttribute,
+} from "../business/common";
 
 export enum AppStatus {
   LOADING = "loading",
@@ -12,9 +16,10 @@ export type Result = string;
 interface ReviewInputs {
   name: string;
   score: PerformanceScore;
+  attributes: WorkAttribute[];
   role?: string;
   department?: string;
-  attributes: WorkAttribute[];
+  timePeriod?: TimePeriod;
 }
 
 interface AppState {
@@ -28,6 +33,7 @@ interface AppState {
   updateRole: (role: string) => void;
   updateDepartment: (role: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
+  updateTimePeriod: (timePeriod: TimePeriod | undefined) => void;
   addAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
   generateAnswer: (
@@ -36,6 +42,7 @@ interface AppState {
     attributes: WorkAttribute[],
     role?: string,
     department?: string,
+    timePeriod?: TimePeriod
   ) => Promise<void>;
 }
 
@@ -47,9 +54,10 @@ export const useAppState = create<AppState>()((set) => ({
   inputs: {
     name: "",
     score: PerformanceScore.MEETS_EXPECTATIONS,
+    attributes: [],
     role: undefined,
     department: undefined,
-    attributes: [],
+    timePeriod: undefined,
   },
   attributeModal: {
     selectedType: undefined,
@@ -73,7 +81,6 @@ export const useAppState = create<AppState>()((set) => ({
   updateName: (name: string) =>
     set((state) => ({
       ...state,
-      inputError: undefined,
       inputs: {
         ...state.inputs,
         name,
@@ -82,7 +89,6 @@ export const useAppState = create<AppState>()((set) => ({
   updateRole: (role: string) =>
     set((state) => ({
       ...state,
-      inputError: undefined,
       inputs: {
         ...state.inputs,
         role,
@@ -91,7 +97,6 @@ export const useAppState = create<AppState>()((set) => ({
   updateDepartment: (department: string) =>
     set((state) => ({
       ...state,
-      inputError: undefined,
       inputs: {
         ...state.inputs,
         department,
@@ -100,10 +105,17 @@ export const useAppState = create<AppState>()((set) => ({
   updatePerformanceScore: (score: PerformanceScore) =>
     set((state) => ({
       ...state,
-      inputError: undefined,
       inputs: {
         ...state.inputs,
         score,
+      },
+    })),
+  updateTimePeriod: (timePeriod: TimePeriod | undefined) =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        ...state.inputs,
+        timePeriod,
       },
     })),
   addAttribute: (attribute: WorkAttribute) =>
@@ -132,6 +144,7 @@ export const useAppState = create<AppState>()((set) => ({
     attributes: WorkAttribute[],
     role?: string,
     department?: string,
+    timePeriod?: TimePeriod
   ) => {
     set((state) => ({
       ...state,
@@ -142,19 +155,25 @@ export const useAppState = create<AppState>()((set) => ({
     const autoGeneratePerfReviewParams = new URLSearchParams();
     autoGeneratePerfReviewParams.append("name", name);
     autoGeneratePerfReviewParams.append("performanceScore", performanceScore);
-    autoGeneratePerfReviewParams.append("attributes", JSON.stringify(attributes));
+    autoGeneratePerfReviewParams.append(
+      "attributes",
+      JSON.stringify(attributes)
+    );
     if (role !== undefined) {
       autoGeneratePerfReviewParams.append("role", role);
     }
     if (department !== undefined) {
       autoGeneratePerfReviewParams.append("department", department);
     }
+    if (timePeriod !== undefined) {
+      autoGeneratePerfReviewParams.append("timePeriod", timePeriod);
+    }
 
     let answer = "";
     let hasSomeAnswer = false;
     try {
       const response = await fetch(
-        `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`,
+        `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`
       );
 
       if (response.ok) {

@@ -4,6 +4,13 @@ export enum PerformanceScore {
   ABOVE_EXPECTATIONS = "above-expectations",
 }
 
+export enum TimePeriod {
+  LAST_MONTH = "1-month",
+  LAST_3_MONTHS = "3-months",
+  LAST_6_MONTHS = "6-months",
+  LAST_12_MONTHS = "12-months",
+}
+
 export enum WorkAttributeType {
   SKILL = "Skill",
   TRAIT = "Trait",
@@ -25,4 +32,5 @@ export interface PersonDetails {
   attributes: WorkAttribute[];
   role?: string;
   department?: string;
+  timePeriod?: TimePeriod;
 }

@@ -9,6 +9,7 @@ import { DepartmentEditor } from "./components/DepartmentEditor";
 import { SubmitControl } from "./components/SubmitControl";
 import { ReviewHeader } from "./components/ReviewHeader";
 import { MoreAttributes } from "./components/MoreAttributes";
+import { TimePeriodEditor } from "./components/TimePeriodEditor";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
                 <PerformanceScoreEditor />
                 <RoleEditor />
                 <DepartmentEditor />
+                <TimePeriodEditor />
                 <MoreAttributes />
                 <hr />
                 <SubmitControl />
