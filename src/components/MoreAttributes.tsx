@@ -63,6 +63,7 @@ const AttributeModal = () => {
                 required
                 value={text}
                 placeholder=""
+                maxLength={200}
                 onChange={(e) => setText(e.currentTarget.value)}
               ></input>
             </div>

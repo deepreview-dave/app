@@ -1,7 +1,7 @@
 import { Validator } from "@cfworker/json-schema";
 
 import { AutoPerfReviewGenerator } from "../src/business/auto-perf-review-generator";
-import { PerformanceScore } from "../src/business/common";
+import { PerformanceScore, PersonDetails, WorkAttribute } from "../src/business/common";
 
 interface Env {
   OPENAI_KEY: string;
@@ -10,6 +10,7 @@ interface Env {
 interface RequestParams {
   name: string;
   performanceScore: PerformanceScore;
+  attributes: string;
   role?: string;
   department?: string;
 }
@@ -25,6 +26,7 @@ const REQUEST_PARAMS_SCHEMA = {
         PerformanceScore.ABOVE_EXPECTATIONS,
       ],
     },
+    attributes: { type: "string", minLength: 1, maxLength: 10_000 },
     role: { type: "string", minLength: 1, maxLength: 100 },
     department: { type: "string", minLength: 1, maxLength: 100 },
   },
@@ -64,9 +66,16 @@ export async function onRequest(
   }
 
   const smarts = new AutoPerfReviewGenerator(context.env.OPENAI_KEY);
+  let attributes: WorkAttribute[] = [];
+  try {
+    attributes = JSON.parse(params.attributes) as WorkAttribute[];
+  } catch {
+    return new Response(`Invalid input: could not parse Attributes JSON`, { status: 400 }); 
+  }
+  const details = { ...params, attributes } as PersonDetails;
 
   try {
-    const response = await smarts.getSomeData(params);
+    const response = await smarts.getSomeData(details);
     return new Response(response.perfReview);
   } catch (e) {
     return new Response(`Server error: ${e}`, { status: 500 });

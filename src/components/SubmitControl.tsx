@@ -6,6 +6,7 @@ export const SubmitControl = () => {
   const reviewedName = useAppState((state) => state.inputs.name);
   const role = useAppState((state) => state.inputs.role);
   const department = useAppState((state) => state.inputs.department);
+  const attributes = useAppState((state) => state.inputs.attributes);
 
   const isButtonDisabled = reviewedName.trim() === "";
 
@@ -13,6 +14,7 @@ export const SubmitControl = () => {
     await generateAnswer(
       reviewedName,
       reviewedPerformanceScore,
+      attributes,
       role,
       department
     );

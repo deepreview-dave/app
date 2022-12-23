@@ -1,14 +1,8 @@
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 import { Configuration, OpenAIApi } from "openai";
 
-import { PerformanceScore } from "./common";
-
-export interface PersonDetails {
-  name: string;
-  performanceScore: PerformanceScore;
-  role?: string;
-  department?: string;
-}
+import { PersonDetails } from "./common";
+import { PromptBuilder } from "./prompt-builder";
 
 export interface PersonPerfReviewResult {
   perfReview: string;
@@ -16,6 +10,7 @@ export interface PersonPerfReviewResult {
 
 export class AutoPerfReviewGenerator {
   apiKey: string;
+  builder: PromptBuilder
   api: OpenAIApi;
 
   constructor(apiKey: string) {
@@ -26,6 +21,7 @@ export class AutoPerfReviewGenerator {
 
     this.apiKey = apiKey;
     this.api = new OpenAIApi(configuration);
+    this.builder = new PromptBuilder();
   }
 
   async getSomeData(details: PersonDetails): Promise<PersonPerfReviewResult> {
@@ -33,7 +29,7 @@ export class AutoPerfReviewGenerator {
     try {
       response = await this.api.createCompletion({
         model: "text-davinci-003",
-        prompt: this.buildPrompt(details),
+        prompt: this.builder.build(details),
         temperature: 0,
         max_tokens: 100,
       });
@@ -53,34 +49,5 @@ export class AutoPerfReviewGenerator {
     }
 
     return { perfReview: response.data.choices[0].text };
-  }
-
-  private buildPrompt(details: PersonDetails): string {
-    let prompt = `Write a performance review for ${details.name} `;
-
-    if (details.role) {
-      prompt += `who is in the ${details.role} `;
-    }
-
-    if (details.department) {
-      prompt += `in the ${details.department} department `;
-    }
-
-    switch (details.performanceScore) {
-      case PerformanceScore.BELOW_EXPECTATIONS: {
-        prompt += `and is performing below expectations `;
-        break;
-      }
-      case PerformanceScore.MEETS_EXPECTATIONS: {
-        prompt += `and is meeting expectations `;
-        break;
-      }
-      case PerformanceScore.ABOVE_EXPECTATIONS: {
-        prompt += `and is performing above expectations `;
-        break;
-      }
-    }
-
-    return prompt;
   }
 }
