@@ -2,11 +2,12 @@ import { useAppState } from "../state/app.state";
 
 export const SubmitControl = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
-  const reviewedPerformanceScore = useAppState((state) => state.inputs.score);
   const reviewedName = useAppState((state) => state.inputs.name);
+  const reviewedPerformanceScore = useAppState((state) => state.inputs.score);
+  const attributes = useAppState((state) => state.inputs.attributes);
   const role = useAppState((state) => state.inputs.role);
   const department = useAppState((state) => state.inputs.department);
-  const attributes = useAppState((state) => state.inputs.attributes);
+  const timePeriod = useAppState((state) => state.inputs.timePeriod);
 
   const isButtonDisabled = reviewedName.trim() === "";
 
@@ -16,7 +17,8 @@ export const SubmitControl = () => {
       reviewedPerformanceScore,
       attributes,
       role,
-      department
+      department,
+      timePeriod
     );
   const generateAnswer = useAppState((state) => state.generateAnswer);
 
