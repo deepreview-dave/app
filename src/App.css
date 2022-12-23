@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@500&display=swap");
+
 .main-body {
   min-height: 100vh;
   display: flex;
@@ -15,4 +17,19 @@
 /** override bulma default to make modal header look good */
 .modal-card-title {
   margin-bottom: 0 !important;
+}
+
+.logo-icon {
+  width: 40px;
+  padding: 6px;
+  vertical-align: middle;
+}
+
+.logo-holder {
+  background-color: darkslateblue;
+  border-radius: 5px;
+}
+
+.logo-text {
+  font-family: "Unbounded", monospace;
 }
