@@ -77,8 +77,8 @@ export class PromptBuilder {
           prompt += `Mention ${attribute.name} as a skill they are good at.`;
           break;
         }
-        case WorkAttributeType.TRAIT: {
-          prompt += `Mention ${attribute.name} as a good trait they have.`;
+        case WorkAttributeType.STRENGTH: {
+          prompt += `Mention ${attribute.name} as a strength they have.`;
           break;
         }
       }
