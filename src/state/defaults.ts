@@ -2,41 +2,57 @@ import { WorkAttributeType } from "../business/common";
 
 export type AttributeDefinition = {
   type: WorkAttributeType;
+  title: string;
   description: string;
+  placeholder: string;
   colorClass: string;
 };
 
 export const AllAttributeDefinitions: AttributeDefinition[] = [
   {
     type: WorkAttributeType.SKILL,
-    description: "Add a skill your colleague possesses",
+    title: "Add a Skill",
+    description:
+      "Add a specific skill with a tool or technique your colleague possesses.",
+    placeholder: "Excell, sales, accounting, etc",
     colorClass: "is-success",
   },
   {
     type: WorkAttributeType.TRAIT,
+    title: "Add a Trait",
     description:
-      "Add a trait, like communication, team player, confidence, etc you colleague has",
+      "Add a trait like communication, flexibility, negotiation, etc you colleague excells at.",
+    placeholder: "Communication, flexibility, negotiation, confidence, etc",
     colorClass: "is-success",
   },
   {
     type: WorkAttributeType.PROJECT,
-    description: "Add a project your colleague has worked on",
+    title: "Add a Project",
+    description: "Mention a project your colleague has worked on or has led.",
+    placeholder: "Sorted accounts, Moved to a new office, etc",
     colorClass: "is-info",
   },
   {
     type: WorkAttributeType.GROWTH,
-    description: "Add an area where you colleague has grown in the past",
+    title: "Add an area of recent Growth",
+    description:
+      "Add a skill or trait your colleague has improved on in this review cycle.",
+    placeholder: "Communication, Excell, etc",
     colorClass: "is-success",
   },
   {
     type: WorkAttributeType.IMPROVE,
-    description: "Add an area where your colleague can improve in the future",
+    title: "Add an area of future Improvement",
+    description: "Add an area where your colleague can improve in the future.",
+    placeholder: "Assertivness, leadership, etc",
     colorClass: "is-warning",
   },
   {
     type: WorkAttributeType.GOAL,
+    title: "Add a future Goal",
     description:
       "Add a specific goal for your colleague to strive towards in the next review cycle",
+    placeholder: "Become a team lead, double the amount of sales, etc",
     colorClass: "is-info",
   },
 ];
