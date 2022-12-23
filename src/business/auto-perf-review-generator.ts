@@ -8,6 +8,12 @@ export interface PersonPerfReviewResult {
   perfReview: string;
 }
 
+const OPENAI_MODEL_PARAMS = {
+  model: "text-davinci-003",
+  temperature: 0.5,
+  max_tokens: 1000,
+};
+
 export class AutoPerfReviewGenerator {
   apiKey: string;
   builder: PromptBuilder;
@@ -28,10 +34,8 @@ export class AutoPerfReviewGenerator {
     let response = null;
     try {
       response = await this.api.createCompletion({
-        model: "text-davinci-003",
+        ...OPENAI_MODEL_PARAMS,
         prompt: this.builder.build(details),
-        temperature: 0.5,
-        max_tokens: 1000,
       });
     } catch (e) {
       console.log(`Something bad happened: ${e}`);
