@@ -18,10 +18,10 @@ export const AllAttributeDefinitions: AttributeDefinition[] = [
     colorClass: "is-success",
   },
   {
-    type: WorkAttributeType.TRAIT,
-    title: "Add a Trait",
+    type: WorkAttributeType.STRENGTH,
+    title: "Add a Strength",
     description:
-      "Add a trait like communication, flexibility, negotiation, etc you colleague excells at.",
+      "Add a strength like communication, flexibility, negotiation, etc.",
     placeholder: "Communication, flexibility, negotiation, confidence, etc",
     colorClass: "is-success",
   },

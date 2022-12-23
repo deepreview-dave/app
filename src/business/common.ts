@@ -13,7 +13,7 @@ export enum TimePeriod {
 
 export enum WorkAttributeType {
   SKILL = "Skill",
-  TRAIT = "Trait",
+  STRENGTH = "Strength",
   PROJECT = "Project",
   GROWTH = "Growth",
   IMPROVE = "To improve",

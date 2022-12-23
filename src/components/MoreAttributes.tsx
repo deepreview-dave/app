@@ -77,7 +77,7 @@ const AttributeModal = () => {
             disabled={isButtonDisabled()}
             onClick={onSave}
           >
-            Save changes
+            Add
           </button>
           <button className="button" onClick={onClose}>
             Cancel
