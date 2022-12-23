@@ -10,7 +10,7 @@ export interface PersonPerfReviewResult {
 
 export class AutoPerfReviewGenerator {
   apiKey: string;
-  builder: PromptBuilder
+  builder: PromptBuilder;
   api: OpenAIApi;
 
   constructor(apiKey: string) {
@@ -30,8 +30,8 @@ export class AutoPerfReviewGenerator {
       response = await this.api.createCompletion({
         model: "text-davinci-003",
         prompt: this.builder.build(details),
-        temperature: 0,
-        max_tokens: 100,
+        temperature: 0.5,
+        max_tokens: 1000,
       });
     } catch (e) {
       console.log(`Something bad happened: ${e}`);
