@@ -95,6 +95,10 @@ export const MoreAttributes = () => {
   const attributes = useAppState((state) => state.inputs.attributes);
   const removeAttribute = useAppState((state) => state.removeAttribute);
 
+  const showsEncouragementCopy = useAppState(
+    (state) => state.inputs.attributes.length === 0
+  );
+
   return (
     <div>
       <label className="label">Add more attributes (optional):</label>
@@ -110,7 +114,16 @@ export const MoreAttributes = () => {
           </button>
         ))}
       </div>
-      <AttributeModal />
+      {showsEncouragementCopy && (
+        <article className="message">
+          <div className="message-body">
+            You can optionally add more details by clicking the buttons above.
+            Adding such details like the skills and strengths of your colleague,
+            the projects they worked on or areas they need to improve on will
+            help create a better, more personalised, performance review.
+          </div>
+        </article>
+      )}
       <div className="tags">
         {attributes.map((attr) => (
           <span
@@ -126,6 +139,7 @@ export const MoreAttributes = () => {
           </span>
         ))}
       </div>
+      <AttributeModal />
     </div>
   );
 };
