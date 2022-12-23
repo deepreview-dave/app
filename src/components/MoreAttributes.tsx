@@ -18,6 +18,10 @@ const AttributeModal = () => {
 
   const [text, setText] = useState("");
 
+  if (!selectedType) {
+    return null;
+  }
+
   const onClose = () => {
     setText("");
     closeAttributeModal();
@@ -27,7 +31,7 @@ const AttributeModal = () => {
     const attribute: WorkAttribute = {
       uuid: generateUUID(),
       name: text,
-      type: selectedType!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      type: selectedType,
     };
     addAttribute(attribute);
     onClose();
@@ -35,16 +39,14 @@ const AttributeModal = () => {
 
   const isButtonDisabled = () => !text;
 
-  if (!selectedType) {
-    return null;
-  }
-
   return (
     <div className={isOpened ? "modal is-active" : "modal"}>
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Add attribute</p>
+          <p className="modal-card-title">
+            {getAttributeDescription(selectedType).title}
+          </p>
           <button
             className="delete"
             aria-label="close"
@@ -62,7 +64,7 @@ const AttributeModal = () => {
                 className="input"
                 required
                 value={text}
-                placeholder=""
+                placeholder={getAttributeDescription(selectedType).placeholder}
                 maxLength={200}
                 onChange={(e) => setText(e.currentTarget.value)}
               ></input>
