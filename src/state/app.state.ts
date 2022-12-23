@@ -22,6 +22,7 @@ interface AppState {
   inputEnabled: boolean;
   inputs: ReviewInputs;
   answer: Result;
+  hasSomeAnswer: boolean;
   clearInputs: () => void;
   updateName: (name: string) => void;
   updateRole: (role: string) => void;
@@ -55,6 +56,7 @@ export const useAppState = create<AppState>()((set) => ({
     isOpened: false,
   },
   answer: DEFAULT_ANSWER,
+  hasSomeAnswer: false,
   clearInputs: () =>
     set((state) => ({
       ...state,
@@ -66,6 +68,7 @@ export const useAppState = create<AppState>()((set) => ({
         attributes: [],
       },
       answer: DEFAULT_ANSWER,
+      hasSomeAnswer: false,
     })),
   updateName: (name: string) =>
     set((state) => ({
@@ -148,6 +151,7 @@ export const useAppState = create<AppState>()((set) => ({
     }
 
     let answer = "";
+    let hasSomeAnswer = false;
     try {
       const response = await fetch(
         `/auto-generate-perf-review?${autoGeneratePerfReviewParams}`,
@@ -155,13 +159,16 @@ export const useAppState = create<AppState>()((set) => ({
 
       if (response.ok) {
         answer = await response.text();
+        hasSomeAnswer = true;
       } else {
         const errorAnswer = await response.text();
         answer = `An error occurred: ${response.status} ${response.statusText} ${errorAnswer}`;
+        hasSomeAnswer = false;
       }
     } catch (e) {
       console.log(`An error occurred: ${e}`);
       answer = `An error occurred: ${e}`;
+      hasSomeAnswer = false;
     }
 
     const status = AppStatus.STABLE;
@@ -172,6 +179,7 @@ export const useAppState = create<AppState>()((set) => ({
       status,
       inputEnabled,
       answer,
+      hasSomeAnswer,
     }));
   },
 }));
