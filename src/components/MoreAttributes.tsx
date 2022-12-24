@@ -100,8 +100,8 @@ export const MoreAttributes = () => {
   );
 
   return (
-    <div>
-      <label className="label">Add more attributes (optional):</label>
+    <div className="mt-4">
+      <label className="label">Attributes (optional):</label>
       <div className="buttons">
         {AllAttributeDefinitions.map((value) => (
           <button
@@ -117,10 +117,8 @@ export const MoreAttributes = () => {
       {showsEncouragementCopy && (
         <article className="message">
           <div className="message-body">
-            You can optionally add more details by clicking the buttons above.
-            Adding such details like the skills and strengths of your colleague,
-            the projects they worked on or areas they need to improve on will
-            help create a better, more personalised, performance review.
+            Use the buttons above to add more details like skills, strengths,
+            projects or areas of improvement.
           </div>
         </article>
       )}

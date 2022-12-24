@@ -6,8 +6,8 @@ export const DepartmentEditor = () => {
   const updateDepartment = useAppState((state) => state.updateDepartment);
 
   return (
-    <div className="field">
-      <label className="label">Person's department (optional):</label>
+    <div className="field mt-4">
+      <label className="label">Team (optional):</label>
       <div className="control">
         <input
           type="text"
@@ -15,7 +15,7 @@ export const DepartmentEditor = () => {
           required
           disabled={!inputEnabled}
           value={department || ""}
-          placeholder="Write a person's department here (optional)"
+          placeholder="Write a person's team or department here (optional)"
           onChange={(e) => updateDepartment(e.currentTarget.value)}
         ></input>
       </div>

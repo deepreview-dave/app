@@ -9,7 +9,7 @@ export const PerformanceScoreEditor = () => {
   );
 
   return (
-    <div className="field">
+    <div className="field mt-4">
       <label className="label">Peformance score:</label>
       <div className="select">
         <select
