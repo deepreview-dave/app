@@ -10,15 +10,19 @@ import { SubmitControl } from "./components/SubmitControl";
 import { ReviewHeader } from "./components/ReviewHeader";
 import { MoreAttributes } from "./components/MoreAttributes";
 import { TimePeriodEditor } from "./components/TimePeriodEditor";
+import { PageInfo } from "./components/PageInfo";
 
 const App = () => {
   return (
     <div className="main-body">
       <Navbar />
       <div className="layout m-4">
-        <div className="container narrow-container mt-6">
+        <div className="container narrow-container">
+          <hr />
+          <PageInfo />
+          <hr />
           <ReviewHeader />
-          <div className="card">
+          <div className="card simple-card">
             <div className="card-content">
               <div className="content">
                 <NameEditor />

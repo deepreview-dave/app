@@ -7,7 +7,7 @@ export const NameEditor = () => {
 
   return (
     <div className="field">
-      <label className="label">Person name:</label>
+      <label className="label">Name:</label>
       <div className="control">
         <input
           type="text"

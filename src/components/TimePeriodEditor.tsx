@@ -14,7 +14,7 @@ export const TimePeriodEditor = () => {
   };
 
   return (
-    <div className="field">
+    <div className="field mt-4">
       <label className="label">Time period (optional):</label>
       <div className="select">
         <select

@@ -22,9 +22,9 @@ export const ResultBlock = () => {
   };
 
   return (
-    <div className="message mt-6">
+    <div className="message mt-6 is-success">
       <div className="message-header">
-        <p>Your review</p>
+        <p>Result</p>
         {hasSomeAnswer && (
           <CopyToClipboardSvg
             className={theStyle.copyToClipboard}

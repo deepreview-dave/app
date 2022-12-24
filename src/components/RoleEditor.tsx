@@ -6,8 +6,8 @@ export const RoleEditor = () => {
   const updateRole = useAppState((state) => state.updateRole);
 
   return (
-    <div className="field">
-      <label className="label">Person's role (optional):</label>
+    <div className="field mt-4">
+      <label className="label">Role (optional):</label>
       <div className="control">
         <input
           type="text"

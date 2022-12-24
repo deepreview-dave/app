@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700,900");
 
 .main-body {
   min-height: 100vh;
@@ -11,7 +11,7 @@
 }
 
 .narrow-container {
-  max-width: 960px !important;
+  max-width: 920px !important;
 }
 
 /** override bulma default to make modal header look good */
@@ -31,5 +31,11 @@
 }
 
 .logo-text {
-  font-family: "Unbounded", monospace;
+  font-weight: 900;
+  font-family: "Nunito", monospace;
+}
+
+.simple-card {
+  box-shadow: none;
+  background: #fcfcfc !important;
 }
