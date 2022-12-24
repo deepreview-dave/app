@@ -11,7 +11,7 @@ export enum AppStatus {
   STABLE = "stable",
 }
 
-export type Result = string;
+export type Result = string[];
 
 interface ReviewInputs {
   name: string;
@@ -46,7 +46,7 @@ interface AppState {
   ) => Promise<void>;
 }
 
-const DEFAULT_ANSWER: Result = "<Press 'Generate' to create a review>";
+const DEFAULT_ANSWER: Result = ["<Press 'Generate' to create a review>"];
 
 export const useAppState = create<AppState>()((set) => ({
   status: AppStatus.STABLE,
@@ -169,7 +169,7 @@ export const useAppState = create<AppState>()((set) => ({
       autoGeneratePerfReviewParams.append("timePeriod", timePeriod);
     }
 
-    let answer = "";
+    let answer: string[] = [];
     let hasSomeAnswer = false;
     try {
       const response = await fetch(
@@ -177,16 +177,19 @@ export const useAppState = create<AppState>()((set) => ({
       );
 
       if (response.ok) {
-        answer = await response.text();
+        const answerEnvelope = await response.json();
+        answer = answerEnvelope.perfReview; // Type this!
         hasSomeAnswer = true;
       } else {
         const errorAnswer = await response.text();
-        answer = `An error occurred: ${response.status} ${response.statusText} ${errorAnswer}`;
+        answer = [
+          `An error occurred: ${response.status} ${response.statusText} ${errorAnswer}`,
+        ];
         hasSomeAnswer = false;
       }
     } catch (e) {
       console.log(`An error occurred: ${e}`);
-      answer = `An error occurred: ${e}`;
+      answer = [`An error occurred: ${e}`];
       hasSomeAnswer = false;
     }
 
