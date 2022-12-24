@@ -1,4 +1,5 @@
 import create from "zustand";
+import { Analytics } from "../business/analytics";
 
 import {
   PerformanceScore,
@@ -44,6 +45,7 @@ interface AppState {
     department?: string,
     timePeriod?: TimePeriod
   ) => Promise<void>;
+  copyAnswer: () => void;
 }
 
 const DEFAULT_ANSWER: Result = "<Press 'Generate' to create a review>";
@@ -193,6 +195,13 @@ export const useAppState = create<AppState>()((set) => ({
     const status = AppStatus.STABLE;
     const inputEnabled = true;
 
+    Analytics.generated({
+      hasSetDepartment: !!department,
+      hasSetPeriod: !!timePeriod,
+      hasSetRole: !!role,
+      hasSetNumberOfAttributes: attributes.length,
+    });
+
     set((state) => ({
       ...state,
       status,
@@ -200,5 +209,9 @@ export const useAppState = create<AppState>()((set) => ({
       answer,
       hasSomeAnswer,
     }));
+  },
+  copyAnswer: () => {
+    Analytics.copied();
+    set((state) => state);
   },
 }));
