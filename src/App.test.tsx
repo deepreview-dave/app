@@ -4,6 +4,6 @@ import App from "./App";
 
 test("Does something", () => {
   render(<App />);
-  const linkElement = screen.getAllByText(/Auto Perf Review/i)[0];
+  const linkElement = screen.getAllByText(/Deep Review/i)[0];
   expect(linkElement).toBeInTheDocument();
 });
