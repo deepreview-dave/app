@@ -6,6 +6,7 @@ import {
   PersonDetails,
   WorkAttribute,
   TimePeriod,
+  Pronouns,
 } from "../src/business/common";
 
 interface Env {
@@ -15,6 +16,7 @@ interface Env {
 interface RequestParams {
   name: string;
   performanceScore: PerformanceScore;
+  pronoun: Pronouns;
   attributes: string;
   role?: string;
   department?: string;
@@ -31,6 +33,9 @@ const REQUEST_PARAMS_SCHEMA = {
         PerformanceScore.MEETS_EXPECTATIONS,
         PerformanceScore.ABOVE_EXPECTATIONS,
       ],
+    },
+    pronouns: {
+      enum: [Pronouns.NEUTRAL, Pronouns.HE, Pronouns.HER],
     },
     attributes: { type: "string", minLength: 1, maxLength: 10_000 },
     role: { type: "string", minLength: 1, maxLength: 100 },
