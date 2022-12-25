@@ -1,8 +1,6 @@
 import * as bulmaToast from "bulma-toast";
 
 import { AppStatus, useAppState } from "../state/app.state";
-import { ReactComponent as CopyToClipboardSvg } from "./copy-to-clipboard.svg";
-import theStyle from "./ResultBlock.module.sass";
 
 export const ResultBlock = () => {
   const answer = useAppState((state) => state.answer);
@@ -21,29 +19,32 @@ export const ResultBlock = () => {
     });
   };
 
-  const answerComponents = answer.map((answerItem) => (
-    <div className="block">{answerItem}</div>
-  ));
-
   return (
-    <div className="message mt-6 is-success">
-      <div className="message-header">
-        <p>Result</p>
-        {hasSomeAnswer && (
-          <CopyToClipboardSvg
-            className={theStyle.copyToClipboard}
+    <>
+      <hr />
+      <div className="columns is-vcentered is-mobile">
+        <div className="column">
+          <strong>Result:</strong>
+        </div>
+        <div className="column is-narrow">
+          <button
+            disabled={!hasSomeAnswer}
+            className="button"
             onClick={copyToClipboard}
-          />
-        )}
+          >
+            Copy
+          </button>
+        </div>
       </div>
-      <div className="message-body">
-        {isLoading && (
-          <progress className="progress is-small is-primary" max="100">
-            15%
-          </progress>
-        )}
-        {!isLoading && answerComponents}
+      <div>
+        <textarea
+          className="textarea"
+          rows={20}
+          disabled={isLoading}
+          placeholder="Press 'Generate' to create a review"
+          value={answer}
+        ></textarea>
       </div>
-    </div>
+    </>
   );
 };

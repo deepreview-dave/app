@@ -46,7 +46,7 @@ interface AppState {
   ) => Promise<void>;
 }
 
-const DEFAULT_ANSWER: Result = ["<Press 'Generate' to create a review>"];
+const DEFAULT_ANSWER: Result = [""];
 
 export const useAppState = create<AppState>()((set) => ({
   status: AppStatus.STABLE,
