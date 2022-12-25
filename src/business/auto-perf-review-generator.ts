@@ -5,13 +5,17 @@ import { PersonDetails } from "./common";
 import { PromptBuilder } from "./prompt-builder";
 
 export interface PersonPerfReviewResult {
-  perfReview: string;
+  perfReview: string[];
 }
 
 const OPENAI_MODEL_PARAMS = {
   model: "text-davinci-003",
   temperature: 0.5,
-  max_tokens: 1000,
+  max_tokens: 2000,
+  top_p: 1,
+  frequency_penalty: 0.5,
+  presence_penalty: 0,
+  best_of: 1,
 };
 
 export class AutoPerfReviewGenerator {
@@ -52,6 +56,10 @@ export class AutoPerfReviewGenerator {
       throw new Error("OpenAI error: missing text in content");
     }
 
-    return { perfReview: response.data.choices[0].text };
+    return { perfReview: this.compileAnswer(response.data.choices[0].text) };
+  }
+
+  private compileAnswer(rawGptString: string): string[] {
+    return rawGptString.trim().split("\n\n");
   }
 }

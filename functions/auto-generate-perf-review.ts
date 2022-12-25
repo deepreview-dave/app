@@ -94,7 +94,7 @@ export async function onRequest(
 
   try {
     const response = await smarts.getSomeData(details);
-    return new Response(response.perfReview);
+    return Response.json({ perfReview: response.perfReview });
   } catch (e) {
     return new Response(`Server error: ${e}`, { status: 500 });
   }

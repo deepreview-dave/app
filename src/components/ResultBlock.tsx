@@ -10,7 +10,7 @@ export const ResultBlock = () => {
   const isLoading = useAppState((state) => state.status === AppStatus.LOADING);
 
   const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(answer);
+    await navigator.clipboard.writeText(answer.join("\n\n"));
     bulmaToast.toast({
       message: "Copied to clipboard",
       type: "is-info",
@@ -20,6 +20,10 @@ export const ResultBlock = () => {
       animate: { in: "fadeIn", out: "fadeOut" },
     });
   };
+
+  const answerComponents = answer.map((answerItem) => (
+    <div className="block">{answerItem}</div>
+  ));
 
   return (
     <div className="message mt-6 is-success">
@@ -38,7 +42,7 @@ export const ResultBlock = () => {
             15%
           </progress>
         )}
-        {!isLoading && <span>{answer}</span>}
+        {!isLoading && answerComponents}
       </div>
     </div>
   );
