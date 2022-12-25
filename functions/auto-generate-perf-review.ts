@@ -34,7 +34,7 @@ const REQUEST_PARAMS_SCHEMA = {
         PerformanceScore.ABOVE_EXPECTATIONS,
       ],
     },
-    pronouns: {
+    pronoun: {
       enum: [Pronouns.NEUTRAL, Pronouns.HE, Pronouns.HER],
     },
     attributes: { type: "string", minLength: 1, maxLength: 10_000 },
@@ -78,6 +78,8 @@ export async function onRequest(
 
   if (params.name.trim() === "") {
     return new Response(`Invalid input: Empty name`, { status: 400 });
+  } else if (params.pronoun.trim() === "") {
+    return new Response(`Invalid input: Empty pronoun`, { status: 400 });
   } else if (params.role?.trim() === "") {
     return new Response(`Invalid input: Empty role`, { status: 400 });
   } else if (params.department?.trim() === "") {
