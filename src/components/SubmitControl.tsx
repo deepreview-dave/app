@@ -25,18 +25,15 @@ export const SubmitControl = () => {
 
   return (
     <div className="control pt-4">
-      {isLoading && (
-        <progress className="progress is-small is-primary" max={100}></progress>
-      )}
-      {!isLoading && (
-        <button
-          className="button is-link is-fullwidth"
-          disabled={isButtonDisabled || !inputEnabled}
-          onClick={onSubmit}
-        >
-          Generate
-        </button>
-      )}
+      <button
+        className={
+          "button is-link is-fullwidth " + (isLoading ? "is-loading" : "")
+        }
+        disabled={isButtonDisabled || !inputEnabled}
+        onClick={onSubmit}
+      >
+        Generate
+      </button>
     </div>
   );
 };
