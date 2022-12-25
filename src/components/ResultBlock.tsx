@@ -38,7 +38,7 @@ export const ResultBlock = () => {
       </div>
       <div>
         <textarea
-          className="textarea"
+          className="textarea is-success"
           rows={20}
           disabled={isLoading}
           placeholder="Press 'Generate' to create a review"
