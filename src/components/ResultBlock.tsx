@@ -6,9 +6,11 @@ export const ResultBlock = () => {
   const answer = useAppState((state) => state.answer.join("\n\n"));
   const hasSomeAnswer = useAppState((state) => state.hasSomeAnswer);
   const isLoading = useAppState((state) => state.status === AppStatus.LOADING);
+  const copyAnswer = useAppState((state) => state.copyAnswer);
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(answer);
+    copyAnswer();
     bulmaToast.toast({
       message: "Copied to clipboard",
       type: "is-info",
