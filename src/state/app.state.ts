@@ -2,6 +2,7 @@ import create from "zustand";
 
 import {
   PerformanceScore,
+  Pronouns,
   TimePeriod,
   WorkAttribute,
 } from "../business/common";
@@ -16,6 +17,7 @@ export type Result = string[];
 interface ReviewInputs {
   name: string;
   score: PerformanceScore;
+  pronoun: Pronouns;
   attributes: WorkAttribute[];
   role?: string;
   department?: string;
@@ -34,11 +36,13 @@ interface AppState {
   updateDepartment: (role: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
   updateTimePeriod: (timePeriod: TimePeriod | undefined) => void;
+  updatePronoun: (pronoun: Pronouns) => void;
   addAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
   generateAnswer: (
     name: string,
     performanceScore: PerformanceScore,
+    pronoun: Pronouns,
     attributes: WorkAttribute[],
     role?: string,
     department?: string,
@@ -54,6 +58,7 @@ export const useAppState = create<AppState>()((set) => ({
   inputs: {
     name: "",
     score: PerformanceScore.MEETS_EXPECTATIONS,
+    pronoun: Pronouns.NEUTRAL,
     attributes: [],
     role: undefined,
     department: undefined,
@@ -74,6 +79,7 @@ export const useAppState = create<AppState>()((set) => ({
         department: undefined,
         score: PerformanceScore.MEETS_EXPECTATIONS,
         attributes: [],
+        pronoun: Pronouns.NEUTRAL,
       },
       answer: DEFAULT_ANSWER,
       hasSomeAnswer: false,
@@ -118,6 +124,14 @@ export const useAppState = create<AppState>()((set) => ({
         timePeriod,
       },
     })),
+  updatePronoun: (pronoun: Pronouns) =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        ...state.inputs,
+        pronoun,
+      },
+    })),
   addAttribute: (attribute: WorkAttribute) =>
     set((state) => {
       const attributes = [...state.inputs.attributes, attribute];
@@ -141,6 +155,7 @@ export const useAppState = create<AppState>()((set) => ({
   generateAnswer: async (
     name: string,
     performanceScore: PerformanceScore,
+    pronoun: Pronouns,
     attributes: WorkAttribute[],
     role?: string,
     department?: string,
@@ -155,6 +170,7 @@ export const useAppState = create<AppState>()((set) => ({
     const autoGeneratePerfReviewParams = new URLSearchParams();
     autoGeneratePerfReviewParams.append("name", name);
     autoGeneratePerfReviewParams.append("performanceScore", performanceScore);
+    autoGeneratePerfReviewParams.append("pronoun", pronoun);
     autoGeneratePerfReviewParams.append(
       "attributes",
       JSON.stringify(attributes)
