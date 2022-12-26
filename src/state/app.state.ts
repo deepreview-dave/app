@@ -210,20 +210,6 @@ export const useAppState = create<AppState>()(
           inputEnabled: false,
         }));
 
-        console.log(
-          new PromptBuilder().build({
-            name,
-            performanceScore,
-            pronoun,
-            attributes,
-            reviewTone,
-            reviewLanguage,
-            role,
-            department,
-            timePeriod,
-          })
-        );
-
         const autoGeneratePerfReviewParams = new URLSearchParams();
         autoGeneratePerfReviewParams.append("name", name);
         autoGeneratePerfReviewParams.append(
