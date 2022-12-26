@@ -10,8 +10,7 @@ export const ReviewToneEditor = () => {
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.currentTarget.value as ReviewTone;
-    const tone = value!;
-    updateReviewTone(tone);
+    updateReviewTone(value);
   };
 
   return (
