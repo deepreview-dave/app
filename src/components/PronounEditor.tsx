@@ -22,8 +22,8 @@ export const PronounEditor = () => {
           onChange={onChange}
         >
           <option value={Pronouns.NEUTRAL}>They</option>
-          <option value={Pronouns.HE}>He</option>
-          <option value={Pronouns.HER}>Her</option>
+          <option value={Pronouns.HE}>He/Him</option>
+          <option value={Pronouns.HER}>She/Her</option>
         </select>
       </div>
     </div>
