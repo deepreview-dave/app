@@ -5,7 +5,7 @@ import { AppStatus, useAppState } from "../state/app.state";
 export const ResultBlock = () => {
   const answer = useAppState((state) => state.answer);
   const hasSomeAnswer = useAppState((state) => state.hasSomeAnswer);
-  const isLoading = useAppState((state) => state.status === AppStatus.LOADING);
+  // const isLoading = useAppState((state) => state.status === AppStatus.LOADING);
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(answer.join("\n\n"));
