@@ -3,10 +3,11 @@ import * as bulmaToast from "bulma-toast";
 import { AppStatus, useAppState } from "../state/app.state";
 
 export const ResultBlock = () => {
-  const answer = useAppState((state) => state.answer.join("\n\n"));
+  const answer = useAppState((state) => state.answer);
   const hasSomeAnswer = useAppState((state) => state.hasSomeAnswer);
   const isLoading = useAppState((state) => state.status === AppStatus.LOADING);
   const copyAnswer = useAppState((state) => state.copyAnswer);
+  const updateAnswer = useAppState((state) => state.updateAnswer);
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(answer);
@@ -45,6 +46,7 @@ export const ResultBlock = () => {
           disabled={isLoading}
           placeholder="Press 'Generate' to create a review"
           value={answer}
+          onChange={(e) => updateAnswer(e.currentTarget.value)}
         ></textarea>
       </div>
     </>
