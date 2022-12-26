@@ -4,6 +4,7 @@ export const SubmitControl = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const reviewedName = useAppState((state) => state.inputs.name);
   const reviewedPerformanceScore = useAppState((state) => state.inputs.score);
+  const pronoun = useAppState((state) => state.inputs.pronoun);
   const attributes = useAppState((state) => state.inputs.attributes);
   const role = useAppState((state) => state.inputs.role);
   const department = useAppState((state) => state.inputs.department);
@@ -17,6 +18,7 @@ export const SubmitControl = () => {
     await generateAnswer(
       reviewedName,
       reviewedPerformanceScore,
+      pronoun,
       attributes,
       reviewTone,
       reviewLanguage,

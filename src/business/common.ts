@@ -26,6 +26,12 @@ export interface WorkAttribute {
   name: string;
 }
 
+export enum Pronouns {
+  NEUTRAL = "they",
+  HE = "he",
+  HER = "her",
+}
+
 export enum ReviewTone {
   NEUTRAL = "neutral",
   FRIENDLY = "friendly",
@@ -44,6 +50,7 @@ export enum ReviewLanguage {
 export interface PersonDetails {
   name: string;
   performanceScore: PerformanceScore;
+  pronoun: Pronouns;
   attributes: WorkAttribute[];
   role?: string;
   department?: string;

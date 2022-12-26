@@ -14,7 +14,7 @@ export const AllAttributeDefinitions: AttributeDefinition[] = [
     title: "Add a Skill",
     description:
       "Add a specific skill with a tool or technique your colleague possesses.",
-    placeholder: "Excell, sales, accounting, etc",
+    placeholder: "Excel, sales, accounting, etc",
     colorClass: "is-success",
   },
   {
@@ -37,7 +37,7 @@ export const AllAttributeDefinitions: AttributeDefinition[] = [
     title: "Add an area of recent Growth",
     description:
       "Add a skill or trait your colleague has improved on in this review cycle.",
-    placeholder: "Communication, Excell, etc",
+    placeholder: "Communication, Excel, etc",
     colorClass: "is-success",
   },
   {

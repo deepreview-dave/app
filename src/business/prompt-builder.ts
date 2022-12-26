@@ -3,6 +3,7 @@ import {
   PersonDetails,
   ReviewLanguage,
   ReviewTone,
+  Pronouns,
   TimePeriod,
   WorkAttributeType,
 } from "./common";
@@ -56,6 +57,21 @@ export class PromptBuilder {
     }
 
     prompt += ".";
+
+    switch (details.pronoun) {
+      case Pronouns.NEUTRAL: {
+        prompt += `Use the pronoun 'they'.`;
+        break;
+      }
+      case Pronouns.HE: {
+        prompt += `Use the pronoun 'he'.`;
+        break;
+      }
+      case Pronouns.HER: {
+        prompt += `Use the pronoun 'her'.`;
+        break;
+      }
+    }
 
     for (const attribute of details.attributes) {
       switch (attribute.type) {
