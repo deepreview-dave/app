@@ -37,13 +37,14 @@ export const ResultBlock = () => {
         </div>
       </div>
       <div>
-        <textarea
+        {answer}
+        {/* <textarea
           className="textarea is-success"
           rows={20}
           disabled={isLoading}
           placeholder="Press 'Generate' to create a review"
           value={answer}
-        ></textarea>
+        ></textarea> */}
       </div>
     </>
   );
