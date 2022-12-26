@@ -4,8 +4,11 @@ import { AutoPerfReviewGenerator } from "../src/business/auto-perf-review-genera
 import {
   PerformanceScore,
   PersonDetails,
-  WorkAttribute,
+  ReviewLanguage,
+  ReviewTone,
   TimePeriod,
+  WorkAttribute,
+  Pronouns,
 } from "../src/business/common";
 
 interface Env {
@@ -15,10 +18,12 @@ interface Env {
 interface RequestParams {
   name: string;
   performanceScore: PerformanceScore;
+  pronoun: Pronouns;
   attributes: string;
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;
+  reviewTone?: ReviewTone;
 }
 
 const REQUEST_PARAMS_SCHEMA = {
@@ -32,6 +37,9 @@ const REQUEST_PARAMS_SCHEMA = {
         PerformanceScore.ABOVE_EXPECTATIONS,
       ],
     },
+    pronoun: {
+      enum: [Pronouns.NEUTRAL, Pronouns.HE, Pronouns.HER],
+    },
     attributes: { type: "string", minLength: 1, maxLength: 10_000 },
     role: { type: "string", minLength: 1, maxLength: 100 },
     department: { type: "string", minLength: 1, maxLength: 100 },
@@ -41,6 +49,19 @@ const REQUEST_PARAMS_SCHEMA = {
         TimePeriod.LAST_3_MONTHS,
         TimePeriod.LAST_6_MONTHS,
         TimePeriod.LAST_12_MONTHS,
+      ],
+    },
+    reviewTone: {
+      enum: [ReviewTone.NEUTRAL, ReviewTone.FRIENDLY, ReviewTone.CRITICAL],
+    },
+    reviewLanguage: {
+      enum: [
+        ReviewLanguage.ENGLISH,
+        ReviewLanguage.SPANISH,
+        ReviewLanguage.FRENCH,
+        ReviewLanguage.GERMAN,
+        ReviewLanguage.ITALIAN,
+        ReviewLanguage.ROMANIAN,
       ],
     },
   },
@@ -73,6 +94,8 @@ export async function onRequest(
 
   if (params.name.trim() === "") {
     return new Response(`Invalid input: Empty name`, { status: 400 });
+  } else if (params.pronoun.trim() === "") {
+    return new Response(`Invalid input: Empty pronoun`, { status: 400 });
   } else if (params.role?.trim() === "") {
     return new Response(`Invalid input: Empty role`, { status: 400 });
   } else if (params.department?.trim() === "") {
@@ -94,7 +117,7 @@ export async function onRequest(
 
   try {
     const response = await smarts.getSomeData(details);
-    return new Response(response.perfReview);
+    return Response.json({ perfReview: response.perfReview });
   } catch (e) {
     return new Response(`Server error: ${e}`, { status: 500 });
   }

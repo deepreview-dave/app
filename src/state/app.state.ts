@@ -3,24 +3,31 @@ import { Analytics } from "../business/analytics";
 
 import {
   PerformanceScore,
+  ReviewLanguage,
+  ReviewTone,
+  Pronouns,
   TimePeriod,
   WorkAttribute,
 } from "../business/common";
+import { PromptBuilder } from "../business/prompt-builder";
 
 export enum AppStatus {
   LOADING = "loading",
   STABLE = "stable",
 }
 
-export type Result = string;
+export type Result = string[];
 
 interface ReviewInputs {
   name: string;
   score: PerformanceScore;
+  pronoun: Pronouns;
   attributes: WorkAttribute[];
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;
+  reviewTone: ReviewTone;
+  reviewLanguage: ReviewLanguage;
 }
 
 interface AppState {
@@ -31,16 +38,22 @@ interface AppState {
   hasSomeAnswer: boolean;
   clearInputs: () => void;
   updateName: (name: string) => void;
+  updatePronoun: (pronoun: Pronouns) => void;
   updateRole: (role: string) => void;
   updateDepartment: (role: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
   updateTimePeriod: (timePeriod: TimePeriod | undefined) => void;
+  updateReviewTone: (reviewTone: ReviewTone) => void;
+  updateReviewLanguage: (reviewLanguage: ReviewLanguage) => void;
   addAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
   generateAnswer: (
     name: string,
     performanceScore: PerformanceScore,
+    pronoun: Pronouns,
     attributes: WorkAttribute[],
+    reviewTone: ReviewTone,
+    reviewLanguage: ReviewLanguage,
     role?: string,
     department?: string,
     timePeriod?: TimePeriod
@@ -48,7 +61,7 @@ interface AppState {
   copyAnswer: () => void;
 }
 
-const DEFAULT_ANSWER: Result = "<Press 'Generate' to create a review>";
+const DEFAULT_ANSWER: Result = [""];
 
 export const useAppState = create<AppState>()((set) => ({
   status: AppStatus.STABLE,
@@ -56,10 +69,13 @@ export const useAppState = create<AppState>()((set) => ({
   inputs: {
     name: "",
     score: PerformanceScore.MEETS_EXPECTATIONS,
+    pronoun: Pronouns.NEUTRAL,
     attributes: [],
     role: undefined,
     department: undefined,
     timePeriod: undefined,
+    reviewTone: ReviewTone.NEUTRAL,
+    reviewLanguage: ReviewLanguage.ENGLISH,
   },
   attributeModal: {
     selectedType: undefined,
@@ -72,10 +88,14 @@ export const useAppState = create<AppState>()((set) => ({
       ...state,
       inputs: {
         name: "",
+        score: PerformanceScore.MEETS_EXPECTATIONS,
+        pronoun: Pronouns.NEUTRAL,
+        attributes: [],
         role: undefined,
         department: undefined,
-        score: PerformanceScore.MEETS_EXPECTATIONS,
-        attributes: [],
+        timePeriod: undefined,
+        reviewTone: ReviewTone.NEUTRAL,
+        reviewLanguage: ReviewLanguage.ENGLISH,
       },
       answer: DEFAULT_ANSWER,
       hasSomeAnswer: false,
@@ -120,6 +140,30 @@ export const useAppState = create<AppState>()((set) => ({
         timePeriod,
       },
     })),
+  updateReviewTone: (reviewTone: ReviewTone) =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        ...state.inputs,
+        reviewTone,
+      },
+    })),
+  updateReviewLanguage: (reviewLanguage: ReviewLanguage) =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        ...state.inputs,
+        reviewLanguage,
+      },
+    })),
+  updatePronoun: (pronoun: Pronouns) =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        ...state.inputs,
+        pronoun,
+      },
+    })),
   addAttribute: (attribute: WorkAttribute) =>
     set((state) => {
       const attributes = [...state.inputs.attributes, attribute];
@@ -143,7 +187,10 @@ export const useAppState = create<AppState>()((set) => ({
   generateAnswer: async (
     name: string,
     performanceScore: PerformanceScore,
+    pronoun: Pronouns,
     attributes: WorkAttribute[],
+    reviewTone: ReviewTone,
+    reviewLanguage: ReviewLanguage,
     role?: string,
     department?: string,
     timePeriod?: TimePeriod
@@ -154,9 +201,24 @@ export const useAppState = create<AppState>()((set) => ({
       inputEnabled: false,
     }));
 
+    console.log(
+      new PromptBuilder().build({
+        name,
+        performanceScore,
+        pronoun,
+        attributes,
+        reviewTone,
+        reviewLanguage,
+        role,
+        department,
+        timePeriod,
+      })
+    );
+
     const autoGeneratePerfReviewParams = new URLSearchParams();
     autoGeneratePerfReviewParams.append("name", name);
     autoGeneratePerfReviewParams.append("performanceScore", performanceScore);
+    autoGeneratePerfReviewParams.append("pronoun", pronoun);
     autoGeneratePerfReviewParams.append(
       "attributes",
       JSON.stringify(attributes)
@@ -170,8 +232,10 @@ export const useAppState = create<AppState>()((set) => ({
     if (timePeriod !== undefined) {
       autoGeneratePerfReviewParams.append("timePeriod", timePeriod);
     }
+    autoGeneratePerfReviewParams.append("reviewTone", reviewTone);
+    autoGeneratePerfReviewParams.append("reviewLanguage", reviewLanguage);
 
-    let answer = "";
+    let answer: string[] = [];
     let hasSomeAnswer = false;
     try {
       const response = await fetch(
@@ -179,16 +243,19 @@ export const useAppState = create<AppState>()((set) => ({
       );
 
       if (response.ok) {
-        answer = await response.text();
+        const answerEnvelope = await response.json();
+        answer = answerEnvelope.perfReview; // Type this!
         hasSomeAnswer = true;
       } else {
         const errorAnswer = await response.text();
-        answer = `An error occurred: ${response.status} ${response.statusText} ${errorAnswer}`;
+        answer = [
+          `An error occurred: ${response.status} ${response.statusText} ${errorAnswer}`,
+        ];
         hasSomeAnswer = false;
       }
     } catch (e) {
       console.log(`An error occurred: ${e}`);
-      answer = `An error occurred: ${e}`;
+      answer = [`An error occurred: ${e}`];
       hasSomeAnswer = false;
     }
 
