@@ -16,7 +16,12 @@ export type GeneratedAnalyticsParams = {
 export class Analytics {
   private static isInitiialised = false;
 
-  static init(key: string, debug = true) {
+  static init(key: string | undefined, debug = false) {
+    if (!key) {
+      console.error("Mixpanel key not found!");
+      return;
+    }
+
     if (!Analytics.isInitiialised) {
       mixpanel.init(key, { debug });
       Analytics.isInitiialised = true;

@@ -21,5 +21,5 @@ root.render(<RouterProvider router={router} />);
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-Analytics.init("__replace_with_real_one__", true);
+Analytics.init(process.env.REACT_APP_MIXPANEL_TOKEN);
 Analytics.loaded();
