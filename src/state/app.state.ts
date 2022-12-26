@@ -10,7 +10,6 @@ import {
   TimePeriod,
   WorkAttribute,
 } from "../business/common";
-import { PromptBuilder } from "../business/prompt-builder";
 
 export enum AppStatus {
   LOADING = "loading",
