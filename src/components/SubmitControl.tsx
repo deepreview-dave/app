@@ -1,4 +1,4 @@
-import { useAppState } from "../state/app.state";
+import { AppStatus, useAppState } from "../state/app.state";
 
 export const SubmitControl = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
@@ -9,6 +9,7 @@ export const SubmitControl = () => {
   const role = useAppState((state) => state.inputs.role);
   const department = useAppState((state) => state.inputs.department);
   const timePeriod = useAppState((state) => state.inputs.timePeriod);
+  const isLoading = useAppState((state) => state.status === AppStatus.LOADING);
   const reviewTone = useAppState((state) => state.inputs.reviewTone);
   const reviewLanguage = useAppState((state) => state.inputs.reviewLanguage);
 
@@ -31,7 +32,9 @@ export const SubmitControl = () => {
   return (
     <div className="control pt-4">
       <button
-        className="button is-link is-fullwidth"
+        className={
+          "button is-link is-fullwidth " + (isLoading ? "is-loading" : "")
+        }
         disabled={isButtonDisabled || !inputEnabled}
         onClick={onSubmit}
       >
