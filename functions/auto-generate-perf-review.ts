@@ -4,8 +4,9 @@ import { AutoPerfReviewGenerator } from "../src/business/auto-perf-review-genera
 import {
   PerformanceScore,
   PersonDetails,
-  WorkAttribute,
+  ReviewTone,
   TimePeriod,
+  WorkAttribute,
 } from "../src/business/common";
 
 interface Env {
@@ -42,6 +43,9 @@ const REQUEST_PARAMS_SCHEMA = {
         TimePeriod.LAST_6_MONTHS,
         TimePeriod.LAST_12_MONTHS,
       ],
+    },
+    reviewTone: {
+      enum: [ReviewTone.NEUTRAL, ReviewTone.FRIENDLY, ReviewTone.CRITICAL],
     },
   },
   required: ["name", "performanceScore"],

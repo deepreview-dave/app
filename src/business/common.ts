@@ -26,6 +26,12 @@ export interface WorkAttribute {
   name: string;
 }
 
+export enum ReviewTone {
+  NEUTRAL = "neutral",
+  FRIENDLY = "friendly",
+  CRITICAL = "critical",
+}
+
 export interface PersonDetails {
   name: string;
   performanceScore: PerformanceScore;
@@ -33,4 +39,5 @@ export interface PersonDetails {
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;
+  reviewTone?: ReviewTone;
 }

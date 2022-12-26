@@ -11,6 +11,7 @@ import { ReviewHeader } from "./components/ReviewHeader";
 import { MoreAttributes } from "./components/MoreAttributes";
 import { TimePeriodEditor } from "./components/TimePeriodEditor";
 import { PageInfo } from "./components/PageInfo";
+import { ReviewToneEditor } from "./components/ReviewToneEditor";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
                 <RoleEditor />
                 <DepartmentEditor />
                 <TimePeriodEditor />
+                <ReviewToneEditor />
                 <MoreAttributes />
                 <hr />
                 <SubmitControl />

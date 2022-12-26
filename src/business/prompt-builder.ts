@@ -1,6 +1,7 @@
 import {
   PerformanceScore,
   PersonDetails,
+  ReviewTone,
   TimePeriod,
   WorkAttributeType,
 } from "./common";
@@ -81,6 +82,23 @@ export class PromptBuilder {
           prompt += `Mention ${attribute.name} as a strength they have.`;
           break;
         }
+      }
+    }
+
+    const reviewTone = details.reviewTone || ReviewTone.NEUTRAL;
+
+    switch (reviewTone) {
+      case ReviewTone.NEUTRAL: {
+        prompt += " Use a neutral tone.";
+        break;
+      }
+      case ReviewTone.FRIENDLY: {
+        prompt += " Use a friendly tone.";
+        break;
+      }
+      case ReviewTone.CRITICAL: {
+        prompt += " Use a critical tone.";
+        break;
       }
     }
 

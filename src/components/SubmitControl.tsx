@@ -8,6 +8,7 @@ export const SubmitControl = () => {
   const role = useAppState((state) => state.inputs.role);
   const department = useAppState((state) => state.inputs.department);
   const timePeriod = useAppState((state) => state.inputs.timePeriod);
+  const reviewTone = useAppState((state) => state.inputs.reviewTone);
 
   const isButtonDisabled = reviewedName.trim() === "";
 
@@ -16,6 +17,7 @@ export const SubmitControl = () => {
       reviewedName,
       reviewedPerformanceScore,
       attributes,
+      reviewTone,
       role,
       department,
       timePeriod
