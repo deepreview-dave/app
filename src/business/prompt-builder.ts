@@ -1,6 +1,9 @@
 import {
   PerformanceScore,
   PersonDetails,
+  ReviewLanguage,
+  ReviewTone,
+  Pronouns,
   TimePeriod,
   WorkAttributeType,
 } from "./common";
@@ -55,6 +58,21 @@ export class PromptBuilder {
 
     prompt += ".";
 
+    switch (details.pronoun) {
+      case Pronouns.NEUTRAL: {
+        prompt += `Use the pronoun 'they'.`;
+        break;
+      }
+      case Pronouns.HE: {
+        prompt += `Use the pronoun 'he'.`;
+        break;
+      }
+      case Pronouns.HER: {
+        prompt += `Use the pronoun 'her'.`;
+        break;
+      }
+    }
+
     for (const attribute of details.attributes) {
       switch (attribute.type) {
         case WorkAttributeType.GOAL: {
@@ -81,6 +99,52 @@ export class PromptBuilder {
           prompt += `Mention ${attribute.name} as a strength they have.`;
           break;
         }
+      }
+    }
+
+    const reviewTone = details.reviewTone || ReviewTone.NEUTRAL;
+
+    switch (reviewTone) {
+      case ReviewTone.NEUTRAL: {
+        prompt += " Use a neutral tone.";
+        break;
+      }
+      case ReviewTone.FRIENDLY: {
+        prompt += " Use a friendly tone.";
+        break;
+      }
+      case ReviewTone.CRITICAL: {
+        prompt += " Use a critical tone.";
+        break;
+      }
+    }
+
+    const reviewLanguage = details.reviewLanguage || ReviewLanguage.ENGLISH;
+
+    switch (reviewLanguage) {
+      case ReviewLanguage.ENGLISH: {
+        prompt += " Write the review in English.";
+        break;
+      }
+      case ReviewLanguage.SPANISH: {
+        prompt += " Write the review in Spanish.";
+        break;
+      }
+      case ReviewLanguage.FRENCH: {
+        prompt += " Write the review in French.";
+        break;
+      }
+      case ReviewLanguage.GERMAN: {
+        prompt += " Write the review in German.";
+        break;
+      }
+      case ReviewLanguage.ITALIAN: {
+        prompt += " Write the review in Italian.";
+        break;
+      }
+      case ReviewLanguage.ROMANIAN: {
+        prompt += " Write the review in Romanian.";
+        break;
       }
     }
 
