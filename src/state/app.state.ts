@@ -8,6 +8,7 @@ import {
   TimePeriod,
   WorkAttribute,
 } from "../business/common";
+import { PromptBuilder } from "../business/prompt-builder";
 
 export enum AppStatus {
   LOADING = "loading",
@@ -197,6 +198,20 @@ export const useAppState = create<AppState>()((set) => ({
       status: AppStatus.LOADING,
       inputEnabled: false,
     }));
+
+    console.log(
+      new PromptBuilder().build({
+        name,
+        performanceScore,
+        pronoun,
+        attributes,
+        reviewTone,
+        reviewLanguage,
+        role,
+        department,
+        timePeriod,
+      })
+    );
 
     const autoGeneratePerfReviewParams = new URLSearchParams();
     autoGeneratePerfReviewParams.append("name", name);

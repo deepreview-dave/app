@@ -37,7 +37,13 @@ export const ResultBlock = () => {
         </div>
       </div>
       <div>
-        {answer}
+        {answer.map((a) => (
+          <>
+            <div>{a}</div>
+            <br />
+          </>
+        ))}
+        {/* {answer} */}
         {/* <textarea
           className="textarea is-success"
           rows={20}
