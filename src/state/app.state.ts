@@ -2,6 +2,7 @@ import create from "zustand";
 
 import {
   PerformanceScore,
+  ReviewTone,
   Pronouns,
   TimePeriod,
   WorkAttribute,
@@ -22,6 +23,7 @@ interface ReviewInputs {
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;
+  reviewTone: ReviewTone;
 }
 
 interface AppState {
@@ -32,11 +34,12 @@ interface AppState {
   hasSomeAnswer: boolean;
   clearInputs: () => void;
   updateName: (name: string) => void;
+  updatePronoun: (pronoun: Pronouns) => void;
   updateRole: (role: string) => void;
   updateDepartment: (role: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
   updateTimePeriod: (timePeriod: TimePeriod | undefined) => void;
-  updatePronoun: (pronoun: Pronouns) => void;
+  updateReviewTone: (reviewTone: ReviewTone) => void;
   addAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
   generateAnswer: (
@@ -44,6 +47,7 @@ interface AppState {
     performanceScore: PerformanceScore,
     pronoun: Pronouns,
     attributes: WorkAttribute[],
+    reviewTone: ReviewTone,
     role?: string,
     department?: string,
     timePeriod?: TimePeriod
@@ -63,6 +67,7 @@ export const useAppState = create<AppState>()((set) => ({
     role: undefined,
     department: undefined,
     timePeriod: undefined,
+    reviewTone: ReviewTone.NEUTRAL,
   },
   attributeModal: {
     selectedType: undefined,
@@ -75,11 +80,13 @@ export const useAppState = create<AppState>()((set) => ({
       ...state,
       inputs: {
         name: "",
+        score: PerformanceScore.MEETS_EXPECTATIONS,
+        pronoun: Pronouns.NEUTRAL,
+        attributes: [],
         role: undefined,
         department: undefined,
-        score: PerformanceScore.MEETS_EXPECTATIONS,
-        attributes: [],
-        pronoun: Pronouns.NEUTRAL,
+        timePeriod: undefined,
+        reviewTone: ReviewTone.NEUTRAL,
       },
       answer: DEFAULT_ANSWER,
       hasSomeAnswer: false,
@@ -124,6 +131,14 @@ export const useAppState = create<AppState>()((set) => ({
         timePeriod,
       },
     })),
+  updateReviewTone: (reviewTone: ReviewTone) =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        ...state.inputs,
+        reviewTone,
+      },
+    })),
   updatePronoun: (pronoun: Pronouns) =>
     set((state) => ({
       ...state,
@@ -157,6 +172,7 @@ export const useAppState = create<AppState>()((set) => ({
     performanceScore: PerformanceScore,
     pronoun: Pronouns,
     attributes: WorkAttribute[],
+    reviewTone: ReviewTone,
     role?: string,
     department?: string,
     timePeriod?: TimePeriod
@@ -184,6 +200,7 @@ export const useAppState = create<AppState>()((set) => ({
     if (timePeriod !== undefined) {
       autoGeneratePerfReviewParams.append("timePeriod", timePeriod);
     }
+    autoGeneratePerfReviewParams.append("reviewTone", reviewTone);
 
     let answer: string[] = [];
     let hasSomeAnswer = false;

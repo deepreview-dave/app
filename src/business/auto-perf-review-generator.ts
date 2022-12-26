@@ -30,8 +30,8 @@ export class AutoPerfReviewGenerator {
     });
 
     this.apiKey = apiKey;
-    this.api = new OpenAIApi(configuration);
     this.builder = new PromptBuilder();
+    this.api = new OpenAIApi(configuration);
   }
 
   async getSomeData(details: PersonDetails): Promise<PersonPerfReviewResult> {
