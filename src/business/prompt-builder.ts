@@ -1,6 +1,7 @@
 import {
   PerformanceScore,
   PersonDetails,
+  ReviewLanguage,
   ReviewTone,
   Pronouns,
   TimePeriod,
@@ -114,6 +115,35 @@ export class PromptBuilder {
       }
       case ReviewTone.CRITICAL: {
         prompt += " Use a critical tone.";
+        break;
+      }
+    }
+
+    const reviewLanguage = details.reviewLanguage || ReviewLanguage.ENGLISH;
+
+    switch (reviewLanguage) {
+      case ReviewLanguage.ENGLISH: {
+        prompt += " Write the review in English.";
+        break;
+      }
+      case ReviewLanguage.SPANISH: {
+        prompt += " Write the review in Spanish.";
+        break;
+      }
+      case ReviewLanguage.FRENCH: {
+        prompt += " Write the review in French.";
+        break;
+      }
+      case ReviewLanguage.GERMAN: {
+        prompt += " Write the review in German.";
+        break;
+      }
+      case ReviewLanguage.ITALIAN: {
+        prompt += " Write the review in Italian.";
+        break;
+      }
+      case ReviewLanguage.ROMANIAN: {
+        prompt += " Write the review in Romanian.";
         break;
       }
     }

@@ -12,6 +12,7 @@ import { MoreAttributes } from "./components/MoreAttributes";
 import { TimePeriodEditor } from "./components/TimePeriodEditor";
 import { PageInfo } from "./components/PageInfo";
 import { ReviewToneEditor } from "./components/ReviewToneEditor";
+import { ReviewLanguageEditor } from "./components/ReviewLanguageEditor";
 import { PronounEditor } from "./components/PronounEditor";
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
                 <DepartmentEditor />
                 <TimePeriodEditor />
                 <ReviewToneEditor />
+                <ReviewLanguageEditor />
                 <MoreAttributes />
                 <hr />
                 <SubmitControl />

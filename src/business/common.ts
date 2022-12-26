@@ -38,6 +38,15 @@ export enum ReviewTone {
   CRITICAL = "critical",
 }
 
+export enum ReviewLanguage {
+  ENGLISH = "en-US",
+  SPANISH = "es-ES",
+  FRENCH = "fr-FR",
+  GERMAN = "de-DE",
+  ITALIAN = "it-IT",
+  ROMANIAN = "ro-RO",
+}
+
 export interface PersonDetails {
   name: string;
   performanceScore: PerformanceScore;
@@ -47,4 +56,5 @@ export interface PersonDetails {
   department?: string;
   timePeriod?: TimePeriod;
   reviewTone?: ReviewTone;
+  reviewLanguage?: ReviewLanguage;
 }
