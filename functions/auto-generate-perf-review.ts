@@ -7,6 +7,7 @@ import {
   ReviewTone,
   TimePeriod,
   WorkAttribute,
+  Pronouns,
 } from "../src/business/common";
 
 interface Env {
@@ -16,10 +17,12 @@ interface Env {
 interface RequestParams {
   name: string;
   performanceScore: PerformanceScore;
+  pronoun: Pronouns;
   attributes: string;
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;
+  reviewTone?: ReviewTone;
 }
 
 const REQUEST_PARAMS_SCHEMA = {
@@ -32,6 +35,9 @@ const REQUEST_PARAMS_SCHEMA = {
         PerformanceScore.MEETS_EXPECTATIONS,
         PerformanceScore.ABOVE_EXPECTATIONS,
       ],
+    },
+    pronoun: {
+      enum: [Pronouns.NEUTRAL, Pronouns.HE, Pronouns.HER],
     },
     attributes: { type: "string", minLength: 1, maxLength: 10_000 },
     role: { type: "string", minLength: 1, maxLength: 100 },
@@ -77,6 +83,8 @@ export async function onRequest(
 
   if (params.name.trim() === "") {
     return new Response(`Invalid input: Empty name`, { status: 400 });
+  } else if (params.pronoun.trim() === "") {
+    return new Response(`Invalid input: Empty pronoun`, { status: 400 });
   } else if (params.role?.trim() === "") {
     return new Response(`Invalid input: Empty role`, { status: 400 });
   } else if (params.department?.trim() === "") {
