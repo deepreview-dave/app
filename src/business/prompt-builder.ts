@@ -162,6 +162,12 @@ export class PromptBuilder {
       }
     }
 
+    if (details.attributes.length > 0) {
+      promptArray.push("Aim to be verbose, but do not exceed 2000 tokens");
+    } else {
+      promptArray.push("Aim to be verbose, but do not exceed 1000 tokens");
+    }
+
     return promptArray.join(" ");
   }
 }
