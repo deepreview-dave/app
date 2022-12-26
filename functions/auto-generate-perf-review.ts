@@ -4,6 +4,7 @@ import { AutoPerfReviewGenerator } from "../src/business/auto-perf-review-genera
 import {
   PerformanceScore,
   PersonDetails,
+  ReviewLanguage,
   ReviewTone,
   TimePeriod,
   WorkAttribute,
@@ -46,6 +47,16 @@ const REQUEST_PARAMS_SCHEMA = {
     },
     reviewTone: {
       enum: [ReviewTone.NEUTRAL, ReviewTone.FRIENDLY, ReviewTone.CRITICAL],
+    },
+    reviewLanguage: {
+      enum: [
+        ReviewLanguage.ENGLISH,
+        ReviewLanguage.SPANISH,
+        ReviewLanguage.FRENCH,
+        ReviewLanguage.GERMAN,
+        ReviewLanguage.ITALIAN,
+        ReviewLanguage.ROMANIAN,
+      ],
     },
   },
   required: ["name", "performanceScore"],

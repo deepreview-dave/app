@@ -2,6 +2,7 @@ import create from "zustand";
 
 import {
   PerformanceScore,
+  ReviewLanguage,
   ReviewTone,
   TimePeriod,
   WorkAttribute,
@@ -22,6 +23,7 @@ interface ReviewInputs {
   department?: string;
   timePeriod?: TimePeriod;
   reviewTone: ReviewTone;
+  reviewLanguage: ReviewLanguage;
 }
 
 interface AppState {
@@ -37,6 +39,7 @@ interface AppState {
   updatePerformanceScore: (score: PerformanceScore) => void;
   updateTimePeriod: (timePeriod: TimePeriod | undefined) => void;
   updateReviewTone: (reviewTone: ReviewTone) => void;
+  updateReviewLanguage: (reviewLanguage: ReviewLanguage) => void;
   addAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
   generateAnswer: (
@@ -44,6 +47,7 @@ interface AppState {
     performanceScore: PerformanceScore,
     attributes: WorkAttribute[],
     reviewTone: ReviewTone,
+    reviewLanguage: ReviewLanguage,
     role?: string,
     department?: string,
     timePeriod?: TimePeriod
@@ -63,6 +67,7 @@ export const useAppState = create<AppState>()((set) => ({
     department: undefined,
     timePeriod: undefined,
     reviewTone: ReviewTone.NEUTRAL,
+    reviewLanguage: ReviewLanguage.ENGLISH,
   },
   attributeModal: {
     selectedType: undefined,
@@ -81,6 +86,7 @@ export const useAppState = create<AppState>()((set) => ({
         department: undefined,
         timePeriod: undefined,
         reviewTone: ReviewTone.NEUTRAL,
+        reviewLanguage: ReviewLanguage.ENGLISH,
       },
       answer: DEFAULT_ANSWER,
       hasSomeAnswer: false,
@@ -133,6 +139,14 @@ export const useAppState = create<AppState>()((set) => ({
         reviewTone,
       },
     })),
+  updateReviewLanguage: (reviewLanguage: ReviewLanguage) =>
+    set((state) => ({
+      ...state,
+      inputs: {
+        ...state.inputs,
+        reviewLanguage,
+      },
+    })),
   addAttribute: (attribute: WorkAttribute) =>
     set((state) => {
       const attributes = [...state.inputs.attributes, attribute];
@@ -158,6 +172,7 @@ export const useAppState = create<AppState>()((set) => ({
     performanceScore: PerformanceScore,
     attributes: WorkAttribute[],
     reviewTone: ReviewTone,
+    reviewLanguage: ReviewLanguage,
     role?: string,
     department?: string,
     timePeriod?: TimePeriod
@@ -185,6 +200,7 @@ export const useAppState = create<AppState>()((set) => ({
       autoGeneratePerfReviewParams.append("timePeriod", timePeriod);
     }
     autoGeneratePerfReviewParams.append("reviewTone", reviewTone);
+    autoGeneratePerfReviewParams.append("reviewLanguage", reviewLanguage);
 
     let answer: string[] = [];
     let hasSomeAnswer = false;
