@@ -1,3 +1,4 @@
+import { Relationship } from "../business/common";
 import { AppStatus, useAppState } from "../state/app.state";
 
 export const SubmitControl = () => {
@@ -5,6 +6,7 @@ export const SubmitControl = () => {
   const reviewedName = useAppState((state) => state.inputs.name);
   const reviewedPerformanceScore = useAppState((state) => state.inputs.score);
   const pronoun = useAppState((state) => state.inputs.pronoun);
+  const relationship = useAppState((state) => state.inputs.relationship);
   const attributes = useAppState((state) => state.inputs.attributes);
   const role = useAppState((state) => state.inputs.role);
   const department = useAppState((state) => state.inputs.department);
@@ -13,13 +15,15 @@ export const SubmitControl = () => {
   const reviewTone = useAppState((state) => state.inputs.reviewTone);
   const reviewLanguage = useAppState((state) => state.inputs.reviewLanguage);
 
-  const isButtonDisabled = reviewedName.trim() === "";
+  const isButtonDisabled =
+    reviewedName.trim() === "" && relationship !== Relationship.Self;
 
   const onSubmit = async () =>
     await generateAnswer(
       reviewedName,
       reviewedPerformanceScore,
       pronoun,
+      relationship,
       attributes,
       reviewTone,
       reviewLanguage,

@@ -9,6 +9,7 @@ import {
   TimePeriod,
   WorkAttribute,
   Pronouns,
+  Relationship,
 } from "../src/business/common";
 
 interface Env {
@@ -19,6 +20,7 @@ interface RequestParams {
   name: string;
   performanceScore: PerformanceScore;
   pronoun: Pronouns;
+  relationship: Relationship;
   attributes: string;
   role?: string;
   department?: string;
@@ -39,6 +41,9 @@ const REQUEST_PARAMS_SCHEMA = {
     },
     pronoun: {
       enum: [Pronouns.NEUTRAL, Pronouns.HE, Pronouns.HER],
+    },
+    relationship: {
+      enum: [Relationship.Colleague, Relationship.Manager, Relationship.Self],
     },
     attributes: { type: "string", minLength: 1, maxLength: 10_000 },
     role: { type: "string", minLength: 1, maxLength: 100 },
@@ -96,6 +101,8 @@ export async function onRequest(
     return new Response(`Invalid input: Empty name`, { status: 400 });
   } else if (params.pronoun.trim() === "") {
     return new Response(`Invalid input: Empty pronoun`, { status: 400 });
+  } else if (params.relationship.trim() === "") {
+    return new Response(`Invalid input: Empty relationship`, { status: 400 });
   } else if (params.role?.trim() === "") {
     return new Response(`Invalid input: Empty role`, { status: 400 });
   } else if (params.department?.trim() === "") {

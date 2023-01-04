@@ -6,11 +6,30 @@ import {
   Pronouns,
   TimePeriod,
   WorkAttributeType,
+  Relationship,
 } from "./common";
 
 export class PromptBuilder {
   build(details: PersonDetails): string {
     const promptArray: string[] = [];
+
+    switch (details.relationship) {
+      case Relationship.Self: {
+        promptArray.push("Write a performance review for myself");
+        break;
+      }
+      case Relationship.Colleague: {
+        promptArray.push(
+          `Write a performance review for a colleague named ${details.name}.`
+        );
+        break;
+      }
+      case Relationship.Manager: {
+        promptArray.push(
+          `Write a performance review for my manager, named ${details.name}.`
+        );
+      }
+    }
 
     promptArray.push(
       `Write a performance review for a person named ${details.name}.`
