@@ -225,7 +225,9 @@ export const useAppState = create<AppState>()(
         }));
 
         const autoGeneratePerfReviewParams = new URLSearchParams();
-        autoGeneratePerfReviewParams.append("name", name);
+        const finalName =
+          relationship === Relationship.MYSELF ? "Myself" : name;
+        autoGeneratePerfReviewParams.append("name", finalName);
         autoGeneratePerfReviewParams.append(
           "performanceScore",
           performanceScore
