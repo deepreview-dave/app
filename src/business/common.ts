@@ -48,9 +48,10 @@ export enum ReviewLanguage {
 }
 
 export enum Relationship {
-  Self = "myself",
-  Colleague = "colleague",
-  Manager = "manager",
+  MYSELF = "myself",
+  COLLEAGUE = "colleague",
+  MANAGER = "manager",
+  REPORT = "report",
 }
 
 export interface PersonDetails {

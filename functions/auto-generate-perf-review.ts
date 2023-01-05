@@ -43,7 +43,12 @@ const REQUEST_PARAMS_SCHEMA = {
       enum: [Pronouns.NEUTRAL, Pronouns.HE, Pronouns.HER],
     },
     relationship: {
-      enum: [Relationship.Colleague, Relationship.Manager, Relationship.Self],
+      enum: [
+        Relationship.COLLEAGUE,
+        Relationship.MANAGER,
+        Relationship.MYSELF,
+        Relationship.REPORT,
+      ],
     },
     attributes: { type: "string", minLength: 1, maxLength: 10_000 },
     role: { type: "string", minLength: 1, maxLength: 100 },

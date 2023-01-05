@@ -14,20 +14,27 @@ export class PromptBuilder {
     const promptArray: string[] = [];
 
     switch (details.relationship) {
-      case Relationship.Self: {
+      case Relationship.MYSELF: {
         promptArray.push("Write a performance review for myself");
         break;
       }
-      case Relationship.Colleague: {
+      case Relationship.COLLEAGUE: {
         promptArray.push(
           `Write a performance review for a colleague named ${details.name}.`
         );
         break;
       }
-      case Relationship.Manager: {
+      case Relationship.MANAGER: {
         promptArray.push(
           `Write a performance review for my manager, named ${details.name}.`
         );
+        break;
+      }
+      case Relationship.REPORT: {
+        promptArray.push(
+          `Write a performance review for my direct report, named ${details.name}.`
+        );
+        break;
       }
     }
 

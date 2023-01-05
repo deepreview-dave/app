@@ -7,30 +7,52 @@ export const RelationshipEditor = () => {
   const updateRelationship = useAppState((state) => state.updateRelationship);
   const updateName = useAppState((state) => state.updateName);
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.currentTarget.value as Relationship;
+  const onClick = (value: Relationship) => {
     updateRelationship(value);
 
-    if (value === Relationship.Self) {
+    if (value === Relationship.MYSELF) {
       updateName("");
     }
   };
 
+  const isSelected = (rel: Relationship) => rel === relationship;
+  const buttonsClass = (rel: Relationship) =>
+    isSelected(rel) ? "button is-success is-selected" : "button";
+
   return (
-    <div className="field mt-4">
+    <div className="field mt-4 has-text-centered">
       <label className="label">This is a review for:</label>
-      <div className="select">
-        <select
-          required
-          value={relationship}
+      <div className="buttons has-addons is-centered">
+        <button
           disabled={!inputEnabled}
-          onChange={onChange}
+          className={buttonsClass(Relationship.MYSELF)}
+          onClick={() => onClick(Relationship.MYSELF)}
         >
-          <option value={Relationship.Self}>Myself</option>
-          <option value={Relationship.Colleague}>A colleague</option>
-          <option value={Relationship.Manager}>My manager</option>
-        </select>
+          Myself
+        </button>
+        <button
+          disabled={!inputEnabled}
+          className={buttonsClass(Relationship.COLLEAGUE)}
+          onClick={() => onClick(Relationship.COLLEAGUE)}
+        >
+          A colleague
+        </button>
+        <button
+          disabled={!inputEnabled}
+          className={buttonsClass(Relationship.MANAGER)}
+          onClick={() => onClick(Relationship.MANAGER)}
+        >
+          My manager
+        </button>
+        <button
+          disabled={!inputEnabled}
+          className={buttonsClass(Relationship.REPORT)}
+          onClick={() => onClick(Relationship.REPORT)}
+        >
+          A direct report
+        </button>
       </div>
+      <hr />
     </div>
   );
 };

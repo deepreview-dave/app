@@ -16,7 +16,7 @@ export const SubmitControl = () => {
   const reviewLanguage = useAppState((state) => state.inputs.reviewLanguage);
 
   const isButtonDisabled =
-    reviewedName.trim() === "" && relationship !== Relationship.Self;
+    reviewedName.trim() === "" && relationship !== Relationship.MYSELF;
 
   const onSubmit = async () =>
     await generateAnswer(

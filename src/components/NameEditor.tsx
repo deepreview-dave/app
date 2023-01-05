@@ -8,7 +8,7 @@ export const NameEditor = () => {
   const updateName = useAppState((state) => state.updateName);
   const relationship = useAppState((state) => state.inputs.relationship);
 
-  const isNameInputDisabled = () => relationship === Relationship.Self;
+  const isNameInputDisabled = () => relationship === Relationship.MYSELF;
 
   return (
     <div className="field">
