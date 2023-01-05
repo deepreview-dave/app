@@ -154,30 +154,17 @@ export const MoreAttributes = () => {
       )}
       <div className="tags">
         {attributes.map((attr) => (
-          <article className="message is-small">
-            <div className="message-header">
-              <p>Small message</p>
-              <button className="delete is-small" aria-label="delete"></button>
-            </div>
-            <div className="message-body">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-              <strong>Pellentesque risus mi</strong>, tempus quis placerat ut,
-              porta nec nulla.Nullam gravida purus diam, et dictum{" "}
-              <a>felis venenatis</a> efficitur. Aenean ac{" "}
-              <em>eleifend lacus</em>, in mollis lectus.
-            </div>
-          </article>
-          // <span
-          //   key={attr.uuid}
-          //   className={"tag " + getAttributeDescription(attr.type).colorClass}
-          // >
-          //   {attr.type}: {attr.name} | {attr.details}
-          //   <button
-          //     disabled={!inputEnabled}
-          //     className="delete is-small"
-          //     onClick={() => removeAttribute(attr)}
-          //   ></button>
-          // </span>
+          <span
+            key={attr.uuid}
+            className={"tag " + getAttributeDescription(attr.type).colorClass}
+          >
+            {attr.type}: {attr.name} | {attr.details}
+            <button
+              disabled={!inputEnabled}
+              className="delete is-small"
+              onClick={() => removeAttribute(attr)}
+            ></button>
+          </span>
         ))}
       </div>
       <AttributeModal />
