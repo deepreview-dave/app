@@ -37,7 +37,10 @@ export class PromptBuilder {
     const language = this.createPromptForLanguage(
       details.reviewLanguage || ReviewLanguage.ENGLISH
     );
-    const attributes = this.createPromptForAttributes(details.attributes);
+    const attributes = this.createPromptForAttributes(
+      details.relationship,
+      details.attributes
+    );
 
     return [
       ...relationship,
