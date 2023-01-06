@@ -1,4 +1,4 @@
-import { Pronouns } from "../business/common";
+import { Pronouns, Relationship } from "../business/common";
 import { useAppState } from "../state/app.state";
 
 export const PronounEditor = () => {
@@ -11,6 +11,10 @@ export const PronounEditor = () => {
     updatePronoun(value);
   };
 
+  const relationship = useAppState((state) => state.inputs.relationship);
+
+  const isNameInputDisabled = () => relationship === Relationship.MYSELF;
+
   return (
     <div className="field mt-4">
       <label className="label">Pronoun:</label>
@@ -18,7 +22,7 @@ export const PronounEditor = () => {
         <select
           required
           value={pronoun}
-          disabled={!inputEnabled}
+          disabled={!inputEnabled || isNameInputDisabled()}
           onChange={onChange}
         >
           <option value={Pronouns.NEUTRAL}>They</option>
