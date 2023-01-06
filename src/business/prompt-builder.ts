@@ -211,6 +211,8 @@ export class PromptBuilder {
           return `Write a short paragraph about ${attribute.name} as a skill they are good at.`;
         case WorkAttributeType.STRENGTH:
           return `Write a short paragraph about ${attribute.name} as a strength they have.`;
+        default:
+          return "";
       }
     });
   }
