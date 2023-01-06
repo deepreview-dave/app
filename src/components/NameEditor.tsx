@@ -1,9 +1,13 @@
+import { Relationship } from "../business/common";
 import { useAppState } from "../state/app.state";
 
 export const NameEditor = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
   const reviewedName = useAppState((state) => state.inputs.name);
   const updateName = useAppState((state) => state.updateName);
+  const relationship = useAppState((state) => state.inputs.relationship);
+
+  const isNameInputDisabled = () => relationship === Relationship.MYSELF;
 
   return (
     <div className="field">
@@ -13,7 +17,7 @@ export const NameEditor = () => {
           type="text"
           className="input"
           required
-          disabled={!inputEnabled}
+          disabled={!inputEnabled || isNameInputDisabled()}
           value={reviewedName}
           placeholder="Write a person's name here"
           onChange={(e) => updateName(e.currentTarget.value)}

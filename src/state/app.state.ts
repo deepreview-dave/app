@@ -9,6 +9,7 @@ import {
   Pronouns,
   TimePeriod,
   WorkAttribute,
+  Relationship,
 } from "../business/common";
 
 export enum AppStatus {
@@ -22,6 +23,7 @@ interface ReviewInputs {
   name: string;
   score: PerformanceScore;
   pronoun: Pronouns;
+  relationship: Relationship;
   attributes: WorkAttribute[];
   role?: string;
   department?: string;
@@ -39,6 +41,7 @@ interface AppState {
   clearInputs: () => void;
   updateName: (name: string) => void;
   updatePronoun: (pronoun: Pronouns) => void;
+  updateRelationship: (relationship: Relationship) => void;
   updateRole: (role: string) => void;
   updateDepartment: (role: string) => void;
   updatePerformanceScore: (score: PerformanceScore) => void;
@@ -52,6 +55,7 @@ interface AppState {
     name: string,
     performanceScore: PerformanceScore,
     pronoun: Pronouns,
+    relationship: Relationship,
     attributes: WorkAttribute[],
     reviewTone: ReviewTone,
     reviewLanguage: ReviewLanguage,
@@ -73,6 +77,7 @@ export const useAppState = create<AppState>()(
         name: "",
         score: PerformanceScore.MEETS_EXPECTATIONS,
         pronoun: Pronouns.NEUTRAL,
+        relationship: Relationship.COLLEAGUE,
         attributes: [],
         role: undefined,
         department: undefined,
@@ -93,6 +98,7 @@ export const useAppState = create<AppState>()(
             name: "",
             score: PerformanceScore.MEETS_EXPECTATIONS,
             pronoun: Pronouns.NEUTRAL,
+            relationship: Relationship.COLLEAGUE,
             attributes: [],
             role: undefined,
             department: undefined,
@@ -167,6 +173,14 @@ export const useAppState = create<AppState>()(
             pronoun,
           },
         })),
+      updateRelationship: (relationship: Relationship) =>
+        set((state) => ({
+          ...state,
+          inputs: {
+            ...state.inputs,
+            relationship,
+          },
+        })),
       addAttribute: (attribute: WorkAttribute) =>
         set((state) => {
           const attributes = [...state.inputs.attributes, attribute];
@@ -196,6 +210,7 @@ export const useAppState = create<AppState>()(
         name: string,
         performanceScore: PerformanceScore,
         pronoun: Pronouns,
+        relationship: Relationship,
         attributes: WorkAttribute[],
         reviewTone: ReviewTone,
         reviewLanguage: ReviewLanguage,
@@ -210,12 +225,15 @@ export const useAppState = create<AppState>()(
         }));
 
         const autoGeneratePerfReviewParams = new URLSearchParams();
-        autoGeneratePerfReviewParams.append("name", name);
+        const finalName =
+          relationship === Relationship.MYSELF ? "Myself" : name;
+        autoGeneratePerfReviewParams.append("name", finalName);
         autoGeneratePerfReviewParams.append(
           "performanceScore",
           performanceScore
         );
         autoGeneratePerfReviewParams.append("pronoun", pronoun);
+        autoGeneratePerfReviewParams.append("relationship", relationship);
         autoGeneratePerfReviewParams.append(
           "attributes",
           JSON.stringify(attributes)
