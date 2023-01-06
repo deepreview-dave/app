@@ -14,6 +14,7 @@ import { PageInfo } from "./components/PageInfo";
 import { ReviewToneEditor } from "./components/ReviewToneEditor";
 import { ReviewLanguageEditor } from "./components/ReviewLanguageEditor";
 import { PronounEditor } from "./components/PronounEditor";
+import { RelationshipEditor } from "./components/RelationshipEditor";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <div className="card simple-card">
             <div className="card-content">
               <div className="content">
+                <RelationshipEditor />
                 <NameEditor />
                 <PerformanceScoreEditor />
                 <PronounEditor />

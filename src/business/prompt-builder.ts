@@ -6,162 +6,233 @@ import {
   Pronouns,
   TimePeriod,
   WorkAttributeType,
+  Relationship,
+  WorkAttribute,
 } from "./common";
 
 export class PromptBuilder {
   build(details: PersonDetails): string {
-    const promptArray: string[] = [];
-
-    promptArray.push(
-      `Write a performance review for a person named ${details.name}.`
+    const relationship = this.createPromptForRelationship(
+      details.relationship,
+      details.name
+    );
+    const role = this.createPromptForRole(details.relationship, details.role);
+    const department = this.createPromptForDepartment(
+      details.relationship,
+      details.pronoun,
+      details.department
+    );
+    const performanceScore = this.createPromptForPerformace(
+      details.relationship,
+      details.pronoun,
+      details.performanceScore
+    );
+    const timePeriod = this.createPromptForTimePeriod(details.timePeriod);
+    const pronoun = this.createPromptForPronoun(
+      details.relationship,
+      details.pronoun
+    );
+    const tone = this.createPromptForTone(
+      details.reviewTone || ReviewTone.NEUTRAL
+    );
+    const language = this.createPromptForLanguage(
+      details.reviewLanguage || ReviewLanguage.ENGLISH
+    );
+    const attributes = this.createPromptForAttributes(
+      details.relationship,
+      details.attributes
     );
 
-    if (details.role) {
-      promptArray.push(`They have the role of ${details.role}.`);
-    }
+    return [
+      ...relationship,
+      ...role,
+      ...department,
+      ...performanceScore,
+      ...timePeriod,
+      ...pronoun,
+      ...tone,
+      ...language,
+      ...attributes,
+    ].join(" ");
+  }
 
-    if (details.department) {
-      promptArray.push(`They are in the ${details.department} team.`);
+  private createPromptForRelationship(
+    relationship: Relationship,
+    name: string
+  ): string[] {
+    switch (relationship) {
+      case Relationship.MYSELF:
+        return ["Write a performance review for myself."];
+      case Relationship.COLLEAGUE:
+        return [`Write a performance review for a colleague named ${name}.`];
+      case Relationship.MANAGER:
+        return [`Write a performance review for my manager, named ${name}.`];
+      case Relationship.REPORT:
+        return [
+          `Write a performance review for my direct report, named ${name}.`,
+        ];
     }
+  }
 
-    switch (details.performanceScore) {
-      case PerformanceScore.BELOW_EXPECTATIONS: {
-        promptArray.push(`They are performing below expectations.`);
-        break;
-      }
-      case PerformanceScore.MEETS_EXPECTATIONS: {
-        promptArray.push(`They are meeting expectations.`);
-        break;
-      }
-      case PerformanceScore.ABOVE_EXPECTATIONS: {
-        promptArray.push(`They are performing above expectations.`);
-        break;
-      }
+  private createPromptForRole(
+    relationship: Relationship,
+    role?: string
+  ): string[] {
+    if (!role) {
+      return [];
     }
+    if (relationship === Relationship.MYSELF) {
+      return [`I have the role of ${role}.`];
+    } else {
+      return [`They have the role of ${role}.`];
+    }
+  }
 
-    if (details.timePeriod) {
-      switch (details.timePeriod) {
-        case TimePeriod.LAST_MONTH: {
-          promptArray.push(`The review is for the last month.`);
+  private createPromptForDepartment(
+    relationship: Relationship,
+    pronoun: Pronouns,
+    department?: string
+  ): string[] {
+    if (!department) {
+      return [];
+    }
+    const startingPoint = this.createSimplePronoun(relationship, pronoun);
+    return [`${startingPoint} working in the ${department} team.`];
+  }
+
+  private createPromptForPerformace(
+    relationship: Relationship,
+    pronoun: Pronouns,
+    performanceScore: PerformanceScore
+  ): string[] {
+    const startingPoint = this.createSimplePronoun(relationship, pronoun);
+    switch (performanceScore) {
+      case PerformanceScore.BELOW_EXPECTATIONS:
+        return [`${startingPoint} performing below expectations.`];
+      case PerformanceScore.MEETS_EXPECTATIONS:
+        return [`${startingPoint} meeting expectations.`];
+      case PerformanceScore.ABOVE_EXPECTATIONS:
+        return [`${startingPoint} performing above expectations.`];
+    }
+  }
+
+  private createSimplePronoun(
+    relationship: Relationship,
+    pronoun: Pronouns
+  ): string {
+    let result = "";
+    if (relationship === Relationship.MYSELF) {
+      result = "I am";
+    } else {
+      switch (pronoun) {
+        case Pronouns.NEUTRAL: {
+          result = "They are";
           break;
         }
-        case TimePeriod.LAST_3_MONTHS: {
-          promptArray.push(`The review is for the last 3 months.`);
+        case Pronouns.HE: {
+          result = "He is";
           break;
         }
-        case TimePeriod.LAST_6_MONTHS: {
-          promptArray.push(`The review is for the last 6 months.`);
-          break;
-        }
-        case TimePeriod.LAST_12_MONTHS: {
-          promptArray.push(`The review is for the last 12 months.`);
+        case Pronouns.HER: {
+          result = "She is";
           break;
         }
       }
     }
 
-    switch (details.pronoun) {
-      case Pronouns.NEUTRAL: {
-        promptArray.push(`Use the pronoun 'they'.`);
-        break;
-      }
-      case Pronouns.HE: {
-        promptArray.push(`Use the pronoun 'he'.`);
-        break;
-      }
-      case Pronouns.HER: {
-        promptArray.push(`Use the pronoun 'her'.`);
-        break;
-      }
+    return result;
+  }
+
+  private createPromptForTimePeriod(timePeriod?: TimePeriod): string[] {
+    if (!timePeriod) {
+      return [];
     }
 
-    const reviewTone = details.reviewTone || ReviewTone.NEUTRAL;
+    switch (timePeriod) {
+      case TimePeriod.LAST_MONTH:
+        return [`The review is for the last month.`];
+      case TimePeriod.LAST_3_MONTHS:
+        return [`The review is for the last 3 months.`];
+      case TimePeriod.LAST_6_MONTHS:
+        return [`The review is for the last 6 months.`];
+      case TimePeriod.LAST_12_MONTHS:
+        return [`The review is for the last 12 months.`];
+    }
+  }
 
-    switch (reviewTone) {
-      case ReviewTone.NEUTRAL: {
-        promptArray.push("Use a neutral tone.");
-        break;
-      }
-      case ReviewTone.FRIENDLY: {
-        promptArray.push("Use a friendly tone.");
-        break;
-      }
-      case ReviewTone.CRITICAL: {
-        promptArray.push("Use a critical tone.");
-        break;
-      }
+  private createPromptForPronoun(
+    relationship: Relationship,
+    pronoun: Pronouns
+  ): string[] {
+    if (relationship === Relationship.MYSELF) {
+      return ["Refer to me in the first person."];
     }
 
-    const reviewLanguage = details.reviewLanguage || ReviewLanguage.ENGLISH;
-
-    switch (reviewLanguage) {
-      case ReviewLanguage.ENGLISH: {
-        promptArray.push("Write the review in English.");
-        break;
-      }
-      case ReviewLanguage.SPANISH: {
-        promptArray.push("Write the review in Spanish.");
-        break;
-      }
-      case ReviewLanguage.FRENCH: {
-        promptArray.push("Write the review in French.");
-        break;
-      }
-      case ReviewLanguage.GERMAN: {
-        promptArray.push("Write the review in German.");
-        break;
-      }
-      case ReviewLanguage.ITALIAN: {
-        promptArray.push("Write the review in Italian.");
-        break;
-      }
-      case ReviewLanguage.ROMANIAN: {
-        promptArray.push("Write the review in Romanian.");
-        break;
-      }
+    switch (pronoun) {
+      case Pronouns.NEUTRAL:
+        return [`Use the pronoun 'they'.`];
+      case Pronouns.HE:
+        return [`Use the pronoun 'he'.`];
+      case Pronouns.HER:
+        return [`Use the pronoun 'her'.`];
     }
+  }
 
-    for (const attribute of details.attributes) {
+  private createPromptForTone(tone: ReviewTone): string[] {
+    switch (tone) {
+      case ReviewTone.NEUTRAL:
+        return ["Use a neutral tone."];
+      case ReviewTone.FRIENDLY:
+        return ["Use a friendly tone."];
+      case ReviewTone.CRITICAL:
+        return ["Use a critical tone."];
+    }
+  }
+
+  private createPromptForLanguage(language: ReviewLanguage): string[] {
+    switch (language) {
+      case ReviewLanguage.ENGLISH:
+        return ["Write the review in English."];
+      case ReviewLanguage.SPANISH:
+        return ["Write the review in Spanish."];
+      case ReviewLanguage.FRENCH:
+        return ["Write the review in French."];
+      case ReviewLanguage.GERMAN:
+        return ["Write the review in German."];
+      case ReviewLanguage.ITALIAN:
+        return ["Write the review in Italian."];
+      case ReviewLanguage.ROMANIAN:
+        return ["Write the review in Romanian."];
+    }
+  }
+
+  private createPromptForAttributes(
+    relationship: Relationship,
+    attributes: WorkAttribute[]
+  ): string[] {
+    let pronoun = "";
+    if (relationship === Relationship.MYSELF) {
+      pronoun = "I";
+    } else {
+      pronoun = "they";
+    }
+    return attributes.map((attribute: WorkAttribute) => {
       switch (attribute.type) {
-        case WorkAttributeType.GOAL: {
-          promptArray.push(
-            `Write a short paragraph about ${attribute.name} as a goal they have set for the next review cycle.`
-          );
-          break;
-        }
-        case WorkAttributeType.GROWTH: {
-          promptArray.push(
-            `Write a short paragraph about ${attribute.name} as an area where they have grown in this review cycle.`
-          );
-          break;
-        }
-        case WorkAttributeType.IMPROVE: {
-          promptArray.push(
-            `Write a short paragraph about ${attribute.name} as an area where they need to improve.`
-          );
-          break;
-        }
-        case WorkAttributeType.PROJECT: {
-          promptArray.push(
-            `Write a short paragraph about ${attribute.name} as a project they have worked on.`
-          );
-          break;
-        }
-        case WorkAttributeType.SKILL: {
-          promptArray.push(
-            `Write a short paragraph about ${attribute.name} as a skill they are good at.`
-          );
-          break;
-        }
-        case WorkAttributeType.STRENGTH: {
-          promptArray.push(
-            `Write a short paragraph about ${attribute.name} as a strength they have.`
-          );
-          break;
-        }
+        case WorkAttributeType.GOAL:
+          return `Write a short paragraph about ${attribute.name} as a goal ${pronoun} have set for the next review cycle.`;
+        case WorkAttributeType.GROWTH:
+          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} have grown in this review cycle.`;
+        case WorkAttributeType.IMPROVE:
+          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} need to improve.`;
+        case WorkAttributeType.PROJECT:
+          return `Write a short paragraph about ${attribute.name} as a project ${pronoun} have worked on.`;
+        case WorkAttributeType.SKILL:
+          return `Write a short paragraph about ${attribute.name} as a skill ${pronoun} are good at.`;
+        case WorkAttributeType.STRENGTH:
+          return `Write a short paragraph about ${attribute.name} as a strength ${pronoun} have.`;
+        default:
+          return "";
       }
-    }
-
-    return promptArray.join(" ");
+    });
   }
 }

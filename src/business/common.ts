@@ -48,10 +48,18 @@ export enum ReviewLanguage {
   ROMANIAN = "ro-RO",
 }
 
+export enum Relationship {
+  MYSELF = "myself",
+  COLLEAGUE = "colleague",
+  MANAGER = "manager",
+  REPORT = "report",
+}
+
 export interface PersonDetails {
   name: string;
   performanceScore: PerformanceScore;
   pronoun: Pronouns;
+  relationship: Relationship;
   attributes: WorkAttribute[];
   role?: string;
   department?: string;
