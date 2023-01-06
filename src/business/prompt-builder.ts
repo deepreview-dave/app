@@ -19,6 +19,7 @@ export class PromptBuilder {
     const role = this.createPromptForRole(details.relationship, details.role);
     const department = this.createPromptForDepartment(
       details.relationship,
+      details.pronoun,
       details.department
     );
     const performanceScore = this.createPromptForPerformace(
@@ -89,16 +90,14 @@ export class PromptBuilder {
 
   private createPromptForDepartment(
     relationship: Relationship,
+    pronoun: Pronouns,
     department?: string
   ): string[] {
     if (!department) {
       return [];
     }
-    if (relationship === Relationship.MYSELF) {
-      return [`I am working in the ${department} team.`];
-    } else {
-      return [`They are working in the ${department} team.`];
-    }
+    const startingPoint = this.createSimplePronoun(relationship, pronoun);
+    return [`${startingPoint} working in the ${department} team.`];
   }
 
   private createPromptForPerformace(
@@ -106,34 +105,42 @@ export class PromptBuilder {
     pronoun: Pronouns,
     performanceScore: PerformanceScore
   ): string[] {
-    let startingPoint = "";
+    const startingPoint = this.createSimplePronoun(relationship, pronoun);
+    switch (performanceScore) {
+      case PerformanceScore.BELOW_EXPECTATIONS:
+        return [`${startingPoint} performing below expectations.`];
+      case PerformanceScore.MEETS_EXPECTATIONS:
+        return [`${startingPoint} meeting expectations.`];
+      case PerformanceScore.ABOVE_EXPECTATIONS:
+        return [`${startingPoint} performing above expectations.`];
+    }
+  }
+
+  private createSimplePronoun(
+    relationship: Relationship,
+    pronoun: Pronouns
+  ): string {
+    let result = "";
     if (relationship === Relationship.MYSELF) {
-      startingPoint = "I am";
+      result = "I am";
     } else {
       switch (pronoun) {
         case Pronouns.NEUTRAL: {
-          startingPoint = "They are";
+          result = "They are";
           break;
         }
         case Pronouns.HE: {
-          startingPoint = "He is";
+          result = "He is";
           break;
         }
         case Pronouns.HER: {
-          startingPoint = "She is";
+          result = "She is";
           break;
         }
       }
     }
 
-    switch (performanceScore) {
-      case PerformanceScore.BELOW_EXPECTATIONS:
-        return [`${startingPoint} performing below expectations.`];
-      case PerformanceScore.MEETS_EXPECTATIONS:
-        return [`${startingPoint} are meeting expectations.`];
-      case PerformanceScore.ABOVE_EXPECTATIONS:
-        return [`${startingPoint} are performing above expectations.`];
-    }
+    return result;
   }
 
   private createPromptForTimePeriod(timePeriod?: TimePeriod): string[] {
