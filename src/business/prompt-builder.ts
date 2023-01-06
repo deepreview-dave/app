@@ -155,7 +155,7 @@ export class PromptBuilder {
     pronoun: Pronouns
   ): string[] {
     if (relationship === Relationship.MYSELF) {
-      return [];
+      return ["Refer to me in the first person."];
     }
 
     switch (pronoun) {
@@ -196,21 +196,30 @@ export class PromptBuilder {
     }
   }
 
-  private createPromptForAttributes(attributes: WorkAttribute[]): string[] {
+  private createPromptForAttributes(
+    relationship: Relationship,
+    attributes: WorkAttribute[]
+  ): string[] {
+    let pronoun = "";
+    if (relationship === Relationship.MYSELF) {
+      pronoun = "I";
+    } else {
+      pronoun = "they";
+    }
     return attributes.map((attribute: WorkAttribute) => {
       switch (attribute.type) {
         case WorkAttributeType.GOAL:
-          return `Write a short paragraph about ${attribute.name} as a goal they have set for the next review cycle.`;
+          return `Write a short paragraph about ${attribute.name} as a goal ${pronoun} have set for the next review cycle.`;
         case WorkAttributeType.GROWTH:
-          return `Write a short paragraph about ${attribute.name} as an area where they have grown in this review cycle.`;
+          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} have grown in this review cycle.`;
         case WorkAttributeType.IMPROVE:
-          return `Write a short paragraph about ${attribute.name} as an area where they need to improve.`;
+          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} need to improve.`;
         case WorkAttributeType.PROJECT:
-          return `Write a short paragraph about ${attribute.name} as a project they have worked on.`;
+          return `Write a short paragraph about ${attribute.name} as a project ${pronoun} have worked on.`;
         case WorkAttributeType.SKILL:
-          return `Write a short paragraph about ${attribute.name} as a skill they are good at.`;
+          return `Write a short paragraph about ${attribute.name} as a skill ${pronoun} are good at.`;
         case WorkAttributeType.STRENGTH:
-          return `Write a short paragraph about ${attribute.name} as a strength they have.`;
+          return `Write a short paragraph about ${attribute.name} as a strength ${pronoun} have.`;
         default:
           return "";
       }
