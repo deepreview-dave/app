@@ -219,17 +219,17 @@ export class PromptBuilder {
     return attributes.map((attribute: WorkAttribute) => {
       switch (attribute.type) {
         case WorkAttributeType.GOAL:
-          return `Write a short paragraph about ${attribute.name} as a goal ${pronoun} have set for the next review cycle.`;
+          return `Write a short paragraph about ${attribute.name} as a goal ${pronoun} have set for the next review cycle. Add the following details ${attribute.details}.`;
         case WorkAttributeType.GROWTH:
-          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} have grown in this review cycle.`;
+          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} have grown in this review cycle. Add the following details ${attribute.details}.`;
         case WorkAttributeType.IMPROVE:
-          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} need to improve.`;
+          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} need to improve. Add the following details ${attribute.details}.`;
         case WorkAttributeType.PROJECT:
-          return `Write a short paragraph about ${attribute.name} as a project ${pronoun} have worked on.`;
+          return `Write a short paragraph about ${attribute.name} as a project ${pronoun} have worked on. Add the following details ${attribute.details}.`;
         case WorkAttributeType.SKILL:
-          return `Write a short paragraph about ${attribute.name} as a skill ${pronoun} are good at.`;
+          return `Write a short paragraph about ${attribute.name} as a skill ${pronoun} are good at. Add the following details ${attribute.details}.`;
         case WorkAttributeType.STRENGTH:
-          return `Write a short paragraph about ${attribute.name} as a strength ${pronoun} have.`;
+          return `Write a short paragraph about ${attribute.name} as a strength ${pronoun} have. Add the following details ${attribute.details}.`;
         default:
           return "";
       }

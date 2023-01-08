@@ -1,43 +1,55 @@
-import { useState } from "react";
-import { generateUUID } from "../business/utils";
 import {
   AllAttributeDefinitions,
   getAttributeDescription,
 } from "../state/defaults";
 import { useAppState } from "../state/app.state";
 import { WorkAttribute } from "../business/common";
-import { useModalState } from "../state/modal.state";
+import { AttributeModalStatus, useModalState } from "../state/modal.state";
 
 const AttributeModal = () => {
+  const ATTRIBUTE_NAME_MAX_LIMIT = 50;
+  const DETAILS_MAX_LENGTH = 500;
+
+  const existinAttribute = useModalState((state) => state.existingAttribute);
   const selectedType = useModalState((state) => state.selectedType);
-  const isOpened = useModalState((state) => state.isOpened);
+  const status = useModalState((state) => state.status);
+  const isOpened = useModalState(
+    (state) => state.status !== AttributeModalStatus.CLOSED
+  );
   const addAttribute = useAppState((state) => state.addAttribute);
+  const updateAttribute = useAppState((state) => state.updateAttribute);
+  const setName = useModalState((state) => state.updateName);
+  const setDetails = useModalState((state) => state.updateDetails);
   const closeAttributeModal = useModalState(
     (state) => state.closeAttributeModal
   );
-
-  const [text, setText] = useState("");
 
   if (!selectedType) {
     return null;
   }
 
   const onClose = () => {
-    setText("");
     closeAttributeModal();
   };
 
   const onSave = () => {
-    const attribute: WorkAttribute = {
-      uuid: generateUUID(),
-      name: text,
-      type: selectedType,
-    };
-    addAttribute(attribute);
+    if (status === AttributeModalStatus.OPEN_FOR_ADDING) {
+      addAttribute(existinAttribute);
+    } else {
+      updateAttribute(existinAttribute);
+    }
     onClose();
   };
 
-  const isButtonDisabled = () => !text;
+  const isButtonDisabled = () => !existinAttribute.name;
+
+  const currentAttributeRemainingLength = (): number =>
+    ATTRIBUTE_NAME_MAX_LIMIT - existinAttribute.name.length;
+  const currentDetailsRemainingLength = (): number =>
+    DETAILS_MAX_LENGTH - existinAttribute.details.length;
+
+  const getCTAText = () =>
+    status === AttributeModalStatus.OPEN_FOR_ADDING ? "Add" : "Update";
 
   return (
     <div className={isOpened ? "modal is-active" : "modal"}>
@@ -58,16 +70,35 @@ const AttributeModal = () => {
             {getAttributeDescription(selectedType).description}
           </div>
           <div className="field">
+            <label className="label">{selectedType}</label>
             <div className="control">
               <input
                 type="text"
                 className="input"
                 required
-                value={text}
+                value={existinAttribute.name}
                 placeholder={getAttributeDescription(selectedType).placeholder}
-                maxLength={200}
-                onChange={(e) => setText(e.currentTarget.value)}
+                maxLength={ATTRIBUTE_NAME_MAX_LIMIT}
+                onChange={(e) => setName(e.currentTarget.value)}
               ></input>
+              <div className="mt-1 has-text-grey-light is-size-7">
+                Remaining characters: {currentAttributeRemainingLength()}
+              </div>
+            </div>
+          </div>
+          <div className="field mt-2">
+            <label className="label">More details (optional):</label>
+            <div className="control">
+              <textarea
+                className="textarea"
+                value={existinAttribute.details}
+                placeholder="Add specifics and other details (optional)"
+                maxLength={DETAILS_MAX_LENGTH}
+                onChange={(e) => setDetails(e.currentTarget.value)}
+              ></textarea>
+              <div className="mt-1 has-text-grey-light is-size-7">
+                Remaining characters: {currentDetailsRemainingLength()}
+              </div>
             </div>
           </div>
         </section>
@@ -77,7 +108,7 @@ const AttributeModal = () => {
             disabled={isButtonDisabled()}
             onClick={onSave}
           >
-            Add
+            {getCTAText()}
           </button>
           <button className="button" onClick={onClose}>
             Cancel
@@ -91,13 +122,29 @@ const AttributeModal = () => {
 export const MoreAttributes = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
 
-  const openAttributeModal = useModalState((state) => state.openAttributeModal);
+  const openAttributeModalForNew = useModalState(
+    (state) => state.openAttributeModalForNew
+  );
+  const openAttributeModalForEditing = useModalState(
+    (state) => state.openAttributeModalForEditing
+  );
   const attributes = useAppState((state) => state.inputs.attributes);
   const removeAttribute = useAppState((state) => state.removeAttribute);
 
   const showsEncouragementCopy = useAppState(
     (state) => state.inputs.attributes.length === 0
   );
+
+  const getAttributeDetails = (attr: WorkAttribute) => {
+    if (attr.details) {
+      return <>{attr.details}</>;
+    }
+    return (
+      <span className="has-text-grey-light">
+        Click 'Edit' to add specifics and other options.
+      </span>
+    );
+  };
 
   return (
     <div className="mt-4">
@@ -108,7 +155,7 @@ export const MoreAttributes = () => {
             disabled={!inputEnabled}
             key={value.type}
             className="button"
-            onClick={() => openAttributeModal(value.type)}
+            onClick={() => openAttributeModalForNew(value.type)}
           >
             {value.type}
           </button>
@@ -122,19 +169,39 @@ export const MoreAttributes = () => {
           </div>
         </article>
       )}
-      <div className="tags">
+      <div className="columns has-text-centered is-multiline">
         {attributes.map((attr) => (
-          <span
-            key={attr.uuid}
-            className={"tag " + getAttributeDescription(attr.type).colorClass}
-          >
-            {attr.type}: {attr.name}
-            <button
-              disabled={!inputEnabled}
-              className="delete is-small"
-              onClick={() => removeAttribute(attr)}
-            ></button>
-          </span>
+          <div className="column is-4">
+            <div className="card">
+              <header
+                className={
+                  "card-header " + getAttributeDescription(attr.type).colorClass
+                }
+              >
+                <p className="card-header-title">{attr.type}</p>
+              </header>
+              <div className="card-content">
+                <div className="content">
+                  <h4>{attr.name}</h4>
+                  <p>{getAttributeDetails(attr)}</p>
+                </div>
+              </div>
+              <footer className="card-footer">
+                <a
+                  className="card-footer-item"
+                  onClick={() => openAttributeModalForEditing(attr)}
+                >
+                  Edit
+                </a>
+                <a
+                  className="card-footer-item has-text-danger"
+                  onClick={() => removeAttribute(attr)}
+                >
+                  Delete
+                </a>
+              </footer>
+            </div>
+          </div>
         ))}
       </div>
       <AttributeModal />

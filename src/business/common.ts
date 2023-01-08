@@ -24,6 +24,7 @@ export interface WorkAttribute {
   uuid: string;
   type: WorkAttributeType;
   name: string;
+  details: string;
 }
 
 export enum Pronouns {
