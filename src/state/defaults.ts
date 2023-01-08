@@ -11,49 +11,50 @@ export type AttributeDefinition = {
 export const AllAttributeDefinitions: AttributeDefinition[] = [
   {
     type: WorkAttributeType.SKILL,
-    title: "Add a Skill",
+    title: "Skill",
     description:
-      "Add a specific skill with a tool or technique your colleague possesses.",
+      "Mention a specific skill with a tool or technique that your colleague possesses.",
     placeholder: "Excel, sales, accounting, etc",
-    colorClass: "is-success",
+    colorClass: "has-background-success",
   },
   {
     type: WorkAttributeType.STRENGTH,
-    title: "Add a Strength",
+    title: "Strength",
     description:
-      "Add a strength like communication, flexibility, negotiation, etc.",
+      "Mention a strength like communication, flexibility, negotiation, etc.",
     placeholder: "Communication, flexibility, negotiation, confidence, etc",
-    colorClass: "is-success",
+    colorClass: "has-background-success",
   },
   {
     type: WorkAttributeType.PROJECT,
-    title: "Add a Project",
+    title: "Project",
     description: "Mention a project your colleague has worked on or has led.",
     placeholder: "Sorted accounts, Moved to a new office, etc",
-    colorClass: "is-info",
+    colorClass: "has-background-info",
   },
   {
     type: WorkAttributeType.GROWTH,
-    title: "Add an area of recent Growth",
+    title: "Area of recent Growth",
     description:
-      "Add a skill or trait your colleague has improved on in this review cycle.",
+      "Mention a skill or trait your colleague has improved on in this review cycle.",
     placeholder: "Communication, Excel, etc",
-    colorClass: "is-success",
+    colorClass: "has-background-success",
   },
   {
     type: WorkAttributeType.IMPROVE,
-    title: "Add an area of future Improvement",
-    description: "Add an area where your colleague can improve in the future.",
+    title: "Area of future Improvement",
+    description:
+      "Mention an area where your colleague can improve in the future.",
     placeholder: "Assertivness, leadership, etc",
-    colorClass: "is-warning",
+    colorClass: "has-background-warning",
   },
   {
     type: WorkAttributeType.GOAL,
-    title: "Add a future Goal",
+    title: "Future Goal",
     description:
-      "Add a specific goal for your colleague to strive towards in the next review cycle",
+      "Mention a specific goal for your colleague to strive towards in the next review cycle.",
     placeholder: "Become a team lead, double the amount of sales, etc",
-    colorClass: "is-info",
+    colorClass: "has-background-info",
   },
 ];
 

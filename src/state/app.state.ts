@@ -49,6 +49,7 @@ interface AppState {
   updateReviewTone: (reviewTone: ReviewTone) => void;
   updateReviewLanguage: (reviewLanguage: ReviewLanguage) => void;
   addAttribute: (attribute: WorkAttribute) => void;
+  updateAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
   updateAnswer: (answer: string) => void;
   generateAnswer: (
@@ -184,6 +185,21 @@ export const useAppState = create<AppState>()(
       addAttribute: (attribute: WorkAttribute) =>
         set((state) => {
           const attributes = [...state.inputs.attributes, attribute];
+          const inputs = { ...state.inputs, attributes };
+          return {
+            ...state,
+            inputs,
+          };
+        }),
+      updateAttribute: (attribute: WorkAttribute) =>
+        set((state) => {
+          const attributes = state.inputs.attributes.map((a) => {
+            if (a.uuid === attribute.uuid) {
+              return attribute;
+            } else {
+              return a;
+            }
+          });
           const inputs = { ...state.inputs, attributes };
           return {
             ...state,
