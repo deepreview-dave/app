@@ -1,14 +1,19 @@
 import ReactDOM from "react-dom/client";
 import "./index.sass";
-import App from "./App";
+import PerformanceReviewPage from "./pages/PerformanceReviewPage";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Analytics } from "./business/analytics";
+import { HomePage } from "./pages/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <HomePage />,
+  },
+  {
+    path: "/performance-review",
+    element: <PerformanceReviewPage />,
   },
 ]);
 
