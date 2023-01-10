@@ -1,9 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
+import PerformanceReviewPage from "./PerformanceReviewPage";
 
 test("Does something", () => {
-  render(<App />);
+  render(<PerformanceReviewPage />);
   const linkElement = screen.getAllByText(/Deep Review/i)[0];
   expect(linkElement).toBeInTheDocument();
 });

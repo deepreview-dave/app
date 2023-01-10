@@ -18,12 +18,21 @@
 .modal-card-title {
   margin-bottom: 0 !important;
 }
+
 .message-header {
   margin-bottom: 0 !important;
 }
 
 .logo-icon {
   width: 40px;
+  height: 40px;
+  padding: 6px;
+  vertical-align: middle;
+}
+
+.logo-icon-small {
+  width: 32px;
+  height: 32px;
   padding: 6px;
   vertical-align: middle;
 }
@@ -41,4 +50,17 @@
 .simple-card {
   box-shadow: none;
   background: #fcfcfc !important;
+}
+
+.no-highlight {
+  color: inherit !important;
+}
+
+.cover-fit {
+  object-fit: cover;
+}
+
+a.underlined-style {
+  text-decoration: underline !important;
+  color: inherit !important;
 }
