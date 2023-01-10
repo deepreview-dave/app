@@ -59,3 +59,8 @@
 .cover-fit {
   object-fit: cover;
 }
+
+a.underlined-style {
+  text-decoration: underline !important;
+  color: inherit !important;
+}
