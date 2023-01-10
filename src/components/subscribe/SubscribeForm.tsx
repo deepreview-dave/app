@@ -1,10 +1,13 @@
 import { useState } from "react";
 import validator from "validator";
 import { useSubscribeState } from "../../state/subscribe.state";
+import { EmailSubscribeService } from "../../business/email-subscribe.service";
 
 export const SubscribeFrom = () => {
   const [emailInput, updateEmail] = useState("");
   const [emailValid, setEmailValid] = useState(true);
+  const [subscribeError, setSubscribeError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const subscribed = useSubscribeState((state) => state.hasSubscribed);
   const setSubscribed = useSubscribeState((state) => state.setHasSubscribed);
@@ -14,16 +17,27 @@ export const SubscribeFrom = () => {
 
   const isButtonDisabled = !emailInput;
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!validator.isEmail(emailInput)) {
       setEmailValid(false);
       return;
     }
 
     setEmailValid(true);
-    updateEmail("");
-    setSubscribed();
-    // send data
+    setIsSubmitting(true);
+    setSubscribeError(false);
+
+    const subscriber = new EmailSubscribeService();
+    const subscribeResult = await subscriber.subscribe(emailInput);
+
+    if (subscribeResult) {
+      setSubscribed();
+      updateEmail("");
+    } else {
+      setSubscribeError(true);
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -61,6 +75,7 @@ export const SubscribeFrom = () => {
               <div className="columns">
                 <div className="column">
                   <input
+                    disabled={isSubmitting}
                     value={emailInput}
                     onChange={(e) => updateEmail(e.currentTarget.value)}
                     className="input is-info"
@@ -72,7 +87,7 @@ export const SubscribeFrom = () => {
                   <button
                     onClick={() => onSubmit()}
                     disabled={isButtonDisabled}
-                    className="button"
+                    className={"button " + (isSubmitting ? "is-loading" : "")}
                   >
                     Subscribe
                   </button>
@@ -82,6 +97,11 @@ export const SubscribeFrom = () => {
             {!emailValid && (
               <div className="has-text-warning">
                 <b>Please enter a valid email.</b>
+              </div>
+            )}
+            {subscribeError && (
+              <div className="has-text-warning">
+                <b>An unexpected error occurred. Please try again.</b>
               </div>
             )}
           </div>
