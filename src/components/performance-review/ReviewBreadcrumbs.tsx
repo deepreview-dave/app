@@ -13,7 +13,7 @@ export const ReviewBreadcrumbs = () => {
         >
           <ul>
             <li>
-              <a href="/">DeppReview</a>
+              <a href="/">DeepReview</a>
             </li>
             <li>
               <a href="/">Tools</a>
