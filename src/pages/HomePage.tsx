@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { API_ROUTES } from "..";
 import { Footer } from "../components/common/Footer";
 import { NavbarBig } from "../components/common/NavbarBig";
 import { SubscribeFrom } from "../components/subscribe/SubscribeForm";
@@ -45,7 +46,7 @@ export const HomePage = () => {
                 </p>
                 <p>
                   <Link
-                    to={"/performance-review"}
+                    to={API_ROUTES.PERF_REVIEW_PERSONA}
                     className="button is-primary"
                   >
                     Try it out!

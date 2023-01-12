@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { API_ROUTES } from "../..";
 import { LogoSmall } from "./Logo";
 
 export const NavbarMin = () => {
@@ -33,7 +34,10 @@ export const NavbarMin = () => {
               <a className="navbar-link">Tools</a>
 
               <div className="navbar-dropdown">
-                <Link className="navbar-item" to={"/performance-review"}>
+                <Link
+                  className="navbar-item"
+                  to={API_ROUTES.PERF_REVIEW_PERSONA}
+                >
                   Performance Reviews
                 </Link>
                 <span className="navbar-item has-text-grey-light">

@@ -9,6 +9,10 @@ export const NameEditor = () => {
 
   const isNameInputDisabled = () => relationship === Relationship.MYSELF;
 
+  if (isNameInputDisabled()) {
+    return null;
+  }
+
   return (
     <div className="field">
       <label className="label">Name:</label>
@@ -17,7 +21,7 @@ export const NameEditor = () => {
           type="text"
           className="input"
           required
-          disabled={!inputEnabled || isNameInputDisabled()}
+          disabled={!inputEnabled}
           value={reviewedName}
           placeholder="Write a person's name here"
           onChange={(e) => updateName(e.currentTarget.value)}
