@@ -21,7 +21,7 @@ const PerformanceReviewPage = () => {
     <div className="main-body">
       <NavbarMin />
       <ReviewBreadcrumbs />
-      <div className="layout m-4">
+      <div className="layout m-4 mt-6">
         <div className="container narrow-container">
           <ReviewTitleControl />
           <div className="card simple-card">

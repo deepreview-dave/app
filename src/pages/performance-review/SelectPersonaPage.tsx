@@ -15,120 +15,46 @@ export const SelectPersonaPage = () => {
   const onButtonClick = (relationship: Relationship) => {
     clearInputs();
     updateRelationship(relationship);
-    navigate(API_ROUTES.PERF_REVIEW_RESULT);
-  };
-
-  const CardSelf = () => {
-    return (
-      <div className="card">
-        <div className="card-content">
-          <div className="content">
-            <h4>Myself</h4>
-            <p>Create a performace review for yourself.</p>
-            <p>
-              <button
-                className="button is-primary"
-                onClick={() => onButtonClick(Relationship.MYSELF)}
-              >
-                Select
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const CardColleague = () => {
-    return (
-      <div className="card">
-        <div className="card-content">
-          <div className="content">
-            <h4>A colleague</h4>
-            <p>Create a performace review for a colleague.</p>
-            <p>
-              <button
-                className="button is-primary"
-                onClick={() => onButtonClick(Relationship.COLLEAGUE)}
-              >
-                Select
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const CardManager = () => {
-    return (
-      <div className="card">
-        <div className="card-content">
-          <div className="content">
-            <h4>My manager</h4>
-            <p>Create a performace review for your manager.</p>
-            <p>
-              <button
-                className="button is-primary"
-                onClick={() => onButtonClick(Relationship.MANAGER)}
-              >
-                Select
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const CardReport = () => {
-    return (
-      <div className="card">
-        <div className="card-content">
-          <div className="content">
-            <h4>A direct report</h4>
-            <p>Create a performace review for a direct report.</p>
-            <p>
-              <button
-                className="button is-primary"
-                onClick={() => onButtonClick(Relationship.REPORT)}
-              >
-                Select
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    navigate(API_ROUTES.PERF_REVIEW_TYPE);
   };
 
   return (
     <div className="main-body">
       <NavbarMin />
       <PersonaBreadcrumbs />
-      <div className="layout m-4">
+      <div className="layout m-4 mt-6">
         <div className="container narrow-container">
           <div className="content">
-            <div className="columns">
-              <div className="column">
-                <h3>Select person</h3>
-              </div>
-            </div>
+            <h3>Who is this review for?</h3>
+            <p>Start by selecting who this performace review is for.</p>
           </div>
-          {/* <hr /> */}
-          <div className="columns is-multiline has-text-centered">
-            <div className="column is-6">
-              <CardSelf />
-            </div>
-            <div className="column is-6">
-              <CardColleague />
-            </div>
-            <div className="column is-6">
-              <CardManager />
-            </div>
-            <div className="column is-6">
-              <CardReport />
-            </div>
+          <div className="content">
+            <p>
+              <b>
+                <a onClick={() => onButtonClick(Relationship.MYSELF)}>Myself</a>
+              </b>
+            </p>
+            <p>
+              <b>
+                <a onClick={() => onButtonClick(Relationship.COLLEAGUE)}>
+                  A colleague
+                </a>
+              </b>
+            </p>
+            <p>
+              <b>
+                <a onClick={() => onButtonClick(Relationship.MANAGER)}>
+                  My manager
+                </a>
+              </b>
+            </p>
+            <p>
+              <b>
+                <a onClick={() => onButtonClick(Relationship.REPORT)}>
+                  A direct report
+                </a>
+              </b>
+            </p>
           </div>
         </div>
       </div>
