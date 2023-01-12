@@ -8,16 +8,13 @@ export const HomePage = () => {
   const PageInfo = () => {
     return (
       <div className="content has-text-centered">
-        <h1 className="title has-text-weight-bold">
-          Make difficult career conversations easier
-        </h1>
+        <h1 className="title has-text-weight-bold">AI powered inspiration</h1>
         <h3
           className="subtitle mt-2 has-text-weight-normal"
           style={{ lineHeight: "32px" }}
         >
-          DeepReview helps you find the right words to make difficult career
-          conversations easier using the{" "}
-          <span className="is-underlined">power of AI</span>.
+          DeepReview helps anyone write compelling resumes, cover letters,
+          performance reviews and more, in just minutes.
         </h3>
       </div>
     );
@@ -62,33 +59,6 @@ export const HomePage = () => {
               <figure className="image is-2by1">
                 <img
                   className="cover-fit"
-                  src="/images/comp-1.jpg"
-                  alt="Compensation & Promotions"
-                />
-              </figure>
-            </div>
-            <div className="card-content">
-              <div className="content">
-                <h4>Compensation & Promotions</h4>
-                <p>
-                  Discussions about compensation and promotion are some of the
-                  hardest. Let DeepReview help with that.
-                </p>
-                <p>
-                  <button disabled className="button is-primary">
-                    Coming soon
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="column is-6">
-          <div className="card">
-            <div className="card-image">
-              <figure className="image is-2by1">
-                <img
-                  className="cover-fit"
                   src="/images/cv-1.jpg"
                   alt="Resumes & Cover Letters"
                 />
@@ -110,6 +80,34 @@ export const HomePage = () => {
             </div>
           </div>
         </div>
+        <div className="column is-6">
+          <div className="card">
+            <div className="card-image">
+              <figure className="image is-2by1">
+                <img
+                  className="cover-fit"
+                  src="/images/comp-1.jpg"
+                  alt="Compensation & Promotions"
+                />
+              </figure>
+            </div>
+            <div className="card-content">
+              <div className="content">
+                <h4>Compensation & Promotions</h4>
+                <p>
+                  Discussions about compensation and promotion are some of the
+                  hardest. Let DeepReview help with that.
+                </p>
+                <p>
+                  <button disabled className="button is-primary">
+                    Coming soon
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="column is-6">
           <div className="card">
             <div className="card-image">
