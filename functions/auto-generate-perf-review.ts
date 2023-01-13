@@ -11,6 +11,7 @@ import {
   Pronouns,
   Relationship,
   PerformanceReviewType,
+  ReviewDetails,
 } from "../src/business/common";
 
 interface Env {
@@ -23,7 +24,7 @@ interface RequestParams {
   performanceScore: PerformanceScore;
   pronoun: Pronouns;
   relationship: Relationship;
-  attributes: string;
+  details: string;
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;
@@ -60,7 +61,7 @@ const REQUEST_PARAMS_SCHEMA = {
         Relationship.REPORT,
       ],
     },
-    attributes: { type: "string", minLength: 1, maxLength: 10_000 },
+    details: { type: "string", minLength: 1, maxLength: 10_000 },
     role: { type: "string", minLength: 1, maxLength: 100 },
     department: { type: "string", minLength: 1, maxLength: 100 },
     timePeriod: {
@@ -129,18 +130,21 @@ export async function onRequest(
   }
 
   const smarts = new AutoPerfReviewGenerator(context.env.OPENAI_KEY);
-  let attributes: WorkAttribute[] = [];
+  let details: ReviewDetails = {
+    freeform: "",
+    attributes: [],
+  };
   try {
-    attributes = JSON.parse(params.attributes) as WorkAttribute[];
+    details = JSON.parse(params.details) as ReviewDetails;
   } catch {
-    return new Response(`Invalid input: could not parse Attributes JSON`, {
+    return new Response(`Invalid input: could not parse Review Details JSON`, {
       status: 400,
     });
   }
-  const details = { ...params, attributes } as PersonDetails;
+  const data = { ...params, details } as PersonDetails;
 
   try {
-    const response = await smarts.getSomeData(details);
+    const response = await smarts.getSomeData(data);
     return Response.json({ perfReview: response.perfReview });
   } catch (e) {
     return new Response(`Server error: ${e}`, { status: 500 });

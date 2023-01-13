@@ -8,6 +8,8 @@ import {
   WorkAttributeType,
   Relationship,
   WorkAttribute,
+  PerformanceReviewType,
+  ReviewDetails,
 } from "./common";
 
 export class PromptBuilder {
@@ -38,9 +40,10 @@ export class PromptBuilder {
     const language = this.createPromptForLanguage(
       details.reviewLanguage || ReviewLanguage.ENGLISH
     );
-    const attributes = this.createPromptForAttributes(
+    const moreDetails = this.createPromptForDetails(
+      details.type,
       details.relationship,
-      details.attributes
+      details.details
     );
 
     return [
@@ -52,7 +55,7 @@ export class PromptBuilder {
       ...pronoun,
       ...tone,
       ...language,
-      ...attributes,
+      ...moreDetails,
     ].join(" ");
   }
 
@@ -206,33 +209,42 @@ export class PromptBuilder {
     }
   }
 
-  private createPromptForAttributes(
+  private createPromptForDetails(
+    type: PerformanceReviewType,
     relationship: Relationship,
-    attributes: WorkAttribute[]
+    details: ReviewDetails
   ): string[] {
-    let pronoun = "";
-    if (relationship === Relationship.MYSELF) {
-      pronoun = "I";
-    } else {
-      pronoun = "they";
-    }
-    return attributes.map((attribute: WorkAttribute) => {
-      switch (attribute.type) {
-        case WorkAttributeType.GOAL:
-          return `Write a short paragraph about ${attribute.name} as a goal ${pronoun} have set for the next review cycle. Add the following details ${attribute.details}.`;
-        case WorkAttributeType.GROWTH:
-          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} have grown in this review cycle. Add the following details ${attribute.details}.`;
-        case WorkAttributeType.IMPROVE:
-          return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} need to improve. Add the following details ${attribute.details}.`;
-        case WorkAttributeType.PROJECT:
-          return `Write a short paragraph about ${attribute.name} as a project ${pronoun} have worked on. Add the following details ${attribute.details}.`;
-        case WorkAttributeType.SKILL:
-          return `Write a short paragraph about ${attribute.name} as a skill ${pronoun} are good at. Add the following details ${attribute.details}.`;
-        case WorkAttributeType.STRENGTH:
-          return `Write a short paragraph about ${attribute.name} as a strength ${pronoun} have. Add the following details ${attribute.details}.`;
-        default:
-          return "";
+    if (type === PerformanceReviewType.ATTRIBUTE) {
+      let pronoun = "";
+      if (relationship === Relationship.MYSELF) {
+        pronoun = "I";
+      } else {
+        pronoun = "they";
       }
-    });
+      return details.attributes.map((attribute: WorkAttribute) => {
+        switch (attribute.type) {
+          case WorkAttributeType.GOAL:
+            return `Write a short paragraph about ${attribute.name} as a goal ${pronoun} have set for the next review cycle. Add the following details ${attribute.details}.`;
+          case WorkAttributeType.GROWTH:
+            return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} have grown in this review cycle. Add the following details ${attribute.details}.`;
+          case WorkAttributeType.IMPROVE:
+            return `Write a short paragraph about ${attribute.name} as an area where ${pronoun} need to improve. Add the following details ${attribute.details}.`;
+          case WorkAttributeType.PROJECT:
+            return `Write a short paragraph about ${attribute.name} as a project ${pronoun} have worked on. Add the following details ${attribute.details}.`;
+          case WorkAttributeType.SKILL:
+            return `Write a short paragraph about ${attribute.name} as a skill ${pronoun} are good at. Add the following details ${attribute.details}.`;
+          case WorkAttributeType.STRENGTH:
+            return `Write a short paragraph about ${attribute.name} as a strength ${pronoun} have. Add the following details ${attribute.details}.`;
+          default:
+            return "";
+        }
+      });
+    } else if (type === PerformanceReviewType.FREEFORM) {
+      return [
+        `Please make sure to include the following details: ${details.freeform}.`,
+      ];
+    } else {
+      return [];
+    }
   }
 }

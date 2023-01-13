@@ -25,7 +25,6 @@ export enum WorkAttributeType {
   GROWTH = "Growth",
   IMPROVE = "To improve",
   GOAL = "Goal",
-  FREEFORM = "Freeform",
 }
 
 export interface WorkAttribute {
@@ -63,13 +62,18 @@ export enum Relationship {
   REPORT = "report",
 }
 
+export interface ReviewDetails {
+  freeform: string;
+  attributes: WorkAttribute[];
+}
+
 export interface PersonDetails {
   type: PerformanceReviewType;
   name: string;
   performanceScore: PerformanceScore;
   pronoun: Pronouns;
   relationship: Relationship;
-  attributes: WorkAttribute[];
+  details: ReviewDetails;
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;

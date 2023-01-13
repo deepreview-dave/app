@@ -128,11 +128,11 @@ export const MoreAttributes = () => {
   const openAttributeModalForEditing = useModalState(
     (state) => state.openAttributeModalForEditing
   );
-  const attributes = useAppState((state) => state.inputs.attributes);
+  const attributes = useAppState((state) => state.inputs.details.attributes);
   const removeAttribute = useAppState((state) => state.removeAttribute);
 
   const showsEncouragementCopy = useAppState(
-    (state) => state.inputs.attributes.length === 0
+    (state) => state.inputs.details.attributes.length === 0
   );
 
   const getAttributeDetails = (attr: WorkAttribute) => {

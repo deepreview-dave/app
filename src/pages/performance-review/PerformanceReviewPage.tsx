@@ -15,9 +15,13 @@ import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { ReviewBreadcrumbs } from "../../components/performance-review/ReviewBreadcrumbs";
 import { ReviewTitleControl } from "../../components/performance-review/ReviewTitleControl";
-import { FreeformAttributeEditor } from "../../components/performance-review/FreeformAttributeEditor";
+import { FreeformEditor } from "../../components/performance-review/FreeformEditor";
+import { useAppState } from "../../state/app.state";
+import { PerformanceReviewType } from "../../business/common";
 
 const PerformanceReviewPage = () => {
+  const type = useAppState((state) => state.inputs.type);
+
   return (
     <div className="main-body">
       <NavbarMin />
@@ -36,8 +40,8 @@ const PerformanceReviewPage = () => {
                 <TimePeriodEditor />
                 <ReviewToneEditor />
                 <ReviewLanguageEditor />
-                <MoreAttributes />
-                <FreeformAttributeEditor />
+                {type === PerformanceReviewType.ATTRIBUTE && <MoreAttributes />}
+                {type === PerformanceReviewType.FREEFORM && <FreeformEditor />}
                 <hr />
                 <SubmitControl />
               </div>

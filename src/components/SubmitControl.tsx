@@ -8,7 +8,7 @@ export const SubmitControl = () => {
   const reviewedPerformanceScore = useAppState((state) => state.inputs.score);
   const pronoun = useAppState((state) => state.inputs.pronoun);
   const relationship = useAppState((state) => state.inputs.relationship);
-  const attributes = useAppState((state) => state.inputs.attributes);
+  const details = useAppState((state) => state.inputs.details);
   const role = useAppState((state) => state.inputs.role);
   const department = useAppState((state) => state.inputs.department);
   const timePeriod = useAppState((state) => state.inputs.timePeriod);
@@ -26,7 +26,7 @@ export const SubmitControl = () => {
       reviewedPerformanceScore,
       pronoun,
       relationship,
-      attributes,
+      details,
       reviewTone,
       reviewLanguage,
       role,

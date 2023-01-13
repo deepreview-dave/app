@@ -20,13 +20,18 @@ export enum AppStatus {
 
 export type Result = string;
 
+interface ReviewDetails {
+  freeform: string;
+  attributes: WorkAttribute[];
+}
+
 interface ReviewInputs {
   type: PerformanceReviewType;
   name: string;
   score: PerformanceScore;
   pronoun: Pronouns;
   relationship: Relationship;
-  attributes: WorkAttribute[];
+  details: ReviewDetails;
   role?: string;
   department?: string;
   timePeriod?: TimePeriod;
@@ -54,6 +59,7 @@ interface AppState {
   addAttribute: (attribute: WorkAttribute) => void;
   updateAttribute: (attribute: WorkAttribute) => void;
   removeAttribute: (attribute: WorkAttribute) => void;
+  updateFreeform: (freeform: string) => void;
   updateAnswer: (answer: string) => void;
   generateAnswer: (
     type: PerformanceReviewType,
@@ -61,7 +67,7 @@ interface AppState {
     performanceScore: PerformanceScore,
     pronoun: Pronouns,
     relationship: Relationship,
-    attributes: WorkAttribute[],
+    details: ReviewDetails,
     reviewTone: ReviewTone,
     reviewLanguage: ReviewLanguage,
     role?: string,
@@ -84,7 +90,10 @@ export const useAppState = create<AppState>()(
         score: PerformanceScore.MEETS_EXPECTATIONS,
         pronoun: Pronouns.NEUTRAL,
         relationship: Relationship.COLLEAGUE,
-        attributes: [],
+        details: {
+          freeform: "",
+          attributes: [],
+        },
         role: undefined,
         department: undefined,
         timePeriod: undefined,
@@ -106,7 +115,10 @@ export const useAppState = create<AppState>()(
             score: PerformanceScore.MEETS_EXPECTATIONS,
             pronoun: Pronouns.NEUTRAL,
             relationship: Relationship.COLLEAGUE,
-            attributes: [],
+            details: {
+              freeform: "",
+              attributes: [],
+            },
             role: undefined,
             department: undefined,
             timePeriod: undefined,
@@ -198,8 +210,9 @@ export const useAppState = create<AppState>()(
         })),
       addAttribute: (attribute: WorkAttribute) =>
         set((state) => {
-          const attributes = [...state.inputs.attributes, attribute];
-          const inputs = { ...state.inputs, attributes };
+          const attributes = [...state.inputs.details.attributes, attribute];
+          const details = { ...state.inputs.details, attributes };
+          const inputs = { ...state.inputs, details };
           return {
             ...state,
             inputs,
@@ -207,14 +220,15 @@ export const useAppState = create<AppState>()(
         }),
       updateAttribute: (attribute: WorkAttribute) =>
         set((state) => {
-          const attributes = state.inputs.attributes.map((a) => {
+          const attributes = state.inputs.details.attributes.map((a) => {
             if (a.uuid === attribute.uuid) {
               return attribute;
             } else {
               return a;
             }
           });
-          const inputs = { ...state.inputs, attributes };
+          const details = { ...state.inputs.details, attributes };
+          const inputs = { ...state.inputs, details };
           return {
             ...state,
             inputs,
@@ -222,15 +236,27 @@ export const useAppState = create<AppState>()(
         }),
       removeAttribute: (attribute: WorkAttribute) =>
         set((state) => {
-          const attributes = state.inputs.attributes.filter(
+          const attributes = state.inputs.details.attributes.filter(
             (attr) => attr.uuid !== attribute.uuid
           );
-          const inputs = { ...state.inputs, attributes };
+          const details = { ...state.inputs.details, attributes };
+          const inputs = { ...state.inputs, details };
           return {
             ...state,
             inputs,
           };
         }),
+      updateFreeform: (freeform: string) =>
+        set((state) => ({
+          ...state,
+          inputs: {
+            ...state.inputs,
+            details: {
+              ...state.inputs.details,
+              freeform,
+            },
+          },
+        })),
       updateAnswer: (answer: string) =>
         set((state) => ({
           ...state,
@@ -242,7 +268,7 @@ export const useAppState = create<AppState>()(
         performanceScore: PerformanceScore,
         pronoun: Pronouns,
         relationship: Relationship,
-        attributes: WorkAttribute[],
+        details: ReviewDetails,
         reviewTone: ReviewTone,
         reviewLanguage: ReviewLanguage,
         role?: string,
@@ -266,10 +292,7 @@ export const useAppState = create<AppState>()(
         );
         autoGeneratePerfReviewParams.append("pronoun", pronoun);
         autoGeneratePerfReviewParams.append("relationship", relationship);
-        autoGeneratePerfReviewParams.append(
-          "attributes",
-          JSON.stringify(attributes)
-        );
+        autoGeneratePerfReviewParams.append("details", JSON.stringify(details));
         if (role !== undefined) {
           autoGeneratePerfReviewParams.append("role", role);
         }
@@ -313,7 +336,7 @@ export const useAppState = create<AppState>()(
           hasSetDepartment: !!department,
           hasSetPeriod: !!timePeriod,
           hasSetRole: !!role,
-          hasSetNumberOfAttributes: attributes.length,
+          hasSetNumberOfAttributes: details.attributes.length,
         });
 
         const finalAnswer = answer.join("\n\n");
