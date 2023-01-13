@@ -29,7 +29,7 @@ export const SelectTypePage = () => {
             </p>
           </div>
           <div className="content">
-            <p>
+            <p className="light-border">
               <b>
                 <a
                   onClick={() => onButtonClick(PerformanceReviewType.ATTRIBUTE)}
@@ -42,7 +42,7 @@ export const SelectTypePage = () => {
                 Craft a performance review starting from pre made attributes.
               </small>
             </p>
-            <p>
+            <p className="has-text-grey-light light-border">
               <b>
                 <a
                   onClick={() => onButtonClick(PerformanceReviewType.FREEFORM)}
@@ -53,7 +53,7 @@ export const SelectTypePage = () => {
               <br />
               <small>Start your review from a single short summary.</small>
             </p>
-            <p className="has-text-grey-light">
+            <p className="has-text-grey-light light-border">
               <b>
                 <span>Start / Stop / Continue (Coming soon)</span>
               </b>
@@ -63,7 +63,7 @@ export const SelectTypePage = () => {
                 continue doing and should stop doing.
               </small>
             </p>
-            <p className="has-text-grey-light">
+            <p className="has-text-grey-light light-border">
               <b>
                 <span>Strengths / Areas of improvement (Coming soon)</span>
               </b>

@@ -29,31 +29,48 @@ export const SelectPersonaPage = () => {
             <p>Start by selecting who this performace review is for.</p>
           </div>
           <div className="content">
-            <p>
+            <p className="light-border">
               <b>
                 <a onClick={() => onButtonClick(Relationship.MYSELF)}>Myself</a>
               </b>
+              <br />
+              <small>
+                Build the performance review for your self-assessment
+              </small>
             </p>
-            <p>
+            <p className="light-border">
               <b>
                 <a onClick={() => onButtonClick(Relationship.COLLEAGUE)}>
                   A colleague
                 </a>
               </b>
+              <br />
+              <small>
+                Build the performance review for a peer as part of 360 feedback
+              </small>
             </p>
-            <p>
+            <p className="light-border">
               <b>
                 <a onClick={() => onButtonClick(Relationship.MANAGER)}>
                   My manager
                 </a>
               </b>
+              <br />
+              <small>
+                Build the performance review for your manager as part of upward
+                assessment
+              </small>
             </p>
-            <p>
+            <p className="light-border">
               <b>
                 <a onClick={() => onButtonClick(Relationship.REPORT)}>
                   A direct report
                 </a>
               </b>
+              <br />
+              <small>
+                Build the performance review for a person you are managing
+              </small>
             </p>
           </div>
         </div>
