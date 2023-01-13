@@ -1,40 +1,73 @@
-import { useAppState } from "../../state/app.state";
+import { API_ROUTES } from "../..";
+
+export const PersonaBreadcrumbs = () => {
+  return (
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.PERF_REVIEW_PERSONA}>Performance Review</a>
+        </li>
+        <li className="is-active">
+          <a>Persona</a>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export const TypeBreadcrumbs = () => {
+  return (
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.PERF_REVIEW_PERSONA}>Performance Review</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.PERF_REVIEW_PERSONA}>Persona</a>
+        </li>
+        <li className="is-active">
+          <a>Type</a>
+        </li>
+      </ul>
+    </nav>
+  );
+};
 
 export const ReviewBreadcrumbs = () => {
-  const inputEnabled = useAppState((state) => state.inputEnabled);
-  const clearInputs = useAppState((state) => state.clearInputs);
-
   return (
-    <div className="columns ml-2 mr-2 mt-1 is-vcentered">
-      <div className="column">
-        <nav
-          className="breadcrumb has-succeeds-separator"
-          aria-label="breadcrumbs"
-        >
-          <ul>
-            <li>
-              <a href="/">DeepReview</a>
-            </li>
-            <li>
-              <a href="/">Tools</a>
-            </li>
-            <li className="is-active">
-              <a href="#" aria-current="page">
-                Performace Reviews
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div className="column is-narrow">
-        <button
-          disabled={!inputEnabled}
-          className="button is-info"
-          onClick={clearInputs}
-        >
-          New
-        </button>
-      </div>
-    </div>
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.PERF_REVIEW_PERSONA}>Performance Review</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.PERF_REVIEW_PERSONA}>Persona</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.PERF_REVIEW_TYPE}>Type</a>
+        </li>
+        <li className="is-active">
+          <a>Result</a>
+        </li>
+      </ul>
+    </nav>
   );
 };

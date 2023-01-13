@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import "./index.sass";
-import PerformanceReviewPage from "./pages/PerformanceReviewPage";
+import PerformanceReviewPage from "./pages/performance-review/PerformanceReviewPage";
 import reportWebVitals from "./reportWebVitals";
 import {
   createBrowserRouter,
@@ -9,14 +9,41 @@ import {
 } from "react-router-dom";
 import { Analytics } from "./business/analytics";
 import { HomePage } from "./pages/HomePage";
+import { SelectPersonaPage } from "./pages/performance-review/SelectPersonaPage";
+import { SelectTypePage } from "./pages/performance-review/SelectTypePage";
+
+export enum API_ROUTES {
+  HOME = "/",
+  PERF_REVIEW_PERSONA = "/performance-review/persona",
+  PERF_REVIEW_TYPE = "/performance-review/type",
+  PERF_REVIEW_RESULT = "/performance-review/result",
+}
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: API_ROUTES.HOME,
     element: <HomePage />,
   },
   {
-    path: "/performance-review",
+    path: API_ROUTES.PERF_REVIEW_PERSONA,
+    element: (
+      <>
+        <SelectPersonaPage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.PERF_REVIEW_TYPE,
+    element: (
+      <>
+        <SelectTypePage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.PERF_REVIEW_RESULT,
     element: (
       <>
         <PerformanceReviewPage />

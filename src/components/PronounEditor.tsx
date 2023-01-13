@@ -15,6 +15,10 @@ export const PronounEditor = () => {
 
   const isNameInputDisabled = () => relationship === Relationship.MYSELF;
 
+  if (isNameInputDisabled()) {
+    return null;
+  }
+
   return (
     <div className="field mt-4">
       <label className="label">Pronoun:</label>
@@ -22,7 +26,7 @@ export const PronounEditor = () => {
         <select
           required
           value={pronoun}
-          disabled={!inputEnabled || isNameInputDisabled()}
+          disabled={!inputEnabled}
           onChange={onChange}
         >
           <option value={Pronouns.NEUTRAL}>They</option>
