@@ -25,7 +25,7 @@ export const SelectTypePage = () => {
             </p>
           </div>
           <div className="content">
-            <p>
+            <p className="light-border">
               <b>
                 <a onClick={() => onButtonClick()}>Attribute based</a>
               </b>
@@ -34,14 +34,14 @@ export const SelectTypePage = () => {
                 Craft a performance review starting from pre made attributes.
               </small>
             </p>
-            <p className="has-text-grey-light">
+            <p className="has-text-grey-light light-border">
               <b>
                 <span>Freeform summary (Coming soon)</span>
               </b>
               <br />
               <small>Start your review from a single short summary.</small>
             </p>
-            <p className="has-text-grey-light">
+            <p className="has-text-grey-light light-border">
               <b>
                 <span>Start / Stop / Continue (Coming soon)</span>
               </b>
@@ -51,7 +51,7 @@ export const SelectTypePage = () => {
                 continue doing and should stop doing.
               </small>
             </p>
-            <p className="has-text-grey-light">
+            <p className="has-text-grey-light light-border">
               <b>
                 <span>Strengths / Areas of improvements (Coming soon)</span>
               </b>
