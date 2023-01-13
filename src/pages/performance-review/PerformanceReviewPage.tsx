@@ -15,6 +15,7 @@ import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { ReviewBreadcrumbs } from "../../components/performance-review/ReviewBreadcrumbs";
 import { ReviewTitleControl } from "../../components/performance-review/ReviewTitleControl";
+import { FreeformAttributeEditor } from "../../components/performance-review/FreeformAttributeEditor";
 
 const PerformanceReviewPage = () => {
   return (
@@ -36,6 +37,7 @@ const PerformanceReviewPage = () => {
                 <ReviewToneEditor />
                 <ReviewLanguageEditor />
                 <MoreAttributes />
+                <FreeformAttributeEditor />
                 <hr />
                 <SubmitControl />
               </div>

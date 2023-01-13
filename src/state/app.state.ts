@@ -10,6 +10,7 @@ import {
   TimePeriod,
   WorkAttribute,
   Relationship,
+  PerformanceReviewType,
 } from "../business/common";
 
 export enum AppStatus {
@@ -20,6 +21,7 @@ export enum AppStatus {
 export type Result = string;
 
 interface ReviewInputs {
+  type: PerformanceReviewType;
   name: string;
   score: PerformanceScore;
   pronoun: Pronouns;
@@ -39,6 +41,7 @@ interface AppState {
   answer: Result;
   hasSomeAnswer: boolean;
   clearInputs: () => void;
+  setType: (type: PerformanceReviewType) => void;
   updateName: (name: string) => void;
   updatePronoun: (pronoun: Pronouns) => void;
   updateRelationship: (relationship: Relationship) => void;
@@ -53,6 +56,7 @@ interface AppState {
   removeAttribute: (attribute: WorkAttribute) => void;
   updateAnswer: (answer: string) => void;
   generateAnswer: (
+    type: PerformanceReviewType,
     name: string,
     performanceScore: PerformanceScore,
     pronoun: Pronouns,
@@ -75,6 +79,7 @@ export const useAppState = create<AppState>()(
       status: AppStatus.STABLE,
       inputEnabled: true,
       inputs: {
+        type: PerformanceReviewType.ATTRIBUTE,
         name: "",
         score: PerformanceScore.MEETS_EXPECTATIONS,
         pronoun: Pronouns.NEUTRAL,
@@ -96,6 +101,7 @@ export const useAppState = create<AppState>()(
         set((state) => ({
           ...state,
           inputs: {
+            type: PerformanceReviewType.ATTRIBUTE,
             name: "",
             score: PerformanceScore.MEETS_EXPECTATIONS,
             pronoun: Pronouns.NEUTRAL,
@@ -109,6 +115,14 @@ export const useAppState = create<AppState>()(
           },
           answer: DEFAULT_ANSWER,
           hasSomeAnswer: false,
+        })),
+      setType: (type: PerformanceReviewType) =>
+        set((state) => ({
+          ...state,
+          inputs: {
+            ...state.inputs,
+            type,
+          },
         })),
       updateName: (name: string) =>
         set((state) => ({
@@ -223,6 +237,7 @@ export const useAppState = create<AppState>()(
           answer,
         })),
       generateAnswer: async (
+        type: PerformanceReviewType,
         name: string,
         performanceScore: PerformanceScore,
         pronoun: Pronouns,
@@ -241,6 +256,7 @@ export const useAppState = create<AppState>()(
         }));
 
         const autoGeneratePerfReviewParams = new URLSearchParams();
+        autoGeneratePerfReviewParams.append("type", type);
         const finalName =
           relationship === Relationship.MYSELF ? "Myself" : name;
         autoGeneratePerfReviewParams.append("name", finalName);

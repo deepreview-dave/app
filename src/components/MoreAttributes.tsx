@@ -10,7 +10,7 @@ const AttributeModal = () => {
   const ATTRIBUTE_NAME_MAX_LIMIT = 50;
   const DETAILS_MAX_LENGTH = 500;
 
-  const existinAttribute = useModalState((state) => state.existingAttribute);
+  const existingAttribute = useModalState((state) => state.existingAttribute);
   const selectedType = useModalState((state) => state.selectedType);
   const status = useModalState((state) => state.status);
   const isOpened = useModalState(
@@ -34,19 +34,19 @@ const AttributeModal = () => {
 
   const onSave = () => {
     if (status === AttributeModalStatus.OPEN_FOR_ADDING) {
-      addAttribute(existinAttribute);
+      addAttribute(existingAttribute);
     } else {
-      updateAttribute(existinAttribute);
+      updateAttribute(existingAttribute);
     }
     onClose();
   };
 
-  const isButtonDisabled = () => !existinAttribute.name;
+  const isButtonDisabled = () => !existingAttribute.name;
 
   const currentAttributeRemainingLength = (): number =>
-    ATTRIBUTE_NAME_MAX_LIMIT - existinAttribute.name.length;
+    ATTRIBUTE_NAME_MAX_LIMIT - existingAttribute.name.length;
   const currentDetailsRemainingLength = (): number =>
-    DETAILS_MAX_LENGTH - existinAttribute.details.length;
+    DETAILS_MAX_LENGTH - existingAttribute.details.length;
 
   const getCTAText = () =>
     status === AttributeModalStatus.OPEN_FOR_ADDING ? "Add" : "Update";
@@ -76,7 +76,7 @@ const AttributeModal = () => {
                 type="text"
                 className="input"
                 required
-                value={existinAttribute.name}
+                value={existingAttribute.name}
                 placeholder={getAttributeDescription(selectedType).placeholder}
                 maxLength={ATTRIBUTE_NAME_MAX_LIMIT}
                 onChange={(e) => setName(e.currentTarget.value)}
@@ -91,7 +91,7 @@ const AttributeModal = () => {
             <div className="control">
               <textarea
                 className="textarea"
-                value={existinAttribute.details}
+                value={existingAttribute.details}
                 placeholder="Add specifics and other details (optional)"
                 maxLength={DETAILS_MAX_LENGTH}
                 onChange={(e) => setDetails(e.currentTarget.value)}

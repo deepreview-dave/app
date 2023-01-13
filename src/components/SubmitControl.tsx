@@ -3,6 +3,7 @@ import { AppStatus, useAppState } from "../state/app.state";
 
 export const SubmitControl = () => {
   const inputEnabled = useAppState((state) => state.inputEnabled);
+  const type = useAppState((state) => state.inputs.type);
   const reviewedName = useAppState((state) => state.inputs.name);
   const reviewedPerformanceScore = useAppState((state) => state.inputs.score);
   const pronoun = useAppState((state) => state.inputs.pronoun);
@@ -20,6 +21,7 @@ export const SubmitControl = () => {
 
   const onSubmit = async () =>
     await generateAnswer(
+      type,
       reviewedName,
       reviewedPerformanceScore,
       pronoun,

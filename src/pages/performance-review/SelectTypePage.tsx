@@ -1,14 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../..";
+import { PerformanceReviewType } from "../../business/common";
 import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { TypeBreadcrumbs } from "../../components/performance-review/ReviewBreadcrumbs";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
+import { useAppState } from "../../state/app.state";
 
 export const SelectTypePage = () => {
   const navigate = useNavigate();
+  const setType = useAppState((state) => state.setType);
 
-  const onButtonClick = () => {
+  const onButtonClick = (type: PerformanceReviewType) => {
+    setType(type);
     navigate(API_ROUTES.PERF_REVIEW_RESULT);
   };
 
@@ -27,16 +31,24 @@ export const SelectTypePage = () => {
           <div className="content">
             <p>
               <b>
-                <a onClick={() => onButtonClick()}>Attribute based</a>
+                <a
+                  onClick={() => onButtonClick(PerformanceReviewType.ATTRIBUTE)}
+                >
+                  Attribute based
+                </a>
               </b>
               <br />
               <small>
                 Craft a performance review starting from pre made attributes.
               </small>
             </p>
-            <p className="has-text-grey-light">
+            <p>
               <b>
-                <span>Freeform summary (Coming soon)</span>
+                <a
+                  onClick={() => onButtonClick(PerformanceReviewType.FREEFORM)}
+                >
+                  Freeform summary
+                </a>
               </b>
               <br />
               <small>Start your review from a single short summary.</small>
@@ -53,7 +65,7 @@ export const SelectTypePage = () => {
             </p>
             <p className="has-text-grey-light">
               <b>
-                <span>Strengths / Areas of improvements (Coming soon)</span>
+                <span>Strengths / Areas of improvement (Coming soon)</span>
               </b>
               <br />
               <small>Describe strengs as well as areas of improvement.</small>

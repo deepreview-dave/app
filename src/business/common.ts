@@ -1,3 +1,10 @@
+export enum PerformanceReviewType {
+  ATTRIBUTE = "attribute-based",
+  FREEFORM = "freeform",
+  START_STOP_CONTINUE = "start-stop-continue",
+  STRENGTH_IMPROVEMENT = "strength-improvement",
+}
+
 export enum PerformanceScore {
   BELOW_EXPECTATIONS = "below-expectations",
   MEETS_EXPECTATIONS = "meets-expectations",
@@ -18,6 +25,7 @@ export enum WorkAttributeType {
   GROWTH = "Growth",
   IMPROVE = "To improve",
   GOAL = "Goal",
+  FREEFORM = "Freeform",
 }
 
 export interface WorkAttribute {
@@ -56,6 +64,7 @@ export enum Relationship {
 }
 
 export interface PersonDetails {
+  type: PerformanceReviewType;
   name: string;
   performanceScore: PerformanceScore;
   pronoun: Pronouns;

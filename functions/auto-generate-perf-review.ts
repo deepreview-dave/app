@@ -10,6 +10,7 @@ import {
   WorkAttribute,
   Pronouns,
   Relationship,
+  PerformanceReviewType,
 } from "../src/business/common";
 
 interface Env {
@@ -17,6 +18,7 @@ interface Env {
 }
 
 interface RequestParams {
+  type: PerformanceReviewType;
   name: string;
   performanceScore: PerformanceScore;
   pronoun: Pronouns;
@@ -31,6 +33,14 @@ interface RequestParams {
 const REQUEST_PARAMS_SCHEMA = {
   type: "object",
   properties: {
+    type: {
+      enum: [
+        PerformanceReviewType.ATTRIBUTE,
+        PerformanceReviewType.FREEFORM,
+        PerformanceReviewType.START_STOP_CONTINUE,
+        PerformanceReviewType.STRENGTH_IMPROVEMENT,
+      ],
+    },
     name: { type: "string", minLength: 1, maxLength: 100 },
     performanceScore: {
       enum: [
@@ -75,7 +85,7 @@ const REQUEST_PARAMS_SCHEMA = {
       ],
     },
   },
-  required: ["name", "performanceScore"],
+  required: ["name", "performanceScore", "type"],
   additionalProperties: false,
 };
 
@@ -102,7 +112,9 @@ export async function onRequest(
 
   const params: RequestParams = paramsRaw as RequestParams;
 
-  if (params.name.trim() === "") {
+  if (params.type.trim() === "") {
+    return new Response(`Invalid input: Empty review type`, { status: 400 });
+  } else if (params.name.trim() === "") {
     return new Response(`Invalid input: Empty name`, { status: 400 });
   } else if (params.pronoun.trim() === "") {
     return new Response(`Invalid input: Empty pronoun`, { status: 400 });
