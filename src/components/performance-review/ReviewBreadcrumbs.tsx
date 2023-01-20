@@ -38,7 +38,7 @@ export const ResultsBreadcrumbs = () => {
           <a href={API_ROUTES.PERF_REVIEW_PERSONA}>Persona</a>
         </li>
         <li className="is-active">
-          <a>Type</a>
+          <a>Result</a>
         </li>
       </ul>
     </nav>

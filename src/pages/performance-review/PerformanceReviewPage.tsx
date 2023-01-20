@@ -17,11 +17,7 @@ import {
   ReviewTone,
   TimePeriod,
 } from "../../business/common";
-import {
-  expandOnText,
-  generateMainText,
-  giveHints,
-} from "../../business/services";
+import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { useEffect } from "react";
 
@@ -38,6 +34,9 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
   const tone = usePerformanceReviewState((state) => state.tone);
 
   const loading = usePerformanceReviewDetailsState((state) => state.loading);
+  const resultLoading = usePerformanceReviewResultState(
+    (state) => state.loading
+  );
   const setLoading = usePerformanceReviewDetailsState(
     (state) => state.setLoading
   );
@@ -46,11 +45,21 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
   const setDetails = usePerformanceReviewDetailsState(
     (state) => state.setDetails
   );
+  const setError = usePerformanceReviewResultState((state) => state.setError);
 
   const onHintClick = async () => {
     setLoading();
-    const hint = await giveHints(role, perf, tone);
-    setDetails(hint);
+    try {
+      const hint = await new OpenAIService().generatePerformanceReviewHint(
+        role,
+        perf,
+        tone
+      );
+      setDetails(hint);
+    } catch (e: any) {
+      setError(e.message);
+      setDetails("");
+    }
   };
 
   useEffect(() => {
@@ -61,7 +70,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
     <>
       <div className="pl-2 pr-2 pt-2 pb-1">
         <AutoTextArea
-          disabled={loading}
+          disabled={loading || resultLoading}
           value={details}
           placeholder={html}
           index={999}
@@ -71,6 +80,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
       <div className="horizontal-line"></div>
       <div className="p-2">
         <button
+          disabled={loading || resultLoading}
           className={"button is-text " + (loading ? "is-loading" : "")}
           onClick={onHintClick}
         >
@@ -112,6 +122,7 @@ export const ReviewResults = () => {
   const setReloading = usePerformanceReviewResultState(
     (state) => state.setReloading
   );
+  const setError = usePerformanceReviewResultState((state) => state.setError);
 
   const onGenerateClick = async () => {
     setLoading();
@@ -127,14 +138,22 @@ export const ReviewResults = () => {
       perf: state.perf,
       details,
     };
-    const result = await generateMainText(input);
-    setResults(formResult(result));
+    try {
+      const result = await new OpenAIService().generatePerformanceReview(input);
+      setResults(formResult(result));
+    } catch (e: any) {
+      setError(e.message);
+    }
   };
 
   const onExpandClick = async (value: string, index: number) => {
     setReloading(index);
-    const result = await expandOnText(value);
-    updateResult(result, index);
+    try {
+      const result = await new OpenAIService().expandText(value);
+      updateResult(result, index);
+    } catch (e: any) {
+      setError(e.message);
+    }
   };
 
   return (
@@ -217,7 +236,28 @@ export const ReviewResults = () => {
   );
 };
 
+export const ReviewError = () => {
+  const error = usePerformanceReviewResultState((state) => state.errorMessage);
+
+  if (!error) {
+    return null;
+  }
+
+  return (
+    <article className="message is-danger">
+      <div className="message-header">
+        <p>Error</p>
+      </div>
+      <div className="message-body">{error}</div>
+    </article>
+  );
+};
+
 export const PerformanceReviewPage = () => {
+  const resultLoading = usePerformanceReviewResultState(
+    (state) => state.loading
+  );
+
   const name = usePerformanceReviewState((state) => state.name);
   const setName = usePerformanceReviewState((state) => state.setName);
 
@@ -248,11 +288,19 @@ export const PerformanceReviewPage = () => {
       <ResultsBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container narrow-container">
+          <div className="content">
+            <h3>Performance Review</h3>
+            <p>
+              Fill in all the details below and press 'Generate' to create a new
+              performance review.
+            </p>
+          </div>
           <div className="review-content">
             <div id="input" className="p-2">
               <div id="input-name">
                 <label>Name</label>
                 <input
+                  disabled={resultLoading}
                   placeholder="Myself"
                   type={"text"}
                   value={name}
@@ -262,6 +310,7 @@ export const PerformanceReviewPage = () => {
               <div id="input-role">
                 <label>Role</label>
                 <input
+                  disabled={resultLoading}
                   placeholder="(Optional)"
                   type={"text"}
                   value={role}
@@ -271,6 +320,7 @@ export const PerformanceReviewPage = () => {
               <div id="input-team">
                 <label>Team</label>
                 <input
+                  disabled={resultLoading}
                   placeholder="(Optional)"
                   type={"text"}
                   value={team}
@@ -280,6 +330,7 @@ export const PerformanceReviewPage = () => {
               <div id="input-performance">
                 <label>Perf</label>
                 <select
+                  disabled={resultLoading}
                   value={perf}
                   onChange={(e) =>
                     setPerf(e.currentTarget.value as PerformanceScore)
@@ -299,6 +350,7 @@ export const PerformanceReviewPage = () => {
               <div id="input-time">
                 <label>Time</label>
                 <select
+                  disabled={resultLoading}
                   value={time}
                   onChange={(e) => setTime(e.currentTarget.value as TimePeriod)}
                 >
@@ -317,6 +369,7 @@ export const PerformanceReviewPage = () => {
               <div id="input-tone">
                 <label>Tone</label>
                 <select
+                  disabled={resultLoading}
                   value={tone}
                   onChange={(e) => setTone(e.currentTarget.value as ReviewTone)}
                 >
@@ -328,6 +381,7 @@ export const PerformanceReviewPage = () => {
               <div id="input-pronoun">
                 <label>Pronoun</label>
                 <select
+                  disabled={resultLoading}
                   value={pron}
                   onChange={(e) => setPron(e.currentTarget.value as Pronouns)}
                 >
@@ -340,8 +394,8 @@ export const PerformanceReviewPage = () => {
             <div className="horizontal-line"></div>
             <div className="pl-2 pr-2 pt-2 pb-1">
               <AutoTextArea
+                disabled={resultLoading}
                 value={question}
-                disabled={false}
                 index={0}
                 placeholder="Write your question here ..."
                 onChange={(e, i) => setQuestion(e)}
@@ -353,6 +407,7 @@ export const PerformanceReviewPage = () => {
           <div className="mt-4">
             <ReviewResults />
           </div>
+          <ReviewError />
         </div>
       </div>
       <SubscribeFrom />

@@ -84,6 +84,7 @@ export type PerformanceReviewResultState = {
   results: PerformanceReviewResult[];
   loading: boolean;
   reloadedSection: number | undefined;
+  errorMessage: string | undefined;
   setLoading: () => void;
   setReloading: (reloadedSection: number) => void;
   setResults: (results: PerformanceReviewResult[]) => void;
@@ -91,6 +92,7 @@ export type PerformanceReviewResultState = {
   addElement: (index: number) => void;
   removeElement: (index: number) => void;
   resetElement: (index: number) => void;
+  setError: (errorMessage: string) => void;
 };
 
 export const usePerformanceReviewResultState =
@@ -98,11 +100,12 @@ export const usePerformanceReviewResultState =
     results: [],
     loading: false,
     reloadedSection: undefined,
+    errorMessage: undefined,
     setLoading: () => set((state) => ({ ...state, loading: true })),
     setReloading: (reloadedSection: number) =>
       set((state) => ({ ...state, reloadedSection })),
     setResults: (results: PerformanceReviewResult[]) =>
-      set((state) => ({ results, loading: false })),
+      set((state) => ({ results, loading: false, errorMessage: undefined })),
     updateResult: (expanded: string, index: number) =>
       set((state) => {
         const results = state.results.map((r, i) =>
@@ -113,6 +116,7 @@ export const usePerformanceReviewResultState =
           results,
           reloadedSection: undefined,
           loading: false,
+          errorMessage: undefined,
         };
       }),
     addElement: (index: number) =>
@@ -136,6 +140,13 @@ export const usePerformanceReviewResultState =
         );
         return { ...state, results };
       }),
+    setError: (errorMessage: string) =>
+      set((state) => ({
+        ...state,
+        errorMessage,
+        loading: false,
+        reloadedSection: undefined,
+      })),
   }));
 
 export const formResult = (initial: string[]): PerformanceReviewResult[] =>

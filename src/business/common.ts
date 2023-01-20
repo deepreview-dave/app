@@ -11,22 +11,6 @@ export enum TimePeriod {
   LAST_12_MONTHS = "12-months",
 }
 
-export enum WorkAttributeType {
-  SKILL = "Skill",
-  STRENGTH = "Strength",
-  PROJECT = "Project",
-  GROWTH = "Growth",
-  IMPROVE = "To improve",
-  GOAL = "Goal",
-}
-
-export interface WorkAttribute {
-  uuid: string;
-  type: WorkAttributeType;
-  name: string;
-  details: string;
-}
-
 export enum Pronouns {
   NEUTRAL = "they",
   HE = "he",
@@ -53,19 +37,6 @@ export enum Relationship {
   COLLEAGUE = "colleague",
   MANAGER = "manager",
   REPORT = "report",
-}
-
-export interface PersonDetails {
-  name: string;
-  performanceScore: PerformanceScore;
-  pronoun: Pronouns;
-  relationship: Relationship;
-  attributes: WorkAttribute[];
-  role?: string;
-  department?: string;
-  timePeriod?: TimePeriod;
-  reviewTone?: ReviewTone;
-  reviewLanguage?: ReviewLanguage;
 }
 
 export interface PerformanceReviewInput {
