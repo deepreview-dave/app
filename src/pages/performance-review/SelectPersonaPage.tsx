@@ -6,15 +6,16 @@ import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { PersonaBreadcrumbs } from "../../components/performance-review/ReviewBreadcrumbs";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
+import { usePerformanceReviewState } from "../../state/perf-review.state";
 
 export const SelectPersonaPage = () => {
   const navigate = useNavigate();
-  // const clearInputs = useAppState((state) => state.clearInputs);
-  // const updateRelationship = useAppState((state) => state.updateRelationship);
+  const updateRelationship = usePerformanceReviewState(
+    (state) => state.setRelationship
+  );
 
   const onButtonClick = (relationship: Relationship) => {
-    // clearInputs();
-    // updateRelationship(relationship);
+    updateRelationship(relationship);
     navigate(API_ROUTES.PERF_REVIEW_RESULT);
   };
 

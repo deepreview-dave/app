@@ -21,7 +21,7 @@ export const PersonaBreadcrumbs = () => {
   );
 };
 
-export const TypeBreadcrumbs = () => {
+export const ResultsBreadcrumbs = () => {
   return (
     <nav
       className="m-4 breadcrumb has-succeeds-separator"

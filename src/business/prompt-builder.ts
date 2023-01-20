@@ -236,3 +236,71 @@ export class PromptBuilder {
     });
   }
 }
+
+export class InspirationPromptBuilder {
+  build(
+    role: string | undefined,
+    performance: PerformanceScore,
+    tone: ReviewTone
+  ): string {
+    let good = 0;
+    let bad = 0;
+
+    switch (performance) {
+      case PerformanceScore.ABOVE_EXPECTATIONS: {
+        good += 2;
+        bad += 1;
+        break;
+      }
+      case PerformanceScore.MEETS_EXPECTATIONS: {
+        good += 1;
+        bad += 1;
+        break;
+      }
+      case PerformanceScore.BELOW_EXPECTATIONS: {
+        good += 1;
+        bad += 2;
+        break;
+      }
+    }
+
+    switch (tone) {
+      case ReviewTone.FRIENDLY: {
+        good += 1;
+        break;
+      }
+      case ReviewTone.NEUTRAL: {
+        good += 1;
+        bad += 1;
+        break;
+      }
+      case ReviewTone.CRITICAL: {
+        bad += 1;
+        break;
+      }
+    }
+
+    const rolePart = "an employee";
+    if (role) {
+      role += `a ${role}`;
+    }
+
+    let perfPart = "";
+    switch (performance) {
+      case PerformanceScore.ABOVE_EXPECTATIONS: {
+        perfPart = "has performed above expectations";
+        break;
+      }
+      case PerformanceScore.MEETS_EXPECTATIONS: {
+        perfPart = "meets expectations";
+        break;
+      }
+      case PerformanceScore.BELOW_EXPECTATIONS: {
+        perfPart = "has performed below expectations";
+        break;
+      }
+    }
+
+    return `Please list ${good} strengths and ${bad} areas of improvement for a ${rolePart} who ${perfPart}.`;
+  }
+}
