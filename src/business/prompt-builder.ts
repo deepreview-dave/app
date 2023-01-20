@@ -8,6 +8,7 @@ import {
   WorkAttributeType,
   Relationship,
   WorkAttribute,
+  PerformanceReviewInput,
 } from "./common";
 
 export class PromptBuilder {
@@ -234,6 +235,92 @@ export class PromptBuilder {
           return "";
       }
     });
+  }
+}
+
+export class FlexiblePromptBuilder {
+  build(details: PerformanceReviewInput): string {
+    const prompt: string[] = [];
+
+    prompt.push(details.question);
+    if (details.details) {
+      prompt.push(details.details);
+    }
+    prompt.push(`Please also add the following personal details`);
+    if (details.name) {
+      prompt.push(`Person Name: ${details.name}`);
+      switch (details.pron) {
+        case Pronouns.NEUTRAL: {
+          prompt.push(`Use the pronoun 'they'`);
+          break;
+        }
+        case Pronouns.HE: {
+          prompt.push(`Use the pronoun 'he'`);
+          break;
+        }
+        case Pronouns.HER: {
+          prompt.push(`Use the pronoun 'she'`);
+          break;
+        }
+      }
+    } else {
+      prompt.push(`Person: Myself`);
+      prompt.push(`Refer to me in the first person`);
+    }
+    if (details.role) {
+      prompt.push(`Role: ${details.role}`);
+    }
+    if (details.team) {
+      prompt.push(`Team: ${details.team}`);
+    }
+    switch (details.perf) {
+      case PerformanceScore.ABOVE_EXPECTATIONS: {
+        prompt.push(`Performance: above expectations`);
+        break;
+      }
+      case PerformanceScore.MEETS_EXPECTATIONS: {
+        prompt.push(`Performance: meets expectations`);
+        break;
+      }
+      case PerformanceScore.BELOW_EXPECTATIONS: {
+        prompt.push(`Performance: below expectations`);
+        break;
+      }
+    }
+    switch (details.time) {
+      case TimePeriod.LAST_MONTH: {
+        prompt.push(`Time period: previous month`);
+        break;
+      }
+      case TimePeriod.LAST_3_MONTHS: {
+        prompt.push(`Time period: previous quarter`);
+        break;
+      }
+      case TimePeriod.LAST_6_MONTHS: {
+        prompt.push(`Time period: previous half year`);
+        break;
+      }
+      case TimePeriod.LAST_12_MONTHS: {
+        prompt.push(`Time period: previous year`);
+        break;
+      }
+    }
+    switch (details.tone) {
+      case ReviewTone.NEUTRAL: {
+        prompt.push(`Use a neutral tone`);
+        break;
+      }
+      case ReviewTone.FRIENDLY: {
+        prompt.push(`Use a friendly tone`);
+        break;
+      }
+      case ReviewTone.CRITICAL: {
+        prompt.push(`Use a critical tone`);
+        break;
+      }
+    }
+
+    return prompt.join("\n");
   }
 }
 

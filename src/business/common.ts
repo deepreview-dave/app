@@ -67,3 +67,16 @@ export interface PersonDetails {
   reviewTone?: ReviewTone;
   reviewLanguage?: ReviewLanguage;
 }
+
+export interface PerformanceReviewInput {
+  relationship: Relationship;
+  question: string;
+  name: string;
+  role: string;
+  team: string;
+  time: TimePeriod;
+  tone: ReviewTone;
+  pron: Pronouns;
+  perf: PerformanceScore;
+  details: string;
+}
