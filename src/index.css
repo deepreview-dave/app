@@ -65,7 +65,7 @@ a.underlined-style {
   color: inherit !important;
 }
 
-p.light-border {
+.light-border {
   border: 1px solid hsl(0, 0%, 71%); /* has-text-grey-light */
   border-radius: 10px;
   padding: 10px;
