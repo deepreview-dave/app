@@ -93,6 +93,7 @@ export type PerformanceReviewResultState = {
   removeElement: (index: number) => void;
   resetElement: (index: number) => void;
   setError: (errorMessage: string) => void;
+  resetError: () => void;
 };
 
 export const usePerformanceReviewResultState =
@@ -146,6 +147,11 @@ export const usePerformanceReviewResultState =
         errorMessage,
         loading: false,
         reloadedSection: undefined,
+      })),
+    resetError: () =>
+      set((state) => ({
+        ...state,
+        errorMessage: undefined,
       })),
   }));
 

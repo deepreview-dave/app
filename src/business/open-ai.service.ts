@@ -26,6 +26,7 @@ export class OpenAIService {
       apiKey: this.apiKey,
       baseOptions: { adapter: fetchAdapter },
     });
+    console.log(configuration);
 
     this.api = new OpenAIApi(configuration);
   }
@@ -54,6 +55,8 @@ export class OpenAIService {
       }
 
       const rawResult = response.data.choices[0].text ?? "";
+
+      console.log("gabbox", rawResult);
 
       return rawResult
         .replace(/\n/g, "\n")

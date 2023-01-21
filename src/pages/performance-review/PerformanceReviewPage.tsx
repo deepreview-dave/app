@@ -46,6 +46,9 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
     (state) => state.setDetails
   );
   const setError = usePerformanceReviewResultState((state) => state.setError);
+  const resetError = usePerformanceReviewResultState(
+    (state) => state.resetError
+  );
 
   const onHintClick = async () => {
     setLoading();
@@ -58,13 +61,17 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
       setDetails(hint);
     } catch (e: any) {
       setError(e.message);
-      setDetails("");
+      setDetails(details);
     }
   };
 
   useEffect(() => {
     setDetails("");
   }, []);
+
+  useEffect(() => {
+    resetError();
+  }, [details]);
 
   return (
     <>
