@@ -40,11 +40,11 @@ export const NavbarMin = () => {
                 >
                   Performance Reviews
                 </Link>
+                <Link className="navbar-item" to={API_ROUTES.RESUME_TOOL}>
+                  Resumes & Cover Letters
+                </Link>
                 <span className="navbar-item has-text-grey-light">
                   Compensation & Promotions (Coming Soon)
-                </span>
-                <span className="navbar-item has-text-grey-light">
-                  Resumes & Cover Letters (Coming Soon)
                 </span>
               </div>
             </div>

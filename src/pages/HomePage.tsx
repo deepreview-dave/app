@@ -72,9 +72,12 @@ export const HomePage = () => {
                   time consuming. Let DeepReview help with that.
                 </p>
                 <p>
-                  <button disabled className="button is-primary">
-                    Coming soon
-                  </button>
+                  <Link
+                    to={API_ROUTES.RESUME_TOOL}
+                    className="button is-primary"
+                  >
+                    Try it out!
+                  </Link>
                 </p>
               </div>
             </div>

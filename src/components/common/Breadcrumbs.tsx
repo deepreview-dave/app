@@ -44,3 +44,24 @@ export const ResultsBreadcrumbs = () => {
     </nav>
   );
 };
+
+export const ResumeToolBreadcrumbs = () => {
+  return (
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.RESUME_TOOL}>Resumes & Cover Letters</a>
+        </li>
+        <li className="is-active">
+          <a>Tool</a>
+        </li>
+      </ul>
+    </nav>
+  );
+};

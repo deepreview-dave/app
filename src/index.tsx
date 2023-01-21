@@ -10,11 +10,13 @@ import { Analytics } from "./business/analytics";
 import { HomePage } from "./pages/HomePage";
 import { SelectPersonaPage } from "./pages/performance-review/SelectPersonaPage";
 import { PerformanceReviewPage } from "./pages/performance-review/PerformanceReviewPage";
+import { ResumeSelectionPage } from "./pages/resumes/ResumeSelectionPage";
 
 export enum API_ROUTES {
   HOME = "/",
   PERF_REVIEW_PERSONA = "/performance-review/persona",
   PERF_REVIEW_RESULT = "/performance-review/result",
+  RESUME_TOOL = "/resume/tool",
 }
 
 const router = createBrowserRouter([
@@ -36,6 +38,15 @@ const router = createBrowserRouter([
     element: (
       <>
         <PerformanceReviewPage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.RESUME_TOOL,
+    element: (
+      <>
+        <ResumeSelectionPage />
         <ScrollRestoration />
       </>
     ),

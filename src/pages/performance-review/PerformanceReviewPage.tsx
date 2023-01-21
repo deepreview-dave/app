@@ -1,17 +1,12 @@
 import "../../index.css";
-import "./perfreview.css";
 import { NavbarMin } from "../../components/common/NavbarMin";
-import { ResultsBreadcrumbs } from "../../components/performance-review/ReviewBreadcrumbs";
 import { Footer } from "../../components/common/Footer";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import {
-  formResult,
   usePerformanceReviewDetailsState,
-  usePerformanceReviewResultState,
   usePerformanceReviewState,
 } from "../../state/perf-review.state";
 import {
-  PerformanceReviewInput,
   PerformanceScore,
   Pronouns,
   ReviewTone,
@@ -20,6 +15,12 @@ import {
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { useEffect } from "react";
+import { useResultState, formResult } from "../../state/result-state";
+import {
+  ResultsComponent,
+  ResultsError,
+} from "../../components/results/ResultsComponent";
+import { ResultsBreadcrumbs } from "../../components/common/Breadcrumbs";
 
 export const DetailsInput = () => {
   const html = `Add more details, such as:
@@ -34,9 +35,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
   const tone = usePerformanceReviewState((state) => state.tone);
 
   const loading = usePerformanceReviewDetailsState((state) => state.loading);
-  const resultLoading = usePerformanceReviewResultState(
-    (state) => state.loading
-  );
+  const resultLoading = useResultState((state) => state.loading);
   const setLoading = usePerformanceReviewDetailsState(
     (state) => state.setLoading
   );
@@ -45,10 +44,8 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
   const setDetails = usePerformanceReviewDetailsState(
     (state) => state.setDetails
   );
-  const setError = usePerformanceReviewResultState((state) => state.setError);
-  const resetError = usePerformanceReviewResultState(
-    (state) => state.resetError
-  );
+  const setError = useResultState((state) => state.setError);
+  const resetError = useResultState((state) => state.resetError);
 
   const onHintClick = async () => {
     setLoading();
@@ -98,172 +95,8 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
   );
 };
 
-export const ReviewResults = () => {
-  const loading = usePerformanceReviewResultState((state) => state.loading);
-  const reloadedSection = usePerformanceReviewResultState(
-    (state) => state.reloadedSection
-  );
-  const setLoading = usePerformanceReviewResultState(
-    (state) => state.setLoading
-  );
-  const state = usePerformanceReviewState((state) => state);
-  const details = usePerformanceReviewDetailsState((state) => state.details);
-
-  const results = usePerformanceReviewResultState((state) => state.results);
-  const setResults = usePerformanceReviewResultState(
-    (state) => state.setResults
-  );
-
-  const updateResult = usePerformanceReviewResultState(
-    (state) => state.updateResult
-  );
-  const addElement = usePerformanceReviewResultState(
-    (state) => state.addElement
-  );
-  const removeElement = usePerformanceReviewResultState(
-    (state) => state.removeElement
-  );
-  const resetElement = usePerformanceReviewResultState(
-    (state) => state.resetElement
-  );
-  const setReloading = usePerformanceReviewResultState(
-    (state) => state.setReloading
-  );
-  const setError = usePerformanceReviewResultState((state) => state.setError);
-
-  const onGenerateClick = async () => {
-    setLoading();
-    const input: PerformanceReviewInput = {
-      relationship: state.relationship,
-      question: state.question,
-      name: state.name,
-      role: state.role,
-      team: state.team,
-      time: state.time,
-      tone: state.tone,
-      pron: state.pron,
-      perf: state.perf,
-      details,
-    };
-    try {
-      const result = await new OpenAIService().generatePerformanceReview(input);
-      setResults(formResult(result));
-    } catch (e: any) {
-      setError(e.message);
-    }
-  };
-
-  const onExpandClick = async (value: string, index: number) => {
-    setReloading(index);
-    try {
-      const result = await new OpenAIService().expandText(value);
-      updateResult(result, index);
-    } catch (e: any) {
-      setError(e.message);
-    }
-  };
-
-  return (
-    <>
-      <div className="buttons">
-        <button
-          disabled={loading}
-          className={"button is-primary " + (loading ? "is-loading" : "")}
-          onClick={onGenerateClick}
-        >
-          Generate
-        </button>
-        <button disabled={loading} className="button">
-          Copy
-        </button>
-      </div>
-      <div className="">
-        {results.map((res, i) => (
-          <div className="results-container" key={i}>
-            <div
-              className={
-                i === 0
-                  ? "top-content"
-                  : i === results.length - 1
-                  ? "bottom-content"
-                  : "normal-content"
-              }
-            >
-              <div className="pt-5 pl-3 pr-3 pb-5">
-                <button
-                  disabled={loading || reloadedSection !== undefined}
-                  title="Expand on this section"
-                  className="button is-white is-small"
-                  onClick={() => onExpandClick(res.expanded, i)}
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-sync"></i>
-                  </span>
-                </button>
-              </div>
-              <div className="big-div pt-5 pl-3 pr-3 pb-5">
-                <AutoTextArea
-                  disabled={loading || reloadedSection === i}
-                  index={i}
-                  value={res.expanded}
-                  placeholder="Add more details..."
-                  onChange={(e, i) => updateResult(e, i)}
-                  onBlur={() => removeElement(i)}
-                />
-              </div>
-              <div className="pt-5 pl-3 pr-3 pb-5">
-                <button
-                  disabled={loading || reloadedSection !== undefined}
-                  title="Remove section"
-                  className="button is-small is-white"
-                  onClick={() => resetElement(i)}
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-history"></i>
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div className="plus-button-holder">
-              <button
-                disabled={loading || reloadedSection !== undefined}
-                title="Add new section"
-                className="button is-small is-rounded plus-button"
-                onClick={() => addElement(i)}
-              >
-                <span className="icon is-small has-text-success">
-                  <i className="fas fa-plus"></i>
-                </span>
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-};
-
-export const ReviewError = () => {
-  const error = usePerformanceReviewResultState((state) => state.errorMessage);
-
-  if (!error) {
-    return null;
-  }
-
-  return (
-    <article className="message is-danger">
-      <div className="message-header">
-        <p>Error</p>
-      </div>
-      <div className="message-body">{error}</div>
-    </article>
-  );
-};
-
 export const PerformanceReviewPage = () => {
-  const resultLoading = usePerformanceReviewResultState(
-    (state) => state.loading
-  );
+  const resultLoading = useResultState((state) => state.loading);
 
   const name = usePerformanceReviewState((state) => state.name);
   const setName = usePerformanceReviewState((state) => state.setName);
@@ -412,9 +245,9 @@ export const PerformanceReviewPage = () => {
             <DetailsInput />
           </div>
           <div className="mt-4">
-            <ReviewResults />
+            <ResultsComponent />
           </div>
-          <ReviewError />
+          <ResultsError />
         </div>
       </div>
       <SubscribeFrom />
