@@ -8,22 +8,6 @@ import {
   TimePeriod,
 } from "../business/common";
 
-export type PerformanceReviewDetailsState = {
-  details: string;
-  loading: boolean;
-  setDetails: (details: string) => void;
-  setLoading: () => void;
-};
-
-export const usePerformanceReviewDetailsState =
-  create<PerformanceReviewDetailsState>()((set) => ({
-    details: "Default",
-    loading: false,
-    setDetails: (details: string) =>
-      set((state) => ({ details, loading: false })),
-    setLoading: () => set((state) => ({ ...state, loading: true })),
-  }));
-
 export type PerformanceReviewState = {
   relationship: Relationship;
   question: string;

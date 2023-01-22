@@ -59,7 +59,31 @@ export const ResumeToolBreadcrumbs = () => {
           <a href={API_ROUTES.RESUME_TOOL}>Resumes & Cover Letters</a>
         </li>
         <li className="is-active">
-          <a>Tool</a>
+          <a>Tools</a>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export const CoverLetterBreadcrumbs = () => {
+  return (
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.RESUME_TOOL}>Resumes & Cover Letters</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.RESUME_TOOL}>Tools</a>
+        </li>
+        <li className="is-active">
+          <a>Cover Letter</a>
         </li>
       </ul>
     </nav>

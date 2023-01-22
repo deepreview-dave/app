@@ -1,23 +1,15 @@
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../..";
-import { Relationship } from "../../business/common";
 import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
-import { usePerformanceReviewState } from "../../state/perf-review.state";
 import { ResumeToolBreadcrumbs } from "../../components/common/Breadcrumbs";
+import { API_ROUTES } from "../..";
 
 export const ResumeSelectionPage = () => {
   const navigate = useNavigate();
-  // const updateRelationship = usePerformanceReviewState(
-  //   (state) => state.setRelationship
-  // );
 
-  const onButtonClick = () => {
-    // updateRelationship(relationship);
-    // navigate(API_ROUTES.PERF_REVIEW_RESULT);
-  };
+  const onButtonClick = () => navigate(API_ROUTES.RESUME_COVER_LETTER);
 
   return (
     <div className="main-body">

@@ -1,9 +1,7 @@
 import { PerformanceReviewInput } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
-import {
-  usePerformanceReviewState,
-  usePerformanceReviewDetailsState,
-} from "../../state/perf-review.state";
+import { useInputDetailsState } from "../../state/input-details.state";
+import { usePerformanceReviewState } from "../../state/perf-review.state";
 import { useResultState, formResult } from "../../state/result-state";
 import { AutoTextArea } from "../common/AutoTextArea";
 
@@ -12,7 +10,7 @@ export const ResultsComponent = () => {
   const reloadedSection = useResultState((state) => state.reloadedSection);
   const setLoading = useResultState((state) => state.setLoading);
   const state = usePerformanceReviewState((state) => state);
-  const details = usePerformanceReviewDetailsState((state) => state.details);
+  const details = useInputDetailsState((state) => state.details);
 
   const results = useResultState((state) => state.results);
   const setResults = useResultState((state) => state.setResults);

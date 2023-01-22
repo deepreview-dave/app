@@ -2,10 +2,7 @@ import "../../index.css";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { Footer } from "../../components/common/Footer";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
-import {
-  usePerformanceReviewDetailsState,
-  usePerformanceReviewState,
-} from "../../state/perf-review.state";
+import { usePerformanceReviewState } from "../../state/perf-review.state";
 import {
   PerformanceScore,
   Pronouns,
@@ -15,12 +12,13 @@ import {
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { useEffect } from "react";
-import { useResultState, formResult } from "../../state/result-state";
+import { useResultState } from "../../state/result-state";
 import {
   ResultsComponent,
   ResultsError,
 } from "../../components/results/ResultsComponent";
 import { ResultsBreadcrumbs } from "../../components/common/Breadcrumbs";
+import { useInputDetailsState } from "../../state/input-details.state";
 
 export const DetailsInput = () => {
   const html = `Add more details, such as:
@@ -34,16 +32,12 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
   const perf = usePerformanceReviewState((state) => state.perf);
   const tone = usePerformanceReviewState((state) => state.tone);
 
-  const loading = usePerformanceReviewDetailsState((state) => state.loading);
+  const loading = useInputDetailsState((state) => state.loading);
   const resultLoading = useResultState((state) => state.loading);
-  const setLoading = usePerformanceReviewDetailsState(
-    (state) => state.setLoading
-  );
+  const setLoading = useInputDetailsState((state) => state.setLoading);
 
-  const details = usePerformanceReviewDetailsState((state) => state.details);
-  const setDetails = usePerformanceReviewDetailsState(
-    (state) => state.setDetails
-  );
+  const details = useInputDetailsState((state) => state.details);
+  const setDetails = useInputDetailsState((state) => state.setDetails);
   const setError = useResultState((state) => state.setError);
   const resetError = useResultState((state) => state.resetError);
 
