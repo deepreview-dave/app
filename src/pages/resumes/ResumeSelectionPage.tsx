@@ -41,7 +41,7 @@ export const ResumeSelectionPage = () => {
               <br />
               <small>Get help writing different sections of you resume</small>
             </p>
-            <p className="light-border has-text-gray">
+            <p className="light-border has-text-grey">
               <b>
                 {/* <a> */}
                 Referral (Coming Soon)
