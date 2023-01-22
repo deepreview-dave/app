@@ -5,6 +5,7 @@ import {
   TimePeriod,
   PerformanceReviewInput,
   CoverLetterInput,
+  ReferralLetterInput,
 } from "./common";
 
 export class PerformanceReviewPromptBuilder {
@@ -118,6 +119,26 @@ export class CoverLetterPromptBuilder {
   }
 }
 
+export class ReferralLetterPromptBuilder {
+  build(details: ReferralLetterInput): string {
+    const prompt: string[] = [];
+
+    prompt.push(details.question);
+    prompt.push(details.details);
+    prompt.push(
+      `Please also add the following information needed for the referral letter`
+    );
+    prompt.push(`My name: ${details.you.name}`);
+    prompt.push(`Recipient name: ${details.recipient.name}`);
+    prompt.push(`Recipient title: ${details.recipient.title}`);
+    prompt.push(`Recipient company: ${details.recipient.company}`);
+    prompt.push(`Applicant name: ${details.applicant.name}`);
+    prompt.push(`Applicant role: ${details.applicant.role}`);
+
+    return prompt.join("\n");
+  }
+}
+
 export class PerformanceReviewHintBuilder {
   build(
     role: string | undefined,
@@ -186,17 +207,26 @@ export class PerformanceReviewHintBuilder {
   }
 }
 
-export class ExpandPromptBuilder {
-  build(input: string): string {
-    return `Expand just a little bit on the following: ${input}`;
-  }
-}
-
 export class CoverLetterHintBuilder {
   build(role: string): string {
     if (!role) {
       return `Please list 3 strengths a person has, in the context of a cover letter.`;
     }
     return `Please list 3 strengths a person has, in the context of a cover letter, for the role of ${role}`;
+  }
+}
+
+export class ReferralLetterHintBuilder {
+  build(role: string): string {
+    if (!role) {
+      return `Please list 3 strengths a person has, in the context of a referral letter.`;
+    }
+    return `Please list 3 strengths a person has, in the context of a referral letter, for the role of ${role}`;
+  }
+}
+
+export class ExpandPromptBuilder {
+  build(input: string): string {
+    return `Expand just a little bit on the following: ${input}`;
   }
 }

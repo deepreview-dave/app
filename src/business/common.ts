@@ -61,6 +61,26 @@ export interface CoverLetterInput {
   details: string;
 }
 
+export interface ReferralLetterInput {
+  question: string;
+  you: {
+    name: string;
+    address: string;
+    contact: string;
+  };
+  recipient: {
+    name: string;
+    title: string;
+    company: string;
+    address: string;
+  };
+  applicant: {
+    name: string;
+    role: string;
+  };
+  details: string;
+}
+
 export enum WorkHistory {
   One = "1",
   Two = "2",

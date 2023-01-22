@@ -4,11 +4,14 @@ import {
   PerformanceReviewPromptBuilder,
   PerformanceReviewHintBuilder,
   CoverLetterPromptBuilder,
+  ReferralLetterHintBuilder,
+  ReferralLetterPromptBuilder,
 } from "./prompt-builder";
 import {
   CoverLetterInput,
   PerformanceReviewInput,
   PerformanceScore,
+  ReferralLetterInput,
   ReviewTone,
 } from "./common";
 import { Configuration, OpenAIApi } from "openai";
@@ -108,6 +111,55 @@ export class OpenAIService {
     }
   }
 
+  async generateReferralLetter(input: ReferralLetterInput): Promise<string[]> {
+    const builder = new ReferralLetterPromptBuilder();
+    const prompt = builder.build(input);
+    const max_tokens = prompt.length + 2000;
+    try {
+      const response = await this.api.createCompletion({
+        model: this.MODEL,
+        temperature: 0.25,
+        max_tokens,
+        prompt,
+      });
+
+      if (response.status !== 200) {
+        throw new Error(OpenAIErrorMessage.BadStatus);
+      } else if (response.data.choices.length === 0) {
+        throw new Error(OpenAIErrorMessage.NoContent);
+      } else if (response.data.choices[0].text === undefined) {
+        throw new Error(OpenAIErrorMessage.MissingText);
+      }
+
+      const rawResult = response.data.choices[0].text ?? "";
+
+      const aiResult = rawResult
+        .replaceAll("\n", "")
+        .split("\n")
+        .flatMap((e) => e.split("."))
+        .filter((e) => e !== "")
+        .filter((e) => e !== "\n")
+        .map((e) => e.trim());
+
+      const bakedResults = [
+        `${input.you.name}`,
+        `${input.you.address}`,
+        `${input.you.contact}`,
+        ``,
+        `${new Date().toDateString()}`,
+        ``,
+        `${input.recipient.name}`,
+        `${input.recipient.title}`,
+        `${input.recipient.company}`,
+        `${input.recipient.address}`,
+      ].join("\n");
+
+      return [bakedResults, ...aiResult];
+    } catch (e) {
+      throw new Error(OpenAIErrorMessage.Network);
+    }
+  }
+
   async expandText(text: string): Promise<string> {
     const builder = new ExpandPromptBuilder();
     const prompt = builder.build(text);
@@ -173,6 +225,32 @@ export class OpenAIService {
 
   async generateCoverLetterHint(role: string): Promise<string> {
     const prompt = new CoverLetterHintBuilder().build(role);
+    const max_tokens = prompt.length + 1000;
+    try {
+      const response = await this.api.createCompletion({
+        model: this.MODEL,
+        temperature: 0.15,
+        max_tokens,
+        prompt,
+      });
+
+      if (response.status !== 200) {
+        throw new Error(OpenAIErrorMessage.BadStatus);
+      } else if (response.data.choices.length === 0) {
+        throw new Error(OpenAIErrorMessage.NoContent);
+      } else if (response.data.choices[0].text === undefined) {
+        throw new Error(OpenAIErrorMessage.MissingText);
+      }
+
+      const rawResult = response.data.choices[0].text ?? "";
+      return rawResult.trim();
+    } catch (e) {
+      throw new Error(OpenAIErrorMessage.Network);
+    }
+  }
+
+  async generateReferralLetterHint(role: string): Promise<string> {
+    const prompt = new ReferralLetterHintBuilder().build(role);
     const max_tokens = prompt.length + 1000;
     try {
       const response = await this.api.createCompletion({

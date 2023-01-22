@@ -9,8 +9,6 @@ import { API_ROUTES } from "../..";
 export const ResumeSelectionPage = () => {
   const navigate = useNavigate();
 
-  const onButtonClick = () => navigate(API_ROUTES.RESUME_COVER_LETTER);
-
   return (
     <div className="main-body">
       <NavbarMin />
@@ -27,10 +25,23 @@ export const ResumeSelectionPage = () => {
           <div className="content">
             <p className="light-border">
               <b>
-                <a onClick={() => onButtonClick()}>Cover Letter</a>
+                <a onClick={() => navigate(API_ROUTES.RESUME_COVER_LETTER)}>
+                  Cover Letter
+                </a>
               </b>
               <br />
               <small>Prepare the perfect cover letter</small>
+            </p>
+            <p className="light-border">
+              <b>
+                <a onClick={() => navigate(API_ROUTES.RESUME_REFERRAL)}>
+                  Referral Letter
+                </a>
+              </b>
+              <br />
+              <small>
+                Get help writing a referral letter for a colleague or friend
+              </small>
             </p>
             <p className="light-border has-text-grey">
               <b>
@@ -40,15 +51,6 @@ export const ResumeSelectionPage = () => {
               </b>
               <br />
               <small>Get help writing different sections of you resume</small>
-            </p>
-            <p className="light-border has-text-grey">
-              <b>
-                {/* <a> */}
-                Referral (Coming Soon)
-                {/* </a> */}
-              </b>
-              <br />
-              <small>Get help writing a referral for a colleague</small>
             </p>
           </div>
         </div>

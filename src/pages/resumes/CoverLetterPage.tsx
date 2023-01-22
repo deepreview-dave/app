@@ -54,8 +54,8 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
             <p>Prepare the perfect cover letter.</p>
           </div>
           <div className="review-content">
-            <div id="input" className="p-2">
-              <div id="input-name">
+            <div className="p-2">
+              <div>
                 <label>Name</label>
                 <input
                   disabled={resultLoading}
@@ -65,7 +65,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
                   onChange={(e) => state.setName(e.currentTarget.value)}
                 />
               </div>
-              <div id="input-name">
+              <div>
                 <label>Role</label>
                 <input
                   disabled={resultLoading}
@@ -75,7 +75,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
                   onChange={(e) => state.setRole(e.currentTarget.value)}
                 />
               </div>
-              <div id="input-name">
+              <div>
                 <label>Company</label>
                 <input
                   disabled={resultLoading}
@@ -85,7 +85,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
                   onChange={(e) => state.setCompany(e.currentTarget.value)}
                 />
               </div>
-              <div id="input-history">
+              <div>
                 <label>History</label>
                 <select
                   disabled={resultLoading}
