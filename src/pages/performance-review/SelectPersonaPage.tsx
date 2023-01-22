@@ -4,9 +4,9 @@ import { API_ROUTES } from "../..";
 import { Relationship } from "../../business/common";
 import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
-import { PersonaBreadcrumbs } from "../../components/performance-review/ReviewBreadcrumbs";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { usePerformanceReviewState } from "../../state/perf-review.state";
+import { PersonaBreadcrumbs } from "../../components/common/Breadcrumbs";
 
 export const SelectPersonaPage = () => {
   const navigate = useNavigate();
