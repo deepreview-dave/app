@@ -1,7 +1,6 @@
 import { useState } from "react";
 import validator from "validator";
 import { useSubscribeState } from "../../state/subscribe.state";
-import { EmailSubscribeService } from "../../business/email-subscribe.service";
 
 export const SubscribeFrom = () => {
   const [emailInput, updateEmail] = useState("");
@@ -27,13 +26,20 @@ export const SubscribeFrom = () => {
     setIsSubmitting(true);
     setSubscribeError(false);
 
-    const subscriber = new EmailSubscribeService();
-    const subscribeResult = await subscriber.subscribe(emailInput);
+    const subscribeEmailParams = new URLSearchParams();
+    subscribeEmailParams.append("email", emailInput);
 
-    if (subscribeResult) {
-      setSubscribed();
-      updateEmail("");
-    } else {
+    try {
+      const response = await fetch(`/email-subscribe?${subscribeEmailParams}`);
+
+      if (response.ok) {
+        setSubscribed();
+        updateEmail("");
+      } else {
+        setSubscribeError(true);
+      }
+    } catch (e) {
+      console.log(`An error occurred: ${e}`);
       setSubscribeError(true);
     }
 

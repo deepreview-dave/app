@@ -8,6 +8,12 @@ export const Footer = () => {
           tasteful tracking.
         </p>
         <p>
+          <address>
+            Contact us at{" "}
+            <a href={"mailto:contact@deepreview.eu"}>contact@deepreview.eu</a>.
+          </address>
+        </p>
+        <p>
           <a href="https://www.freepik.com/free-vector/young-investors-working-profit-dividend-revenue_9173917.htm#query=illustrations%20money&position=3&from_view=search&track=sph">
             Compensation Image by pch.vector
           </a>{" "}
