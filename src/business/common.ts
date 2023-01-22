@@ -52,6 +52,15 @@ export interface PerformanceReviewInput {
   details: string;
 }
 
+export interface CoverLetterInput {
+  question: string;
+  name: string;
+  role: string;
+  company: string;
+  history: WorkHistory;
+  details: string;
+}
+
 export enum WorkHistory {
   One = "1",
   Two = "2",

@@ -5,12 +5,43 @@ import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { useCoverLetterState } from "../../state/cover-letter.state";
 import { useResultState } from "../../state/result-state";
-import { WorkHistory } from "../../business/common";
+import { CoverLetterInput, WorkHistory } from "../../business/common";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
+import { OpenAIService } from "../../business/open-ai.service";
+import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
+import { useInputDetailsState } from "../../state/input-details.state";
+import {
+  ResultsComponent,
+  ResultsError,
+} from "../../components/results/ResultsComponent";
 
 export const CoverLetterPage = () => {
+  const detailsHint = `Add more details, such as:
+  - top 3 strengths
+  - achievements you're prod of in your previous roles
+  - or be as succint as listing attributes 'communication: good, leadership: to improve'
+
+Or press the 'Inspiration' button to provide a starting point based on the details you provided above.`;
+
   const resultLoading = useResultState((state) => state.loading);
   const state = useCoverLetterState((state) => state);
+  const details = useInputDetailsState((state) => state.details);
+
+  const onGenerateClick = async (): Promise<string[]> => {
+    const input: CoverLetterInput = {
+      question: state.question,
+      company: state.company,
+      name: state.name,
+      role: state.role,
+      history: state.history,
+      details,
+    };
+    return await new OpenAIService().generateCoverLetter(input);
+  };
+
+  const onHintClick = async (): Promise<string> => {
+    return await new OpenAIService().generateCoverLetterHint(state.role);
+  };
 
   return (
     <div className="main-body">
@@ -86,7 +117,16 @@ export const CoverLetterPage = () => {
                 onChange={(e, i) => state.setQuestion(e)}
               />
             </div>
+            <div className="horizontal-line"></div>
+            <InputDetailsComponent
+              hint={detailsHint}
+              onHintClick={onHintClick}
+            />
           </div>
+          <div className="mt-4">
+            <ResultsComponent onGenerateClick={onGenerateClick} />
+          </div>
+          <ResultsError />
         </div>
       </div>
       <SubscribeFrom />

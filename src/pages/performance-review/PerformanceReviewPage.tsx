@@ -4,6 +4,7 @@ import { Footer } from "../../components/common/Footer";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { usePerformanceReviewState } from "../../state/perf-review.state";
 import {
+  PerformanceReviewInput,
   PerformanceScore,
   Pronouns,
   ReviewTone,
@@ -11,7 +12,6 @@ import {
 } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
-import { useEffect } from "react";
 import { useResultState } from "../../state/result-state";
 import {
   ResultsComponent,
@@ -19,78 +19,20 @@ import {
 } from "../../components/results/ResultsComponent";
 import { ResultsBreadcrumbs } from "../../components/common/Breadcrumbs";
 import { useInputDetailsState } from "../../state/input-details.state";
+import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
 
-export const DetailsInput = () => {
-  const html = `Add more details, such as:
+export const PerformanceReviewPage = () => {
+  const detailsHint = `Add more details, such as:
   - a short summary of your performance
   - or a section on things you did well and things to improve
   - or be as succint as listing attributes 'communication: good, leadership: to improve'
 
 Or press the 'Inspiration' button to provide a starting point based on the details you provided above.`;
 
-  const role = usePerformanceReviewState((state) => state.role);
-  const perf = usePerformanceReviewState((state) => state.perf);
-  const tone = usePerformanceReviewState((state) => state.tone);
-
-  const loading = useInputDetailsState((state) => state.loading);
   const resultLoading = useResultState((state) => state.loading);
-  const setLoading = useInputDetailsState((state) => state.setLoading);
 
+  const relationship = usePerformanceReviewState((state) => state.relationship);
   const details = useInputDetailsState((state) => state.details);
-  const setDetails = useInputDetailsState((state) => state.setDetails);
-  const setError = useResultState((state) => state.setError);
-  const resetError = useResultState((state) => state.resetError);
-
-  const onHintClick = async () => {
-    setLoading();
-    try {
-      const hint = await new OpenAIService().generatePerformanceReviewHint(
-        role,
-        perf,
-        tone
-      );
-      setDetails(hint);
-    } catch (e: any) {
-      setError(e.message);
-      setDetails(details);
-    }
-  };
-
-  useEffect(() => {
-    setDetails("");
-  }, []);
-
-  useEffect(() => {
-    resetError();
-  }, [details]);
-
-  return (
-    <>
-      <div className="pl-2 pr-2 pt-2 pb-1">
-        <AutoTextArea
-          disabled={loading || resultLoading}
-          value={details}
-          placeholder={html}
-          index={999}
-          onChange={(e, i) => setDetails(e)}
-        />
-      </div>
-      <div className="horizontal-line"></div>
-      <div className="p-2">
-        <button
-          disabled={loading || resultLoading}
-          className={"button is-text " + (loading ? "is-loading" : "")}
-          onClick={onHintClick}
-        >
-          Inspiration
-        </button>
-      </div>
-    </>
-  );
-};
-
-export const PerformanceReviewPage = () => {
-  const resultLoading = useResultState((state) => state.loading);
 
   const name = usePerformanceReviewState((state) => state.name);
   const setName = usePerformanceReviewState((state) => state.setName);
@@ -115,6 +57,30 @@ export const PerformanceReviewPage = () => {
 
   const question = usePerformanceReviewState((state) => state.question);
   const setQuestion = usePerformanceReviewState((state) => state.setQuestion);
+
+  const onGenerateClick = async (): Promise<string[]> => {
+    const input: PerformanceReviewInput = {
+      relationship,
+      question,
+      name,
+      role,
+      team,
+      time,
+      tone,
+      pron,
+      perf,
+      details,
+    };
+    return await new OpenAIService().generatePerformanceReview(input);
+  };
+
+  const onHintClick = async (): Promise<string> => {
+    return await new OpenAIService().generatePerformanceReviewHint(
+      role,
+      perf,
+      tone
+    );
+  };
 
   return (
     <div className="main-body">
@@ -236,10 +202,13 @@ export const PerformanceReviewPage = () => {
               />
             </div>
             <div className="horizontal-line"></div>
-            <DetailsInput />
+            <InputDetailsComponent
+              hint={detailsHint}
+              onHintClick={onHintClick}
+            />
           </div>
           <div className="mt-4">
-            <ResultsComponent />
+            <ResultsComponent onGenerateClick={onGenerateClick} />
           </div>
           <ResultsError />
         </div>

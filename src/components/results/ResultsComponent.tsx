@@ -1,16 +1,14 @@
-import { PerformanceReviewInput } from "../../business/common";
+import * as bulmaToast from "bulma-toast";
 import { OpenAIService } from "../../business/open-ai.service";
-import { useInputDetailsState } from "../../state/input-details.state";
-import { usePerformanceReviewState } from "../../state/perf-review.state";
 import { useResultState, formResult } from "../../state/result-state";
 import { AutoTextArea } from "../common/AutoTextArea";
 
-export const ResultsComponent = () => {
+export const ResultsComponent = (props: {
+  onGenerateClick: () => Promise<string[]>;
+}) => {
   const loading = useResultState((state) => state.loading);
   const reloadedSection = useResultState((state) => state.reloadedSection);
   const setLoading = useResultState((state) => state.setLoading);
-  const state = usePerformanceReviewState((state) => state);
-  const details = useInputDetailsState((state) => state.details);
 
   const results = useResultState((state) => state.results);
   const setResults = useResultState((state) => state.setResults);
@@ -24,20 +22,8 @@ export const ResultsComponent = () => {
 
   const onGenerateClick = async () => {
     setLoading();
-    const input: PerformanceReviewInput = {
-      relationship: state.relationship,
-      question: state.question,
-      name: state.name,
-      role: state.role,
-      team: state.team,
-      time: state.time,
-      tone: state.tone,
-      pron: state.pron,
-      perf: state.perf,
-      details,
-    };
     try {
-      const result = await new OpenAIService().generatePerformanceReview(input);
+      const result = await props.onGenerateClick();
       setResults(formResult(result));
     } catch (e: any) {
       setError(e.message);
@@ -54,6 +40,19 @@ export const ResultsComponent = () => {
     }
   };
 
+  const onCopyClick = async () => {
+    const answer = results.map((e) => e.expanded).join("\n\n");
+    await navigator.clipboard.writeText(answer);
+    bulmaToast.toast({
+      message: "Copied to clipboard",
+      type: "is-info",
+      position: "bottom-center",
+      closeOnClick: true,
+      duration: 1000,
+      animate: { in: "fadeIn", out: "fadeOut" },
+    });
+  };
+
   return (
     <>
       <div className="buttons">
@@ -64,7 +63,7 @@ export const ResultsComponent = () => {
         >
           Generate
         </button>
-        <button disabled={loading} className="button">
+        <button disabled={loading} className="button" onClick={onCopyClick}>
           Copy
         </button>
       </div>

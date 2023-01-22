@@ -4,9 +4,10 @@ import {
   Pronouns,
   TimePeriod,
   PerformanceReviewInput,
+  CoverLetterInput,
 } from "./common";
 
-export class FlexiblePromptBuilder {
+export class PerformanceReviewPromptBuilder {
   build(details: PerformanceReviewInput): string {
     const prompt: string[] = [];
 
@@ -92,7 +93,32 @@ export class FlexiblePromptBuilder {
   }
 }
 
-export class InspirationPromptBuilder {
+export class CoverLetterPromptBuilder {
+  build(details: CoverLetterInput): string {
+    const prompt: string[] = [];
+
+    prompt.push(details.question);
+    prompt.push(details.details);
+    prompt.push(`Please also add the following personal details`);
+    if (details.name) {
+      prompt.push(`Person Name: ${details.name}`);
+    } else {
+      prompt.push(`Person: Myself`);
+      prompt.push(`Refer to me in the first person`);
+    }
+    if (details.role) {
+      prompt.push(`Role applying to: ${details.role}`);
+    }
+    if (details.company) {
+      prompt.push(`Company applying to: ${details.company}`);
+    }
+    prompt.push(`Work experience: ${details.history} years`);
+
+    return prompt.join("\n");
+  }
+}
+
+export class PerformanceReviewHintBuilder {
   build(
     role: string | undefined,
     performance: PerformanceScore,
@@ -163,5 +189,14 @@ export class InspirationPromptBuilder {
 export class ExpandPromptBuilder {
   build(input: string): string {
     return `Expand just a little bit on the following: ${input}`;
+  }
+}
+
+export class CoverLetterHintBuilder {
+  build(role: string): string {
+    if (!role) {
+      return `Please list 3 strentgs a person has, in the context of a cover letter.`;
+    }
+    return `Please list 3 strentgs a person has, in the context of a cover letter, for the role of ${role}`;
   }
 }
