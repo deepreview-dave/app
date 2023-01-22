@@ -195,8 +195,8 @@ export class ExpandPromptBuilder {
 export class CoverLetterHintBuilder {
   build(role: string): string {
     if (!role) {
-      return `Please list 3 strentgs a person has, in the context of a cover letter.`;
+      return `Please list 3 strengths a person has, in the context of a cover letter.`;
     }
-    return `Please list 3 strentgs a person has, in the context of a cover letter, for the role of ${role}`;
+    return `Please list 3 strengths a person has, in the context of a cover letter, for the role of ${role}`;
   }
 }
