@@ -28,7 +28,10 @@ export const InputDetailsComponent = (props: {
   };
 
   useEffect(() => {
-    setDetails("");
+    setDetails("default");
+    setTimeout(() => {
+      setDetails("");
+    }, 10);
   }, []);
 
   useEffect(() => {

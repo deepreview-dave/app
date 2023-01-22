@@ -26,6 +26,11 @@
   margin-bottom: 0 !important;
 }
 
+footer > * a:hover {
+  color: hsl(204, 86%, 53%);
+  text-decoration: underline;
+}
+
 /** LOGOS */
 
 .logo-icon {
