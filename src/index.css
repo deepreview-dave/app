@@ -87,6 +87,10 @@ a.underlined-style {
 
 /** PAGE RESULT */
 
+.is-monospace {
+  font-family: monospace;
+}
+
 .review-content {
   border: 1px solid hsl(0, 0%, 71%); /* has-text-grey-light */
   border-radius: 10px;
