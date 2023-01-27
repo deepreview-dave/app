@@ -43,11 +43,9 @@ export const ResumeSelectionPage = () => {
                 Get help writing a referral letter for a colleague or friend
               </small>
             </p>
-            <p className="light-border has-text-grey">
+            <p className="light-border">
               <b>
-                {/* <a> */}
-                Resume (Coming Soon)
-                {/* </a> */}
+                <a onClick={() => navigate(API_ROUTES.RESUME_CV)}>Resume</a>
               </b>
               <br />
               <small>Get help writing different sections of you resume</small>
