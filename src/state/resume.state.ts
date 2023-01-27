@@ -31,6 +31,9 @@ export type ResumeWorkHistory = {
   details: string;
 };
 
+export const isValidWorkHistory = (history: ResumeWorkHistory) =>
+  history.role && history.company && history.start && history.end;
+
 const NewWorkHistory = (): ResumeWorkHistory => ({
   company: "",
   role: "",
@@ -55,6 +58,9 @@ export type ResumeEducationHistory = {
   end: string;
   details: string;
 };
+
+export const isValidEducationHistory = (history: ResumeEducationHistory) =>
+  history.school && history.degree && history.start && history.end;
 
 const NewEducationHistory = (): ResumeEducationHistory => ({
   school: "",
@@ -111,7 +117,7 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
 export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
   (set) => ({
     question:
-      "Please expand a bit on each of the following work history sections:",
+      "Plase add more details to the following work history section, in the context of a resume:",
     items: [NewWorkHistory()],
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
     addHistory: () =>

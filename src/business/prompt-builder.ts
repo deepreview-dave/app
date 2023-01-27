@@ -1,3 +1,4 @@
+import { ResumeWorkHistory } from "../state/resume.state";
 import {
   PerformanceScore,
   ReviewTone,
@@ -6,6 +7,7 @@ import {
   PerformanceReviewInput,
   CoverLetterInput,
   ReferralLetterInput,
+  ResumeInput,
 } from "./common";
 
 export class PerformanceReviewPromptBuilder {
@@ -228,5 +230,31 @@ export class ReferralLetterHintBuilder {
 export class ExpandPromptBuilder {
   build(input: string): string {
     return `Expand just a little bit on the following: ${input}`;
+  }
+}
+
+export class ResumeSummaryPromptBuilder {
+  build(input: ResumeInput): string {
+    const prompt: string[] = [];
+    prompt.push(input.summary.question);
+    prompt.push(input.summary.summary);
+    prompt.push(
+      `${input.details.name} also has excellent skills in ${input.summary.skills}.`
+    );
+    prompt.push(
+      `${input.details.name} has been working for ${input.summary.history} years.`
+    );
+    return prompt.join("\n");
+  }
+}
+
+export class ResumeWorkHistoryPromptBuilder {
+  build(question: string, history: ResumeWorkHistory): string {
+    const prompt: string[] = [];
+    prompt.push(question);
+    prompt.push(`Role: ${history.role}`);
+    prompt.push(`Company: ${history.company}`);
+    prompt.push(`More details: ${history.details}`);
+    return prompt.join("\n");
   }
 }

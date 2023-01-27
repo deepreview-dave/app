@@ -1,12 +1,39 @@
+import { ResumeInput } from "../../../business/common";
+import { OpenAIService } from "../../../business/open-ai.service";
 import { ResumeBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
+import {
+  ResultsComponent,
+  ResultsError,
+} from "../../../components/results/ResultsComponent";
 import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
-import { ResumeStep, useResumeState } from "../../../state/resume.state";
+import {
+  ResumeStep,
+  useResumeDetailsState,
+  useResumeEducationHistoryState,
+  useResumeState,
+  useResumeSummaryState,
+  useResumeWorkHistoryState,
+} from "../../../state/resume.state";
 import { ResumeDetails } from "./ResumeDetails";
 import { ResumeEducation } from "./ResumeEducation";
 import { ResumeSummary } from "./ResumeSummary";
 import { ResumeWorkplaces } from "./ResumeWorkplaces";
+
+export const Results = () => {
+  const details = useResumeDetailsState((state) => state);
+  const summary = useResumeSummaryState((state) => state);
+  const workplaces = useResumeWorkHistoryState((state) => state);
+  const education = useResumeEducationHistoryState((state) => state);
+
+  const onGenerateClick = async () => {
+    const input: ResumeInput = { details, summary, workplaces, education };
+    return await new OpenAIService().generateResume(input);
+  };
+
+  return <ResultsComponent onGenerateClick={onGenerateClick} />;
+};
 
 export const ResumePage = () => {
   const state = useResumeState((state) => state);
@@ -95,6 +122,10 @@ export const ResumePage = () => {
             </li>
           </ul>
           <Content />
+          <div className="mt-4">
+            <Results />
+          </div>
+          <ResultsError />
         </div>
       </div>
       <SubscribeFrom />
