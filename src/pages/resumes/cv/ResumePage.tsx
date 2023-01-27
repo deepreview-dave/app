@@ -4,6 +4,7 @@ import { NavbarMin } from "../../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
 import { ResumeStep, useResumeState } from "../../../state/resume.state";
 import { ResumeDetails } from "./ResumeDetails";
+import { ResumeEducation } from "./ResumeEducation";
 import { ResumeSummary } from "./ResumeSummary";
 import { ResumeWorkplaces } from "./ResumeWorkplaces";
 
@@ -18,6 +19,8 @@ export const ResumePage = () => {
         return <ResumeSummary />;
       case ResumeStep.Workplaces:
         return <ResumeWorkplaces />;
+      case ResumeStep.Education:
+        return <ResumeEducation />;
       default:
         return <></>;
     }
@@ -71,6 +74,21 @@ export const ResumePage = () => {
                 <p className="is-size-4">
                   <a onClick={() => state.setStep(ResumeStep.Workplaces)}>
                     Experience
+                  </a>
+                </p>
+              </div>
+            </li>
+            <li
+              className={
+                "steps-segment " +
+                (state.step === ResumeStep.Education ? "is-active" : "")
+              }
+            >
+              <span className="steps-marker">4</span>
+              <div className="steps-content">
+                <p className="is-size-4">
+                  <a onClick={() => state.setStep(ResumeStep.Education)}>
+                    Education
                   </a>
                 </p>
               </div>

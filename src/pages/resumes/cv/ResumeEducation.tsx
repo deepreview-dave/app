@@ -1,10 +1,10 @@
 import { AutoTextArea } from "../../../components/common/AutoTextArea";
 import { useResultState } from "../../../state/result-state";
-import { useResumeWorkHistoryState } from "../../../state/resume.state";
+import { useResumeEducationHistoryState } from "../../../state/resume.state";
 
-export const ResumeWorkplaces = () => {
+export const ResumeEducation = () => {
   const resultLoading = useResultState((state) => state.loading);
-  const state = useResumeWorkHistoryState((state) => state);
+  const state = useResumeEducationHistoryState((state) => state);
 
   return (
     <>
@@ -27,24 +27,27 @@ export const ResumeWorkplaces = () => {
                   <input
                     className="mr-2"
                     disabled={resultLoading}
-                    placeholder="Company"
+                    placeholder="School"
                     type={"text"}
-                    value={h.company}
+                    value={h.school}
                     onChange={(e) =>
                       state.setHistory(i, {
                         ...h,
-                        company: e.currentTarget.value,
+                        school: e.currentTarget.value,
                       })
                     }
                   ></input>
                   <input
                     className="mr-2"
                     disabled={resultLoading}
-                    placeholder="Role"
+                    placeholder="Degree"
                     type={"text"}
-                    value={h.role}
+                    value={h.degree}
                     onChange={(e) =>
-                      state.setHistory(i, { ...h, role: e.currentTarget.value })
+                      state.setHistory(i, {
+                        ...h,
+                        degree: e.currentTarget.value,
+                      })
                     }
                   ></input>
                   <input
@@ -75,7 +78,7 @@ export const ResumeWorkplaces = () => {
                   <AutoTextArea
                     disabled={resultLoading}
                     value={h.details}
-                    placeholder="Add workplace details ..."
+                    placeholder="Add education details ..."
                     index={i}
                     onChange={(e) => state.setHistory(i, { ...h, details: e })}
                   />

@@ -23,7 +23,7 @@ export type ResumeSummaryState = {
   setSummary: (summary: string) => void;
 };
 
-export type ResumeHistory = {
+export type ResumeWorkHistory = {
   role: string;
   company: string;
   start: string;
@@ -31,7 +31,7 @@ export type ResumeHistory = {
   details: string;
 };
 
-const NewHistory = (): ResumeHistory => ({
+const NewWorkHistory = (): ResumeWorkHistory => ({
   company: "",
   role: "",
   start: "",
@@ -41,11 +41,36 @@ const NewHistory = (): ResumeHistory => ({
 
 export type ResumeHistoryState = {
   question: string;
-  items: ResumeHistory[];
+  items: ResumeWorkHistory[];
   setQuestion: (question: string) => void;
   addHistory: () => void;
   removeHistory: (index: number) => void;
-  setHistory: (index: number, history: ResumeHistory) => void;
+  setHistory: (index: number, history: ResumeWorkHistory) => void;
+};
+
+export type ResumeEducationHistory = {
+  school: string;
+  degree: string;
+  start: string;
+  end: string;
+  details: string;
+};
+
+const NewEducationHistory = (): ResumeEducationHistory => ({
+  school: "",
+  degree: "",
+  start: "",
+  end: "",
+  details: "",
+});
+
+export type ResumeEducationState = {
+  question: string;
+  items: ResumeEducationHistory[];
+  setQuestion: (question: string) => void;
+  addHistory: () => void;
+  removeHistory: (index: number) => void;
+  setHistory: (index: number, history: ResumeEducationHistory) => void;
 };
 
 export enum ResumeStep {
@@ -83,27 +108,53 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
   setSummary: (summary: string) => set((state) => ({ ...state, summary })),
 }));
 
-export const useResumeHistoryState = create<ResumeHistoryState>()((set) => ({
-  question:
-    "Please expand a bit on each of the following work history sections:",
-  items: [NewHistory()],
-  setQuestion: (question: string) => set((state) => ({ ...state, question })),
-  addHistory: () =>
-    set((state) => {
-      const items = [...state.items, NewHistory()];
-      return { ...state, items };
-    }),
-  removeHistory: (index: number) =>
-    set((state) => {
-      const items = state.items.filter((e, i) => i !== index);
-      return { ...state, items };
-    }),
-  setHistory: (index, history) =>
-    set((state) => {
-      const items = state.items.map((e, i) => (i === index ? history : e));
-      return { ...state, items };
-    }),
-}));
+export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
+  (set) => ({
+    question:
+      "Please expand a bit on each of the following work history sections:",
+    items: [NewWorkHistory()],
+    setQuestion: (question: string) => set((state) => ({ ...state, question })),
+    addHistory: () =>
+      set((state) => {
+        const items = [...state.items, NewWorkHistory()];
+        return { ...state, items };
+      }),
+    removeHistory: (index: number) =>
+      set((state) => {
+        const items = state.items.filter((e, i) => i !== index);
+        return { ...state, items };
+      }),
+    setHistory: (index, history) =>
+      set((state) => {
+        const items = state.items.map((e, i) => (i === index ? history : e));
+        return { ...state, items };
+      }),
+  })
+);
+
+export const useResumeEducationHistoryState = create<ResumeEducationState>()(
+  (set) => ({
+    question:
+      "Please expand a bit on each of the following education history sections:",
+    items: [NewEducationHistory()],
+    setQuestion: (question: string) => set((state) => ({ ...state, question })),
+    addHistory: () =>
+      set((state) => {
+        const items = [...state.items, NewEducationHistory()];
+        return { ...state, items };
+      }),
+    removeHistory: (index: number) =>
+      set((state) => {
+        const items = state.items.filter((e, i) => i !== index);
+        return { ...state, items };
+      }),
+    setHistory: (index, history) =>
+      set((state) => {
+        const items = state.items.map((e, i) => (i === index ? history : e));
+        return { ...state, items };
+      }),
+  })
+);
 
 export const useResumeState = create<ResumeState>()((set) => ({
   step: ResumeStep.Details,
