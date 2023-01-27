@@ -29,7 +29,12 @@ export const Results = () => {
 
   const onGenerateClick = async () => {
     const input: ResumeInput = { details, summary, workplaces, education };
-    return await new OpenAIService().generateResume(input);
+    const result = await new OpenAIService().generateResume(input);
+    details.setResult(result.details);
+    summary.setResult(result.summary);
+    workplaces.setResult(result.histories);
+    education.setResult(result.educations);
+    return result.results;
   };
 
   return <ResultsComponent onGenerateClick={onGenerateClick} />;

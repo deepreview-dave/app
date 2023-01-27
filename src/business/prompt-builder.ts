@@ -1,4 +1,7 @@
-import { ResumeWorkHistory } from "../state/resume.state";
+import {
+  ResumeEducationHistory,
+  ResumeWorkHistory,
+} from "../state/resume.state";
 import {
   PerformanceScore,
   ReviewTone,
@@ -254,6 +257,17 @@ export class ResumeWorkHistoryPromptBuilder {
     prompt.push(question);
     prompt.push(`Role: ${history.role}`);
     prompt.push(`Company: ${history.company}`);
+    prompt.push(`More details: ${history.details}`);
+    return prompt.join("\n");
+  }
+}
+
+export class ResumeEducationHistoryPromptBuilder {
+  build(question: string, history: ResumeEducationHistory): string {
+    const prompt: string[] = [];
+    prompt.push(question);
+    prompt.push(`School: ${history.school}`);
+    prompt.push(`Degree: ${history.degree}`);
     prompt.push(`More details: ${history.details}`);
     return prompt.join("\n");
   }

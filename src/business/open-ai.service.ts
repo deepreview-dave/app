@@ -8,6 +8,7 @@ import {
   ReferralLetterPromptBuilder,
   ResumeSummaryPromptBuilder,
   ResumeWorkHistoryPromptBuilder,
+  ResumeEducationHistoryPromptBuilder,
 } from "./prompt-builder";
 import {
   CoverLetterInput,
@@ -15,12 +16,15 @@ import {
   PerformanceScore,
   ReferralLetterInput,
   ResumeInput,
+  ResumeOutput,
   ReviewTone,
 } from "./common";
 import { Configuration, OpenAIApi } from "openai";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
-import { runInThisContext } from "vm";
-import { isValidWorkHistory } from "../state/resume.state";
+import {
+  isValidEducationHistory,
+  isValidWorkHistory,
+} from "../state/resume.state";
 
 type NetworkInput = {
   model: string;
@@ -141,17 +145,20 @@ export class OpenAIService {
     return [bakedResults, ...aiResult];
   }
 
-  async generateResume(input: ResumeInput): Promise<string[]> {
-    const detailsResults = [
+  async generateResume(input: ResumeInput): Promise<ResumeOutput> {
+    const details = [
       `Name: ${input.details.name}`,
       `Address: ${input.details.address}`,
       `Phone: ${input.details.phone}`,
       `Email: ${input.details.email}`,
     ].join("\n");
 
-    let summaryResults = "";
+    let summary = "";
     if (!input.summary.summary) {
-      summaryResults = "Please make sure to provide some summary information.";
+      summary = "Please make sure to provide some summary information.";
+    } else if (!input.summary.edited) {
+      console.log("Providing existing summary!");
+      summary = input.summary.result;
     } else {
       const prompt = new ResumeSummaryPromptBuilder().build(input);
       const max_tokens = prompt.length + 2000;
@@ -161,19 +168,25 @@ export class OpenAIService {
         max_tokens,
         prompt,
       });
-      summaryResults = response.trim();
+      summary = response.trim();
     }
 
-    let workplaceResult = [""];
-    const validItems = input.workplaces.items.filter((e) =>
+    let histories = [""];
+    const validWorkItems = input.workplaces.items.filter((e) =>
       isValidWorkHistory(e)
     );
-    if (validItems.length === 0) {
-      workplaceResult = [
+    if (validWorkItems.length === 0) {
+      histories = [
         "Please make sure to provide some information about your previous and current roles.",
       ];
     } else {
       for (const workplace of input.workplaces.items) {
+        if (!workplace.edited) {
+          console.log("Providing existing workplace result!");
+          histories.push(workplace.result);
+          continue;
+        }
+
         const prompt = new ResumeWorkHistoryPromptBuilder().build(
           input.workplaces.question,
           workplace
@@ -193,14 +206,64 @@ export class OpenAIService {
         ]
           .join("\n")
           .trim();
-        workplaceResult.push(result);
+        histories.push(result);
       }
     }
+    histories = histories.filter((e) => !!e);
 
-    const result = [detailsResults, summaryResults, ...workplaceResult].filter(
+    let educations = [""];
+    const validEducationItems = input.education.items.filter((e) =>
+      isValidEducationHistory(e)
+    );
+    if (validEducationItems.length === 0) {
+      educations = [
+        "Please make sure to provide some information about your education.",
+      ];
+    } else {
+      for (const education of input.education.items) {
+        if (!education.edited) {
+          console.log("Providing existing education result!");
+          educations.push(education.result);
+          continue;
+        }
+
+        const result = [
+          `School: ${education.school}`,
+          `Degree: ${education.degree} (${education.start} - ${education.end})`,
+        ];
+
+        if (education.details) {
+          const prompt = new ResumeEducationHistoryPromptBuilder().build(
+            input.education.question,
+            education
+          );
+          const max_tokens = prompt.length + 350;
+          const response = await this.getResponse({
+            model: this.MODEL,
+            temperature: 0.15,
+            max_tokens,
+            prompt,
+          });
+
+          result.push("");
+          result.push(response.trim());
+        }
+
+        educations.push(result.join("\n").trim());
+      }
+    }
+    educations = educations.filter((e) => !!e);
+
+    const results = [details, summary, ...histories, ...educations].filter(
       (e) => !!e
     );
-    return result;
+    return {
+      results,
+      details,
+      summary,
+      histories,
+      educations,
+    };
   }
 
   async expandText(text: string): Promise<string> {
