@@ -30,10 +30,6 @@ export const Results = () => {
   const onGenerateClick = async () => {
     const input: ResumeInput = { details, summary, workplaces, education };
     const result = await new OpenAIService().generateResume(input);
-    details.setResult(result.details);
-    summary.setResult(result.summary);
-    workplaces.setResult(result.histories);
-    education.setResult(result.educations);
     return result.results;
   };
 
@@ -127,6 +123,10 @@ export const ResumePage = () => {
             </li>
           </ul>
           <Content />
+          {/* <ResumeDetails />
+          <ResumeSummary />
+          <ResumeWorkplaces />
+          <ResumeEducation /> */}
           <div className="mt-4">
             <Results />
           </div>

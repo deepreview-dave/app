@@ -92,16 +92,12 @@ export interface ResumeInput {
     address: string;
     phone: string;
     email: string;
-    edited: boolean;
-    result: string;
   };
   summary: {
     question: string;
     history: WorkHistory;
     skills: string;
     summary: string;
-    edited: boolean;
-    result: string;
   };
   workplaces: {
     question: string;

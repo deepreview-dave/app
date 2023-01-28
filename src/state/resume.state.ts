@@ -6,13 +6,10 @@ export type ResumeDetailsState = {
   address: string;
   phone: string;
   email: string;
-  edited: boolean;
-  result: string;
   setName: (name: string) => void;
   setAddress: (address: string) => void;
   setPhone: (phone: string) => void;
   setEmail: (email: string) => void;
-  setResult: (result: string) => void;
 };
 
 export type ResumeSummaryState = {
@@ -20,13 +17,10 @@ export type ResumeSummaryState = {
   history: WorkHistory;
   skills: string;
   summary: string;
-  edited: boolean;
-  result: string;
   setQuestion: (question: string) => void;
   setHistory: (history: WorkHistory) => void;
   setSkills: (skills: string) => void;
   setSummary: (summary: string) => void;
-  setResult: (result: string) => void;
 };
 
 export type ResumeWorkHistory = {
@@ -35,8 +29,6 @@ export type ResumeWorkHistory = {
   start: string;
   end: string;
   details: string;
-  edited: boolean;
-  result: string;
 };
 
 export const isValidWorkHistory = (history: ResumeWorkHistory) =>
@@ -48,8 +40,6 @@ const NewWorkHistory = (): ResumeWorkHistory => ({
   start: "",
   end: "",
   details: "",
-  edited: false,
-  result: "",
 });
 
 export type ResumeHistoryState = {
@@ -59,7 +49,6 @@ export type ResumeHistoryState = {
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeWorkHistory) => void;
-  setResult: (histories: string[]) => void;
 };
 
 export type ResumeEducationHistory = {
@@ -68,8 +57,6 @@ export type ResumeEducationHistory = {
   start: string;
   end: string;
   details: string;
-  edited: boolean;
-  result: string;
 };
 
 export const isValidEducationHistory = (history: ResumeEducationHistory) =>
@@ -81,8 +68,6 @@ const NewEducationHistory = (): ResumeEducationHistory => ({
   start: "",
   end: "",
   details: "",
-  edited: false,
-  result: "",
 });
 
 export type ResumeEducationState = {
@@ -92,7 +77,6 @@ export type ResumeEducationState = {
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeEducationHistory) => void;
-  setResult: (educations: string[]) => void;
 };
 
 export enum ResumeStep {
@@ -112,17 +96,10 @@ export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   address: "",
   phone: "",
   email: "",
-  edited: false,
-  result: "",
-  setName: (name: string) => set((state) => ({ ...state, name, edited: true })),
-  setAddress: (address: string) =>
-    set((state) => ({ ...state, address, edited: true })),
-  setPhone: (phone: string) =>
-    set((state) => ({ ...state, phone, edited: true })),
-  setEmail: (email: string) =>
-    set((state) => ({ ...state, email, edited: true })),
-  setResult: (result: string) =>
-    set((state) => ({ ...state, edited: false, result })),
+  setName: (name: string) => set((state) => ({ ...state, name })),
+  setAddress: (address: string) => set((state) => ({ ...state, address })),
+  setPhone: (phone: string) => set((state) => ({ ...state, phone })),
+  setEmail: (email: string) => set((state) => ({ ...state, email })),
 }));
 
 export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
@@ -131,18 +108,10 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
   history: WorkHistory.Five,
   skills: "",
   summary: "",
-  edited: false,
-  result: "",
-  setQuestion: (question: string) =>
-    set((state) => ({ ...state, question, edited: true })),
-  setHistory: (history: WorkHistory) =>
-    set((state) => ({ ...state, history, edited: true })),
-  setSkills: (skills: string) =>
-    set((state) => ({ ...state, skills, edited: true })),
-  setSummary: (summary: string) =>
-    set((state) => ({ ...state, summary, edited: true })),
-  setResult: (result: string) =>
-    set((state) => ({ ...state, edited: false, result })),
+  setQuestion: (question: string) => set((state) => ({ ...state, question })),
+  setHistory: (history: WorkHistory) => set((state) => ({ ...state, history })),
+  setSkills: (skills: string) => set((state) => ({ ...state, skills })),
+  setSummary: (summary: string) => set((state) => ({ ...state, summary })),
 }));
 
 export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
@@ -163,18 +132,7 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
       }),
     setHistory: (index, history) =>
       set((state) => {
-        const items = state.items.map((e, i) =>
-          i === index ? { ...history, edited: true } : e
-        );
-        return { ...state, items };
-      }),
-    setResult: (histories: string[]) =>
-      set((state) => {
-        const items = state.items.map((e, i) => ({
-          ...e,
-          edited: false,
-          result: histories[i],
-        }));
+        const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
   })
@@ -198,18 +156,7 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
       }),
     setHistory: (index, history) =>
       set((state) => {
-        const items = state.items.map((e, i) =>
-          i === index ? { ...history, edited: true } : e
-        );
-        return { ...state, items };
-      }),
-    setResult: (educations: string[]) =>
-      set((state) => {
-        const items = state.items.map((e, i) => ({
-          ...e,
-          edited: false,
-          result: educations[i],
-        }));
+        const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
   })

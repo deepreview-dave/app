@@ -146,6 +146,7 @@ export class OpenAIService {
   }
 
   async generateResume(input: ResumeInput): Promise<ResumeOutput> {
+    console.log(input);
     const details = [
       `Name: ${input.details.name}`,
       `Address: ${input.details.address}`,
@@ -156,9 +157,6 @@ export class OpenAIService {
     let summary = "";
     if (!input.summary.summary) {
       summary = "Please make sure to provide some summary information.";
-    } else if (!input.summary.edited) {
-      console.log("Providing existing summary!");
-      summary = input.summary.result;
     } else {
       const prompt = new ResumeSummaryPromptBuilder().build(input);
       const max_tokens = prompt.length + 2000;
@@ -180,13 +178,7 @@ export class OpenAIService {
         "Please make sure to provide some information about your previous and current roles.",
       ];
     } else {
-      for (const workplace of input.workplaces.items) {
-        if (!workplace.edited) {
-          console.log("Providing existing workplace result!");
-          histories.push(workplace.result);
-          continue;
-        }
-
+      for (const workplace of validWorkItems) {
         const prompt = new ResumeWorkHistoryPromptBuilder().build(
           input.workplaces.question,
           workplace
@@ -220,13 +212,7 @@ export class OpenAIService {
         "Please make sure to provide some information about your education.",
       ];
     } else {
-      for (const education of input.education.items) {
-        if (!education.edited) {
-          console.log("Providing existing education result!");
-          educations.push(education.result);
-          continue;
-        }
-
+      for (const education of validEducationItems) {
         const result = [
           `School: ${education.school}`,
           `Degree: ${education.degree} (${education.start} - ${education.end})`,
