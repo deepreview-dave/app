@@ -16,7 +16,6 @@ import {
   PerformanceScore,
   ReferralLetterInput,
   ResumeInput,
-  ResumeOutput,
   ReviewTone,
 } from "./common";
 import { Configuration, OpenAIApi } from "openai";
@@ -145,8 +144,7 @@ export class OpenAIService {
     return [bakedResults, ...aiResult];
   }
 
-  async generateResume(input: ResumeInput): Promise<ResumeOutput> {
-    console.log(input);
+  async generateResumeDetails(input: ResumeInput): Promise<string[]> {
     const details = [
       `Name: ${input.details.name}`,
       `Address: ${input.details.address}`,
@@ -154,6 +152,10 @@ export class OpenAIService {
       `Email: ${input.details.email}`,
     ].join("\n");
 
+    return [details];
+  }
+
+  async generateResumeSummary(input: ResumeInput): Promise<string[]> {
     let summary = "";
     if (!input.summary.summary) {
       summary = "Please make sure to provide some summary information.";
@@ -168,7 +170,10 @@ export class OpenAIService {
       });
       summary = response.trim();
     }
+    return [summary];
+  }
 
+  async generateResumeWorkHistory(input: ResumeInput): Promise<string[]> {
     let histories = [""];
     const validWorkItems = input.workplaces.items.filter((e) =>
       isValidWorkHistory(e)
@@ -202,7 +207,10 @@ export class OpenAIService {
       }
     }
     histories = histories.filter((e) => !!e);
+    return histories;
+  }
 
+  async generateResumeEducationHistory(input: ResumeInput): Promise<string[]> {
     let educations = [""];
     const validEducationItems = input.education.items.filter((e) =>
       isValidEducationHistory(e)
@@ -239,17 +247,7 @@ export class OpenAIService {
       }
     }
     educations = educations.filter((e) => !!e);
-
-    const results = [details, summary, ...histories, ...educations].filter(
-      (e) => !!e
-    );
-    return {
-      results,
-      details,
-      summary,
-      histories,
-      educations,
-    };
+    return educations;
   }
 
   async expandText(text: string): Promise<string> {

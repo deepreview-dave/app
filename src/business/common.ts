@@ -92,30 +92,26 @@ export interface ResumeInput {
     address: string;
     phone: string;
     email: string;
+    result: string[];
   };
   summary: {
     question: string;
     history: WorkHistory;
     skills: string;
     summary: string;
+    result: string[];
   };
   workplaces: {
     question: string;
     items: ResumeWorkHistory[];
+    result: string[];
   };
   education: {
     question: string;
     items: ResumeEducationHistory[];
+    result: string[];
   };
 }
-
-export type ResumeOutput = {
-  results: string[];
-  details: string;
-  summary: string;
-  histories: string[];
-  educations: string[];
-};
 
 export enum WorkHistory {
   One = "1",

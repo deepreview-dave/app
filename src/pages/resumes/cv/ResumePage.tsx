@@ -22,18 +22,72 @@ import { ResumeSummary } from "./ResumeSummary";
 import { ResumeWorkplaces } from "./ResumeWorkplaces";
 
 export const Results = () => {
+  const step = useResumeState((state) => state.step);
   const details = useResumeDetailsState((state) => state);
   const summary = useResumeSummaryState((state) => state);
   const workplaces = useResumeWorkHistoryState((state) => state);
   const education = useResumeEducationHistoryState((state) => state);
 
-  const onGenerateClick = async () => {
-    const input: ResumeInput = { details, summary, workplaces, education };
-    const result = await new OpenAIService().generateResume(input);
-    return result.results;
+  const buttonTitle = () => {
+    switch (step) {
+      case ResumeStep.Details:
+        return "Generate Details";
+      case ResumeStep.Summary:
+        return "Generate Summary";
+      case ResumeStep.Workplaces:
+        return "Generate Work History";
+      case ResumeStep.Education:
+        return "Generate Educational History";
+    }
   };
 
-  return <ResultsComponent onGenerateClick={onGenerateClick} />;
+  const onGenerateClick = async () => {
+    const service = new OpenAIService();
+    const input: ResumeInput = { details, summary, workplaces, education };
+    let detailsResult = details.result;
+    let summaryResult = summary.result;
+    let workplaceResult = workplaces.result;
+    let educationResult = education.result;
+
+    switch (step) {
+      case ResumeStep.Details: {
+        detailsResult = await service.generateResumeDetails(input);
+        break;
+      }
+      case ResumeStep.Summary: {
+        summaryResult = await service.generateResumeSummary(input);
+        break;
+      }
+      case ResumeStep.Workplaces: {
+        workplaceResult = await service.generateResumeWorkHistory(input);
+        break;
+      }
+      case ResumeStep.Education: {
+        educationResult = await service.generateResumeEducationHistory(input);
+        break;
+      }
+    }
+
+    details.setResult(detailsResult);
+    summary.setResult(summaryResult);
+    workplaces.setResult(workplaceResult);
+    education.setResult(educationResult);
+
+    const result = [
+      ...detailsResult,
+      ...summaryResult,
+      ...workplaceResult,
+      ...educationResult,
+    ];
+    return result;
+  };
+
+  return (
+    <ResultsComponent
+      generateButtonTitle={buttonTitle()}
+      onGenerateClick={onGenerateClick}
+    />
+  );
 };
 
 export const ResumePage = () => {
@@ -123,10 +177,6 @@ export const ResumePage = () => {
             </li>
           </ul>
           <Content />
-          {/* <ResumeDetails />
-          <ResumeSummary />
-          <ResumeWorkplaces />
-          <ResumeEducation /> */}
           <div className="mt-4">
             <Results />
           </div>

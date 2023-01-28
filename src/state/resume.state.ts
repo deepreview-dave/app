@@ -6,10 +6,12 @@ export type ResumeDetailsState = {
   address: string;
   phone: string;
   email: string;
+  result: string[];
   setName: (name: string) => void;
   setAddress: (address: string) => void;
   setPhone: (phone: string) => void;
   setEmail: (email: string) => void;
+  setResult: (result: string[]) => void;
 };
 
 export type ResumeSummaryState = {
@@ -17,10 +19,12 @@ export type ResumeSummaryState = {
   history: WorkHistory;
   skills: string;
   summary: string;
+  result: string[];
   setQuestion: (question: string) => void;
   setHistory: (history: WorkHistory) => void;
   setSkills: (skills: string) => void;
   setSummary: (summary: string) => void;
+  setResult: (result: string[]) => void;
 };
 
 export type ResumeWorkHistory = {
@@ -45,10 +49,12 @@ const NewWorkHistory = (): ResumeWorkHistory => ({
 export type ResumeHistoryState = {
   question: string;
   items: ResumeWorkHistory[];
+  result: string[];
   setQuestion: (question: string) => void;
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeWorkHistory) => void;
+  setResult: (result: string[]) => void;
 };
 
 export type ResumeEducationHistory = {
@@ -73,10 +79,12 @@ const NewEducationHistory = (): ResumeEducationHistory => ({
 export type ResumeEducationState = {
   question: string;
   items: ResumeEducationHistory[];
+  result: string[];
   setQuestion: (question: string) => void;
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeEducationHistory) => void;
+  setResult: (result: string[]) => void;
 };
 
 export enum ResumeStep {
@@ -96,10 +104,12 @@ export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   address: "",
   phone: "",
   email: "",
+  result: [],
   setName: (name: string) => set((state) => ({ ...state, name })),
   setAddress: (address: string) => set((state) => ({ ...state, address })),
   setPhone: (phone: string) => set((state) => ({ ...state, phone })),
   setEmail: (email: string) => set((state) => ({ ...state, email })),
+  setResult: (result: string[]) => set((state) => ({ ...state, result })),
 }));
 
 export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
@@ -108,10 +118,12 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
   history: WorkHistory.Five,
   skills: "",
   summary: "",
+  result: [],
   setQuestion: (question: string) => set((state) => ({ ...state, question })),
   setHistory: (history: WorkHistory) => set((state) => ({ ...state, history })),
   setSkills: (skills: string) => set((state) => ({ ...state, skills })),
   setSummary: (summary: string) => set((state) => ({ ...state, summary })),
+  setResult: (result: string[]) => set((state) => ({ ...state, result })),
 }));
 
 export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
@@ -119,6 +131,7 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
     question:
       "Plase add more details to the following work history section, in the context of a resume:",
     items: [NewWorkHistory()],
+    result: [],
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
     addHistory: () =>
       set((state) => {
@@ -135,6 +148,7 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
         const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
+    setResult: (result: string[]) => set((state) => ({ ...state, result })),
   })
 );
 
@@ -143,6 +157,7 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
     question:
       "Please add more details to the following education history section, in the context of a resume:",
     items: [NewEducationHistory()],
+    result: [],
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
     addHistory: () =>
       set((state) => {
@@ -159,6 +174,7 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
         const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
+    setResult: (result: string[]) => set((state) => ({ ...state, result })),
   })
 );
 
