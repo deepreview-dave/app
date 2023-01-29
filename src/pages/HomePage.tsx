@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { API_ROUTES } from "..";
 import { Footer } from "../components/common/Footer";
 import { NavbarBig } from "../components/common/NavbarBig";
@@ -42,12 +41,12 @@ export const HomePage = () => {
                   yourself, a colleague or a manager.
                 </p>
                 <p>
-                  <Link
-                    to={API_ROUTES.PERF_REVIEW_PERSONA}
+                  <a
+                    href={API_ROUTES.PERF_REVIEW_PERSONA}
                     className="button is-primary"
                   >
                     Try it out!
-                  </Link>
+                  </a>
                 </p>
               </div>
             </div>
@@ -72,12 +71,12 @@ export const HomePage = () => {
                   time consuming. Let DeepReview help with that.
                 </p>
                 <p>
-                  <Link
-                    to={API_ROUTES.RESUME_TOOL}
+                  <a
+                    href={API_ROUTES.RESUME_TOOL}
                     className="button is-primary"
                   >
                     Try it out!
-                  </Link>
+                  </a>
                 </p>
               </div>
             </div>
