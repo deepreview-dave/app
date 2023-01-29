@@ -5,6 +5,7 @@ import { AutoTextArea } from "../common/AutoTextArea";
 
 export const ResultsComponent = (props: {
   onGenerateClick: () => Promise<string[]>;
+  generateButtonTitle?: string;
 }) => {
   const loading = useResultState((state) => state.loading);
   const reloadedSection = useResultState((state) => state.reloadedSection);
@@ -61,7 +62,7 @@ export const ResultsComponent = (props: {
           className={"button is-primary " + (loading ? "is-loading" : "")}
           onClick={onGenerateClick}
         >
-          Generate
+          {props.generateButtonTitle}
         </button>
         <button disabled={loading} className="button" onClick={onCopyClick}>
           Copy
@@ -131,6 +132,10 @@ export const ResultsComponent = (props: {
       </div>
     </>
   );
+};
+
+ResultsComponent.defaultProps = {
+  generateButtonTitle: "Generate",
 };
 
 export const ResultsError = () => {

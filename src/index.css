@@ -202,3 +202,7 @@ a.underlined-style {
   height: 0px;
   border-bottom: 1px dashed hsl(0, 0%, 71%); /* has-text-grey-light */
 }
+
+.no-display {
+  display: none;
+}

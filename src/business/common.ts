@@ -1,3 +1,8 @@
+import {
+  ResumeEducationHistory,
+  ResumeWorkHistory,
+} from "../state/resume.state";
+
 export enum PerformanceScore {
   BELOW_EXPECTATIONS = "below-expectations",
   MEETS_EXPECTATIONS = "meets-expectations",
@@ -79,6 +84,33 @@ export interface ReferralLetterInput {
     role: string;
   };
   details: string;
+}
+
+export interface ResumeInput {
+  details: {
+    name: string;
+    address: string;
+    phone: string;
+    email: string;
+    result: string[];
+  };
+  summary: {
+    question: string;
+    history: WorkHistory;
+    skills: string;
+    summary: string;
+    result: string[];
+  };
+  workplaces: {
+    question: string;
+    items: ResumeWorkHistory[];
+    result: string[];
+  };
+  education: {
+    question: string;
+    items: ResumeEducationHistory[];
+    result: string[];
+  };
 }
 
 export enum WorkHistory {

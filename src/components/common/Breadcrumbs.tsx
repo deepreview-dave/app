@@ -113,3 +113,27 @@ export const ReferralLetterBreadcrumbs = () => {
     </nav>
   );
 };
+
+export const ResumeBreadcrumbs = () => {
+  return (
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.RESUME_TOOL}>Resumes & Cover Letters</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.RESUME_TOOL}>Tools</a>
+        </li>
+        <li className="is-active">
+          <a>Resume</a>
+        </li>
+      </ul>
+    </nav>
+  );
+};

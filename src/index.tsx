@@ -13,6 +13,10 @@ import { PerformanceReviewPage } from "./pages/performance-review/PerformanceRev
 import { ResumeSelectionPage } from "./pages/resumes/ResumeSelectionPage";
 import { CoverLetterPage } from "./pages/resumes/CoverLetterPage";
 import { ReferralPage } from "./pages/resumes/ReferralPage";
+import { ResumeDetails } from "./pages/resumes/cv/ResumeDetails";
+import { ResumeSummary } from "./pages/resumes/cv/ResumeSummary";
+import { ResumeWorkplaces } from "./pages/resumes/cv/ResumeWorkplaces";
+import { ResumePage } from "./pages/resumes/cv/ResumePage";
 
 export enum API_ROUTES {
   HOME = "/",
@@ -21,6 +25,7 @@ export enum API_ROUTES {
   RESUME_TOOL = "/resume/tool",
   RESUME_COVER_LETTER = "/resume/cover-letter",
   RESUME_REFERRAL = "/resume/referral-letter",
+  RESUME_CV = "/resume/cv",
 }
 
 const router = createBrowserRouter([
@@ -69,6 +74,15 @@ const router = createBrowserRouter([
     element: (
       <>
         <ReferralPage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.RESUME_CV,
+    element: (
+      <>
+        <ResumePage />
         <ScrollRestoration />
       </>
     ),
