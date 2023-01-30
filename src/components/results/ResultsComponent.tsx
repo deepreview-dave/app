@@ -87,13 +87,17 @@ export const ResultsComponent = (props: {
               <div className="pt-5 pl-3 pr-3 pb-5">
                 <button
                   disabled={loading || reloadedSection !== undefined}
-                  title="Expand on this section"
-                  className="button is-white is-small"
+                  title="Let DeepReview automatically expand this section."
+                  className={
+                    "button is-white is-small has-text-info is-text " +
+                    (reloadedSection === i ? "is-loading" : "")
+                  }
                   onClick={() => onExpandClick(res.expanded, i)}
                 >
-                  <span className="icon is-small">
+                  Expand
+                  {/* <span className="icon is-small">
                     <i className="fas fa-sync"></i>
-                  </span>
+                  </span> */}
                 </button>
               </div>
               <div className="big-div pt-5 pl-3 pr-3 pb-5">
@@ -109,7 +113,7 @@ export const ResultsComponent = (props: {
               <div className="pt-5 pl-3 pr-3 pb-5">
                 <button
                   disabled={loading || reloadedSection !== undefined}
-                  title="Remove section"
+                  title="Undo"
                   className="button is-small is-white"
                   onClick={() => resetElement(i)}
                 >
