@@ -3,6 +3,7 @@ import mixpanel from "mixpanel-browser";
 enum AnalyticsEventName {
   LOADED = "loaded",
   GENERATED = "generated",
+  EXPANDED = "expanded",
   COPIED = "copied",
 }
 
@@ -32,8 +33,12 @@ export class Analytics {
     mixpanel.track(AnalyticsEventName.LOADED);
   }
 
-  static generated(params: GeneratedAnalyticsParams) {
-    mixpanel.track(AnalyticsEventName.GENERATED, params);
+  static generated() {
+    mixpanel.track(AnalyticsEventName.GENERATED);
+  }
+
+  static expanded() {
+    mixpanel.track(AnalyticsEventName.EXPANDED);
   }
 
   static copied() {

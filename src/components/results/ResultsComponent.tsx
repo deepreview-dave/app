@@ -1,4 +1,5 @@
 import * as bulmaToast from "bulma-toast";
+import { Analytics } from "../../business/analytics";
 import { OpenAIService } from "../../business/open-ai.service";
 import { useResultState, formResult } from "../../state/result-state";
 import { AutoTextArea } from "../common/AutoTextArea";
@@ -26,6 +27,7 @@ export const ResultsComponent = (props: {
     try {
       const result = await props.onGenerateClick();
       setResults(formResult(result));
+      Analytics.generated();
     } catch (e: any) {
       setError(e.message);
     }
@@ -36,12 +38,14 @@ export const ResultsComponent = (props: {
     try {
       const result = await new OpenAIService().expandText(value);
       updateResult(result, index);
+      Analytics.expanded();
     } catch (e: any) {
       setError(e.message);
     }
   };
 
   const onCopyClick = async () => {
+    Analytics.copied();
     const answer = results.map((e) => e.expanded).join("\n\n");
     await navigator.clipboard.writeText(answer);
     bulmaToast.toast({
