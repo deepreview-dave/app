@@ -13,9 +13,6 @@ import { PerformanceReviewPage } from "./pages/performance-review/PerformanceRev
 import { ResumeSelectionPage } from "./pages/resumes/ResumeSelectionPage";
 import { CoverLetterPage } from "./pages/resumes/CoverLetterPage";
 import { ReferralPage } from "./pages/resumes/ReferralPage";
-import { ResumeDetails } from "./pages/resumes/cv/ResumeDetails";
-import { ResumeSummary } from "./pages/resumes/cv/ResumeSummary";
-import { ResumeWorkplaces } from "./pages/resumes/cv/ResumeWorkplaces";
 import { ResumePage } from "./pages/resumes/cv/ResumePage";
 
 export enum API_ROUTES {

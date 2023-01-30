@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
+import { API_ROUTES } from "../..";
 import { LogoBig } from "./Logo";
 
 export const NavbarBig = () => {
   return (
     <nav className="mt-6 mb-2">
-      <Link className="no-highlight" to={"/"}>
+      <a className="no-highlight" href={API_ROUTES.HOME}>
         <LogoBig />
-      </Link>
+      </a>
     </nav>
   );
 };

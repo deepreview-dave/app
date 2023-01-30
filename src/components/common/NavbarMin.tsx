@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { API_ROUTES } from "../..";
 import { LogoSmall } from "./Logo";
 
@@ -7,9 +6,9 @@ export const NavbarMin = () => {
     <>
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <Link className="navbar-item" to="/">
+          <a className="navbar-item" href={API_ROUTES.HOME}>
             <LogoSmall />
-          </Link>
+          </a>
 
           <a
             role="button"
@@ -26,23 +25,23 @@ export const NavbarMin = () => {
 
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
-            <Link className="navbar-item" to={"/"}>
+            <a className="navbar-item" href={API_ROUTES.HOME}>
               Home
-            </Link>
+            </a>
 
             <div className="navbar-item has-dropdown is-hoverable">
               <a className="navbar-link">Tools</a>
 
               <div className="navbar-dropdown">
-                <Link
+                <a
                   className="navbar-item"
-                  to={API_ROUTES.PERF_REVIEW_PERSONA}
+                  href={API_ROUTES.PERF_REVIEW_PERSONA}
                 >
                   Performance Reviews
-                </Link>
-                <Link className="navbar-item" to={API_ROUTES.RESUME_TOOL}>
+                </a>
+                <a className="navbar-item" href={API_ROUTES.RESUME_TOOL}>
                   Resumes & Cover Letters
-                </Link>
+                </a>
                 <span className="navbar-item has-text-grey-light">
                   Compensation & Promotions (Coming Soon)
                 </span>
