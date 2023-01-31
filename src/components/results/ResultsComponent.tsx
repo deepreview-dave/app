@@ -68,8 +68,13 @@ export const ResultsComponent = (props: {
         >
           {props.generateButtonTitle}
         </button>
-        <button disabled={loading} className="button" onClick={onCopyClick}>
-          Copy
+        <button
+          title="Copy all generated results to clipboard."
+          disabled={loading}
+          className="button"
+          onClick={onCopyClick}
+        >
+          Copy result to clipboard
         </button>
       </div>
       <div className="">
