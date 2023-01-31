@@ -1,4 +1,4 @@
-import { ReferralLetterInput } from "../../business/common";
+import { Pronouns, ReferralLetterInput } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { ReferralLetterBreadcrumbs } from "../../components/common/Breadcrumbs";
@@ -186,6 +186,20 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
                     state.setApplicantRole(e.currentTarget.value)
                   }
                 />
+              </div>
+              <div id="input-pronoun">
+                <label>Pronoun</label>
+                <select
+                  disabled={resultLoading}
+                  value={state.applicant.pron}
+                  onChange={(e) =>
+                    state.setApplicantPronoun(e.currentTarget.value as Pronouns)
+                  }
+                >
+                  <option value={Pronouns.NEUTRAL}>They</option>
+                  <option value={Pronouns.HE}>He/Him</option>
+                  <option value={Pronouns.HER}>She/Her</option>
+                </select>
               </div>
             </div>
             <div className="horizontal-line"></div>

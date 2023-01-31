@@ -1,4 +1,5 @@
 import create from "zustand";
+import { Pronouns } from "../business/common";
 
 export type ReferralLetterState = {
   question: string;
@@ -16,6 +17,7 @@ export type ReferralLetterState = {
   applicant: {
     name: string;
     role: string;
+    pron: Pronouns;
   };
   setQuestion: (question: string) => void;
   setYourName: (name: string) => void;
@@ -27,6 +29,7 @@ export type ReferralLetterState = {
   setRecipientAddress: (address: string) => void;
   setApplicantName: (name: string) => void;
   setApplicantRole: (role: string) => void;
+  setApplicantPronoun: (pron: Pronouns) => void;
 };
 
 export const useReferralLetterState = create<ReferralLetterState>()((set) => ({
@@ -45,6 +48,7 @@ export const useReferralLetterState = create<ReferralLetterState>()((set) => ({
   applicant: {
     name: "",
     role: "",
+    pron: Pronouns.NEUTRAL,
   },
   setQuestion: (question: string) => set((state) => ({ ...state, question })),
   setYourName: (name: string) =>
@@ -65,4 +69,6 @@ export const useReferralLetterState = create<ReferralLetterState>()((set) => ({
     set((state) => ({ ...state, applicant: { ...state.applicant, name } })),
   setApplicantRole: (role: string) =>
     set((state) => ({ ...state, applicant: { ...state.applicant, role } })),
+  setApplicantPronoun: (pron: Pronouns) =>
+    set((state) => ({ ...state, applicant: { ...state.applicant, pron } })),
 }));
