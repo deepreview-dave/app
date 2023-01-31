@@ -20,6 +20,8 @@ import {
 import { ResultsBreadcrumbs } from "../../components/common/Breadcrumbs";
 import { useInputDetailsState } from "../../state/input-details.state";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
+import { useEffect } from "react";
+import { Analytics, AnalyticsToolName } from "../../business/analytics";
 
 export const PerformanceReviewPage = () => {
   const detailsHint = `Add more details, such as:
@@ -81,6 +83,10 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
       tone
     );
   };
+
+  useEffect(() => {
+    Analytics.tool(AnalyticsToolName.PERF_REVIEW);
+  }, []);
 
   return (
     <div className="main-body">

@@ -14,6 +14,8 @@ import {
   ResultsComponent,
   ResultsError,
 } from "../../components/results/ResultsComponent";
+import { useEffect } from "react";
+import { Analytics, AnalyticsToolName } from "../../business/analytics";
 
 export const CoverLetterPage = () => {
   const detailsHint = `Add more details, such as:
@@ -42,6 +44,10 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
   const onHintClick = async (): Promise<string> => {
     return await new OpenAIService().generateCoverLetterHint(state.role);
   };
+
+  useEffect(() => {
+    Analytics.tool(AnalyticsToolName.COVER_LETTER);
+  }, []);
 
   return (
     <div className="main-body">

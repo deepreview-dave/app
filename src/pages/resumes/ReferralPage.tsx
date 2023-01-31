@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { Analytics, AnalyticsToolName } from "../../business/analytics";
 import { Pronouns, ReferralLetterInput } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
@@ -42,6 +44,10 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
       state.applicant.role
     );
   };
+
+  useEffect(() => {
+    Analytics.tool(AnalyticsToolName.REFERRAL_LETTER);
+  }, []);
 
   return (
     <div className="main-body">
