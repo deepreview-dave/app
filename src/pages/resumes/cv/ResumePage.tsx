@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { Analytics, AnalyticsToolName } from "../../../business/analytics";
 import { ResumeInput } from "../../../business/common";
 import { OpenAIService } from "../../../business/open-ai.service";
 import { ResumeBreadcrumbs } from "../../../components/common/Breadcrumbs";
@@ -107,6 +109,10 @@ export const ResumePage = () => {
         return <></>;
     }
   };
+
+  useEffect(() => {
+    Analytics.tool(AnalyticsToolName.RESUME);
+  }, []);
 
   return (
     <div className="main-body">

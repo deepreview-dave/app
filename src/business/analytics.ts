@@ -5,6 +5,14 @@ enum AnalyticsEventName {
   GENERATED = "generated",
   EXPANDED = "expanded",
   COPIED = "copied",
+  TOOL = "tool",
+}
+
+export enum AnalyticsToolName {
+  PERF_REVIEW = "performance_review",
+  COVER_LETTER = "cover_letter",
+  REFERRAL_LETTER = "referral_letter",
+  RESUME = "resume",
 }
 
 export type GeneratedAnalyticsParams = {
@@ -43,5 +51,9 @@ export class Analytics {
 
   static copied() {
     mixpanel.track(AnalyticsEventName.COPIED);
+  }
+
+  static tool(tool: AnalyticsToolName) {
+    mixpanel.track(AnalyticsEventName.TOOL, { tool });
   }
 }
