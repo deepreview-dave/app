@@ -82,6 +82,7 @@ export interface ReferralLetterInput {
   applicant: {
     name: string;
     role: string;
+    pron: Pronouns;
   };
   details: string;
 }

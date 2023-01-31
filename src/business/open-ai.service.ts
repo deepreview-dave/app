@@ -179,10 +179,10 @@ export class OpenAIService {
           input.workplaces.question,
           workplace
         );
-        const max_tokens = prompt.length + 350;
+        const max_tokens = prompt.length + 500;
         const response = await this.getResponse({
           model: this.MODEL,
-          temperature: 0.15,
+          temperature: 0.25,
           max_tokens,
           prompt,
         });
@@ -225,7 +225,7 @@ export class OpenAIService {
           const max_tokens = prompt.length + 350;
           const response = await this.getResponse({
             model: this.MODEL,
-            temperature: 0.15,
+            temperature: 0.25,
             max_tokens,
             prompt,
           });

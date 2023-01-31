@@ -108,6 +108,7 @@ export class CoverLetterPromptBuilder {
     prompt.push(`Please also add the following personal details`);
     if (details.name) {
       prompt.push(`Person Name: ${details.name}`);
+      prompt.push(`Refer to myself in the first person`);
     } else {
       prompt.push(`Person: Myself`);
       prompt.push(`Refer to me in the first person`);
@@ -139,6 +140,20 @@ export class ReferralLetterPromptBuilder {
     prompt.push(`Recipient company: ${details.recipient.company}`);
     prompt.push(`Applicant name: ${details.applicant.name}`);
     prompt.push(`Applicant role: ${details.applicant.role}`);
+    switch (details.applicant.pron) {
+      case Pronouns.NEUTRAL: {
+        prompt.push("Applicant pronoun: them/they");
+        break;
+      }
+      case Pronouns.HE: {
+        prompt.push("Applicant pronoun: he/him");
+        break;
+      }
+      case Pronouns.HER: {
+        prompt.push("Applicant pronoun: she/her");
+        break;
+      }
+    }
 
     return prompt.join("\n");
   }
@@ -247,6 +262,7 @@ export class ResumeSummaryPromptBuilder {
     prompt.push(
       `${input.details.name} has been working for ${input.summary.history} years.`
     );
+    prompt.push(`Refer to me in the first person`);
     return prompt.join("\n");
   }
 }
@@ -258,6 +274,7 @@ export class ResumeWorkHistoryPromptBuilder {
     prompt.push(`Role: ${history.role}`);
     prompt.push(`Company: ${history.company}`);
     prompt.push(`More details: ${history.details}`);
+    prompt.push(`Refer to me in the first person.`);
     return prompt.join("\n");
   }
 }
@@ -269,6 +286,7 @@ export class ResumeEducationHistoryPromptBuilder {
     prompt.push(`School: ${history.school}`);
     prompt.push(`Degree: ${history.degree}`);
     prompt.push(`More details: ${history.details}`);
+    prompt.push(`Refer to me in the first person.`);
     return prompt.join("\n");
   }
 }

@@ -129,7 +129,7 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
 export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
   (set) => ({
     question:
-      "Plase add more details to the following work history section, in the context of a resume:",
+      "Expand just a little bit on the following, in the context of a resume:",
     items: [NewWorkHistory()],
     result: [],
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
@@ -155,7 +155,7 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
 export const useResumeEducationHistoryState = create<ResumeEducationState>()(
   (set) => ({
     question:
-      "Please add more details to the following education history section, in the context of a resume:",
+      "Expand just a little bit on the following, in the context of a resume:",
     items: [NewEducationHistory()],
     result: [],
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
