@@ -79,12 +79,9 @@ export class OpenAIService {
     });
 
     return response
-      .replaceAll("\n", "")
-      .split("\n")
-      .flatMap((e) => e.split("."))
-      .filter((e) => e !== "")
-      .filter((e) => e !== "\n")
-      .map((e) => e.trim());
+      .split(".")
+      .map((e) => e.trim())
+      .filter((e) => !!e);
   }
 
   async generateCoverLetter(input: CoverLetterInput): Promise<string[]> {
@@ -100,12 +97,9 @@ export class OpenAIService {
     });
 
     return response
-      .replaceAll("\n", "")
-      .split("\n")
-      .flatMap((e) => e.split("."))
-      .filter((e) => e !== "")
-      .filter((e) => e !== "\n")
-      .map((e) => e.trim());
+      .split(".")
+      .map((e) => e.trim())
+      .filter((e) => !!e);
   }
 
   async generateReferralLetter(input: ReferralLetterInput): Promise<string[]> {
@@ -121,12 +115,9 @@ export class OpenAIService {
     });
 
     const aiResult = response
-      .replaceAll("\n", "")
-      .split("\n")
-      .flatMap((e) => e.split("."))
-      .filter((e) => e !== "")
-      .filter((e) => e !== "\n")
-      .map((e) => e.trim());
+      .split(".")
+      .map((e) => e.trim())
+      .filter((e) => !!e);
 
     const bakedResults = [
       `${input.you.name}`,
