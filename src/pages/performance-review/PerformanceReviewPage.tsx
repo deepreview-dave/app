@@ -26,8 +26,8 @@ import { Analytics, AnalyticsToolName } from "../../business/analytics";
 
 export const PerformanceReviewPage = () => {
   const detailsHint = `Add more details, such as:
-  - a short summary of your performance
-  - or a section on things you did well and things to improve
+  - a short summary of past performance
+  - or a section on things that went well and things to improve
   - or be as succint as listing attributes 'communication: good, leadership: to improve'
 
 Or press the 'Inspiration' button to provide a starting point based on the details you provided above.`;

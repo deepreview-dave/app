@@ -132,15 +132,10 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
                     />
                   </td>
                 </tr>
-              </table>
-            </div>
-            <div className="horizontal-line"></div>
-            <div className="p-4">
-              <table>
                 <tr>
                   <td
                     colSpan={2}
-                    className="row-title is-monospace is-bold pb-4"
+                    className="row-title is-monospace is-bold pb-4 pt-2"
                   >
                     2. Then input the recipient's details
                   </td>
@@ -217,15 +212,10 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
                     />
                   </td>
                 </tr>
-              </table>
-            </div>
-            <div className="horizontal-line"></div>
-            <div className="p-4">
-              <table>
                 <tr>
                   <td
                     colSpan={2}
-                    className="row-title is-monospace is-bold pb-4"
+                    className="row-title is-monospace is-bold pb-4 pt-2"
                   >
                     3. Finally, fill in the applicant's details
                   </td>
