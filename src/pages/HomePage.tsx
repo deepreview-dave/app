@@ -29,7 +29,7 @@ export const HomePage = () => {
                 <img
                   className="cover-fit"
                   src="/images/perf-review-1.jpg"
-                  alt="Performace Reviews"
+                  alt="Performance Reviews"
                 />
               </figure>
             </div>

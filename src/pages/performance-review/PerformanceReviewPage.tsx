@@ -7,6 +7,7 @@ import {
   PerformanceReviewInput,
   PerformanceScore,
   Pronouns,
+  Relationship,
   ReviewTone,
   TimePeriod,
 } from "../../business/common";
@@ -24,9 +25,9 @@ import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
 
 export const PerformanceReviewPage = () => {
-  const detailsHint = `Add more details, such as:
-  - a short summary of your performance
-  - or a section on things you did well and things to improve
+  const detailsHint = `Please enter more details, such as:
+  - a short summary of past performance
+  - or a section on things that went well and things to improve
   - or be as succint as listing attributes 'communication: good, leadership: to improve'
 
 Or press the 'Inspiration' button to provide a starting point based on the details you provided above.`;
@@ -88,6 +89,45 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
     Analytics.tool(AnalyticsToolName.PERF_REVIEW);
   }, []);
 
+  const getNamePlaceholder = () => {
+    switch (relationship) {
+      case Relationship.MYSELF:
+        return "Please enter your name or leave blank";
+      case Relationship.COLLEAGUE:
+        return "Please enter your colleague's name";
+      case Relationship.MANAGER:
+        return "Please enter your manger's name";
+      case Relationship.REPORT:
+        return "Please enter your report's name";
+    }
+  };
+
+  const getRolePlaceholder = () => {
+    switch (relationship) {
+      case Relationship.MYSELF:
+        return "Please enter your role or title";
+      case Relationship.COLLEAGUE:
+        return "Please enter your colleague's role or title";
+      case Relationship.MANAGER:
+        return "Please enter your manger's role or title";
+      case Relationship.REPORT:
+        return "Please enter your report's role or title";
+    }
+  };
+
+  const getTeamPlaceholder = () => {
+    switch (relationship) {
+      case Relationship.MYSELF:
+        return "Please enter your team or department";
+      case Relationship.COLLEAGUE:
+        return "Please enter your colleague's team or department";
+      case Relationship.MANAGER:
+        return "Please enter your manger's team or department";
+      case Relationship.REPORT:
+        return "Please enter your report's team or department";
+    }
+  };
+
   return (
     <div className="main-body">
       <NavbarMin />
@@ -97,111 +137,165 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
           <div className="content">
             <h3>Performance Review</h3>
             <p>
-              Fill in all the details below and press 'Generate' to create a new
-              performance review.
+              Fill in all the details below and click 'Generate' to create a new
+              Performance Review.
             </p>
           </div>
           <div className="review-content">
-            <div id="input" className="p-2">
-              <div id="input-name">
-                <label>Name</label>
-                <input
-                  disabled={resultLoading}
-                  placeholder="Myself"
-                  type={"text"}
-                  value={name}
-                  onChange={(e) => setName(e.currentTarget.value)}
-                ></input>
-              </div>
-              <div id="input-role">
-                <label>Role</label>
-                <input
-                  disabled={resultLoading}
-                  placeholder="(Optional)"
-                  type={"text"}
-                  value={role}
-                  onChange={(e) => setRole(e.currentTarget.value)}
-                />
-              </div>
-              <div id="input-team">
-                <label>Team</label>
-                <input
-                  disabled={resultLoading}
-                  placeholder="(Optional)"
-                  type={"text"}
-                  value={team}
-                  onChange={(e) => setTeam(e.currentTarget.value)}
-                />
-              </div>
-              <div id="input-performance">
-                <label>Perf</label>
-                <select
-                  disabled={resultLoading}
-                  value={perf}
-                  onChange={(e) =>
-                    setPerf(e.currentTarget.value as PerformanceScore)
-                  }
-                >
-                  <option value={PerformanceScore.BELOW_EXPECTATIONS}>
-                    Below expectation
-                  </option>
-                  <option value={PerformanceScore.MEETS_EXPECTATIONS}>
-                    Meets expectation
-                  </option>
-                  <option value={PerformanceScore.ABOVE_EXPECTATIONS}>
-                    Above expectation
-                  </option>
-                </select>
-              </div>
-              <div id="input-time">
-                <label>Time</label>
-                <select
-                  disabled={resultLoading}
-                  value={time}
-                  onChange={(e) => setTime(e.currentTarget.value as TimePeriod)}
-                >
-                  <option value={TimePeriod.LAST_MONTH}>Previous month</option>
-                  <option value={TimePeriod.LAST_3_MONTHS}>
-                    Previous 3 months
-                  </option>
-                  <option value={TimePeriod.LAST_6_MONTHS}>
-                    Previous 6 months
-                  </option>
-                  <option value={TimePeriod.LAST_6_MONTHS}>
-                    Previous year
-                  </option>
-                </select>
-              </div>
-              <div id="input-tone">
-                <label>Tone</label>
-                <select
-                  disabled={resultLoading}
-                  value={tone}
-                  onChange={(e) => setTone(e.currentTarget.value as ReviewTone)}
-                >
-                  <option value={ReviewTone.NEUTRAL}>Neutral</option>
-                  <option value={ReviewTone.FRIENDLY}>Friendly</option>
-                  <option value={ReviewTone.CRITICAL}>Critical</option>
-                </select>
-              </div>
-              <div id="input-pronoun">
-                <label>Pronoun</label>
-                <select
-                  disabled={resultLoading}
-                  value={pron}
-                  onChange={(e) => setPron(e.currentTarget.value as Pronouns)}
-                >
-                  <option value={Pronouns.NEUTRAL}>They</option>
-                  <option value={Pronouns.HE}>He/Him</option>
-                  <option value={Pronouns.HER}>She/Her</option>
-                </select>
-              </div>
+            <div id="input" className="p-4">
+              <table>
+                <tr>
+                  <td>
+                    <label>Name</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder={getNamePlaceholder()}
+                      type={"text"}
+                      value={name}
+                      onChange={(e) => setName(e.currentTarget.value)}
+                    ></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Role</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder={getRolePlaceholder()}
+                      type={"text"}
+                      value={role}
+                      onChange={(e) => setRole(e.currentTarget.value)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Team</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder={getTeamPlaceholder()}
+                      type={"text"}
+                      value={team}
+                      onChange={(e) => setTeam(e.currentTarget.value)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Performance</label>
+                  </td>
+                  <td>
+                    <div className="select is-small">
+                      <select
+                        className="is-monospace"
+                        disabled={resultLoading}
+                        value={perf}
+                        onChange={(e) =>
+                          setPerf(e.currentTarget.value as PerformanceScore)
+                        }
+                      >
+                        <option value={PerformanceScore.BELOW_EXPECTATIONS}>
+                          Below expectation
+                        </option>
+                        <option value={PerformanceScore.MEETS_EXPECTATIONS}>
+                          Meets expectation
+                        </option>
+                        <option value={PerformanceScore.ABOVE_EXPECTATIONS}>
+                          Above expectation
+                        </option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Time</label>
+                  </td>
+                  <td>
+                    <div className="select is-small">
+                      <select
+                        className="is-monospace"
+                        disabled={resultLoading}
+                        value={time}
+                        onChange={(e) =>
+                          setTime(e.currentTarget.value as TimePeriod)
+                        }
+                      >
+                        <option value={TimePeriod.LAST_MONTH}>
+                          Previous month
+                        </option>
+                        <option value={TimePeriod.LAST_3_MONTHS}>
+                          Previous 3 months
+                        </option>
+                        <option value={TimePeriod.LAST_6_MONTHS}>
+                          Previous 6 months
+                        </option>
+                        <option value={TimePeriod.LAST_6_MONTHS}>
+                          Previous year
+                        </option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Tone</label>
+                  </td>
+                  <tr>
+                    <div className="select is-small">
+                      <select
+                        className="is-monospace"
+                        disabled={resultLoading}
+                        value={tone}
+                        onChange={(e) =>
+                          setTone(e.currentTarget.value as ReviewTone)
+                        }
+                      >
+                        <option value={ReviewTone.NEUTRAL}>Neutral</option>
+                        <option value={ReviewTone.FRIENDLY}>Friendly</option>
+                        <option value={ReviewTone.CRITICAL}>Critical</option>
+                      </select>
+                    </div>
+                  </tr>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Pronoun</label>
+                  </td>
+                  <td>
+                    <div className="select is-small">
+                      <select
+                        className="is-monospace"
+                        disabled={resultLoading}
+                        value={pron}
+                        onChange={(e) =>
+                          setPron(e.currentTarget.value as Pronouns)
+                        }
+                      >
+                        <option value={Pronouns.NEUTRAL}>They</option>
+                        <option value={Pronouns.HE}>He/Him</option>
+                        <option value={Pronouns.HER}>She/Her</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
             <div className="horizontal-line"></div>
             <div className="pl-2 pr-2 pt-2 pb-1">
               <AutoTextArea
                 disabled={resultLoading}
                 value={question}
+                className="is-bold"
                 index={0}
                 placeholder="Write your question here ..."
                 onChange={(e, i) => setQuestion(e)}

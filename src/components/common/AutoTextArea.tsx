@@ -8,6 +8,7 @@ export const AutoTextArea = (props: {
   placeholder: string;
   onChange: (value: string, index: number) => void;
   onBlur?: () => void;
+  className?: string;
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -26,7 +27,7 @@ export const AutoTextArea = (props: {
     <textarea
       id="review-text"
       placeholder={props.placeholder}
-      className="autotext-area"
+      className={props.className + " " + "autotext-area"}
       disabled={props.disabled}
       onChange={(e) => handleChange(e)}
       onBlur={props.onBlur}

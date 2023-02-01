@@ -27,7 +27,7 @@ export const SelectPersonaPage = () => {
         <div className="container narrow-container">
           <div className="content">
             <h3>Who is this review for?</h3>
-            <p>Start by selecting who this performace review is for.</p>
+            <p>Start by selecting who this performance review is for.</p>
           </div>
           <div className="content">
             <p className="light-border">

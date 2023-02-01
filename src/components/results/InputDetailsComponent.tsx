@@ -52,6 +52,7 @@ export const InputDetailsComponent = (props: {
       <div className="horizontal-line"></div>
       <div className="p-2">
         <button
+          title="Let DeepReview provide some bullet points as inspiration"
           disabled={loading || resultLoading}
           className={"button is-text " + (loading ? "is-loading" : "")}
           onClick={onHintClick}

@@ -62,6 +62,7 @@ export const ResultsComponent = (props: {
     <>
       <div className="buttons">
         <button
+          title="Generate a result based on all your inputs"
           disabled={loading}
           className={"button is-primary " + (loading ? "is-loading" : "")}
           onClick={onGenerateClick}
@@ -110,7 +111,7 @@ export const ResultsComponent = (props: {
                   disabled={loading || reloadedSection === i}
                   index={i}
                   value={res.expanded}
-                  placeholder="Add more details..."
+                  placeholder="Please enter more details..."
                   onChange={(e, i) => updateResult(e, i)}
                   onBlur={() => removeElement(i)}
                 />
