@@ -274,7 +274,8 @@ export class ResumeWorkHistoryPromptBuilder {
     prompt.push(`Role: ${history.role}`);
     prompt.push(`Company: ${history.company}`);
     prompt.push(`More details: ${history.details}`);
-    prompt.push(`Refer to me in the first person.`);
+    prompt.push(`Tense: Past.`);
+    prompt.push(`Refer to me in the first person and use the past tense.`);
     return prompt.join("\n");
   }
 }
@@ -286,6 +287,7 @@ export class ResumeEducationHistoryPromptBuilder {
     prompt.push(`School: ${history.school}`);
     prompt.push(`Degree: ${history.degree}`);
     prompt.push(`More details: ${history.details}`);
+    prompt.push(`Tense: Past.`);
     prompt.push(`Refer to me in the first person.`);
     return prompt.join("\n");
   }
