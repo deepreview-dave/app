@@ -80,7 +80,7 @@ a.underlined-style {
 /** PAGES */
 
 .light-border {
-  border: 1px solid hsl(0, 0%, 71%); /* has-text-grey-light */
+  border: 1px solid hsl(0, 0%, 71%);
   border-radius: 10px;
   padding: 10px;
 }
@@ -92,35 +92,47 @@ a.underlined-style {
 }
 
 .review-content {
-  border: 1px solid hsl(0, 0%, 71%); /* has-text-grey-light */
+  border: 1px solid hsl(0, 0%, 71%);
   border-radius: 10px;
+}
+
+.review-content table > tr > td:first-child {
+  text-align: right;
+}
+
+.review-content table > tr > td.row-title {
+  text-align: left !important;
+  font-size: medium;
+  color: hsl(0, 0%, 29%);
+}
+
+.review-content table > tr > td:last-child {
+  width: 100%;
 }
 
 .review-content label {
   font-family: monospace;
   margin-right: 10px;
   font-size: medium;
+  display: inline-block;
 }
 
 .review-content input {
+  width: 100%;
   font-family: monospace;
-  border: 0;
-  padding: 0;
-  background-color: lightgreen;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid hsl(0, 0%, 86%);
+  margin-bottom: 10px;
+  box-shadow: none;
 }
 
 .review-content input::placeholder {
-  background-color: hsl(48, 100%, 67%);
-}
-
-.review-content input:focus {
-  outline: 0 !important;
+  color: hsl(0, 0%, 71%);
 }
 
 .review-content select {
-  background-color: lightgreen;
-  font-family: monospace;
-  border: 0;
+  border: none;
 }
 
 /** auto text area */
@@ -140,6 +152,10 @@ a.underlined-style {
   border: none;
 }
 
+.autotext-area::placeholder {
+  color: hsl(0, 0%, 71%);
+}
+
 .autotext-area:focus {
   outline: 0 !important;
 }
@@ -147,6 +163,10 @@ a.underlined-style {
 .autotext-area:hover {
   border-color: #c6c6c6;
   color: hsl(217, 71%, 53%);
+}
+
+.is-bold {
+  font-weight: 900;
 }
 
 /** results */
@@ -200,5 +220,6 @@ a.underlined-style {
 
 .horizontal-line {
   height: 0px;
-  border-bottom: 1px dashed hsl(0, 0%, 71%); /* has-text-grey-light */
+  border-bottom: 1px dashed hsl(0, 0%, 71%);
+  /* has-text-grey-light */
 }

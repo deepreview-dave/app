@@ -57,61 +57,88 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
         <div className="container narrow-container">
           <div className="content">
             <h3>Cover Letter</h3>
-            <p>Prepare the perfect cover letter.</p>
+            <p>
+              Fill in all the details below and press 'Generate' to create a new
+              Cover Letter.
+            </p>
           </div>
           <div className="review-content">
-            <div className="p-2">
-              <div>
-                <label>Name</label>
-                <input
-                  disabled={resultLoading}
-                  placeholder="Myself"
-                  type={"text"}
-                  value={state.name}
-                  onChange={(e) => state.setName(e.currentTarget.value)}
-                />
-              </div>
-              <div>
-                <label>Role</label>
-                <input
-                  disabled={resultLoading}
-                  placeholder="Role"
-                  type={"text"}
-                  value={state.role}
-                  onChange={(e) => state.setRole(e.currentTarget.value)}
-                />
-              </div>
-              <div>
-                <label>Company</label>
-                <input
-                  disabled={resultLoading}
-                  placeholder="Company"
-                  type={"text"}
-                  value={state.company}
-                  onChange={(e) => state.setCompany(e.currentTarget.value)}
-                />
-              </div>
-              <div>
-                <label>History</label>
-                <select
-                  disabled={resultLoading}
-                  value={state.history}
-                  onChange={(e) =>
-                    state.setHistory(e.currentTarget.value as WorkHistory)
-                  }
-                >
-                  <option value={WorkHistory.One}>1 Year</option>
-                  <option value={WorkHistory.Two}>2 Years</option>
-                  <option value={WorkHistory.Three}>3 Years</option>
-                  <option value={WorkHistory.Four}>4 Years</option>
-                  <option value={WorkHistory.Five}>5 Years</option>
-                  <option value={WorkHistory.Six}>6 Years</option>
-                  <option value={WorkHistory.Seven}>7 Years</option>
-                  <option value={WorkHistory.Eight}>8 Years</option>
-                  <option value={WorkHistory.Nine}>9 Years</option>
-                  <option value={WorkHistory.TenPlus}>10+ Years</option>
-                </select>
-              </div>
+            <div className="p-4">
+              <table>
+                <tr>
+                  <td>
+                    <label>Name</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      placeholder="Plase enter your name here"
+                      type={"text"}
+                      value={state.name}
+                      disabled={resultLoading}
+                      onChange={(e) => state.setName(e.currentTarget.value)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Role</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter the role you're applying to"
+                      type={"text"}
+                      value={state.role}
+                      onChange={(e) => state.setRole(e.currentTarget.value)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Company</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter the company you're applying to"
+                      type={"text"}
+                      value={state.company}
+                      onChange={(e) => state.setCompany(e.currentTarget.value)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>History</label>
+                  </td>
+                  <td>
+                    <div className="select is-small">
+                      <select
+                        className="is-monospace"
+                        disabled={resultLoading}
+                        value={state.history}
+                        onChange={(e) =>
+                          state.setHistory(e.currentTarget.value as WorkHistory)
+                        }
+                      >
+                        <option value={WorkHistory.One}>1 Year</option>
+                        <option value={WorkHistory.Two}>2 Years</option>
+                        <option value={WorkHistory.Three}>3 Years</option>
+                        <option value={WorkHistory.Four}>4 Years</option>
+                        <option value={WorkHistory.Five}>5 Years</option>
+                        <option value={WorkHistory.Six}>6 Years</option>
+                        <option value={WorkHistory.Seven}>7 Years</option>
+                        <option value={WorkHistory.Eight}>8 Years</option>
+                        <option value={WorkHistory.Nine}>9 Years</option>
+                        <option value={WorkHistory.TenPlus}>10+ Years</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
             <div className="horizontal-line"></div>
             <div className="pl-2 pr-2 pt-2 pb-1">
@@ -119,6 +146,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
                 disabled={resultLoading}
                 value={state.question}
                 index={0}
+                className="is-bold"
                 placeholder="Write your question here ..."
                 onChange={(e, i) => state.setQuestion(e)}
               />

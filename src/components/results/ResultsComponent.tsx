@@ -62,6 +62,7 @@ export const ResultsComponent = (props: {
     <>
       <div className="buttons">
         <button
+          title="Generate a result based on all your inputs"
           disabled={loading}
           className={"button is-primary " + (loading ? "is-loading" : "")}
           onClick={onGenerateClick}
