@@ -12,7 +12,7 @@ export const ResumeEducation = () => {
           <table>
             <tr>
               <td colSpan={3} className="row-title is-monospace is-bold pb-4">
-                4. Finally, add schools and universities
+                4. Finally, add education history
               </td>
             </tr>
             {state.items.map((h, i) => (
