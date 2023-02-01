@@ -25,7 +25,7 @@ import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
 
 export const PerformanceReviewPage = () => {
-  const detailsHint = `Add more details, such as:
+  const detailsHint = `Please enter more details, such as:
   - a short summary of past performance
   - or a section on things that went well and things to improve
   - or be as succint as listing attributes 'communication: good, leadership: to improve'
@@ -137,7 +137,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
           <div className="content">
             <h3>Performance Review</h3>
             <p>
-              Fill in all the details below and press 'Generate' to create a new
+              Fill in all the details below and click 'Generate' to create a new
               Performance Review.
             </p>
           </div>

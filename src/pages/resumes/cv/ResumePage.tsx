@@ -120,7 +120,15 @@ export const ResumePage = () => {
       <ResumeBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container narrow-container">
-          <ul className="steps has-content-centered">
+          <div className="content">
+            <h3>Resume</h3>
+            <p>
+              Fill in each of the sections below individually. At each step,
+              click the corresponsing 'Generate' button to let DeepReview create
+              a section of your resume.
+            </p>
+          </div>
+          <ul className="steps has-content-centered pt-2">
             <li
               className={
                 "steps-segment " +

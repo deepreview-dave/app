@@ -111,7 +111,7 @@ export const ResultsComponent = (props: {
                   disabled={loading || reloadedSection === i}
                   index={i}
                   value={res.expanded}
-                  placeholder="Add more details..."
+                  placeholder="Please enter more details..."
                   onChange={(e, i) => updateResult(e, i)}
                   onBlur={() => removeElement(i)}
                 />

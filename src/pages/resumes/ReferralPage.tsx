@@ -17,7 +17,7 @@ import { useReferralLetterState } from "../../state/referral-letter.state";
 import { useResultState } from "../../state/result-state";
 
 export const ReferralPage = () => {
-  const detailsHint = `Add more details, such as:
+  const detailsHint = `Please enter more details, such as:
   - main strengths of the applicant
   - a story or achievement of the applicant
   - or be as succint as listing attributes 'communication: good, leadership: to improve'
@@ -58,7 +58,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
           <div className="content">
             <h3>Referral Letter</h3>
             <p>
-              Fill in all the details below and press 'Generate' to create a new
+              Fill in all the details below and click 'Generate' to create a new
               Referral Letter.
             </p>
             <p>

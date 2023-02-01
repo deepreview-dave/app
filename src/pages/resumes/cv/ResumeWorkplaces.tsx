@@ -9,98 +9,143 @@ export const ResumeWorkplaces = () => {
   return (
     <>
       <div className="review-content">
-        <div className="pl-2 pr-2 pt-2 pb-1">
-          <AutoTextArea
-            disabled={resultLoading}
-            value={state.question}
-            index={0}
-            placeholder="Write your question here ..."
-            onChange={(e, i) => state.setQuestion(e)}
-          />
-        </div>
-        <div className="horizontal-line"></div>
-        <div className="p-2">
-          {state.items.map((h, i) => (
-            <div className="columns is-mobile" key={i}>
-              <div className="column">
-                <div>
-                  <input
-                    className="mr-2"
-                    disabled={resultLoading}
-                    placeholder="Company"
-                    type={"text"}
-                    value={h.company}
-                    onChange={(e) =>
-                      state.setHistory(i, {
-                        ...h,
-                        company: e.currentTarget.value,
-                      })
-                    }
-                  ></input>
-                  <input
-                    className="mr-2"
-                    disabled={resultLoading}
-                    placeholder="Role"
-                    type={"text"}
-                    value={h.role}
-                    onChange={(e) =>
-                      state.setHistory(i, { ...h, role: e.currentTarget.value })
-                    }
-                  ></input>
-                  <input
-                    className="mr-2"
-                    disabled={resultLoading}
-                    placeholder="Start"
-                    type={"text"}
-                    value={h.start}
-                    onChange={(e) =>
-                      state.setHistory(i, {
-                        ...h,
-                        start: e.currentTarget.value,
-                      })
-                    }
-                  ></input>
-                  <input
-                    className="mr-2"
-                    disabled={resultLoading}
-                    placeholder="End"
-                    type={"text"}
-                    value={h.end}
-                    onChange={(e) =>
-                      state.setHistory(i, { ...h, end: e.currentTarget.value })
-                    }
-                  ></input>
-                </div>
-                <div>
-                  <AutoTextArea
-                    disabled={resultLoading}
-                    value={h.details}
-                    placeholder="Add workplace details ..."
-                    index={i}
-                    onChange={(e) => state.setHistory(i, { ...h, details: e })}
-                  />
-                </div>
-              </div>
-              <div className="column is-narrow">
-                <button
-                  disabled={resultLoading}
-                  title="Remove section"
-                  className="button is-small is-white"
-                  onClick={() => state.removeHistory(i)}
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-times"></i>
-                  </span>
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="p-4">
+          <table>
+            <tr>
+              <td colSpan={3} className="row-title is-monospace is-bold pb-4">
+                3. Now add as many previous jobs as you want
+              </td>
+            </tr>
+            {state.items.map((h, i) => (
+              <>
+                <tr>
+                  <td>
+                    <label>Company</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter the name of the company"
+                      type={"text"}
+                      value={h.company}
+                      onChange={(e) =>
+                        state.setHistory(i, {
+                          ...h,
+                          company: e.currentTarget.value,
+                        })
+                      }
+                    />
+                  </td>
+                  <td rowSpan={6}>
+                    <button
+                      disabled={resultLoading}
+                      title="Remove job"
+                      className="button is-small is-white ml-4"
+                      onClick={() => state.removeHistory(i)}
+                    >
+                      <span className="icon is-small">
+                        <i className="fas fa-times"></i>
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Role</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter the role or title"
+                      type={"text"}
+                      value={h.role}
+                      onChange={(e) =>
+                        state.setHistory(i, {
+                          ...h,
+                          role: e.currentTarget.value,
+                        })
+                      }
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Start</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter the start date (e.g. 2019)"
+                      type={"text"}
+                      value={h.start}
+                      onChange={(e) =>
+                        state.setHistory(i, {
+                          ...h,
+                          start: e.currentTarget.value,
+                        })
+                      }
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>End</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter the end date (e.g. 2022)"
+                      type={"text"}
+                      value={h.end}
+                      onChange={(e) =>
+                        state.setHistory(i, {
+                          ...h,
+                          end: e.currentTarget.value,
+                        })
+                      }
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Details</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      value={h.details}
+                      placeholder="Please enter more details about your achievements in this job"
+                      type={"text"}
+                      onChange={(e) =>
+                        state.setHistory(i, {
+                          ...h,
+                          details: e.currentTarget.value,
+                        })
+                      }
+                    />
+                  </td>
+                </tr>
+                {i !== state.items.length - 1 && (
+                  <tr>
+                    <td colSpan={3} className="pt-3 pb-4">
+                      <div className="horizontal-line"></div>
+                    </td>
+                  </tr>
+                )}
+              </>
+            ))}
+          </table>
         </div>
       </div>
       <div className="plus-button-holder">
         <button
           disabled={resultLoading}
-          title="Add new section"
+          title="Add more jobs"
           className="button is-small is-rounded plus-button"
           onClick={() => state.addHistory()}
         >

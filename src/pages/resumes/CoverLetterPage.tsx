@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
 
 export const CoverLetterPage = () => {
-  const detailsHint = `Add more details, such as:
+  const detailsHint = `Please enter more details, such as:
   - top 3 strengths
   - achievements you're prod of in your previous roles
   - or be as succint as listing attributes 'communication: good, leadership: to improve'
@@ -58,7 +58,7 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
           <div className="content">
             <h3>Cover Letter</h3>
             <p>
-              Fill in all the details below and press 'Generate' to create a new
+              Fill in all the details below and click 'Generate' to create a new
               Cover Letter.
             </p>
           </div>
