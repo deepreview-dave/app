@@ -1,11 +1,12 @@
 import * as bulmaToast from "bulma-toast";
 import { Analytics } from "../../business/analytics";
+import { AIResult } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { useResultState, formResult } from "../../state/result-state";
 import { AutoTextArea } from "../common/AutoTextArea";
 
 export const ResultsComponent = (props: {
-  onGenerateClick: () => Promise<string[]>;
+  onGenerateClick: () => Promise<AIResult[]>;
   generateButtonTitle?: string;
 }) => {
   const loading = useResultState((state) => state.loading);
@@ -84,19 +85,26 @@ export const ResultsComponent = (props: {
             <div
               className={
                 i === 0
-                  ? "top-content"
+                  ? res.joined
+                    ? "top-content no-bottom"
+                    : "top-content"
                   : i === results.length - 1
                   ? "bottom-content"
+                  : res.joined
+                  ? "normal-content no-bottom"
                   : "normal-content"
               }
             >
               <div className="pt-5 pl-3 pr-3 pb-5">
                 <button
-                  disabled={loading || reloadedSection !== undefined}
+                  disabled={
+                    !res.editable || loading || reloadedSection !== undefined
+                  }
                   title="Let DeepReview automatically expand this section."
                   className={
                     "button is-white is-small has-text-info is-text " +
-                    (reloadedSection === i ? "is-loading" : "")
+                    (reloadedSection === i ? "is-loading" : "") +
+                    (!res.editable ? "is-not-visible" : "")
                   }
                   onClick={() => onExpandClick(res.expanded, i)}
                 >
@@ -106,7 +114,11 @@ export const ResultsComponent = (props: {
                   </span> */}
                 </button>
               </div>
-              <div className="big-div pt-5 pl-3 pr-3 pb-5">
+              <div
+                className={
+                  "big-div pt-5 pl-3 pr-3 " + (!res.joined ? "pb-5" : "")
+                }
+              >
                 <AutoTextArea
                   disabled={loading || reloadedSection === i}
                   index={i}
@@ -119,9 +131,14 @@ export const ResultsComponent = (props: {
               </div>
               <div className="pt-5 pl-3 pr-3 pb-5">
                 <button
-                  disabled={loading || reloadedSection !== undefined}
+                  disabled={
+                    !res.editable || loading || reloadedSection !== undefined
+                  }
                   title="Undo"
-                  className="button is-small is-white"
+                  className={
+                    "button is-small is-white " +
+                    (!res.editable ? "is-not-visible" : "")
+                  }
                   onClick={() => resetElement(i)}
                 >
                   <span className="icon is-small">
@@ -134,7 +151,10 @@ export const ResultsComponent = (props: {
               <button
                 disabled={loading || reloadedSection !== undefined}
                 title="Add new section"
-                className="button is-small is-rounded plus-button"
+                className={
+                  "button is-small is-rounded plus-button " +
+                  (!res.editable ? "is-not-visible" : "")
+                }
                 onClick={() => addElement(i)}
               >
                 <span className="icon is-small has-text-success">

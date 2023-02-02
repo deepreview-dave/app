@@ -227,6 +227,14 @@ a.underlined-style {
   border-bottom: 1px dashed lightgrey;
 }
 
+.no-bottom {
+  display: flex;
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
+  margin-top: -13px;
+  border-bottom: none;
+}
+
 .bottom-content {
   display: flex;
   border-left: 1px solid lightgrey;
@@ -242,4 +250,8 @@ a.underlined-style {
   height: 0px;
   border-bottom: 1px dashed hsl(0, 0%, 71%);
   /* has-text-grey-light */
+}
+
+.is-not-visible {
+  visibility: hidden;
 }
