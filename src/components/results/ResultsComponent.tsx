@@ -111,6 +111,7 @@ export const ResultsComponent = (props: {
                   disabled={loading || reloadedSection === i}
                   index={i}
                   value={res.expanded}
+                  className="autotext-area"
                   placeholder="Please enter more details..."
                   onChange={(e, i) => updateResult(e, i)}
                   onBlur={() => removeElement(i)}

@@ -20,9 +20,7 @@ export const ReferralPage = () => {
   const detailsHint = `Please enter more details, such as:
   - main strengths of the applicant
   - a story or achievement of the applicant
-  - or be as succint as listing attributes 'communication: good, leadership: to improve'
-
-Or press the 'Inspiration' button to provide a starting point based on the details you provided above.`;
+  - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
   const resultLoading = useResultState((state) => state.loading);
   const state = useReferralLetterState((state) => state);
@@ -72,231 +70,252 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
           <div className="review-content">
             <div className="p-4">
               <table>
-                <tr>
-                  <td
-                    colSpan={2}
-                    className="row-title is-monospace is-bold pb-4"
-                  >
-                    1. First input your own details
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Name</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter your name"
-                      type={"text"}
-                      value={state.you.name}
-                      onChange={(e) => state.setYourName(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Address</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter your address"
-                      type={"text"}
-                      value={state.you.address}
-                      onChange={(e) =>
-                        state.setYourAddress(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Contact</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter contact details such as phone or email"
-                      type={"text"}
-                      value={state.you.contact}
-                      onChange={(e) =>
-                        state.setYourContact(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    colSpan={2}
-                    className="row-title is-monospace is-bold pb-4 pt-2"
-                  >
-                    2. Then input the recipient's details
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Name</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter the recipient's name"
-                      type={"text"}
-                      value={state.recipient.name}
-                      onChange={(e) =>
-                        state.setRecipientName(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Role</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter the recipient's role or title"
-                      type={"text"}
-                      value={state.recipient.title}
-                      onChange={(e) =>
-                        state.setRecipientTitle(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Company</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Pleaase enter the recipient's company"
-                      type={"text"}
-                      value={state.recipient.company}
-                      onChange={(e) =>
-                        state.setRecipientCompany(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Address</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter the recipient's company's address"
-                      type={"text"}
-                      value={state.recipient.address}
-                      onChange={(e) =>
-                        state.setRecipientAddress(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    colSpan={2}
-                    className="row-title is-monospace is-bold pb-4 pt-2"
-                  >
-                    3. Finally, fill in the applicant's details
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Name</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter the applicant's name"
-                      type={"text"}
-                      value={state.applicant.name}
-                      onChange={(e) =>
-                        state.setApplicantName(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Position</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      required
-                      disabled={resultLoading}
-                      placeholder="Please enter the position or role the person is applying for"
-                      type={"text"}
-                      value={state.applicant.role}
-                      onChange={(e) =>
-                        state.setApplicantRole(e.currentTarget.value)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Pronoun</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
+                <tbody>
+                  <tr>
+                    <td>
+                      <label className="has-text-info">
+                        <b>Prompt</b>
+                      </label>
+                    </td>
+                    <td>
+                      <AutoTextArea
                         disabled={resultLoading}
-                        value={state.applicant.pron}
+                        value={state.question}
+                        index={0}
+                        className="input is-bold"
+                        placeholder="Please enter your prompt here"
+                        onChange={(e, i) => state.setQuestion(e)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <div className="horizontal-line mt-4 mb-4"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={2}
+                      className="row-title is-monospace is-bold pb-4"
+                    >
+                      1. First input your own details
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Name</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter your name"
+                        type={"text"}
+                        value={state.you.name}
                         onChange={(e) =>
-                          state.setApplicantPronoun(
-                            e.currentTarget.value as Pronouns
-                          )
+                          state.setYourName(e.currentTarget.value)
                         }
-                      >
-                        <option value={Pronouns.NEUTRAL}>They</option>
-                        <option value={Pronouns.HE}>He/Him</option>
-                        <option value={Pronouns.HER}>She/Her</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Address</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter your address"
+                        type={"text"}
+                        value={state.you.address}
+                        onChange={(e) =>
+                          state.setYourAddress(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Contact</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter contact details such as phone or email"
+                        type={"text"}
+                        value={state.you.contact}
+                        onChange={(e) =>
+                          state.setYourContact(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={2}
+                      className="row-title is-monospace is-bold pb-4 pt-2"
+                    >
+                      2. Then input the recipient's details
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Name</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter the recipient's name"
+                        type={"text"}
+                        value={state.recipient.name}
+                        onChange={(e) =>
+                          state.setRecipientName(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Role</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter the recipient's role or title"
+                        type={"text"}
+                        value={state.recipient.title}
+                        onChange={(e) =>
+                          state.setRecipientTitle(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Company</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Pleaase enter the recipient's company"
+                        type={"text"}
+                        value={state.recipient.company}
+                        onChange={(e) =>
+                          state.setRecipientCompany(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Address</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter the recipient's company's address"
+                        type={"text"}
+                        value={state.recipient.address}
+                        onChange={(e) =>
+                          state.setRecipientAddress(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      colSpan={2}
+                      className="row-title is-monospace is-bold pb-4 pt-2"
+                    >
+                      3. Finally, fill in the applicant's details
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Name</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter the applicant's name"
+                        type={"text"}
+                        value={state.applicant.name}
+                        onChange={(e) =>
+                          state.setApplicantName(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Position</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        required
+                        disabled={resultLoading}
+                        placeholder="Please enter the position or role the person is applying for"
+                        type={"text"}
+                        value={state.applicant.role}
+                        onChange={(e) =>
+                          state.setApplicantRole(e.currentTarget.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Pronoun</label>
+                    </td>
+                    <td>
+                      <div className="select is-small">
+                        <select
+                          className="is-monospace"
+                          disabled={resultLoading}
+                          value={state.applicant.pron}
+                          onChange={(e) =>
+                            state.setApplicantPronoun(
+                              e.currentTarget.value as Pronouns
+                            )
+                          }
+                        >
+                          <option value={Pronouns.NEUTRAL}>They</option>
+                          <option value={Pronouns.HE}>He/Him</option>
+                          <option value={Pronouns.HER}>She/Her</option>
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Details</label>
+                    </td>
+                    <td>
+                      <InputDetailsComponent
+                        hint={detailsHint}
+                        onHintClick={onHintClick}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
-            <div className="horizontal-line"></div>
-            <div className="pl-2 pr-2 pt-2 pb-1">
-              <AutoTextArea
-                className="is-bold"
-                disabled={resultLoading}
-                value={state.question}
-                index={0}
-                placeholder="Write your question here ..."
-                onChange={(e, i) => state.setQuestion(e)}
-              />
-            </div>
-            <div className="horizontal-line"></div>
-            <InputDetailsComponent
-              hint={detailsHint}
-              onHintClick={onHintClick}
-            />
           </div>
           <div className="mt-4">
             <ResultsComponent onGenerateClick={onGenerateClick} />
