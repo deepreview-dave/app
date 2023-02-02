@@ -3,6 +3,19 @@ export const Footer = () => {
     <footer className="footer p-6 has-background-grey-darker has-text-white">
       <div className="content has-text-centered">
         <p>
+          <a
+            href="https://www.producthunt.com/posts/deepreview?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-deepreview"
+            target="_blank"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=377229&theme=light"
+              alt="DeepReview - Write&#0032;CVs&#0044;&#0032;cover&#0032;letters&#0044;&#0032;perf&#0032;reviews&#0032;with&#0032;the&#0032;power&#0032;of&#0032;AI | Product Hunt"
+              width="250"
+              height="54"
+            />
+          </a>
+        </p>
+        <p>
           <b>Deep Review</b>. The source code is licensed{" "}
           <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. With
           tasteful tracking.
