@@ -27,7 +27,7 @@ export const AutoTextArea = (props: {
     <textarea
       id="review-text"
       placeholder={props.placeholder}
-      className={props.className + " " + "autotext-area"}
+      className={props.className + " " + ""}
       disabled={props.disabled}
       onChange={(e) => handleChange(e)}
       onBlur={props.onBlur}

@@ -40,8 +40,9 @@ export const InputDetailsComponent = (props: {
 
   return (
     <>
-      <div className="pl-2 pr-2 pt-2 pb-1">
+      <div className="">
         <AutoTextArea
+          className="input"
           disabled={loading || resultLoading}
           value={details}
           placeholder={props.hint}
@@ -49,16 +50,23 @@ export const InputDetailsComponent = (props: {
           onChange={(e, i) => setDetails(e)}
         />
       </div>
-      <div className="horizontal-line"></div>
-      <div className="p-2">
-        <button
-          title="Let DeepReview provide some bullet points as inspiration"
-          disabled={loading || resultLoading}
-          className={"button is-text " + (loading ? "is-loading" : "")}
-          onClick={onHintClick}
+      <div className="columns is-mobile is-vcentered pt-1">
+        <div
+          className="column pr-0 is-monospace is-size-7"
+          style={{ textAlign: "right" }}
         >
-          Inspiration
-        </button>
+          Click here to get a starting point from DeepReview:
+        </div>
+        <div className="column is-narrow">
+          <button
+            title="Let DeepReview provide some bullet points as inspiration"
+            disabled={loading || resultLoading}
+            className={"button is-text " + (loading ? "is-loading" : "")}
+            onClick={onHintClick}
+          >
+            Auto Generate Details
+          </button>
+        </div>
       </div>
     </>
   );

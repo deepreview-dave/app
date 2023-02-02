@@ -21,9 +21,7 @@ export const CoverLetterPage = () => {
   const detailsHint = `Please enter more details, such as:
   - top 3 strengths
   - achievements you're prod of in your previous roles
-  - or be as succint as listing attributes 'communication: good, leadership: to improve'
-
-Or press the 'Inspiration' button to provide a starting point based on the details you provided above.`;
+  - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
   const resultLoading = useResultState((state) => state.loading);
   const state = useCoverLetterState((state) => state);
@@ -65,97 +63,120 @@ Or press the 'Inspiration' button to provide a starting point based on the detai
           <div className="review-content">
             <div className="p-4">
               <table>
-                <tr>
-                  <td>
-                    <label>Name</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      placeholder="Plase enter your name here"
-                      type={"text"}
-                      value={state.name}
-                      disabled={resultLoading}
-                      onChange={(e) => state.setName(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Role</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={resultLoading}
-                      placeholder="Please enter the role you're applying to"
-                      type={"text"}
-                      value={state.role}
-                      onChange={(e) => state.setRole(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Company</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={resultLoading}
-                      placeholder="Please enter the company you're applying to"
-                      type={"text"}
-                      value={state.company}
-                      onChange={(e) => state.setCompany(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>History</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
+                <tbody>
+                  <tr>
+                    <td>
+                      <label className="has-text-info">
+                        <b>Prompt</b>
+                      </label>
+                    </td>
+                    <td>
+                      <AutoTextArea
                         disabled={resultLoading}
-                        value={state.history}
+                        value={state.question}
+                        index={0}
+                        className="input is-bold"
+                        placeholder="Please enter your prompt here"
+                        onChange={(e, i) => state.setQuestion(e)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <div className="horizontal-line mt-4 mb-4"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Name</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        placeholder="Plase enter your name here"
+                        type={"text"}
+                        value={state.name}
+                        disabled={resultLoading}
+                        onChange={(e) => state.setName(e.currentTarget.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Role</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        disabled={resultLoading}
+                        placeholder="Please enter the role you're applying to"
+                        type={"text"}
+                        value={state.role}
+                        onChange={(e) => state.setRole(e.currentTarget.value)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Company</label>
+                    </td>
+                    <td>
+                      <input
+                        className="input is-small"
+                        disabled={resultLoading}
+                        placeholder="Please enter the company you're applying to"
+                        type={"text"}
+                        value={state.company}
                         onChange={(e) =>
-                          state.setHistory(e.currentTarget.value as WorkHistory)
+                          state.setCompany(e.currentTarget.value)
                         }
-                      >
-                        <option value={WorkHistory.One}>1 Year</option>
-                        <option value={WorkHistory.Two}>2 Years</option>
-                        <option value={WorkHistory.Three}>3 Years</option>
-                        <option value={WorkHistory.Four}>4 Years</option>
-                        <option value={WorkHistory.Five}>5 Years</option>
-                        <option value={WorkHistory.Six}>6 Years</option>
-                        <option value={WorkHistory.Seven}>7 Years</option>
-                        <option value={WorkHistory.Eight}>8 Years</option>
-                        <option value={WorkHistory.Nine}>9 Years</option>
-                        <option value={WorkHistory.TenPlus}>10+ Years</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>History</label>
+                    </td>
+                    <td>
+                      <div className="select is-small">
+                        <select
+                          className="is-monospace"
+                          disabled={resultLoading}
+                          value={state.history}
+                          onChange={(e) =>
+                            state.setHistory(
+                              e.currentTarget.value as WorkHistory
+                            )
+                          }
+                        >
+                          <option value={WorkHistory.One}>1 Year</option>
+                          <option value={WorkHistory.Two}>2 Years</option>
+                          <option value={WorkHistory.Three}>3 Years</option>
+                          <option value={WorkHistory.Four}>4 Years</option>
+                          <option value={WorkHistory.Five}>5 Years</option>
+                          <option value={WorkHistory.Six}>6 Years</option>
+                          <option value={WorkHistory.Seven}>7 Years</option>
+                          <option value={WorkHistory.Eight}>8 Years</option>
+                          <option value={WorkHistory.Nine}>9 Years</option>
+                          <option value={WorkHistory.TenPlus}>10+ Years</option>
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Details</label>
+                    </td>
+                    <td>
+                      <InputDetailsComponent
+                        hint={detailsHint}
+                        onHintClick={onHintClick}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
-            <div className="horizontal-line"></div>
-            <div className="pl-2 pr-2 pt-2 pb-1">
-              <AutoTextArea
-                disabled={resultLoading}
-                value={state.question}
-                index={0}
-                className="is-bold"
-                placeholder="Write your question here ..."
-                onChange={(e, i) => state.setQuestion(e)}
-              />
-            </div>
-            <div className="horizontal-line"></div>
-            <InputDetailsComponent
-              hint={detailsHint}
-              onHintClick={onHintClick}
-            />
           </div>
           <div className="mt-4">
             <ResultsComponent onGenerateClick={onGenerateClick} />
