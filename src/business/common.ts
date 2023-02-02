@@ -93,24 +93,24 @@ export interface ResumeInput {
     address: string;
     phone: string;
     email: string;
-    result: string[];
+    result: AIResult[];
   };
   summary: {
     question: string;
     history: WorkHistory;
     skills: string;
     summary: string;
-    result: string[];
+    result: AIResult[];
   };
   workplaces: {
     question: string;
     items: ResumeWorkHistory[];
-    result: string[];
+    result: AIResult[];
   };
   education: {
     question: string;
     items: ResumeEducationHistory[];
-    result: string[];
+    result: AIResult[];
   };
 }
 
@@ -126,3 +126,9 @@ export enum WorkHistory {
   Nine = "9",
   TenPlus = "10+",
 }
+
+export type AIResult = {
+  value: string;
+  editable: boolean;
+  joined: boolean;
+};

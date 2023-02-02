@@ -5,7 +5,7 @@ import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { useCoverLetterState } from "../../state/cover-letter.state";
 import { useResultState } from "../../state/result-state";
-import { CoverLetterInput, WorkHistory } from "../../business/common";
+import { AIResult, CoverLetterInput, WorkHistory } from "../../business/common";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { OpenAIService } from "../../business/open-ai.service";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
@@ -27,7 +27,7 @@ export const CoverLetterPage = () => {
   const state = useCoverLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
 
-  const onGenerateClick = async (): Promise<string[]> => {
+  const onGenerateClick = async (): Promise<AIResult[]> => {
     const input: CoverLetterInput = {
       question: state.question,
       company: state.company,

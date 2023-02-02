@@ -4,6 +4,7 @@ import { Footer } from "../../components/common/Footer";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { usePerformanceReviewState } from "../../state/perf-review.state";
 import {
+  AIResult,
   PerformanceReviewInput,
   PerformanceScore,
   Pronouns,
@@ -59,7 +60,7 @@ export const PerformanceReviewPage = () => {
   const question = usePerformanceReviewState((state) => state.question);
   const setQuestion = usePerformanceReviewState((state) => state.setQuestion);
 
-  const onGenerateClick = async (): Promise<string[]> => {
+  const onGenerateClick = async (): Promise<AIResult[]> => {
     const input: PerformanceReviewInput = {
       relationship,
       question,

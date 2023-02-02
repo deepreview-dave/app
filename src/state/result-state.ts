@@ -1,8 +1,11 @@
 import create from "zustand";
+import { AIResult } from "../business/common";
 
 export type OperationResult = {
   original: string;
   expanded: string;
+  editable: boolean;
+  joined: boolean;
 };
 
 export type ResultState = {
@@ -47,7 +50,9 @@ export const useResultState = create<ResultState>()((set) => ({
   addElement: (index: number) =>
     set((state) => {
       const results = state.results.flatMap((e, i) =>
-        i === index ? [e, { original: "", expanded: "" }] : [e]
+        i === index
+          ? [e, { original: "", expanded: "", editable: true, joined: false }]
+          : [e]
       );
       return { ...state, results };
     }),
@@ -61,7 +66,14 @@ export const useResultState = create<ResultState>()((set) => ({
   resetElement: (index: number) =>
     set((state) => {
       const results = state.results.map((e, i) =>
-        i === index ? { original: e.original, expanded: e.original } : e
+        i === index
+          ? {
+              original: e.original,
+              expanded: e.original,
+              editable: true,
+              joined: false,
+            }
+          : e
       );
       return { ...state, results };
     }),
@@ -79,5 +91,10 @@ export const useResultState = create<ResultState>()((set) => ({
     })),
 }));
 
-export const formResult = (initial: string[]): OperationResult[] =>
-  initial.map((original) => ({ original, expanded: original }));
+export const formResult = (initial: AIResult[]): OperationResult[] =>
+  initial.map((original) => ({
+    original: original.value,
+    expanded: original.value,
+    editable: original.editable,
+    joined: original.joined,
+  }));

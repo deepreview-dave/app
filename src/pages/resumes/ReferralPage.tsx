@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
-import { Pronouns, ReferralLetterInput } from "../../business/common";
+import { AIResult, Pronouns, ReferralLetterInput } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { ReferralLetterBreadcrumbs } from "../../components/common/Breadcrumbs";
@@ -26,7 +26,7 @@ export const ReferralPage = () => {
   const state = useReferralLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
 
-  const onGenerateClick = async (): Promise<string[]> => {
+  const onGenerateClick = async (): Promise<AIResult[]> => {
     const input: ReferralLetterInput = {
       question: state.question,
       you: state.you,
