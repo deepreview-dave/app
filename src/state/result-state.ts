@@ -7,6 +7,7 @@ export type ResultState = {
   reloadedSection: number | undefined;
   errorMessage: string | undefined;
   setLoading: () => void;
+  setNotLoading: () => void;
   setReloading: (reloadedSection: number) => void;
   setResults: (results: AIResult[]) => void;
   updateResult: (expanded: string, index: number) => void;
@@ -23,6 +24,7 @@ export const useResultState = create<ResultState>()((set) => ({
   reloadedSection: undefined,
   errorMessage: undefined,
   setLoading: () => set((state) => ({ ...state, loading: true })),
+  setNotLoading: () => set((state) => ({ ...state, loading: false })),
   setReloading: (reloadedSection: number) =>
     set((state) => ({ ...state, reloadedSection })),
   setResults: (results: AIResult[]) =>

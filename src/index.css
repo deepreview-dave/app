@@ -92,8 +92,9 @@ a.underlined-style {
 }
 
 .review-content {
-  border: 1px solid hsl(0, 0%, 71%);
-  border-radius: 10px;
+  border: 1px solid lightgrey;
+  /* border: 1px solid hsl(0, 0%, 71%); */
+  border-radius: 5px;
 }
 
 .review-content table > tbody > tr > td:first-child {

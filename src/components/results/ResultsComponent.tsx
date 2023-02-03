@@ -9,6 +9,7 @@ import { AutoTextArea } from "../common/AutoTextArea";
 export const ResultsComponent = (props: {
   onGenerateClick: () => Promise<AIResult[]>;
   generateButtonTitle?: string;
+  onResultsGenerated?: (results: AIResult[]) => void;
 }) => {
   const tool = useToolState((state) => state.tool);
 
@@ -32,6 +33,7 @@ export const ResultsComponent = (props: {
       const result = await props.onGenerateClick();
       setResults(result);
       Analytics.generated();
+      props.onResultsGenerated?.(result);
     } catch (e: any) {
       setError(e.message);
     }
@@ -43,6 +45,7 @@ export const ResultsComponent = (props: {
       const result = await new OpenAIService().expandText(value);
       updateResult(result, index);
       Analytics.expanded();
+      props.onResultsGenerated?.(results);
     } catch (e: any) {
       setError(e.message);
     }

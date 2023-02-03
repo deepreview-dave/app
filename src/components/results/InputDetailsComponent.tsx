@@ -55,7 +55,7 @@ export const InputDetailsComponent = (props: {
           className="column pr-0 is-monospace is-size-7"
           style={{ textAlign: "right" }}
         >
-          Click here to get a starting point from DeepReview:
+          Click here to get a starting point:
         </div>
         <div className="column is-narrow">
           <button

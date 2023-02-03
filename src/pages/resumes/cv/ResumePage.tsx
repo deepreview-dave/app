@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../../business/analytics";
-import { ResumeInput, ToolName } from "../../../business/common";
+import { AIResult, ResumeInput, ToolName } from "../../../business/common";
 import { OpenAIService } from "../../../business/open-ai.service";
 import { ResumeBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
@@ -52,51 +52,58 @@ export const Results = () => {
   const onGenerateClick = async () => {
     const service = new OpenAIService();
     const input: ResumeInput = { details, summary, workplaces, education };
-    let detailsResult = currentResult.filter(
-      (i) => i.tool === ToolName.Resume_Details
-    );
-    let summaryResult = currentResult.filter(
-      (i) => i.tool === ToolName.Resume_Summary
-    );
-    let workplaceResult = currentResult.filter(
-      (i) => i.tool === ToolName.Resume_Work
-    );
-    let educationResult = currentResult.filter(
-      (i) => i.tool === ToolName.Resume_Education
-    );
+    // let detailsResult = currentResult.filter(
+    //   (i) => i.tool === ToolName.Resume_Details
+    // );
+    // let summaryResult = currentResult.filter(
+    //   (i) => i.tool === ToolName.Resume_Summary
+    // );
+    // let workplaceResult = currentResult.filter(
+    //   (i) => i.tool === ToolName.Resume_Work
+    // );
+    // let educationResult = currentResult.filter(
+    //   (i) => i.tool === ToolName.Resume_Education
+    // );
 
     switch (step) {
       case ResumeStep.Details: {
-        detailsResult = await service.generateResumeDetails(input);
-        break;
+        return await service.generateResumeDetails(input);
+        // break;
       }
       case ResumeStep.Summary: {
-        summaryResult = await service.generateResumeSummary(input);
-        break;
+        return await service.generateResumeSummary(input);
+        // break;
       }
       case ResumeStep.Workplaces: {
-        workplaceResult = await service.generateResumeWorkHistory(input);
-        break;
+        return await service.generateResumeWorkHistory(input);
+        // break;
       }
       case ResumeStep.Education: {
-        educationResult = await service.generateResumeEducationHistory(input);
-        break;
+        return await service.generateResumeEducationHistory(input);
+        // break;
       }
     }
 
-    const result = [
-      ...detailsResult,
-      ...summaryResult,
-      ...workplaceResult,
-      ...educationResult,
-    ];
-    return result;
+    return [];
+
+    // const result = [
+    //   ...detailsResult,
+    //   ...summaryResult,
+    //   ...workplaceResult,
+    //   ...educationResult,
+    // ];
+    // return result;
+  };
+
+  const onResultsGenerated = (results: AIResult[]) => {
+    console.log("new results", results);
   };
 
   return (
     <ResultsComponent
       generateButtonTitle={buttonTitle()}
       onGenerateClick={onGenerateClick}
+      onResultsGenerated={onResultsGenerated}
     />
   );
 };

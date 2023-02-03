@@ -45,10 +45,12 @@ const NewWorkHistory = (): ResumeWorkHistory => ({
 export type ResumeHistoryState = {
   question: string;
   items: ResumeWorkHistory[];
+  selectedIndex: number;
   setQuestion: (question: string) => void;
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeWorkHistory) => void;
+  selectHistory: (selectedIndex: number) => void;
 };
 
 export type ResumeEducationHistory = {
@@ -73,10 +75,12 @@ const NewEducationHistory = (): ResumeEducationHistory => ({
 export type ResumeEducationState = {
   question: string;
   items: ResumeEducationHistory[];
+  selectedIndex: number;
   setQuestion: (question: string) => void;
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeEducationHistory) => void;
+  selectHistory: (selectedIndex: number) => void;
 };
 
 export enum ResumeStep {
@@ -119,22 +123,27 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
   (set) => ({
     question: "Expand just a little bit on the following:",
     items: [NewWorkHistory()],
+    selectedIndex: 0,
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
     addHistory: () =>
       set((state) => {
         const items = [...state.items, NewWorkHistory()];
-        return { ...state, items };
+        const selectedIndex = items.length - 1;
+        return { ...state, items, selectedIndex };
       }),
     removeHistory: (index: number) =>
       set((state) => {
         const items = state.items.filter((e, i) => i !== index);
-        return { ...state, items };
+        const selectedIndex = index - 1 < 0 ? 0 : index - 1;
+        return { ...state, items, selectedIndex };
       }),
     setHistory: (index, history) =>
       set((state) => {
         const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
+    selectHistory: (selectedIndex: number) =>
+      set((state) => ({ ...state, selectedIndex })),
   })
 );
 
@@ -143,22 +152,27 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
     question:
       "Expand just a little bit on the following, in the context of a resume:",
     items: [NewEducationHistory()],
+    selectedIndex: 0,
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
     addHistory: () =>
       set((state) => {
         const items = [...state.items, NewEducationHistory()];
-        return { ...state, items };
+        const selectedIndex = items.length - 1;
+        return { ...state, items, selectedIndex };
       }),
     removeHistory: (index: number) =>
       set((state) => {
         const items = state.items.filter((e, i) => i !== index);
-        return { ...state, items };
+        const selectedIndex = index - 1 < 0 ? 0 : index - 1;
+        return { ...state, items, selectedIndex };
       }),
     setHistory: (index, history) =>
       set((state) => {
         const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
+    selectHistory: (selectedIndex: number) =>
+      set((state) => ({ ...state, selectedIndex })),
   })
 );
 
