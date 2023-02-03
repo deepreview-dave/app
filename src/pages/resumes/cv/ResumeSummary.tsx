@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { WorkHistory } from "../../../business/common";
 import { AutoTextArea } from "../../../components/common/AutoTextArea";
 import { useResultState } from "../../../state/result-state";
@@ -12,13 +11,6 @@ export const ResumeSummary = () => {
   - achievements you're prod of in your career
   - strengts and skills you've developed over the years
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
-
-  useEffect(() => {
-    state.setSummary("default");
-    setTimeout(() => {
-      state.setSummary("");
-    }, 10);
-  }, []);
 
   return (
     <div className="review-content">

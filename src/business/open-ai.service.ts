@@ -18,6 +18,7 @@ import {
   ReferralLetterInput,
   ResumeInput,
   ReviewTone,
+  ToolName,
 } from "./common";
 import { Configuration, OpenAIApi } from "openai";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
@@ -83,7 +84,13 @@ export class OpenAIService {
       .split(".")
       .map((e) => e.trim())
       .filter((e) => !!e)
-      .map((value) => ({ value, editable: true, joined: false }));
+      .map((original) => ({
+        original,
+        expanded: original,
+        editable: true,
+        joined: false,
+        tool: ToolName.PerformanceReview,
+      }));
   }
 
   async generateCoverLetter(input: CoverLetterInput): Promise<AIResult[]> {
@@ -102,7 +109,13 @@ export class OpenAIService {
       .split(".")
       .map((e) => e.trim())
       .filter((e) => !!e)
-      .map((value) => ({ value, editable: true, joined: false }));
+      .map((original) => ({
+        original,
+        expanded: original,
+        editable: true,
+        joined: false,
+        tool: ToolName.CoverLetter,
+      }));
   }
 
   async generateReferralLetter(
@@ -123,7 +136,13 @@ export class OpenAIService {
       .split(".")
       .map((e) => e.trim())
       .filter((e) => !!e)
-      .map((value) => ({ value, editable: true, joined: false }));
+      .map((value) => ({
+        original: value,
+        expanded: value,
+        editable: true,
+        joined: false,
+        tool: ToolName.ReferralLetter,
+      }));
 
     const bakedResults = [
       `${input.you.name}`,
@@ -138,9 +157,11 @@ export class OpenAIService {
       `${input.recipient.address}`,
     ].join("\n");
     const bakedAiResult = {
-      value: bakedResults,
+      original: bakedResults,
+      expanded: bakedResults,
       editable: false,
       joined: false,
+      tool: ToolName.ReferralLetter,
     };
 
     return [bakedAiResult, ...aiResult];
@@ -153,17 +174,26 @@ export class OpenAIService {
       `Phone: ${input.details.phone}`,
       `Email: ${input.details.email}`,
     ].join("\n");
-    const result = { value: details, editable: false, joined: false };
+    const result = {
+      original: details,
+      expanded: details,
+      editable: false,
+      joined: false,
+      tool: ToolName.Resume_Details,
+    };
     return [result];
   }
 
   async generateResumeSummary(input: ResumeInput): Promise<AIResult[]> {
     let summary: AIResult;
     if (!input.summary.summary) {
+      const value = "Please make sure to provide some summary information.";
       summary = {
-        value: "Please make sure to provide some summary information.",
+        original: value,
+        expanded: value,
         editable: false,
         joined: false,
+        tool: ToolName.None,
       };
     } else {
       const prompt = new ResumeSummaryPromptBuilder().build(input);
@@ -174,7 +204,14 @@ export class OpenAIService {
         max_tokens,
         prompt,
       });
-      summary = { value: response.trim(), editable: true, joined: false };
+      const value = response.trim();
+      summary = {
+        original: value,
+        expanded: value,
+        editable: true,
+        joined: false,
+        tool: ToolName.Resume_Summary,
+      };
     }
     return [summary];
   }
@@ -185,12 +222,15 @@ export class OpenAIService {
       isValidWorkHistory(e)
     );
     if (validWorkItems.length === 0) {
+      const value =
+        "Please make sure to provide some information about your previous and current roles.";
       histories = [
         {
-          value:
-            "Please make sure to provide some information about your previous and current roles.",
+          original: value,
+          expanded: value,
           editable: false,
           joined: false,
+          tool: ToolName.None,
         },
       ];
     } else {
@@ -210,11 +250,20 @@ export class OpenAIService {
           `Company: ${workplace.company}`,
           `Role: ${workplace.role} (${workplace.start} - ${workplace.end})`,
         ].join("\n");
-        const baked = { value: bakedResult, editable: false, joined: true };
+        const baked = {
+          original: bakedResult,
+          expanded: bakedResult,
+          editable: false,
+          joined: true,
+          tool: ToolName.Resume_Work,
+        };
+        const value = response.trim();
         const aiResult = {
-          value: response.trim(),
+          original: value,
+          expanded: value,
           editable: true,
           joined: false,
+          tool: ToolName.Resume_Work,
         };
 
         histories.push(baked);
@@ -232,12 +281,15 @@ export class OpenAIService {
       isValidEducationHistory(e)
     );
     if (validEducationItems.length === 0) {
+      const value =
+        "Please make sure to provide some information about your education.";
       educations = [
         {
-          value:
-            "Please make sure to provide some information about your education.",
+          original: value,
+          expanded: value,
           editable: false,
           joined: false,
+          tool: ToolName.None,
         },
       ];
     } else {
@@ -260,15 +312,30 @@ export class OpenAIService {
             prompt,
           });
 
-          const bakedResult = { value: result, editable: false, joined: true };
+          const bakedResult = {
+            original: result,
+            expanded: result,
+            editable: false,
+            joined: true,
+            tool: ToolName.Resume_Education,
+          };
           educations.push(bakedResult);
+          const value = response.trim();
           educations.push({
-            value: response.trim(),
+            original: value,
+            expanded: value,
             editable: true,
             joined: false,
+            tool: ToolName.Resume_Education,
           });
         } else {
-          const bakedResult = { value: result, editable: false, joined: false };
+          const bakedResult = {
+            original: result,
+            expanded: result,
+            editable: false,
+            joined: false,
+            tool: ToolName.Resume_Education,
+          };
           educations.push(bakedResult);
         }
       }

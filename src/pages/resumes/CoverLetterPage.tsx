@@ -5,7 +5,12 @@ import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { useCoverLetterState } from "../../state/cover-letter.state";
 import { useResultState } from "../../state/result-state";
-import { AIResult, CoverLetterInput, WorkHistory } from "../../business/common";
+import {
+  AIResult,
+  CoverLetterInput,
+  ToolName,
+  WorkHistory,
+} from "../../business/common";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { OpenAIService } from "../../business/open-ai.service";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
@@ -16,12 +21,15 @@ import {
 } from "../../components/results/ResultsComponent";
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
+import { useToolState } from "../../state/tool-state";
 
 export const CoverLetterPage = () => {
   const detailsHint = `Please enter more details, such as:
   - top 3 strengths
   - achievements you're prod of in your previous roles
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
+
+  const setTool = useToolState((state) => state.setTool);
 
   const resultLoading = useResultState((state) => state.loading);
   const state = useCoverLetterState((state) => state);
@@ -44,6 +52,7 @@ export const CoverLetterPage = () => {
   };
 
   useEffect(() => {
+    setTool(ToolName.CoverLetter);
     Analytics.tool(AnalyticsToolName.COVER_LETTER);
   }, []);
 

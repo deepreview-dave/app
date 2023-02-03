@@ -2,13 +2,16 @@ import * as bulmaToast from "bulma-toast";
 import { Analytics } from "../../business/analytics";
 import { AIResult } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
-import { useResultState, formResult } from "../../state/result-state";
+import { useResultState } from "../../state/result-state";
+import { useToolState } from "../../state/tool-state";
 import { AutoTextArea } from "../common/AutoTextArea";
 
 export const ResultsComponent = (props: {
   onGenerateClick: () => Promise<AIResult[]>;
   generateButtonTitle?: string;
 }) => {
+  const tool = useToolState((state) => state.tool);
+
   const loading = useResultState((state) => state.loading);
   const reloadedSection = useResultState((state) => state.reloadedSection);
   const setLoading = useResultState((state) => state.setLoading);
@@ -27,7 +30,7 @@ export const ResultsComponent = (props: {
     setLoading();
     try {
       const result = await props.onGenerateClick();
-      setResults(formResult(result));
+      setResults(result);
       Analytics.generated();
     } catch (e: any) {
       setError(e.message);
@@ -155,7 +158,7 @@ export const ResultsComponent = (props: {
                   "button is-small is-rounded plus-button " +
                   (!res.editable ? "is-not-visible" : "")
                 }
-                onClick={() => addElement(i)}
+                onClick={() => addElement(i, tool)}
               >
                 <span className="icon is-small has-text-success">
                   <i className="fas fa-plus"></i>

@@ -93,24 +93,20 @@ export interface ResumeInput {
     address: string;
     phone: string;
     email: string;
-    result: AIResult[];
   };
   summary: {
     question: string;
     history: WorkHistory;
     skills: string;
     summary: string;
-    result: AIResult[];
   };
   workplaces: {
     question: string;
     items: ResumeWorkHistory[];
-    result: AIResult[];
   };
   education: {
     question: string;
     items: ResumeEducationHistory[];
-    result: AIResult[];
   };
 }
 
@@ -127,8 +123,21 @@ export enum WorkHistory {
   TenPlus = "10+",
 }
 
+export enum ToolName {
+  None = "none",
+  CoverLetter = "cover-letter",
+  ReferralLetter = "referral-letter",
+  PerformanceReview = "performance-review",
+  Resume_Details = "resume-details",
+  Resume_Summary = "resume-summary",
+  Resume_Work = "resume-work",
+  Resume_Education = "resume-education",
+}
+
 export type AIResult = {
-  value: string;
+  original: string;
+  expanded: string;
   editable: boolean;
   joined: boolean;
+  tool: ToolName;
 };

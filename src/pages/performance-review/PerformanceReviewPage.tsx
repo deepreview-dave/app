@@ -11,6 +11,7 @@ import {
   Relationship,
   ReviewTone,
   TimePeriod,
+  ToolName,
 } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
@@ -24,8 +25,11 @@ import { useInputDetailsState } from "../../state/input-details.state";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
+import { useToolState } from "../../state/tool-state";
 
 export const PerformanceReviewPage = () => {
+  const setTool = useToolState((state) => state.setTool);
+
   const detailsHint = `Please enter more details, such as:
   - a short summary of past performance
   - or a section on things that went well and things to improve
@@ -85,6 +89,7 @@ export const PerformanceReviewPage = () => {
   };
 
   useEffect(() => {
+    setTool(ToolName.PerformanceReview);
     Analytics.tool(AnalyticsToolName.PERF_REVIEW);
   }, []);
 

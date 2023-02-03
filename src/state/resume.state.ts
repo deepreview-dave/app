@@ -6,12 +6,10 @@ export type ResumeDetailsState = {
   address: string;
   phone: string;
   email: string;
-  result: AIResult[];
   setName: (name: string) => void;
   setAddress: (address: string) => void;
   setPhone: (phone: string) => void;
   setEmail: (email: string) => void;
-  setResult: (result: AIResult[]) => void;
 };
 
 export type ResumeSummaryState = {
@@ -19,12 +17,10 @@ export type ResumeSummaryState = {
   history: WorkHistory;
   skills: string;
   summary: string;
-  result: AIResult[];
   setQuestion: (question: string) => void;
   setHistory: (history: WorkHistory) => void;
   setSkills: (skills: string) => void;
   setSummary: (summary: string) => void;
-  setResult: (result: AIResult[]) => void;
 };
 
 export type ResumeWorkHistory = {
@@ -49,12 +45,10 @@ const NewWorkHistory = (): ResumeWorkHistory => ({
 export type ResumeHistoryState = {
   question: string;
   items: ResumeWorkHistory[];
-  result: AIResult[];
   setQuestion: (question: string) => void;
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeWorkHistory) => void;
-  setResult: (result: AIResult[]) => void;
 };
 
 export type ResumeEducationHistory = {
@@ -79,12 +73,10 @@ const NewEducationHistory = (): ResumeEducationHistory => ({
 export type ResumeEducationState = {
   question: string;
   items: ResumeEducationHistory[];
-  result: AIResult[];
   setQuestion: (question: string) => void;
   addHistory: () => void;
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeEducationHistory) => void;
-  setResult: (result: AIResult[]) => void;
 };
 
 export enum ResumeStep {
@@ -92,6 +84,7 @@ export enum ResumeStep {
   Summary,
   Workplaces,
   Education,
+  Result,
 }
 
 export type ResumeState = {
@@ -104,12 +97,10 @@ export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   address: "",
   phone: "",
   email: "",
-  result: [],
   setName: (name: string) => set((state) => ({ ...state, name })),
   setAddress: (address: string) => set((state) => ({ ...state, address })),
   setPhone: (phone: string) => set((state) => ({ ...state, phone })),
   setEmail: (email: string) => set((state) => ({ ...state, email })),
-  setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
 }));
 
 export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
@@ -118,19 +109,16 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
   history: WorkHistory.Five,
   skills: "",
   summary: "",
-  result: [],
   setQuestion: (question: string) => set((state) => ({ ...state, question })),
   setHistory: (history: WorkHistory) => set((state) => ({ ...state, history })),
   setSkills: (skills: string) => set((state) => ({ ...state, skills })),
   setSummary: (summary: string) => set((state) => ({ ...state, summary })),
-  setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
 }));
 
 export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
   (set) => ({
     question: "Expand just a little bit on the following:",
     items: [NewWorkHistory()],
-    result: [],
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
     addHistory: () =>
       set((state) => {
@@ -147,7 +135,6 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
         const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
-    setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
   })
 );
 
@@ -156,7 +143,6 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
     question:
       "Expand just a little bit on the following, in the context of a resume:",
     items: [NewEducationHistory()],
-    result: [],
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
     addHistory: () =>
       set((state) => {
@@ -173,7 +159,6 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
         const items = state.items.map((e, i) => (i === index ? history : e));
         return { ...state, items };
       }),
-    setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
   })
 );
 

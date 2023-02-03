@@ -1,23 +1,16 @@
 import create from "zustand";
-import { AIResult } from "../business/common";
-
-export type OperationResult = {
-  original: string;
-  expanded: string;
-  editable: boolean;
-  joined: boolean;
-};
+import { AIResult, ToolName } from "../business/common";
 
 export type ResultState = {
-  results: OperationResult[];
+  results: AIResult[];
   loading: boolean;
   reloadedSection: number | undefined;
   errorMessage: string | undefined;
   setLoading: () => void;
   setReloading: (reloadedSection: number) => void;
-  setResults: (results: OperationResult[]) => void;
+  setResults: (results: AIResult[]) => void;
   updateResult: (expanded: string, index: number) => void;
-  addElement: (index: number) => void;
+  addElement: (index: number, tool: ToolName) => void;
   removeElement: (index: number) => void;
   resetElement: (index: number) => void;
   setError: (errorMessage: string) => void;
@@ -32,7 +25,7 @@ export const useResultState = create<ResultState>()((set) => ({
   setLoading: () => set((state) => ({ ...state, loading: true })),
   setReloading: (reloadedSection: number) =>
     set((state) => ({ ...state, reloadedSection })),
-  setResults: (results: OperationResult[]) =>
+  setResults: (results: AIResult[]) =>
     set((state) => ({ results, loading: false, errorMessage: undefined })),
   updateResult: (expanded: string, index: number) =>
     set((state) => {
@@ -47,11 +40,20 @@ export const useResultState = create<ResultState>()((set) => ({
         errorMessage: undefined,
       };
     }),
-  addElement: (index: number) =>
+  addElement: (index: number, tool: ToolName) =>
     set((state) => {
       const results = state.results.flatMap((e, i) =>
         i === index
-          ? [e, { original: "", expanded: "", editable: true, joined: false }]
+          ? [
+              e,
+              {
+                original: "",
+                expanded: "",
+                editable: true,
+                joined: false,
+                tool,
+              },
+            ]
           : [e]
       );
       return { ...state, results };
@@ -72,6 +74,7 @@ export const useResultState = create<ResultState>()((set) => ({
               expanded: e.original,
               editable: true,
               joined: false,
+              tool: e.tool,
             }
           : e
       );
@@ -90,11 +93,3 @@ export const useResultState = create<ResultState>()((set) => ({
       errorMessage: undefined,
     })),
 }));
-
-export const formResult = (initial: AIResult[]): OperationResult[] =>
-  initial.map((original) => ({
-    original: original.value,
-    expanded: original.value,
-    editable: original.editable,
-    joined: original.joined,
-  }));
