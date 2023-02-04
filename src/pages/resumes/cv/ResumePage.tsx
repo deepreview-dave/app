@@ -3,7 +3,7 @@ import { Analytics, AnalyticsToolName } from "../../../business/analytics";
 import { ResumeBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
-import { ResultsError } from "../../../components/results/ResultsComponent";
+import { ResultsError } from "../../../components/results/ResultsError";
 import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
 import { ResumeDetails } from "./ResumeDetails";
 import { ResumeEducation } from "./ResumeEducation";

@@ -10,7 +10,7 @@ import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { OpenAIService } from "../../business/open-ai.service";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
 import { useInputDetailsState } from "../../state/input-details.state";
-import { ResultsError } from "../../components/results/ResultsComponent";
+import { ResultsError } from "../../components/results/ResultsError";
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
 import {
