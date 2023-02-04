@@ -346,13 +346,22 @@ export const PerformanceReviewPage = () => {
                           />
                         </td>
                       </tr>
+                      <tr>
+                        <td colSpan={2}>
+                          <div className="horizontal-line mt-4 mb-4"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan={2}>
+                          <div className="buttons">
+                            <GenerateResultsButton onClick={onGenerateClick} />
+                            <CopyResultsButton startingState={results} />
+                          </div>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div className="buttons mt-4">
-                <GenerateResultsButton onClick={onGenerateClick} />
-                <CopyResultsButton startingState={results} />
               </div>
             </div>
             <div className="column">

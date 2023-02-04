@@ -1,13 +1,7 @@
-import { useResultState } from "../../../state/result-state";
-import {
-  useResumeDetailsState,
-  useResumeWorkHistoryState,
-} from "../../../state/resume.state";
+import { useResumeDetailsState } from "../../../state/resume.state";
 
 export const ResumeResult = () => {
-  const result = useResultState((state) => state.results);
   const details = useResumeDetailsState((state) => state);
-  const work = useResumeWorkHistoryState((state) => state);
 
   const ResumeDetails = () => {
     if (!details.name) {
