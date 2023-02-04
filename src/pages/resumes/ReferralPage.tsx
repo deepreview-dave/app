@@ -24,7 +24,6 @@ export const ReferralPage = () => {
   - a story or achievement of the applicant
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
-  const resultLoading = useResultState((state) => state.loading);
   const state = useReferralLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
 
@@ -46,9 +45,8 @@ export const ReferralPage = () => {
     );
   };
 
-  const onUpdate = (result: AIResult[]) => {
-    state.setResult(result);
-  };
+  const onUpdate = (result: AIResult[]) => state.setResult(result);
+  const onLoad = (loading: boolean) => state.setLoading(loading);
 
   useEffect(() => {
     Analytics.tool(AnalyticsToolName.REFERRAL_LETTER);
@@ -88,7 +86,7 @@ export const ReferralPage = () => {
                         </td>
                         <td>
                           <AutoTextArea
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             value={state.question}
                             index={0}
                             className="input is-bold"
@@ -118,7 +116,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter your name"
                             type={"text"}
                             value={state.you.name}
@@ -136,7 +134,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter your address"
                             type={"text"}
                             value={state.you.address}
@@ -154,7 +152,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter contact details such as phone or email"
                             type={"text"}
                             value={state.you.contact}
@@ -180,7 +178,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter the recipient's name"
                             type={"text"}
                             value={state.recipient.name}
@@ -198,7 +196,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter the recipient's role or title"
                             type={"text"}
                             value={state.recipient.title}
@@ -216,7 +214,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Pleaase enter the recipient's company"
                             type={"text"}
                             value={state.recipient.company}
@@ -234,7 +232,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter the recipient's company's address"
                             type={"text"}
                             value={state.recipient.address}
@@ -260,7 +258,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter the applicant's name"
                             type={"text"}
                             value={state.applicant.name}
@@ -278,7 +276,7 @@ export const ReferralPage = () => {
                           <input
                             className="input is-small"
                             required
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter the position or role the person is applying for"
                             type={"text"}
                             value={state.applicant.role}
@@ -296,7 +294,7 @@ export const ReferralPage = () => {
                           <div className="select is-small">
                             <select
                               className="is-monospace"
-                              disabled={resultLoading}
+                              disabled={state.loading}
                               value={state.applicant.pron}
                               onChange={(e) =>
                                 state.setApplicantPronoun(
@@ -319,6 +317,7 @@ export const ReferralPage = () => {
                           <InputDetailsComponent
                             hint={detailsHint}
                             onHintClick={onHintClick}
+                            resultLoading={state.loading}
                           />
                         </td>
                       </tr>
@@ -330,8 +329,14 @@ export const ReferralPage = () => {
                       <tr>
                         <td colSpan={2}>
                           <div className="buttons">
-                            <GenerateResultsButton onClick={onGenerateClick} />
-                            <CopyResultsButton startingState={state.result} />
+                            <GenerateResultsButton
+                              onClick={onGenerateClick}
+                              onLoad={onLoad}
+                            />
+                            <CopyResultsButton
+                              startingState={state.result}
+                              loading={state.loading}
+                            />
                           </div>
                         </td>
                       </tr>
@@ -344,6 +349,7 @@ export const ReferralPage = () => {
               <ResultsInlineComponent
                 startingState={state.result}
                 onUpdate={onUpdate}
+                loading={state.loading}
               />
             </div>
           </div>

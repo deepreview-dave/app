@@ -6,14 +6,12 @@ import {
   CopyResultsButton,
   ResultsInlineComponent,
 } from "../../../components/results/ResultsInlineComponent";
-import { useResultState } from "../../../state/result-state";
 import {
   ResumeWorkHistory,
   useResumeWorkHistoryState,
 } from "../../../state/resume.state";
 
 export const ResumeWorkplaces = () => {
-  const resultLoading = useResultState((state) => state.loading);
   const state = useResumeWorkHistoryState((state) => state);
 
   const detailsHint = `Please enter more details, such as:
@@ -30,9 +28,10 @@ export const ResumeWorkplaces = () => {
     state.setResults(res, index);
   };
 
-  const onUpdate = (result: AIResult[], index: number) => {
+  const onUpdate = (result: AIResult[], index: number) =>
     state.setResults(result, index);
-  };
+  const onLoad = (loading: boolean, index: number) =>
+    state.setLoading(loading, index);
 
   return (
     <>
@@ -52,7 +51,7 @@ export const ResumeWorkplaces = () => {
                           <div className="column">Add job history details</div>
                           <div className="column is-narrow">
                             <button
-                              disabled={resultLoading || i === 0}
+                              disabled={h.loading || i === 0}
                               title="Remove job"
                               className="button is-small"
                               onClick={() => state.removeHistory(i)}
@@ -72,7 +71,7 @@ export const ResumeWorkplaces = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter the name of the company"
                           type={"text"}
                           value={h.company}
@@ -92,7 +91,7 @@ export const ResumeWorkplaces = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter the role or title"
                           type={"text"}
                           value={h.role}
@@ -112,7 +111,7 @@ export const ResumeWorkplaces = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter the start date (e.g. 2019)"
                           type={"text"}
                           value={h.start}
@@ -132,7 +131,7 @@ export const ResumeWorkplaces = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter the end date (e.g. 2022)"
                           type={"text"}
                           value={h.end}
@@ -152,7 +151,7 @@ export const ResumeWorkplaces = () => {
                       <td>
                         <AutoTextArea
                           className="input"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           value={h.details}
                           index={i}
                           placeholder={detailsHint}
@@ -175,8 +174,12 @@ export const ResumeWorkplaces = () => {
                         <div className="buttons">
                           <GenerateResultsButton
                             onClick={() => onGenerateClick(h, i)}
+                            onLoad={(loading) => onLoad(loading, i)}
                           />
-                          <CopyResultsButton startingState={h.results} />
+                          <CopyResultsButton
+                            startingState={h.results}
+                            loading={h.loading}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -189,13 +192,13 @@ export const ResumeWorkplaces = () => {
             <ResultsInlineComponent
               startingState={h.results}
               onUpdate={(res) => onUpdate(res, i)}
+              loading={h.loading}
             />
           </div>
         </div>
       ))}
       <div className="buttons mt-4">
         <button
-          disabled={resultLoading}
           className="button is-info"
           title="Add more jobs"
           onClick={() => state.addHistory()}

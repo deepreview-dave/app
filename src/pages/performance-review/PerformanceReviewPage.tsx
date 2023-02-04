@@ -33,7 +33,8 @@ export const PerformanceReviewPage = () => {
   - or a section on things that went well and things to improve
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
-  const resultLoading = useResultState((state) => state.loading);
+  const resultLoading = usePerformanceReviewState((state) => state.loading);
+  const setLoading = usePerformanceReviewState((state) => state.setLoading);
 
   const relationship = usePerformanceReviewState((state) => state.relationship);
   const details = useInputDetailsState((state) => state.details);
@@ -82,9 +83,8 @@ export const PerformanceReviewPage = () => {
     setResult(res);
   };
 
-  const onUpdate = (result: AIResult[]) => {
-    setResult(result);
-  };
+  const onUpdate = (result: AIResult[]) => setResult(result);
+  const onLoad = (load: boolean) => setLoading(load);
 
   const onHintClick = async (): Promise<string> => {
     return await new OpenAIService().generatePerformanceReviewHint(
@@ -344,6 +344,7 @@ export const PerformanceReviewPage = () => {
                           <InputDetailsComponent
                             hint={detailsHint}
                             onHintClick={onHintClick}
+                            resultLoading={resultLoading}
                           />
                         </td>
                       </tr>
@@ -355,8 +356,14 @@ export const PerformanceReviewPage = () => {
                       <tr>
                         <td colSpan={2}>
                           <div className="buttons">
-                            <GenerateResultsButton onClick={onGenerateClick} />
-                            <CopyResultsButton startingState={result} />
+                            <GenerateResultsButton
+                              onClick={onGenerateClick}
+                              onLoad={onLoad}
+                            />
+                            <CopyResultsButton
+                              startingState={result}
+                              loading={resultLoading}
+                            />
                           </div>
                         </td>
                       </tr>
@@ -369,6 +376,7 @@ export const PerformanceReviewPage = () => {
               <ResultsInlineComponent
                 startingState={result}
                 onUpdate={onUpdate}
+                loading={resultLoading}
               />
             </div>
           </div>

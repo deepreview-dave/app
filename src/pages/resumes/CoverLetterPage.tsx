@@ -4,7 +4,6 @@ import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { useCoverLetterState } from "../../state/cover-letter.state";
-import { useResultState } from "../../state/result-state";
 import { AIResult, CoverLetterInput, WorkHistory } from "../../business/common";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { OpenAIService } from "../../business/open-ai.service";
@@ -25,7 +24,6 @@ export const CoverLetterPage = () => {
   - achievements you're prod of in your previous roles
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
-  const resultLoading = useResultState((state) => state.loading);
   const state = useCoverLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
 
@@ -42,13 +40,10 @@ export const CoverLetterPage = () => {
     state.setResult(res);
   };
 
-  const onHintClick = async (): Promise<string> => {
-    return await new OpenAIService().generateCoverLetterHint(state.role);
-  };
-
-  const onUpdate = (result: AIResult[]) => {
-    state.setResult(result);
-  };
+  const onHintClick = async (): Promise<string> =>
+    await new OpenAIService().generateCoverLetterHint(state.role);
+  const onUpdate = (result: AIResult[]) => state.setResult(result);
+  const onLoad = (loading: boolean) => state.setLoading(loading);
 
   useEffect(() => {
     Analytics.tool(AnalyticsToolName.COVER_LETTER);
@@ -81,7 +76,7 @@ export const CoverLetterPage = () => {
                         </td>
                         <td>
                           <AutoTextArea
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             value={state.question}
                             index={0}
                             className="input is-bold"
@@ -105,7 +100,7 @@ export const CoverLetterPage = () => {
                             placeholder="Plase enter your name here"
                             type={"text"}
                             value={state.name}
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             onChange={(e) =>
                               state.setName(e.currentTarget.value)
                             }
@@ -119,7 +114,7 @@ export const CoverLetterPage = () => {
                         <td>
                           <input
                             className="input is-small"
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter the role you're applying to"
                             type={"text"}
                             value={state.role}
@@ -136,7 +131,7 @@ export const CoverLetterPage = () => {
                         <td>
                           <input
                             className="input is-small"
-                            disabled={resultLoading}
+                            disabled={state.loading}
                             placeholder="Please enter the company you're applying to"
                             type={"text"}
                             value={state.company}
@@ -154,7 +149,7 @@ export const CoverLetterPage = () => {
                           <div className="select is-small">
                             <select
                               className="is-monospace"
-                              disabled={resultLoading}
+                              disabled={state.loading}
                               value={state.history}
                               onChange={(e) =>
                                 state.setHistory(
@@ -186,6 +181,7 @@ export const CoverLetterPage = () => {
                           <InputDetailsComponent
                             hint={detailsHint}
                             onHintClick={onHintClick}
+                            resultLoading={state.loading}
                           />
                         </td>
                       </tr>
@@ -197,8 +193,14 @@ export const CoverLetterPage = () => {
                       <tr>
                         <td colSpan={2}>
                           <div className="buttons">
-                            <GenerateResultsButton onClick={onGenerateClick} />
-                            <CopyResultsButton startingState={state.result} />
+                            <GenerateResultsButton
+                              onClick={onGenerateClick}
+                              onLoad={onLoad}
+                            />
+                            <CopyResultsButton
+                              startingState={state.result}
+                              loading={state.loading}
+                            />
                           </div>
                         </td>
                       </tr>
@@ -211,6 +213,7 @@ export const CoverLetterPage = () => {
               <ResultsInlineComponent
                 startingState={state.result}
                 onUpdate={onUpdate}
+                loading={state.loading}
               />
             </div>
           </div>

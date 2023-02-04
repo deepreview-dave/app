@@ -8,20 +8,22 @@ import { AutoTextArea } from "../common/AutoTextArea";
 
 export const GenerateResultsButton = (props: {
   onClick: () => Promise<void>;
+  onLoad: (loading: boolean) => void;
 }) => {
-  const loading = useResultState((state) => state.loading);
-  const setLoading = useResultState((state) => state.setLoading);
-  const setNotLoading = useResultState((state) => state.setNotLoading);
+  const [loading, setLoading] = useState(false);
   const setError = useResultState((state) => state.setError);
 
   const onButtonClick = async () => {
     try {
-      setLoading();
+      setLoading(true);
+      props.onLoad(true);
       await props.onClick();
-      setNotLoading();
+      setLoading(false);
+      props.onLoad(false);
     } catch (e: any) {
       setError(e.message);
-      setNotLoading();
+      props.onLoad(false);
+      setLoading(false);
     }
   };
 
@@ -37,9 +39,11 @@ export const GenerateResultsButton = (props: {
   );
 };
 
-export const CopyResultsButton = (props: { startingState: AIResult[] }) => {
+export const CopyResultsButton = (props: {
+  startingState: AIResult[];
+  loading: boolean;
+}) => {
   const [items, setItems] = useState<AIResult[]>(props.startingState);
-  const loading = useResultState((state) => state.loading);
 
   useEffect(() => {
     setItems(props.startingState);
@@ -62,7 +66,7 @@ export const CopyResultsButton = (props: { startingState: AIResult[] }) => {
   return (
     <button
       title="Copy all generated results to clipboard."
-      disabled={loading}
+      disabled={props.loading}
       className="button"
       onClick={onCopyClick}
     >
@@ -72,10 +76,10 @@ export const CopyResultsButton = (props: { startingState: AIResult[] }) => {
 };
 
 export const ResultsInlineComponent = (props: {
+  loading: boolean;
   startingState: AIResult[];
   onUpdate?: (results: AIResult[]) => void;
 }) => {
-  const loading = useResultState((state) => state.loading);
   const [items, setItems] = useState<AIResult[]>(props.startingState);
   const [error, setError] = useState<string | undefined>(undefined);
   const [reloadedSection, setReloading] = useState<number | undefined>(
@@ -169,7 +173,9 @@ export const ResultsInlineComponent = (props: {
               <div className="pt-5 pl-3 pr-3 pb-5">
                 <button
                   disabled={
-                    !res.editable || loading || reloadedSection !== undefined
+                    !res.editable ||
+                    props.loading ||
+                    reloadedSection !== undefined
                   }
                   title="Let DeepReview automatically expand this section."
                   className={
@@ -191,7 +197,7 @@ export const ResultsInlineComponent = (props: {
                 }
               >
                 <AutoTextArea
-                  disabled={loading || reloadedSection === i}
+                  disabled={props.loading || reloadedSection === i}
                   index={i}
                   value={res.expanded}
                   className="autotext-area"
@@ -203,7 +209,9 @@ export const ResultsInlineComponent = (props: {
               <div className="pt-5 pl-3 pr-3 pb-5">
                 <button
                   disabled={
-                    !res.editable || loading || reloadedSection !== undefined
+                    !res.editable ||
+                    props.loading ||
+                    reloadedSection !== undefined
                   }
                   title="Undo"
                   className={
@@ -220,7 +228,7 @@ export const ResultsInlineComponent = (props: {
             </div>
             <div className="plus-button-holder">
               <button
-                disabled={loading || reloadedSection !== undefined}
+                disabled={props.loading || reloadedSection !== undefined}
                 title="Add new section"
                 className={
                   "button is-small is-rounded plus-button " +
@@ -236,7 +244,7 @@ export const ResultsInlineComponent = (props: {
           </div>
         ))}
       </div>
-      {items.length === 0 && !loading && (
+      {items.length === 0 && !props.loading && (
         <div className="review-content p-4 has-background-warning-light has-text-warning-dark is-monospace">
           <small>
             Fill in the details and press the 'Generate' button to see the
@@ -244,7 +252,7 @@ export const ResultsInlineComponent = (props: {
           </small>
         </div>
       )}
-      {items.length === 0 && loading && (
+      {items.length === 0 && props.loading && (
         <div className="review-content p-4 is-monospace">
           <small>Loading</small>
           <progress className="mt-2 progress is-small is-info" max="100">

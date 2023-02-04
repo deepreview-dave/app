@@ -6,14 +6,12 @@ import {
   CopyResultsButton,
   ResultsInlineComponent,
 } from "../../../components/results/ResultsInlineComponent";
-import { useResultState } from "../../../state/result-state";
 import {
   ResumeEducationHistory,
   useResumeEducationHistoryState,
 } from "../../../state/resume.state";
 
 export const ResumeEducation = () => {
-  const resultLoading = useResultState((state) => state.loading);
   const state = useResumeEducationHistoryState((state) => state);
 
   const detailsHint = `Please enter more details, such as:
@@ -33,9 +31,10 @@ export const ResumeEducation = () => {
     state.setResults(res, index);
   };
 
-  const onUpdate = (result: AIResult[], index: number) => {
+  const onUpdate = (result: AIResult[], index: number) =>
     state.setResults(result, index);
-  };
+  const onLoad = (loading: boolean, index: number) =>
+    state.setLoading(loading, index);
 
   return (
     <>
@@ -57,7 +56,7 @@ export const ResumeEducation = () => {
                           </div>
                           <div className="column is-narrow">
                             <button
-                              disabled={resultLoading || i === 0}
+                              disabled={h.loading || i === 0}
                               title="Remove school"
                               className="button is-small"
                               onClick={() => state.removeHistory(i)}
@@ -77,7 +76,7 @@ export const ResumeEducation = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter the name of the school"
                           type={"text"}
                           value={h.school}
@@ -97,7 +96,7 @@ export const ResumeEducation = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter your degree"
                           type={"text"}
                           value={h.degree}
@@ -117,7 +116,7 @@ export const ResumeEducation = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter the start date (e.g. 2019)"
                           type={"text"}
                           value={h.start}
@@ -137,7 +136,7 @@ export const ResumeEducation = () => {
                       <td>
                         <input
                           className="input is-small"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           placeholder="Please enter the end date (e.g. 2022)"
                           type={"text"}
                           value={h.end}
@@ -157,7 +156,7 @@ export const ResumeEducation = () => {
                       <td>
                         <AutoTextArea
                           className="input"
-                          disabled={resultLoading}
+                          disabled={h.loading}
                           value={h.details}
                           index={i}
                           placeholder={detailsHint}
@@ -180,8 +179,12 @@ export const ResumeEducation = () => {
                         <div className="buttons">
                           <GenerateResultsButton
                             onClick={() => onGenerateClick(h, i)}
+                            onLoad={(loading) => onLoad(loading, i)}
                           />
-                          <CopyResultsButton startingState={h.results} />
+                          <CopyResultsButton
+                            startingState={h.results}
+                            loading={h.loading}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -194,13 +197,13 @@ export const ResumeEducation = () => {
             <ResultsInlineComponent
               startingState={h.results}
               onUpdate={(res) => onUpdate(res, i)}
+              loading={h.loading}
             />
           </div>
         </div>
       ))}
       <div className="buttons mt-4">
         <button
-          disabled={resultLoading}
           className="button is-info"
           title="Add more schools"
           onClick={() => state.addHistory()}

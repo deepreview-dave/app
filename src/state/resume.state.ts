@@ -7,11 +7,13 @@ export type ResumeDetailsState = {
   phone: string;
   email: string;
   result: AIResult[];
+  loading: boolean;
   setName: (name: string) => void;
   setAddress: (address: string) => void;
   setPhone: (phone: string) => void;
   setEmail: (email: string) => void;
   setResult: (result: AIResult[]) => void;
+  setLoading: (loading: boolean) => void;
 };
 
 export type ResumeSummaryState = {
@@ -20,11 +22,13 @@ export type ResumeSummaryState = {
   skills: string;
   summary: string;
   result: AIResult[];
+  loading: boolean;
   setQuestion: (question: string) => void;
   setHistory: (history: WorkHistory) => void;
   setSkills: (skills: string) => void;
   setSummary: (summary: string) => void;
   setResult: (result: AIResult[]) => void;
+  setLoading: (loading: boolean) => void;
 };
 
 export type ResumeWorkHistory = {
@@ -34,6 +38,7 @@ export type ResumeWorkHistory = {
   end: string;
   details: string;
   results: AIResult[];
+  loading: boolean;
 };
 
 export const isValidWorkHistory = (history: ResumeWorkHistory) =>
@@ -46,6 +51,7 @@ const NewWorkHistory = (): ResumeWorkHistory => ({
   end: "",
   details: "",
   results: [],
+  loading: false,
 });
 
 export type ResumeHistoryState = {
@@ -56,6 +62,7 @@ export type ResumeHistoryState = {
   removeHistory: (index: number) => void;
   setHistory: (index: number, history: ResumeWorkHistory) => void;
   setResults: (results: AIResult[], index: number) => void;
+  setLoading: (loading: boolean, index: number) => void;
 };
 
 export type ResumeEducationHistory = {
@@ -65,6 +72,7 @@ export type ResumeEducationHistory = {
   end: string;
   details: string;
   results: AIResult[];
+  loading: boolean;
 };
 
 export const isValidEducationHistory = (history: ResumeEducationHistory) =>
@@ -77,6 +85,7 @@ const NewEducationHistory = (): ResumeEducationHistory => ({
   end: "",
   details: "",
   results: [],
+  loading: false,
 });
 
 export type ResumeEducationState = {
@@ -89,6 +98,7 @@ export type ResumeEducationState = {
   setHistory: (index: number, history: ResumeEducationHistory) => void;
   selectHistory: (selectedIndex: number) => void;
   setResults: (results: AIResult[], index: number) => void;
+  setLoading: (loading: boolean, index: number) => void;
 };
 
 export enum ResumeStep {
@@ -110,11 +120,13 @@ export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   phone: "",
   email: "",
   result: [],
+  loading: false,
   setName: (name: string) => set((state) => ({ ...state, name })),
   setAddress: (address: string) => set((state) => ({ ...state, address })),
   setPhone: (phone: string) => set((state) => ({ ...state, phone })),
   setEmail: (email: string) => set((state) => ({ ...state, email })),
   setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
+  setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
 }));
 
 export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
@@ -124,11 +136,13 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
   skills: "",
   summary: "",
   result: [],
+  loading: false,
   setQuestion: (question: string) => set((state) => ({ ...state, question })),
   setHistory: (history: WorkHistory) => set((state) => ({ ...state, history })),
   setSkills: (skills: string) => set((state) => ({ ...state, skills })),
   setSummary: (summary: string) => set((state) => ({ ...state, summary })),
   setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
+  setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
 }));
 
 export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
@@ -157,6 +171,13 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
       set((state) => {
         const items = state.items.map((e, i) =>
           i === index ? { ...e, results } : e
+        );
+        return { ...state, items };
+      }),
+    setLoading: (loading: boolean, index: number) =>
+      set((state) => {
+        const items = state.items.map((e, i) =>
+          i === index ? { ...e, loading } : e
         );
         return { ...state, items };
       }),
@@ -193,6 +214,13 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
       set((state) => {
         const items = state.items.map((e, i) =>
           i === index ? { ...e, results } : e
+        );
+        return { ...state, items };
+      }),
+    setLoading: (loading: boolean, index: number) =>
+      set((state) => {
+        const items = state.items.map((e, i) =>
+          i === index ? { ...e, loading } : e
         );
         return { ...state, items };
       }),

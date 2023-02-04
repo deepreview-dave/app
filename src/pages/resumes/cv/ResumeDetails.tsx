@@ -5,11 +5,10 @@ import {
   CopyResultsButton,
   ResultsInlineComponent,
 } from "../../../components/results/ResultsInlineComponent";
-import { useResultState } from "../../../state/result-state";
 import { useResumeDetailsState } from "../../../state/resume.state";
 
 export const ResumeDetails = () => {
-  const resultLoading = useResultState((state) => state.loading);
+  const resultLoading = useResumeDetailsState((state) => state.loading);
   const state = useResumeDetailsState((state) => state);
 
   const onGenerateClick = async () => {
@@ -18,9 +17,8 @@ export const ResumeDetails = () => {
     state.setResult(res);
   };
 
-  const onUpdate = (result: AIResult[]) => {
-    state.setResult(result);
-  };
+  const onUpdate = (result: AIResult[]) => state.setResult(result);
+  const onLoad = (loading: boolean) => state.setLoading(loading);
 
   return (
     <div className="columns">
@@ -105,8 +103,14 @@ export const ResumeDetails = () => {
                 <tr>
                   <td colSpan={2}>
                     <div className="buttons">
-                      <GenerateResultsButton onClick={onGenerateClick} />
-                      <CopyResultsButton startingState={state.result} />
+                      <GenerateResultsButton
+                        onClick={onGenerateClick}
+                        onLoad={onLoad}
+                      />
+                      <CopyResultsButton
+                        startingState={state.result}
+                        loading={state.loading}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -119,6 +123,7 @@ export const ResumeDetails = () => {
         <ResultsInlineComponent
           startingState={state.result}
           onUpdate={onUpdate}
+          loading={state.loading}
         />
       </div>
     </div>
