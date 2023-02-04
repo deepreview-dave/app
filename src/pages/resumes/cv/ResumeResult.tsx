@@ -1,129 +1,276 @@
-import { useResumeDetailsState } from "../../../state/resume.state";
+import {
+  isValidEducationHistory,
+  isValidWorkHistory,
+  useResumeDetailsState,
+  useResumeEducationHistoryState,
+  useResumeSummaryState,
+  useResumeWorkHistoryState,
+} from "../../../state/resume.state";
+
+const Separator = () => {
+  return <span className="mr-2 ml-2">|</span>;
+};
 
 export const ResumeResult = () => {
-  const details = useResumeDetailsState((state) => state);
-
   const ResumeDetails = () => {
-    if (!details.name) {
-      return (
-        <div className="message is-warning">
-          <div className="message-body">
-            Please enter your <b>Name</b> in the Details section.
-          </div>
-        </div>
-      );
-    }
+    const details = useResumeDetailsState((state) => state);
+
+    const Name = () => {
+      if (!details.name) {
+        return (
+          <span className="has-background-warning has-text-warning-dark">
+            [Your Name]
+          </span>
+        );
+      } else {
+        return <span>{details.name}</span>;
+      }
+    };
 
     return (
       <>
-        <h2>{details.name}</h2>
+        <h2>
+          <Name />
+        </h2>
         <hr />
       </>
     );
   };
 
   const ResumeInfo = () => {
+    const details = useResumeDetailsState((state) => state);
+
     const Address = () => {
-      if (!details.address) {
-        return (
-          <span className="tag is-warning">Please enter your Address</span>
-        );
-      } else {
-        return (
-          <span>
-            <small>
-              Address: <b>{details.address}</b>
-            </small>
-          </span>
-        );
-      }
+      const Item = () => {
+        if (!details.address) {
+          return (
+            <span className="has-background-warning has-text-warning-dark">
+              [N/A]
+            </span>
+          );
+        } else {
+          return <span>{details.address}</span>;
+        }
+      };
+
+      return (
+        <span>
+          <small>
+            Address:{" "}
+            <b>
+              <Item />
+            </b>
+          </small>
+        </span>
+      );
     };
     const Phone = () => {
-      if (!details.phone) {
-        return <span className="tag is-warning">Please enter your Phone</span>;
-      } else {
-        return (
-          <span>
-            <small>
-              Phone: <b>{details.phone}</b>
-            </small>
-          </span>
-        );
-      }
+      const Item = () => {
+        if (!details.phone) {
+          return (
+            <span className="has-background-warning has-text-warning-dark">
+              [N/A]
+            </span>
+          );
+        } else {
+          return <span>{details.phone}</span>;
+        }
+      };
+
+      return (
+        <span>
+          <small>
+            Phone:{" "}
+            <b>
+              <Item />
+            </b>
+          </small>
+        </span>
+      );
     };
     const Email = () => {
-      if (!details.email) {
-        return <span className="tag is-warning">Please enter your Email</span>;
-      } else {
-        return (
-          <span>
-            <small>
-              Email: <b>{details.email}</b>
-            </small>
-          </span>
-        );
-      }
+      const Item = () => {
+        if (!details.email) {
+          return (
+            <span className="has-background-warning has-text-warning-dark">
+              [N/A]
+            </span>
+          );
+        } else {
+          return <span>{details.email}</span>;
+        }
+      };
+
+      return (
+        <span>
+          <small>
+            Email:{" "}
+            <b>
+              <Item />
+            </b>
+          </small>
+        </span>
+      );
     };
     return (
       <div>
         <Address />
-        <span className="mr-2 ml-2">|</span>
+        <Separator />
         <Phone />
-        <span className="mr-2 ml-2">|</span>
+        <Separator />
         <Email />
       </div>
     );
   };
 
   const SummaryInfo = () => {
-    // const Summary = () => {
-    //   const summaries = result.filter(
-    //     (e) => e.tool === ToolName.Resume_Summary
-    //   );
-
-    //   if (summaries.length === 0) {
-    //     return (
-    //       <div className="message is-warning">
-    //         <div className="message-body">
-    //           Please fill in the <b>Summary</b> section.
-    //         </div>
-    //       </div>
-    //     );
-    //   } else {
-    //     return <p>{summaries.map((e) => e.expanded).join("\n\n")}</p>;
-    //   }
-    // };
+    const summary = useResumeSummaryState((state) => state);
+    const Info = () => {
+      if (summary.result.length === 0) {
+        return (
+          <p>
+            <span className="has-background-warning has-text-warning-dark">
+              [N/A]
+            </span>
+          </p>
+        );
+      } else {
+        return (
+          <>
+            {summary.result
+              .map((e) => e.expanded)
+              .map((e) => (
+                <p>{e}</p>
+              ))}
+          </>
+        );
+      }
+    };
 
     return (
       <div className="mt-6">
         <h4>Summary</h4>
-        {/* <Summary /> */}
+        <p>
+          <Info />
+        </p>
       </div>
     );
   };
 
   const WorkHistoryInfo = () => {
-    const History = () => {
-      // const workSections = result.filter(
-      //   (e) => e.tool === ToolName.Resume_Work && e.editable
-      // );
+    const work = useResumeWorkHistoryState((state) => state);
+    const validItems = work.items.filter((e) => isValidWorkHistory(e));
 
-      // if (work.result.length === 0) {
-      //   return (
-      //     <div className="message is-warning">
-      //       <div className="message-body">
-      //         Please fill in the <b>Work History</b> section.
-      //       </div>
-      //     </div>
-      //   )
-      // } else {
-      return <div>ABC</div>;
-      // }
+    if (validItems.length === 0) {
+      return (
+        <div className="mt-6">
+          <h4>Experience</h4>
+          <span className="has-background-warning has-text-warning-dark">
+            [N/A]
+          </span>
+        </div>
+      );
+    }
+
+    const History = () => {
+      return (
+        <div>
+          {validItems.map((e) => (
+            <>
+              <p>
+                <span>
+                  <b>{e.role}</b>
+                </span>
+                <Separator />
+                <span>
+                  <b>{e.company}</b>
+                </span>
+                <Separator />
+                <span>
+                  <b>
+                    {e.start} - {e.end}
+                  </b>
+                </span>
+              </p>
+              {e.results
+                .filter((i) => i.editable)
+                .map((i) => i.expanded)
+                .map((i) => (
+                  <p>{i}</p>
+                ))}
+              {e.results.length === 0 && (
+                <p>
+                  <span className="has-background-warning has-text-warning-dark">
+                    [N/A]
+                  </span>
+                </p>
+              )}
+            </>
+          ))}
+        </div>
+      );
     };
 
     return (
       <div className="mt-6">
         <h4>Experience</h4>
+        <History />
+      </div>
+    );
+  };
+
+  const EducationHistoryInfo = () => {
+    const education = useResumeEducationHistoryState((state) => state);
+    const validItems = education.items.filter((e) =>
+      isValidEducationHistory(e)
+    );
+
+    if (validItems.length === 0) {
+      return (
+        <div className="mt-6">
+          <h4>Education</h4>
+          <span className="has-background-warning has-text-warning-dark">
+            [N/A]
+          </span>
+        </div>
+      );
+    }
+
+    const History = () => {
+      return (
+        <div>
+          {validItems.map((e) => (
+            <>
+              <p>
+                <span>
+                  <b>{e.school}</b>
+                </span>
+                <Separator />
+                <span>
+                  <b>{e.degree}</b>
+                </span>
+                <Separator />
+                <span>
+                  <b>
+                    {e.start} - {e.end}
+                  </b>
+                </span>
+              </p>
+              {e.results
+                .filter((i) => i.editable)
+                .map((i) => i.expanded)
+                .map((i) => (
+                  <p>{i}</p>
+                ))}
+            </>
+          ))}
+        </div>
+      );
+    };
+
+    return (
+      <div className="mt-6">
+        <h4>Education</h4>
         <History />
       </div>
     );
@@ -137,6 +284,7 @@ export const ResumeResult = () => {
         <ResumeInfo />
         <SummaryInfo />
         <WorkHistoryInfo />
+        <EducationHistoryInfo />
       </div>
     </div>
   );
