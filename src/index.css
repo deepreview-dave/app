@@ -241,7 +241,6 @@ a.underlined-style {
   display: flex;
   border-left: 1px solid lightgrey;
   border-right: 1px solid lightgrey;
-  margin-top: -13px;
   border-bottom: none;
 }
 
