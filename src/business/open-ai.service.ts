@@ -16,15 +16,16 @@ import {
   PerformanceReviewInput,
   PerformanceScore,
   ReferralLetterInput,
-  ResumeInput,
+  ResumeDetailsInput,
+  ResumeSummaryInput,
   ReviewTone,
   ToolName,
 } from "./common";
 import { Configuration, OpenAIApi } from "openai";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 import {
-  isValidEducationHistory,
-  isValidWorkHistory,
+  ResumeEducationHistory,
+  ResumeWorkHistory,
 } from "../state/resume.state";
 
 type NetworkInput = {
@@ -167,12 +168,12 @@ export class OpenAIService {
     return [bakedAiResult, ...aiResult];
   }
 
-  async generateResumeDetails(input: ResumeInput): Promise<AIResult[]> {
+  async generateResumeDetails(input: ResumeDetailsInput): Promise<AIResult[]> {
     const details = [
-      `Name: ${input.details.name}`,
-      `Address: ${input.details.address}`,
-      `Phone: ${input.details.phone}`,
-      `Email: ${input.details.email}`,
+      `Name: ${input.name}`,
+      `Address: ${input.address}`,
+      `Phone: ${input.phone}`,
+      `Email: ${input.email}`,
     ].join("\n");
     const result = {
       original: details,
@@ -184,9 +185,12 @@ export class OpenAIService {
     return [result];
   }
 
-  async generateResumeSummary(input: ResumeInput): Promise<AIResult[]> {
+  async generateResumeSummary(
+    input: ResumeSummaryInput,
+    name: string
+  ): Promise<AIResult[]> {
     let summary: AIResult;
-    if (!input.summary.summary) {
+    if (!input.summary) {
       const value = "Please make sure to provide some summary information.";
       summary = {
         original: value,
@@ -196,7 +200,7 @@ export class OpenAIService {
         tool: ToolName.None,
       };
     } else {
-      const prompt = new ResumeSummaryPromptBuilder().build(input);
+      const prompt = new ResumeSummaryPromptBuilder().build(input, name);
       const max_tokens = prompt.length + 2000;
       const response = await this.getResponse({
         model: this.MODEL,
@@ -216,132 +220,85 @@ export class OpenAIService {
     return [summary];
   }
 
-  async generateResumeWorkHistory(input: ResumeInput): Promise<AIResult[]> {
-    let histories: AIResult[] = [];
-    const validWorkItems = input.workplaces.items.filter((e) =>
-      isValidWorkHistory(e)
-    );
-    if (validWorkItems.length === 0) {
-      const value =
-        "Please make sure to provide some information about your previous and current roles.";
-      histories = [
-        {
-          original: value,
-          expanded: value,
-          editable: false,
-          joined: false,
-          tool: ToolName.None,
-        },
-      ];
-    } else {
-      for (const workplace of validWorkItems) {
-        const prompt = new ResumeWorkHistoryPromptBuilder().build(
-          input.workplaces.question,
-          workplace
-        );
-        const max_tokens = prompt.length + 500;
-        const response = await this.getResponse({
-          model: this.MODEL,
-          temperature: 0.25,
-          max_tokens,
-          prompt,
-        });
-        const bakedResult = [
-          `Company: ${workplace.company}`,
-          `Role: ${workplace.role} (${workplace.start} - ${workplace.end})`,
-        ].join("\n");
-        const baked = {
-          original: bakedResult,
-          expanded: bakedResult,
-          editable: false,
-          joined: true,
-          tool: ToolName.Resume_Work,
-        };
-        const value = response.trim();
-        const aiResult = {
-          original: value,
-          expanded: value,
-          editable: true,
-          joined: false,
-          tool: ToolName.Resume_Work,
-        };
+  async generateResumeWorkHistoryItem(
+    question: string,
+    input: ResumeWorkHistory
+  ): Promise<AIResult[]> {
+    const prompt = new ResumeWorkHistoryPromptBuilder().build(question, input);
+    const max_tokens = prompt.length + 500;
+    const response = await this.getResponse({
+      model: this.MODEL,
+      temperature: 0.25,
+      max_tokens,
+      prompt,
+    });
+    const bakedResult = [
+      `Company: ${input.company}`,
+      `Role: ${input.role} (${input.start} - ${input.end})`,
+    ].join("\n");
+    const baked = {
+      original: bakedResult,
+      expanded: bakedResult,
+      editable: false,
+      joined: true,
+      tool: ToolName.Resume_Work,
+    };
 
-        histories.push(baked);
-        histories.push(aiResult);
-      }
-    }
-    return histories;
+    const value = response.trim();
+    const aiResult = {
+      original: value,
+      expanded: value,
+      editable: true,
+      joined: false,
+      tool: ToolName.Resume_Work,
+    };
+
+    return [baked, aiResult];
   }
 
-  async generateResumeEducationHistory(
-    input: ResumeInput
+  async generateEducationHistoryItem(
+    question: string,
+    input: ResumeEducationHistory
   ): Promise<AIResult[]> {
-    let educations: AIResult[] = [];
-    const validEducationItems = input.education.items.filter((e) =>
-      isValidEducationHistory(e)
-    );
-    if (validEducationItems.length === 0) {
-      const value =
-        "Please make sure to provide some information about your education.";
-      educations = [
-        {
-          original: value,
-          expanded: value,
-          editable: false,
-          joined: false,
-          tool: ToolName.None,
-        },
-      ];
-    } else {
-      for (const education of validEducationItems) {
-        const result = [
-          `School: ${education.school}`,
-          `Degree: ${education.degree} (${education.start} - ${education.end})`,
-        ].join("\n");
+    const result = [
+      `School: ${input.school}`,
+      `Degree: ${input.degree} (${input.start} - ${input.end})`,
+    ].join("\n");
 
-        if (education.details) {
-          const prompt = new ResumeEducationHistoryPromptBuilder().build(
-            input.education.question,
-            education
-          );
-          const max_tokens = prompt.length + 350;
-          const response = await this.getResponse({
-            model: this.MODEL,
-            temperature: 0.25,
-            max_tokens,
-            prompt,
-          });
+    const bakedResult = {
+      original: result,
+      expanded: result,
+      editable: false,
+      joined: true,
+      tool: ToolName.Resume_Education,
+    };
 
-          const bakedResult = {
-            original: result,
-            expanded: result,
-            editable: false,
-            joined: true,
-            tool: ToolName.Resume_Education,
-          };
-          educations.push(bakedResult);
-          const value = response.trim();
-          educations.push({
-            original: value,
-            expanded: value,
-            editable: true,
-            joined: false,
-            tool: ToolName.Resume_Education,
-          });
-        } else {
-          const bakedResult = {
-            original: result,
-            expanded: result,
-            editable: false,
-            joined: false,
-            tool: ToolName.Resume_Education,
-          };
-          educations.push(bakedResult);
-        }
-      }
+    if (!input.details) {
+      return [bakedResult];
     }
-    educations = educations.filter((e) => !!e);
-    return educations;
+
+    const prompt = new ResumeEducationHistoryPromptBuilder().build(
+      question,
+      input
+    );
+    const max_tokens = prompt.length + 500;
+    const response = await this.getResponse({
+      model: this.MODEL,
+      temperature: 0.25,
+      max_tokens,
+      prompt,
+    });
+
+    const value = response.trim();
+    const aiResult = {
+      original: value,
+      expanded: value,
+      editable: true,
+      joined: false,
+      tool: ToolName.Resume_Education,
+    };
+
+    return [bakedResult, aiResult];
   }
 
   async expandText(text: string): Promise<string> {

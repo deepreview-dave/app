@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../../business/analytics";
-import { AIResult, ResumeInput, ToolName } from "../../../business/common";
+import { AIResult, ToolName } from "../../../business/common";
 import { OpenAIService } from "../../../business/open-ai.service";
 import { ResumeBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
@@ -51,7 +51,7 @@ export const Results = () => {
 
   const onGenerateClick = async () => {
     const service = new OpenAIService();
-    const input: ResumeInput = { details, summary, workplaces, education };
+    // const input: ResumeInput = { details, summary, workplaces, education };
     // let detailsResult = currentResult.filter(
     //   (i) => i.tool === ToolName.Resume_Details
     // );
@@ -65,24 +65,24 @@ export const Results = () => {
     //   (i) => i.tool === ToolName.Resume_Education
     // );
 
-    switch (step) {
-      case ResumeStep.Details: {
-        return await service.generateResumeDetails(input);
-        // break;
-      }
-      case ResumeStep.Summary: {
-        return await service.generateResumeSummary(input);
-        // break;
-      }
-      case ResumeStep.Workplaces: {
-        return await service.generateResumeWorkHistory(input);
-        // break;
-      }
-      case ResumeStep.Education: {
-        return await service.generateResumeEducationHistory(input);
-        // break;
-      }
-    }
+    // switch (step) {
+    //   case ResumeStep.Details: {
+    //     return await service.generateResumeDetails(input);
+    //     // break;
+    //   }
+    //   case ResumeStep.Summary: {
+    //     return await service.generateResumeSummary(input);
+    //     // break;
+    //   }
+    //   case ResumeStep.Workplaces: {
+    //     return await service.generateResumeWorkHistory(input);
+    //     // break;
+    //   }
+    //   case ResumeStep.Education: {
+    //     return await service.generateResumeEducationHistory(input);
+    //     // break;
+    //   }
+    // }
 
     return [];
 
@@ -165,7 +165,7 @@ export const ResumePage = () => {
       <NavbarMin />
       <ResumeBreadcrumbs />
       <div className="layout m-4 mt-6">
-        <div className="container narrow-container">
+        <div className="container">
           <div className="content">
             <h3>Resume</h3>
             <p>
@@ -251,10 +251,13 @@ export const ResumePage = () => {
               </div>
             </li>
           </ul>
-          <Content />
-          <div className="mt-4">
+          <ResumeDetails />
+          <ResumeSummary />
+          <ResumeWorkplaces />
+          <ResumeEducation />
+          {/* <div className="mt-4">
             <Results />
-          </div>
+          </div> */}
           <ResultsError />
         </div>
       </div>

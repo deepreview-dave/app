@@ -44,7 +44,6 @@ export const CopyResultsButton = (props: { startingState: AIResult[] }) => {
 
   useEffect(() => {
     setItems(props.startingState);
-    console.log("changed in copy button");
   }, [props.startingState]);
 
   const onCopyClick = async () => {
@@ -159,7 +158,9 @@ export const ResultsInlineComponent = (props: {
           <div className="results-container" key={i}>
             <div
               className={
-                i === 0
+                items.length === 1
+                  ? "all-content"
+                  : i === 0
                   ? res.joined
                     ? "top-content no-bottom"
                     : "top-content"

@@ -1,61 +1,46 @@
+import { AIResult } from "../../../business/common";
+import { OpenAIService } from "../../../business/open-ai.service";
 import { AutoTextArea } from "../../../components/common/AutoTextArea";
+import {
+  GenerateResultsButton,
+  CopyResultsButton,
+  ResultsInlineComponent,
+} from "../../../components/results/ResultsInlineComponent";
 import { useResultState } from "../../../state/result-state";
 import {
   ResumeWorkHistory,
   useResumeWorkHistoryState,
 } from "../../../state/resume.state";
-import { ordinalOfNumber } from "../../../utils/utils";
 
 export const ResumeWorkplaces = () => {
   const resultLoading = useResultState((state) => state.loading);
   const state = useResumeWorkHistoryState((state) => state);
-  const selectedIndex = useResumeWorkHistoryState(
-    (state) => state.selectedIndex
-  );
-  const currentHistory = useResumeWorkHistoryState(
-    (state) => state.items[selectedIndex]
-  );
 
   const detailsHint = `Please enter more details, such as:
   - main achievements in the job
   - your principal responsibilities
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
-  const MenuListName = (props: {
-    history: ResumeWorkHistory;
-    index: number;
-  }) => {
-    if (!props.history.company) {
-      return <>{ordinalOfNumber(props.index + 1)} Job</>;
-    } else {
-      return <>{props.history.company}</>;
-    }
+  const onGenerateClick = async (item: ResumeWorkHistory, index: number) => {
+    const question = state.question;
+    const res = await new OpenAIService().generateResumeWorkHistoryItem(
+      question,
+      item
+    );
+    state.setResults(res, index);
+  };
+
+  const onUpdate = (result: AIResult[], index: number) => {
+    state.setResults(result, index);
   };
 
   return (
     <>
-      <div className="review-content p-4">
-        <div className="columns">
-          <div className="column is-3">
-            <aside className="menu is-monospace is-size-7">
-              <p className="menu-label">Job History</p>
-              <ul className="menu-list">
-                {state.items.map((e, i) => (
-                  <li key={i}>
-                    <a
-                      className={i === selectedIndex ? "is-active" : ""}
-                      onClick={() => state.selectHistory(i)}
-                    >
-                      <MenuListName history={e} index={i} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </aside>
-          </div>
-          <div className="column is-9">
-            <div className="">
-              <div className="">
+      {state.items.map((h, i) => (
+        <div className="columns" key={i}>
+          <div className="column">
+            <div className="review-content">
+              <div className="p-4">
                 <table>
                   <tbody>
                     <tr>
@@ -76,21 +61,21 @@ export const ResumeWorkplaces = () => {
                           disabled={resultLoading}
                           placeholder="Please enter the name of the company"
                           type={"text"}
-                          value={currentHistory.company}
+                          value={h.company}
                           onChange={(e) =>
-                            state.setHistory(selectedIndex, {
-                              ...currentHistory,
+                            state.setHistory(i, {
+                              ...h,
                               company: e.currentTarget.value,
                             })
                           }
                         />
                       </td>
-                      <td rowSpan={2}>
+                      <td rowSpan={5}>
                         <button
-                          disabled={resultLoading || selectedIndex === 0}
+                          disabled={resultLoading || i === 0}
                           title="Remove job"
                           className="button is-small is-white ml-4"
-                          onClick={() => state.removeHistory(selectedIndex)}
+                          onClick={() => state.removeHistory(i)}
                         >
                           <span className="icon is-small">
                             <i className="fas fa-times"></i>
@@ -108,10 +93,10 @@ export const ResumeWorkplaces = () => {
                           disabled={resultLoading}
                           placeholder="Please enter the role or title"
                           type={"text"}
-                          value={currentHistory.role}
+                          value={h.role}
                           onChange={(e) =>
-                            state.setHistory(selectedIndex, {
-                              ...currentHistory,
+                            state.setHistory(i, {
+                              ...h,
                               role: e.currentTarget.value,
                             })
                           }
@@ -128,10 +113,10 @@ export const ResumeWorkplaces = () => {
                           disabled={resultLoading}
                           placeholder="Please enter the start date (e.g. 2019)"
                           type={"text"}
-                          value={currentHistory.start}
+                          value={h.start}
                           onChange={(e) =>
-                            state.setHistory(selectedIndex, {
-                              ...currentHistory,
+                            state.setHistory(i, {
+                              ...h,
                               start: e.currentTarget.value,
                             })
                           }
@@ -148,10 +133,10 @@ export const ResumeWorkplaces = () => {
                           disabled={resultLoading}
                           placeholder="Please enter the end date (e.g. 2022)"
                           type={"text"}
-                          value={currentHistory.end}
+                          value={h.end}
                           onChange={(e) =>
-                            state.setHistory(selectedIndex, {
-                              ...currentHistory,
+                            state.setHistory(i, {
+                              ...h,
                               end: e.currentTarget.value,
                             })
                           }
@@ -166,16 +151,31 @@ export const ResumeWorkplaces = () => {
                         <AutoTextArea
                           className="input"
                           disabled={resultLoading}
-                          value={currentHistory.details}
-                          index={selectedIndex}
+                          value={h.details}
+                          index={i}
                           placeholder={detailsHint}
                           onChange={(details) =>
-                            state.setHistory(selectedIndex, {
-                              ...currentHistory,
+                            state.setHistory(i, {
+                              ...h,
                               details,
                             })
                           }
                         />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={3}>
+                        <div className="horizontal-line mt-4 mb-4"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={3}>
+                        <div className="buttons">
+                          <GenerateResultsButton
+                            onClick={() => onGenerateClick(h, i)}
+                          />
+                          <CopyResultsButton startingState={h.results} />
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -183,18 +183,22 @@ export const ResumeWorkplaces = () => {
               </div>
             </div>
           </div>
+          <div className="column">
+            <ResultsInlineComponent
+              startingState={h.results}
+              onUpdate={(res) => onUpdate(res, i)}
+            />
+          </div>
         </div>
-      </div>
-      <div className="plus-button-holder">
+      ))}
+      <div className="buttons mt-4">
         <button
           disabled={resultLoading}
+          className="button"
           title="Add more jobs"
-          className="button is-small is-rounded plus-button"
           onClick={() => state.addHistory()}
         >
-          <span className="icon is-small has-text-success">
-            <i className="fas fa-plus"></i>
-          </span>
+          Add more jobs
         </button>
       </div>
     </>

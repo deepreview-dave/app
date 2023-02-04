@@ -12,10 +12,7 @@ import { ReferralLetterBreadcrumbs } from "../../components/common/Breadcrumbs";
 import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
-import {
-  ResultsComponent,
-  ResultsError,
-} from "../../components/results/ResultsComponent";
+import { ResultsError } from "../../components/results/ResultsComponent";
 import {
   GenerateResultsButton,
   CopyResultsButton,
