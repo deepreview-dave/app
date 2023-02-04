@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
 import { AIResult, Pronouns, ReferralLetterInput } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
@@ -27,7 +27,6 @@ export const ReferralPage = () => {
   const resultLoading = useResultState((state) => state.loading);
   const state = useReferralLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
-  const [results, setResults] = useState<AIResult[]>([]);
 
   const onGenerateClick = async () => {
     const input: ReferralLetterInput = {
@@ -38,7 +37,7 @@ export const ReferralPage = () => {
       details,
     };
     const res = await new OpenAIService().generateReferralLetter(input);
-    setResults(res);
+    state.setResult(res);
   };
 
   const onHintClick = async (): Promise<string> => {
@@ -48,7 +47,7 @@ export const ReferralPage = () => {
   };
 
   const onUpdate = (result: AIResult[]) => {
-    setResults(result);
+    state.setResult(result);
   };
 
   useEffect(() => {
@@ -332,7 +331,7 @@ export const ReferralPage = () => {
                         <td colSpan={2}>
                           <div className="buttons">
                             <GenerateResultsButton onClick={onGenerateClick} />
-                            <CopyResultsButton startingState={results} />
+                            <CopyResultsButton startingState={state.result} />
                           </div>
                         </td>
                       </tr>
@@ -343,7 +342,7 @@ export const ReferralPage = () => {
             </div>
             <div className="column">
               <ResultsInlineComponent
-                startingState={results}
+                startingState={state.result}
                 onUpdate={onUpdate}
               />
             </div>

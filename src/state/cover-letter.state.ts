@@ -1,5 +1,5 @@
 import create from "zustand";
-import { WorkHistory } from "../business/common";
+import { AIResult, WorkHistory } from "../business/common";
 
 export type CoverLetterState = {
   question: string;
@@ -7,11 +7,13 @@ export type CoverLetterState = {
   role: string;
   company: string;
   history: WorkHistory;
+  result: AIResult[];
   setQuestion: (question: string) => void;
   setName: (name: string) => void;
   setRole: (role: string) => void;
   setCompany: (company: string) => void;
   setHistory: (history: WorkHistory) => void;
+  setResult: (result: AIResult[]) => void;
 };
 
 export const useCoverLetterState = create<CoverLetterState>()((set) => ({
@@ -20,9 +22,11 @@ export const useCoverLetterState = create<CoverLetterState>()((set) => ({
   role: "",
   company: "",
   history: WorkHistory.Five,
+  result: [],
   setQuestion: (question: string) => set((state) => ({ ...state, question })),
   setName: (name: string) => set((state) => ({ ...state, name })),
   setRole: (role: string) => set((state) => ({ ...state, role })),
   setCompany: (company: string) => set((state) => ({ ...state, company })),
   setHistory: (history: WorkHistory) => set((state) => ({ ...state, history })),
+  setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
 }));

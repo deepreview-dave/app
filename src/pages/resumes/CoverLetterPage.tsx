@@ -11,7 +11,7 @@ import { OpenAIService } from "../../business/open-ai.service";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
 import { useInputDetailsState } from "../../state/input-details.state";
 import { ResultsError } from "../../components/results/ResultsComponent";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
 import {
   CopyResultsButton,
@@ -28,7 +28,6 @@ export const CoverLetterPage = () => {
   const resultLoading = useResultState((state) => state.loading);
   const state = useCoverLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
-  const [results, setResults] = useState<AIResult[]>([]);
 
   const onGenerateClick = async () => {
     const input: CoverLetterInput = {
@@ -40,7 +39,7 @@ export const CoverLetterPage = () => {
       details,
     };
     const res = await new OpenAIService().generateCoverLetter(input);
-    setResults(res);
+    state.setResult(res);
   };
 
   const onHintClick = async (): Promise<string> => {
@@ -48,7 +47,7 @@ export const CoverLetterPage = () => {
   };
 
   const onUpdate = (result: AIResult[]) => {
-    setResults(result);
+    state.setResult(result);
   };
 
   useEffect(() => {
@@ -199,7 +198,7 @@ export const CoverLetterPage = () => {
                         <td colSpan={2}>
                           <div className="buttons">
                             <GenerateResultsButton onClick={onGenerateClick} />
-                            <CopyResultsButton startingState={results} />
+                            <CopyResultsButton startingState={state.result} />
                           </div>
                         </td>
                       </tr>
@@ -210,7 +209,7 @@ export const CoverLetterPage = () => {
             </div>
             <div className="column">
               <ResultsInlineComponent
-                startingState={results}
+                startingState={state.result}
                 onUpdate={onUpdate}
               />
             </div>

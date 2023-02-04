@@ -19,7 +19,7 @@ import { ResultsError } from "../../components/results/ResultsComponent";
 import { ResultsBreadcrumbs } from "../../components/common/Breadcrumbs";
 import { useInputDetailsState } from "../../state/input-details.state";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
 import {
   GenerateResultsButton,
@@ -62,7 +62,8 @@ export const PerformanceReviewPage = () => {
   const question = usePerformanceReviewState((state) => state.question);
   const setQuestion = usePerformanceReviewState((state) => state.setQuestion);
 
-  const [results, setResults] = useState<AIResult[]>([]);
+  const result = usePerformanceReviewState((state) => state.result);
+  const setResult = usePerformanceReviewState((state) => state.setResult);
 
   const onGenerateClick = async () => {
     const input: PerformanceReviewInput = {
@@ -78,11 +79,11 @@ export const PerformanceReviewPage = () => {
       details,
     };
     const res = await new OpenAIService().generatePerformanceReview(input);
-    setResults(res);
+    setResult(res);
   };
 
   const onUpdate = (result: AIResult[]) => {
-    setResults(result);
+    setResult(result);
   };
 
   const onHintClick = async (): Promise<string> => {
@@ -355,7 +356,7 @@ export const PerformanceReviewPage = () => {
                         <td colSpan={2}>
                           <div className="buttons">
                             <GenerateResultsButton onClick={onGenerateClick} />
-                            <CopyResultsButton startingState={results} />
+                            <CopyResultsButton startingState={result} />
                           </div>
                         </td>
                       </tr>
@@ -366,7 +367,7 @@ export const PerformanceReviewPage = () => {
             </div>
             <div className="column">
               <ResultsInlineComponent
-                startingState={results}
+                startingState={result}
                 onUpdate={onUpdate}
               />
             </div>
