@@ -268,3 +268,21 @@ a.underlined-style {
 .is-not-visible {
   visibility: hidden;
 }
+
+/** Result */
+
+.result-display {
+  width: 210mm;
+  min-height: 297mm;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media only screen and (max-width: 480px) {
+  .result-display {
+    width: inherit;
+    min-height: inherit;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

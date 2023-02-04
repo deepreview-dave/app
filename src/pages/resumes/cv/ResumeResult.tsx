@@ -1,3 +1,6 @@
+import saveAs from "file-saver";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import {
   isValidEducationHistory,
   isValidWorkHistory,
@@ -150,9 +153,7 @@ export const ResumeResult = () => {
     return (
       <div className="mt-6">
         <h4>Summary</h4>
-        <p>
-          <Info />
-        </p>
+        <Info />
       </div>
     );
   };
@@ -276,16 +277,43 @@ export const ResumeResult = () => {
     );
   };
 
+  // from here:
+  // https://stackoverflow.com/questions/44989119/generating-a-pdf-file-from-react-components
+  // https://stackoverflow.com/questions/31656689/how-to-save-img-to-users-local-computer-using-html2canvas
+  const onDownloadClick = () => {
+    const input = document.getElementById("pdf-to-download")!;
+    const originalWidth = input.scrollWidth;
+    const originalHeight = input.scrollHeight;
+    input.style.width = "210mm";
+    input.style.height = "297mm";
+    html2canvas(input).then((canvas) => {
+      canvas.toBlob(function (blob) {
+        saveAs(blob!, "resume.jpg");
+        input.style.width = originalWidth + "px";
+        input.style.height = originalHeight + "px";
+      });
+    });
+  };
+
   return (
-    <div className="has-background-white-ter p-6">
-      <div className="has-background-info p-2"></div>
-      <div className="p-4 has-background-white content">
-        <ResumeDetails />
-        <ResumeInfo />
-        <SummaryInfo />
-        <WorkHistoryInfo />
-        <EducationHistoryInfo />
+    <>
+      <div className="has-background-white-ter">
+        <div id="pdf-to-download" className="result-display">
+          <div className="has-background-info p-2"></div>
+          <div className="p-4 has-background-white content">
+            <ResumeDetails />
+            <ResumeInfo />
+            <SummaryInfo />
+            <WorkHistoryInfo />
+            <EducationHistoryInfo />
+          </div>
+        </div>
       </div>
-    </div>
+      <div className="mt-4">
+        <button className="button" onClick={onDownloadClick}>
+          Download
+        </button>
+      </div>
+    </>
   );
 };
