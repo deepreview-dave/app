@@ -45,10 +45,24 @@ export const ResumeWorkplaces = () => {
                   <tbody>
                     <tr>
                       <td
-                        colSpan={3}
+                        colSpan={2}
                         className="row-title is-monospace is-bold pb-4"
                       >
-                        3. Now add as many previous jobs as you want
+                        <div className="columns is-vcentered is-mobile">
+                          <div className="column">Add job history details</div>
+                          <div className="column is-narrow">
+                            <button
+                              disabled={resultLoading || i === 0}
+                              title="Remove job"
+                              className="button is-small"
+                              onClick={() => state.removeHistory(i)}
+                            >
+                              <span className="icon is-small">
+                                <i className="fas fa-times"></i>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -69,18 +83,6 @@ export const ResumeWorkplaces = () => {
                             })
                           }
                         />
-                      </td>
-                      <td rowSpan={5}>
-                        <button
-                          disabled={resultLoading || i === 0}
-                          title="Remove job"
-                          className="button is-small is-white ml-4"
-                          onClick={() => state.removeHistory(i)}
-                        >
-                          <span className="icon is-small">
-                            <i className="fas fa-times"></i>
-                          </span>
-                        </button>
                       </td>
                     </tr>
                     <tr>
@@ -164,12 +166,12 @@ export const ResumeWorkplaces = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td colSpan={3}>
+                      <td colSpan={2}>
                         <div className="horizontal-line mt-4 mb-4"></div>
                       </td>
                     </tr>
                     <tr>
-                      <td colSpan={3}>
+                      <td colSpan={2}>
                         <div className="buttons">
                           <GenerateResultsButton
                             onClick={() => onGenerateClick(h, i)}
@@ -194,7 +196,7 @@ export const ResumeWorkplaces = () => {
       <div className="buttons mt-4">
         <button
           disabled={resultLoading}
-          className="button"
+          className="button is-info"
           title="Add more jobs"
           onClick={() => state.addHistory()}
         >

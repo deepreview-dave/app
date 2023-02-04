@@ -107,7 +107,7 @@ export const ReferralPage = () => {
                           colSpan={2}
                           className="row-title is-monospace is-bold pb-4"
                         >
-                          1. First input your own details
+                          First input your own details
                         </td>
                       </tr>
                       <tr>
@@ -169,7 +169,7 @@ export const ReferralPage = () => {
                           colSpan={2}
                           className="row-title is-monospace is-bold pb-4 pt-2"
                         >
-                          2. Then input the recipient's details
+                          Then input the recipient's details
                         </td>
                       </tr>
                       <tr>
@@ -249,7 +249,7 @@ export const ReferralPage = () => {
                           colSpan={2}
                           className="row-title is-monospace is-bold pb-4 pt-2"
                         >
-                          3. Finally, fill in the applicant's details
+                          Finally, fill in the applicant's details
                         </td>
                       </tr>
                       <tr>

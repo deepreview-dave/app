@@ -101,6 +101,10 @@ a.underlined-style {
   text-align: right;
 }
 
+.review-content table > tbody > tr > td.is-right {
+  text-align: right;
+}
+
 .review-content table {
   width: 100%;
 }

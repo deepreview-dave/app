@@ -43,7 +43,7 @@ export const ResumeSummary = () => {
                     colSpan={2}
                     className="row-title is-monospace is-bold pb-4"
                   >
-                    2. Continue by adding information for a short summary
+                    Continue by adding information for a short summary
                   </td>
                 </tr>
                 <tr>

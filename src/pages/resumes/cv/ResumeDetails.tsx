@@ -34,7 +34,7 @@ export const ResumeDetails = () => {
                     colSpan={2}
                     className="row-title is-monospace is-bold pb-4"
                   >
-                    1. Start by entering your details
+                    Start by entering your details
                   </td>
                 </tr>
                 <tr>
