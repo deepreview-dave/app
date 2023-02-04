@@ -1,9 +1,6 @@
-import { ToolName } from "../../../business/common";
 import { useResultState } from "../../../state/result-state";
 import {
   useResumeDetailsState,
-  useResumeState,
-  useResumeSummaryState,
   useResumeWorkHistoryState,
 } from "../../../state/resume.state";
 
@@ -85,37 +82,37 @@ export const ResumeResult = () => {
   };
 
   const SummaryInfo = () => {
-    const Summary = () => {
-      const summaries = result.filter(
-        (e) => e.tool === ToolName.Resume_Summary
-      );
+    // const Summary = () => {
+    //   const summaries = result.filter(
+    //     (e) => e.tool === ToolName.Resume_Summary
+    //   );
 
-      if (summaries.length === 0) {
-        return (
-          <div className="message is-warning">
-            <div className="message-body">
-              Please fill in the <b>Summary</b> section.
-            </div>
-          </div>
-        );
-      } else {
-        return <p>{summaries.map((e) => e.expanded).join("\n\n")}</p>;
-      }
-    };
+    //   if (summaries.length === 0) {
+    //     return (
+    //       <div className="message is-warning">
+    //         <div className="message-body">
+    //           Please fill in the <b>Summary</b> section.
+    //         </div>
+    //       </div>
+    //     );
+    //   } else {
+    //     return <p>{summaries.map((e) => e.expanded).join("\n\n")}</p>;
+    //   }
+    // };
 
     return (
       <div className="mt-6">
         <h4>Summary</h4>
-        <Summary />
+        {/* <Summary /> */}
       </div>
     );
   };
 
   const WorkHistoryInfo = () => {
     const History = () => {
-      const workSections = result.filter(
-        (e) => e.tool === ToolName.Resume_Work && e.editable
-      );
+      // const workSections = result.filter(
+      //   (e) => e.tool === ToolName.Resume_Work && e.editable
+      // );
 
       // if (work.result.length === 0) {
       //   return (

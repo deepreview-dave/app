@@ -1,5 +1,5 @@
 import create from "zustand";
-import { AIResult, ToolName } from "../business/common";
+import { AIResult } from "../business/common";
 
 export type ResultState = {
   results: AIResult[];
@@ -11,7 +11,7 @@ export type ResultState = {
   setReloading: (reloadedSection: number) => void;
   setResults: (results: AIResult[]) => void;
   updateResult: (expanded: string, index: number) => void;
-  addElement: (index: number, tool: ToolName) => void;
+  addElement: (index: number) => void;
   removeElement: (index: number) => void;
   resetElement: (index: number) => void;
   setError: (errorMessage: string) => void;
@@ -42,7 +42,7 @@ export const useResultState = create<ResultState>()((set) => ({
         errorMessage: undefined,
       };
     }),
-  addElement: (index: number, tool: ToolName) =>
+  addElement: (index: number) =>
     set((state) => {
       const results = state.results.flatMap((e, i) =>
         i === index
@@ -53,7 +53,6 @@ export const useResultState = create<ResultState>()((set) => ({
                 expanded: "",
                 editable: true,
                 joined: false,
-                tool,
               },
             ]
           : [e]
@@ -76,7 +75,6 @@ export const useResultState = create<ResultState>()((set) => ({
               expanded: e.original,
               editable: true,
               joined: false,
-              tool: e.tool,
             }
           : e
       );

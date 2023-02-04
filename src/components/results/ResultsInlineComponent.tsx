@@ -1,10 +1,9 @@
 import * as bulmaToast from "bulma-toast";
 import { useEffect, useState } from "react";
 import { Analytics } from "../../business/analytics";
-import { AIResult, ToolName } from "../../business/common";
+import { AIResult } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { useResultState } from "../../state/result-state";
-import { useToolState } from "../../state/tool-state";
 import { AutoTextArea } from "../common/AutoTextArea";
 
 export const GenerateResultsButton = (props: {
@@ -76,8 +75,6 @@ export const ResultsInlineComponent = (props: {
   startingState: AIResult[];
   onUpdate?: (results: AIResult[]) => void;
 }) => {
-  const tool = useToolState((state) => state.tool);
-
   const loading = useResultState((state) => state.loading);
   const [items, setItems] = useState<AIResult[]>(props.startingState);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -108,7 +105,7 @@ export const ResultsInlineComponent = (props: {
     setItems(results);
   };
 
-  const addElement = (index: number, tool: ToolName) => {
+  const addElement = (index: number) => {
     const results = items.flatMap((e, i) =>
       i === index
         ? [
@@ -118,7 +115,6 @@ export const ResultsInlineComponent = (props: {
               expanded: "",
               editable: true,
               joined: false,
-              tool,
             },
           ]
         : [e]
@@ -143,7 +139,6 @@ export const ResultsInlineComponent = (props: {
             expanded: e.original,
             editable: true,
             joined: false,
-            tool: e.tool,
           }
         : e
     );
@@ -231,7 +226,7 @@ export const ResultsInlineComponent = (props: {
                   "button is-small is-rounded plus-button " +
                   (!res.editable ? "is-not-visible" : "")
                 }
-                onClick={() => addElement(i, tool)}
+                onClick={() => addElement(i)}
               >
                 <span className="icon is-small has-text-success">
                   <i className="fas fa-plus"></i>

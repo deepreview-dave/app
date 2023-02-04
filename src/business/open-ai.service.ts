@@ -19,7 +19,6 @@ import {
   ResumeDetailsInput,
   ResumeSummaryInput,
   ReviewTone,
-  ToolName,
 } from "./common";
 import { Configuration, OpenAIApi } from "openai";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
@@ -90,7 +89,6 @@ export class OpenAIService {
         expanded: original,
         editable: true,
         joined: false,
-        tool: ToolName.PerformanceReview,
       }));
   }
 
@@ -115,7 +113,6 @@ export class OpenAIService {
         expanded: original,
         editable: true,
         joined: false,
-        tool: ToolName.CoverLetter,
       }));
   }
 
@@ -142,7 +139,6 @@ export class OpenAIService {
         expanded: value,
         editable: true,
         joined: false,
-        tool: ToolName.ReferralLetter,
       }));
 
     const bakedResults = [
@@ -162,7 +158,6 @@ export class OpenAIService {
       expanded: bakedResults,
       editable: false,
       joined: false,
-      tool: ToolName.ReferralLetter,
     };
 
     return [bakedAiResult, ...aiResult];
@@ -180,7 +175,6 @@ export class OpenAIService {
       expanded: details,
       editable: false,
       joined: false,
-      tool: ToolName.Resume_Details,
     };
     return [result];
   }
@@ -197,7 +191,6 @@ export class OpenAIService {
         expanded: value,
         editable: false,
         joined: false,
-        tool: ToolName.None,
       };
     } else {
       const prompt = new ResumeSummaryPromptBuilder().build(input, name);
@@ -214,7 +207,6 @@ export class OpenAIService {
         expanded: value,
         editable: true,
         joined: false,
-        tool: ToolName.Resume_Summary,
       };
     }
     return [summary];
@@ -241,7 +233,6 @@ export class OpenAIService {
       expanded: bakedResult,
       editable: false,
       joined: true,
-      tool: ToolName.Resume_Work,
     };
 
     const value = response.trim();
@@ -250,7 +241,6 @@ export class OpenAIService {
       expanded: value,
       editable: true,
       joined: false,
-      tool: ToolName.Resume_Work,
     };
 
     return [baked, aiResult];
@@ -270,7 +260,6 @@ export class OpenAIService {
       expanded: result,
       editable: false,
       joined: true,
-      tool: ToolName.Resume_Education,
     };
 
     if (!input.details) {
@@ -295,7 +284,6 @@ export class OpenAIService {
       expanded: value,
       editable: true,
       joined: false,
-      tool: ToolName.Resume_Education,
     };
 
     return [bakedResult, aiResult];

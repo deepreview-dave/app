@@ -109,21 +109,9 @@ export enum WorkHistory {
   TenPlus = "10+",
 }
 
-export enum ToolName {
-  None = "none",
-  CoverLetter = "cover-letter",
-  ReferralLetter = "referral-letter",
-  PerformanceReview = "performance-review",
-  Resume_Details = "resume-details",
-  Resume_Summary = "resume-summary",
-  Resume_Work = "resume-work",
-  Resume_Education = "resume-education",
-}
-
 export type AIResult = {
   original: string;
   expanded: string;
   editable: boolean;
   joined: boolean;
-  tool: ToolName;
 };

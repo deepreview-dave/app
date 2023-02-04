@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
-import {
-  AIResult,
-  Pronouns,
-  ReferralLetterInput,
-  ToolName,
-} from "../../business/common";
+import { AIResult, Pronouns, ReferralLetterInput } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { ReferralLetterBreadcrumbs } from "../../components/common/Breadcrumbs";
@@ -22,7 +17,6 @@ import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { useInputDetailsState } from "../../state/input-details.state";
 import { useReferralLetterState } from "../../state/referral-letter.state";
 import { useResultState } from "../../state/result-state";
-import { useToolState } from "../../state/tool-state";
 
 export const ReferralPage = () => {
   const detailsHint = `Please enter more details, such as:
@@ -30,7 +24,6 @@ export const ReferralPage = () => {
   - a story or achievement of the applicant
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
-  const setTool = useToolState((state) => state.setTool);
   const resultLoading = useResultState((state) => state.loading);
   const state = useReferralLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
@@ -59,7 +52,6 @@ export const ReferralPage = () => {
   };
 
   useEffect(() => {
-    setTool(ToolName.ReferralLetter);
     Analytics.tool(AnalyticsToolName.REFERRAL_LETTER);
   }, []);
 
