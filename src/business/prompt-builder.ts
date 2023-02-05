@@ -10,7 +10,7 @@ import {
   PerformanceReviewInput,
   CoverLetterInput,
   ReferralLetterInput,
-  ResumeInput,
+  ResumeSummaryInput,
 } from "./common";
 
 export class PerformanceReviewPromptBuilder {
@@ -252,16 +252,12 @@ export class ExpandPromptBuilder {
 }
 
 export class ResumeSummaryPromptBuilder {
-  build(input: ResumeInput): string {
+  build(summary: ResumeSummaryInput, name: string): string {
     const prompt: string[] = [];
-    prompt.push(input.summary.question);
-    prompt.push(input.summary.summary);
-    prompt.push(
-      `${input.details.name} also has excellent skills in ${input.summary.skills}.`
-    );
-    prompt.push(
-      `${input.details.name} has been working for ${input.summary.history} years.`
-    );
+    prompt.push(summary.question);
+    prompt.push(summary.summary);
+    prompt.push(`${name} also has excellent skills in ${summary.skills}.`);
+    prompt.push(`${name} has been working for ${summary.history} years.`);
     prompt.push(`Refer to me in the first person`);
     return prompt.join("\n");
   }

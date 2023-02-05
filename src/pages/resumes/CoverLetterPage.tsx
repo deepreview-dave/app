@@ -4,18 +4,19 @@ import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { useCoverLetterState } from "../../state/cover-letter.state";
-import { useResultState } from "../../state/result-state";
 import { AIResult, CoverLetterInput, WorkHistory } from "../../business/common";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import { OpenAIService } from "../../business/open-ai.service";
 import { InputDetailsComponent } from "../../components/results/InputDetailsComponent";
 import { useInputDetailsState } from "../../state/input-details.state";
-import {
-  ResultsComponent,
-  ResultsError,
-} from "../../components/results/ResultsComponent";
+import { ResultsError } from "../../components/results/ResultsError";
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../business/analytics";
+import {
+  CopyResultsButton,
+  GenerateResultsButton,
+  ResultsInlineComponent,
+} from "../../components/results/ResultsInlineComponent";
 
 export const CoverLetterPage = () => {
   const detailsHint = `Please enter more details, such as:
@@ -23,11 +24,10 @@ export const CoverLetterPage = () => {
   - achievements you're prod of in your previous roles
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
-  const resultLoading = useResultState((state) => state.loading);
   const state = useCoverLetterState((state) => state);
   const details = useInputDetailsState((state) => state.details);
 
-  const onGenerateClick = async (): Promise<AIResult[]> => {
+  const onGenerateClick = async () => {
     const input: CoverLetterInput = {
       question: state.question,
       company: state.company,
@@ -36,12 +36,14 @@ export const CoverLetterPage = () => {
       history: state.history,
       details,
     };
-    return await new OpenAIService().generateCoverLetter(input);
+    const res = await new OpenAIService().generateCoverLetter(input);
+    state.setResult(res);
   };
 
-  const onHintClick = async (): Promise<string> => {
-    return await new OpenAIService().generateCoverLetterHint(state.role);
-  };
+  const onHintClick = async (): Promise<string> =>
+    await new OpenAIService().generateCoverLetterHint(state.role);
+  const onUpdate = (result: AIResult[]) => state.setResult(result);
+  const onLoad = (loading: boolean) => state.setLoading(loading);
 
   useEffect(() => {
     Analytics.tool(AnalyticsToolName.COVER_LETTER);
@@ -52,7 +54,7 @@ export const CoverLetterPage = () => {
       <NavbarMin />
       <CoverLetterBreadcrumbs />
       <div className="layout m-4 mt-6">
-        <div className="container narrow-container">
+        <div className="container">
           <div className="content">
             <h3>Cover Letter</h3>
             <p>
@@ -60,126 +62,160 @@ export const CoverLetterPage = () => {
               Cover Letter.
             </p>
           </div>
-          <div className="review-content">
-            <div className="p-4">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <label className="has-text-info">
-                        <b>Prompt</b>
-                      </label>
-                    </td>
-                    <td>
-                      <AutoTextArea
-                        disabled={resultLoading}
-                        value={state.question}
-                        index={0}
-                        className="input is-bold"
-                        placeholder="Please enter your prompt here"
-                        onChange={(e, i) => state.setQuestion(e)}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2}>
-                      <div className="horizontal-line mt-4 mb-4"></div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Name</label>
-                    </td>
-                    <td>
-                      <input
-                        className="input is-small"
-                        placeholder="Plase enter your name here"
-                        type={"text"}
-                        value={state.name}
-                        disabled={resultLoading}
-                        onChange={(e) => state.setName(e.currentTarget.value)}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Role</label>
-                    </td>
-                    <td>
-                      <input
-                        className="input is-small"
-                        disabled={resultLoading}
-                        placeholder="Please enter the role you're applying to"
-                        type={"text"}
-                        value={state.role}
-                        onChange={(e) => state.setRole(e.currentTarget.value)}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Company</label>
-                    </td>
-                    <td>
-                      <input
-                        className="input is-small"
-                        disabled={resultLoading}
-                        placeholder="Please enter the company you're applying to"
-                        type={"text"}
-                        value={state.company}
-                        onChange={(e) =>
-                          state.setCompany(e.currentTarget.value)
-                        }
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>History</label>
-                    </td>
-                    <td>
-                      <div className="select is-small">
-                        <select
-                          className="is-monospace"
-                          disabled={resultLoading}
-                          value={state.history}
-                          onChange={(e) =>
-                            state.setHistory(
-                              e.currentTarget.value as WorkHistory
-                            )
-                          }
-                        >
-                          <option value={WorkHistory.One}>1 Year</option>
-                          <option value={WorkHistory.Two}>2 Years</option>
-                          <option value={WorkHistory.Three}>3 Years</option>
-                          <option value={WorkHistory.Four}>4 Years</option>
-                          <option value={WorkHistory.Five}>5 Years</option>
-                          <option value={WorkHistory.Six}>6 Years</option>
-                          <option value={WorkHistory.Seven}>7 Years</option>
-                          <option value={WorkHistory.Eight}>8 Years</option>
-                          <option value={WorkHistory.Nine}>9 Years</option>
-                          <option value={WorkHistory.TenPlus}>10+ Years</option>
-                        </select>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Details</label>
-                    </td>
-                    <td>
-                      <InputDetailsComponent
-                        hint={detailsHint}
-                        onHintClick={onHintClick}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div className="columns">
+            <div className="column">
+              <div className="review-content">
+                <div className="p-4">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <label className="has-text-info">
+                            <b>Prompt</b>
+                          </label>
+                        </td>
+                        <td>
+                          <AutoTextArea
+                            disabled={state.loading}
+                            value={state.question}
+                            index={0}
+                            className="input is-bold"
+                            placeholder="Please enter your prompt here"
+                            onChange={(e, i) => state.setQuestion(e)}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan={2}>
+                          <div className="horizontal-line mt-4 mb-4"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Name</label>
+                        </td>
+                        <td>
+                          <input
+                            className="input is-small"
+                            placeholder="Plase enter your name here"
+                            type={"text"}
+                            value={state.name}
+                            disabled={state.loading}
+                            onChange={(e) =>
+                              state.setName(e.currentTarget.value)
+                            }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Role</label>
+                        </td>
+                        <td>
+                          <input
+                            className="input is-small"
+                            disabled={state.loading}
+                            placeholder="Please enter the role you're applying to"
+                            type={"text"}
+                            value={state.role}
+                            onChange={(e) =>
+                              state.setRole(e.currentTarget.value)
+                            }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Company</label>
+                        </td>
+                        <td>
+                          <input
+                            className="input is-small"
+                            disabled={state.loading}
+                            placeholder="Please enter the company you're applying to"
+                            type={"text"}
+                            value={state.company}
+                            onChange={(e) =>
+                              state.setCompany(e.currentTarget.value)
+                            }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>History</label>
+                        </td>
+                        <td>
+                          <div className="select is-small">
+                            <select
+                              className="is-monospace"
+                              disabled={state.loading}
+                              value={state.history}
+                              onChange={(e) =>
+                                state.setHistory(
+                                  e.currentTarget.value as WorkHistory
+                                )
+                              }
+                            >
+                              <option value={WorkHistory.One}>1 Year</option>
+                              <option value={WorkHistory.Two}>2 Years</option>
+                              <option value={WorkHistory.Three}>3 Years</option>
+                              <option value={WorkHistory.Four}>4 Years</option>
+                              <option value={WorkHistory.Five}>5 Years</option>
+                              <option value={WorkHistory.Six}>6 Years</option>
+                              <option value={WorkHistory.Seven}>7 Years</option>
+                              <option value={WorkHistory.Eight}>8 Years</option>
+                              <option value={WorkHistory.Nine}>9 Years</option>
+                              <option value={WorkHistory.TenPlus}>
+                                10+ Years
+                              </option>
+                            </select>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Details</label>
+                        </td>
+                        <td>
+                          <InputDetailsComponent
+                            hint={detailsHint}
+                            onHintClick={onHintClick}
+                            resultLoading={state.loading}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan={2}>
+                          <div className="horizontal-line mt-4 mb-4"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan={2}>
+                          <div className="buttons">
+                            <GenerateResultsButton
+                              onClick={onGenerateClick}
+                              onLoad={onLoad}
+                            />
+                            <CopyResultsButton
+                              startingState={state.result}
+                              loading={state.loading}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="mt-4">
-            <ResultsComponent onGenerateClick={onGenerateClick} />
+            <div className="column">
+              <ResultsInlineComponent
+                startingState={state.result}
+                onUpdate={onUpdate}
+                loading={state.loading}
+              />
+            </div>
           </div>
           <ResultsError />
         </div>

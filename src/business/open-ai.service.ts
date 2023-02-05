@@ -16,14 +16,15 @@ import {
   PerformanceReviewInput,
   PerformanceScore,
   ReferralLetterInput,
-  ResumeInput,
+  ResumeDetailsInput,
+  ResumeSummaryInput,
   ReviewTone,
 } from "./common";
 import { Configuration, OpenAIApi } from "openai";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 import {
-  isValidEducationHistory,
-  isValidWorkHistory,
+  ResumeEducationHistory,
+  ResumeWorkHistory,
 } from "../state/resume.state";
 
 type NetworkInput = {
@@ -83,7 +84,12 @@ export class OpenAIService {
       .split(".")
       .map((e) => e.trim())
       .filter((e) => !!e)
-      .map((value) => ({ value, editable: true, joined: false }));
+      .map((original) => ({
+        original,
+        expanded: original,
+        editable: true,
+        joined: false,
+      }));
   }
 
   async generateCoverLetter(input: CoverLetterInput): Promise<AIResult[]> {
@@ -102,7 +108,12 @@ export class OpenAIService {
       .split(".")
       .map((e) => e.trim())
       .filter((e) => !!e)
-      .map((value) => ({ value, editable: true, joined: false }));
+      .map((original) => ({
+        original,
+        expanded: original,
+        editable: true,
+        joined: false,
+      }));
   }
 
   async generateReferralLetter(
@@ -123,7 +134,12 @@ export class OpenAIService {
       .split(".")
       .map((e) => e.trim())
       .filter((e) => !!e)
-      .map((value) => ({ value, editable: true, joined: false }));
+      .map((value) => ({
+        original: value,
+        expanded: value,
+        editable: true,
+        joined: false,
+      }));
 
     const bakedResults = [
       `${input.you.name}`,
@@ -138,7 +154,8 @@ export class OpenAIService {
       `${input.recipient.address}`,
     ].join("\n");
     const bakedAiResult = {
-      value: bakedResults,
+      original: bakedResults,
+      expanded: bakedResults,
       editable: false,
       joined: false,
     };
@@ -146,27 +163,37 @@ export class OpenAIService {
     return [bakedAiResult, ...aiResult];
   }
 
-  async generateResumeDetails(input: ResumeInput): Promise<AIResult[]> {
+  async generateResumeDetails(input: ResumeDetailsInput): Promise<AIResult[]> {
     const details = [
-      `Name: ${input.details.name}`,
-      `Address: ${input.details.address}`,
-      `Phone: ${input.details.phone}`,
-      `Email: ${input.details.email}`,
+      `Name: ${input.name}`,
+      `Address: ${input.address}`,
+      `Phone: ${input.phone}`,
+      `Email: ${input.email}`,
     ].join("\n");
-    const result = { value: details, editable: false, joined: false };
+    const result = {
+      original: details,
+      expanded: details,
+      editable: false,
+      joined: false,
+    };
     return [result];
   }
 
-  async generateResumeSummary(input: ResumeInput): Promise<AIResult[]> {
+  async generateResumeSummary(
+    input: ResumeSummaryInput,
+    name: string
+  ): Promise<AIResult[]> {
     let summary: AIResult;
-    if (!input.summary.summary) {
+    if (!input.summary) {
+      const value = "Please make sure to provide some summary information.";
       summary = {
-        value: "Please make sure to provide some summary information.",
+        original: value,
+        expanded: value,
         editable: false,
         joined: false,
       };
     } else {
-      const prompt = new ResumeSummaryPromptBuilder().build(input);
+      const prompt = new ResumeSummaryPromptBuilder().build(input, name);
       const max_tokens = prompt.length + 2000;
       const response = await this.getResponse({
         model: this.MODEL,
@@ -174,107 +201,92 @@ export class OpenAIService {
         max_tokens,
         prompt,
       });
-      summary = { value: response.trim(), editable: true, joined: false };
+      const value = response.trim();
+      summary = {
+        original: value,
+        expanded: value,
+        editable: true,
+        joined: false,
+      };
     }
     return [summary];
   }
 
-  async generateResumeWorkHistory(input: ResumeInput): Promise<AIResult[]> {
-    let histories: AIResult[] = [];
-    const validWorkItems = input.workplaces.items.filter((e) =>
-      isValidWorkHistory(e)
-    );
-    if (validWorkItems.length === 0) {
-      histories = [
-        {
-          value:
-            "Please make sure to provide some information about your previous and current roles.",
-          editable: false,
-          joined: false,
-        },
-      ];
-    } else {
-      for (const workplace of validWorkItems) {
-        const prompt = new ResumeWorkHistoryPromptBuilder().build(
-          input.workplaces.question,
-          workplace
-        );
-        const max_tokens = prompt.length + 500;
-        const response = await this.getResponse({
-          model: this.MODEL,
-          temperature: 0.25,
-          max_tokens,
-          prompt,
-        });
-        const bakedResult = [
-          `Company: ${workplace.company}`,
-          `Role: ${workplace.role} (${workplace.start} - ${workplace.end})`,
-        ].join("\n");
-        const baked = { value: bakedResult, editable: false, joined: true };
-        const aiResult = {
-          value: response.trim(),
-          editable: true,
-          joined: false,
-        };
+  async generateResumeWorkHistoryItem(
+    question: string,
+    input: ResumeWorkHistory
+  ): Promise<AIResult[]> {
+    const prompt = new ResumeWorkHistoryPromptBuilder().build(question, input);
+    const max_tokens = prompt.length + 500;
+    const response = await this.getResponse({
+      model: this.MODEL,
+      temperature: 0.25,
+      max_tokens,
+      prompt,
+    });
+    const bakedResult = [
+      `Company: ${input.company}`,
+      `Role: ${input.role} (${input.start} - ${input.end})`,
+    ].join("\n");
+    const baked = {
+      original: bakedResult,
+      expanded: bakedResult,
+      editable: false,
+      joined: true,
+    };
 
-        histories.push(baked);
-        histories.push(aiResult);
-      }
-    }
-    return histories;
+    const value = response.trim();
+    const aiResult = {
+      original: value,
+      expanded: value,
+      editable: true,
+      joined: false,
+    };
+
+    return [baked, aiResult];
   }
 
-  async generateResumeEducationHistory(
-    input: ResumeInput
+  async generateEducationHistoryItem(
+    question: string,
+    input: ResumeEducationHistory
   ): Promise<AIResult[]> {
-    let educations: AIResult[] = [];
-    const validEducationItems = input.education.items.filter((e) =>
-      isValidEducationHistory(e)
-    );
-    if (validEducationItems.length === 0) {
-      educations = [
-        {
-          value:
-            "Please make sure to provide some information about your education.",
-          editable: false,
-          joined: false,
-        },
-      ];
-    } else {
-      for (const education of validEducationItems) {
-        const result = [
-          `School: ${education.school}`,
-          `Degree: ${education.degree} (${education.start} - ${education.end})`,
-        ].join("\n");
+    const result = [
+      `School: ${input.school}`,
+      `Degree: ${input.degree} (${input.start} - ${input.end})`,
+    ].join("\n");
 
-        if (education.details) {
-          const prompt = new ResumeEducationHistoryPromptBuilder().build(
-            input.education.question,
-            education
-          );
-          const max_tokens = prompt.length + 350;
-          const response = await this.getResponse({
-            model: this.MODEL,
-            temperature: 0.25,
-            max_tokens,
-            prompt,
-          });
+    const bakedResult = {
+      original: result,
+      expanded: result,
+      editable: false,
+      joined: true,
+    };
 
-          const bakedResult = { value: result, editable: false, joined: true };
-          educations.push(bakedResult);
-          educations.push({
-            value: response.trim(),
-            editable: true,
-            joined: false,
-          });
-        } else {
-          const bakedResult = { value: result, editable: false, joined: false };
-          educations.push(bakedResult);
-        }
-      }
+    if (!input.details) {
+      return [bakedResult];
     }
-    educations = educations.filter((e) => !!e);
-    return educations;
+
+    const prompt = new ResumeEducationHistoryPromptBuilder().build(
+      question,
+      input
+    );
+    const max_tokens = prompt.length + 500;
+    const response = await this.getResponse({
+      model: this.MODEL,
+      temperature: 0.25,
+      max_tokens,
+      prompt,
+    });
+
+    const value = response.trim();
+    const aiResult = {
+      original: value,
+      expanded: value,
+      editable: true,
+      joined: false,
+    };
+
+    return [bakedResult, aiResult];
   }
 
   async expandText(text: string): Promise<string> {

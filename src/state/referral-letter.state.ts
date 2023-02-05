@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Pronouns } from "../business/common";
+import { AIResult, Pronouns } from "../business/common";
 
 export type ReferralLetterState = {
   question: string;
@@ -19,6 +19,8 @@ export type ReferralLetterState = {
     role: string;
     pron: Pronouns;
   };
+  result: AIResult[];
+  loading: boolean;
   setQuestion: (question: string) => void;
   setYourName: (name: string) => void;
   setYourAddress: (address: string) => void;
@@ -30,6 +32,8 @@ export type ReferralLetterState = {
   setApplicantName: (name: string) => void;
   setApplicantRole: (role: string) => void;
   setApplicantPronoun: (pron: Pronouns) => void;
+  setResult: (result: AIResult[]) => void;
+  setLoading: (loading: boolean) => void;
 };
 
 export const useReferralLetterState = create<ReferralLetterState>()((set) => ({
@@ -50,6 +54,8 @@ export const useReferralLetterState = create<ReferralLetterState>()((set) => ({
     role: "",
     pron: Pronouns.NEUTRAL,
   },
+  result: [],
+  loading: false,
   setQuestion: (question: string) => set((state) => ({ ...state, question })),
   setYourName: (name: string) =>
     set((state) => ({ ...state, you: { ...state.you, name } })),
@@ -71,4 +77,6 @@ export const useReferralLetterState = create<ReferralLetterState>()((set) => ({
     set((state) => ({ ...state, applicant: { ...state.applicant, role } })),
   setApplicantPronoun: (pron: Pronouns) =>
     set((state) => ({ ...state, applicant: { ...state.applicant, pron } })),
+  setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
+  setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
 }));

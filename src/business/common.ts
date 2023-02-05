@@ -1,8 +1,3 @@
-import {
-  ResumeEducationHistory,
-  ResumeWorkHistory,
-} from "../state/resume.state";
-
 export enum PerformanceScore {
   BELOW_EXPECTATIONS = "below-expectations",
   MEETS_EXPECTATIONS = "meets-expectations",
@@ -87,31 +82,18 @@ export interface ReferralLetterInput {
   details: string;
 }
 
-export interface ResumeInput {
-  details: {
-    name: string;
-    address: string;
-    phone: string;
-    email: string;
-    result: AIResult[];
-  };
-  summary: {
-    question: string;
-    history: WorkHistory;
-    skills: string;
-    summary: string;
-    result: AIResult[];
-  };
-  workplaces: {
-    question: string;
-    items: ResumeWorkHistory[];
-    result: AIResult[];
-  };
-  education: {
-    question: string;
-    items: ResumeEducationHistory[];
-    result: AIResult[];
-  };
+export interface ResumeDetailsInput {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
+export interface ResumeSummaryInput {
+  question: string;
+  history: WorkHistory;
+  skills: string;
+  summary: string;
 }
 
 export enum WorkHistory {
@@ -128,7 +110,8 @@ export enum WorkHistory {
 }
 
 export type AIResult = {
-  value: string;
+  original: string;
+  expanded: string;
   editable: boolean;
   joined: boolean;
 };

@@ -1,6 +1,7 @@
 import create from "zustand";
 // import { persist } from "zustand/middleware";
 import {
+  AIResult,
   PerformanceScore,
   Pronouns,
   Relationship,
@@ -18,6 +19,8 @@ export type PerformanceReviewState = {
   tone: ReviewTone;
   pron: Pronouns;
   perf: PerformanceScore;
+  result: AIResult[];
+  loading: boolean;
   setRelationship: (relationship: Relationship) => void;
   setQuestion: (question: string) => void;
   setName: (name: string) => void;
@@ -27,6 +30,8 @@ export type PerformanceReviewState = {
   setTone: (tone: ReviewTone) => void;
   setPron: (pron: Pronouns) => void;
   setPerf: (perf: PerformanceScore) => void;
+  setResult: (result: AIResult[]) => void;
+  setLoading: (loading: boolean) => void;
 };
 
 export const usePerformanceReviewState = create<PerformanceReviewState>()(
@@ -41,6 +46,8 @@ export const usePerformanceReviewState = create<PerformanceReviewState>()(
     tone: ReviewTone.NEUTRAL,
     pron: Pronouns.NEUTRAL,
     perf: PerformanceScore.ABOVE_EXPECTATIONS,
+    result: [],
+    loading: false,
     setRelationship: (relationship: Relationship) =>
       set((state) => ({ ...state, relationship })),
     setQuestion: (question: string) => set((state) => ({ ...state, question })),
@@ -51,6 +58,8 @@ export const usePerformanceReviewState = create<PerformanceReviewState>()(
     setTone: (tone: ReviewTone) => set((state) => ({ ...state, tone })),
     setPron: (pron: Pronouns) => set((state) => ({ ...state, pron })),
     setPerf: (perf: PerformanceScore) => set((state) => ({ ...state, perf })),
+    setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
+    setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
   })
   // {
   //   name: "performance-review-state", // unique name
