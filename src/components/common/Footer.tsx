@@ -1,3 +1,5 @@
+import { API_ROUTES } from "../..";
+
 export const Footer = () => {
   return (
     <footer className="footer p-6 has-background-grey-darker has-text-white">
@@ -24,6 +26,9 @@ export const Footer = () => {
           Contact us at{" "}
           <a href={"mailto:contact@deepreview.eu"}>contact@deepreview.eu</a>.
         </address>
+        <p>
+          <a href={API_ROUTES.PRIVACY_POLICY}>Privacy policy.</a>
+        </p>
         <p>
           <small>
             <a href="https://www.freepik.com/free-vector/young-investors-working-profit-dividend-revenue_9173917.htm#query=illustrations%20money&position=3&from_view=search&track=sph">
