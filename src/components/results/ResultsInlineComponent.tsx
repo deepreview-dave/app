@@ -20,6 +20,7 @@ export const GenerateResultsButton = (props: {
       await props.onClick();
       setLoading(false);
       props.onLoad(false);
+      Analytics.generated();
     } catch (e: any) {
       setError(e.message);
       props.onLoad(false);
