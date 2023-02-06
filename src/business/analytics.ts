@@ -6,6 +6,7 @@ enum AnalyticsEventName {
   EXPANDED = "expanded",
   COPIED = "copied",
   TOOL = "tool",
+  DOWNLOAD = "download",
 }
 
 export enum AnalyticsToolName {
@@ -55,5 +56,9 @@ export class Analytics {
 
   static tool(tool: AnalyticsToolName) {
     mixpanel.track(AnalyticsEventName.TOOL, { tool });
+  }
+
+  static download() {
+    mixpanel.track(AnalyticsEventName.DOWNLOAD);
   }
 }

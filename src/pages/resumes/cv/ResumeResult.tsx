@@ -1,6 +1,7 @@
 import saveAs from "file-saver";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { Analytics } from "../../../business/analytics";
 import {
   isValidEducationHistory,
   isValidWorkHistory,
@@ -281,6 +282,7 @@ export const ResumeResult = () => {
   // https://stackoverflow.com/questions/44989119/generating-a-pdf-file-from-react-components
   // https://stackoverflow.com/questions/31656689/how-to-save-img-to-users-local-computer-using-html2canvas
   const onDownloadClick = () => {
+    Analytics.download();
     const input = document.getElementById("pdf-to-download")!;
     const originalWidth = input.scrollWidth;
     const originalHeight = input.scrollHeight;
