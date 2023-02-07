@@ -225,7 +225,7 @@ export const PerformanceReviewPage = () => {
                       </tr>
                       <tr>
                         <td>
-                          <label>Performance</label>
+                          <label>Result</label>
                         </td>
                         <td>
                           <div className="select is-small">

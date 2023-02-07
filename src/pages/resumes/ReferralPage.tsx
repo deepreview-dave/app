@@ -269,7 +269,7 @@ export const ReferralPage = () => {
                       </tr>
                       <tr>
                         <td>
-                          <label>Position</label>
+                          <label>Role</label>
                         </td>
                         <td>
                           <input
