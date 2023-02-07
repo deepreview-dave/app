@@ -16,7 +16,6 @@ import {
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { useInputDetailsState } from "../../state/input-details.state";
 import { useReferralLetterState } from "../../state/referral-letter.state";
-import { useResultState } from "../../state/result-state";
 
 export const ReferralPage = () => {
   const detailsHint = `Please enter more details, such as:

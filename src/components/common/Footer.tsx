@@ -1,3 +1,5 @@
+import { API_ROUTES } from "../..";
+
 export const Footer = () => {
   return (
     <footer className="footer p-6 has-background-grey-darker has-text-white">
@@ -17,13 +19,17 @@ export const Footer = () => {
         </p>
         <p>
           <b>Deep Review</b>. The source code is licensed{" "}
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. With
-          tasteful tracking.
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
         </p>
         <address className="m-2">
           Contact us at{" "}
-          <a href={"mailto:contact@deepreview.eu"}>contact@deepreview.eu</a>.
+          <a href={API_ROUTES.MAIL_TO_CONTACT}>contact@deepreview.eu</a>.
         </address>
+        <p>
+          <a href={API_ROUTES.PRIVACY_POLICY}>Privacy policy.</a>
+          <span className="ml-2 mr-2">|</span>
+          <a href={API_ROUTES.COOKIE_POLICY}>Cookie policy</a>
+        </p>
         <p>
           <small>
             <a href="https://www.freepik.com/free-vector/young-investors-working-profit-dividend-revenue_9173917.htm#query=illustrations%20money&position=3&from_view=search&track=sph">
