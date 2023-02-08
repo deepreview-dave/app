@@ -28,10 +28,12 @@ export const InputDetailsComponent = (props: {
   };
 
   useEffect(() => {
-    setDetails("default");
-    setTimeout(() => {
-      setDetails("");
-    }, 10);
+    if (!details) {
+      setDetails("default");
+      setTimeout(() => {
+        setDetails("");
+      }, 10);
+    }
   }, []);
 
   useEffect(() => {
