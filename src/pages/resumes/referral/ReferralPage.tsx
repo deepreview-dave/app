@@ -37,7 +37,7 @@ export const ReferralPage = () => {
               </small>
             </p>
           </div>
-          <ResultControlPanel fileName="referral.jpg" />
+          <ResultControlPanel fileName="referral.pdf" />
           {state.isEdit && <ReferralDetails />}
           {(state.isPreview || state.isDownloading) && <ReferralResult />}
           <ResultsError />
