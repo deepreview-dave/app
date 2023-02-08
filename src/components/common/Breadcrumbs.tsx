@@ -3,7 +3,7 @@ import { API_ROUTES } from "../..";
 export const PersonaBreadcrumbs = () => {
   return (
     <nav
-      className="m-4 breadcrumb has-succeeds-separator"
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
       aria-label="breadcrumbs"
     >
       <ul>
@@ -24,7 +24,7 @@ export const PersonaBreadcrumbs = () => {
 export const ResultsBreadcrumbs = () => {
   return (
     <nav
-      className="m-4 breadcrumb has-succeeds-separator"
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
       aria-label="breadcrumbs"
     >
       <ul>
@@ -48,7 +48,7 @@ export const ResultsBreadcrumbs = () => {
 export const ResumeToolBreadcrumbs = () => {
   return (
     <nav
-      className="m-4 breadcrumb has-succeeds-separator"
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
       aria-label="breadcrumbs"
     >
       <ul>
@@ -69,7 +69,7 @@ export const ResumeToolBreadcrumbs = () => {
 export const CoverLetterBreadcrumbs = () => {
   return (
     <nav
-      className="m-4 breadcrumb has-succeeds-separator"
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
       aria-label="breadcrumbs"
     >
       <ul>
@@ -93,7 +93,7 @@ export const CoverLetterBreadcrumbs = () => {
 export const ReferralLetterBreadcrumbs = () => {
   return (
     <nav
-      className="m-4 breadcrumb has-succeeds-separator"
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
       aria-label="breadcrumbs"
     >
       <ul>
@@ -117,7 +117,7 @@ export const ReferralLetterBreadcrumbs = () => {
 export const ResumeBreadcrumbs = () => {
   return (
     <nav
-      className="m-4 breadcrumb has-succeeds-separator"
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
       aria-label="breadcrumbs"
     >
       <ul>
