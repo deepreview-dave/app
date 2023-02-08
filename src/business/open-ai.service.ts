@@ -169,10 +169,17 @@ export class OpenAIService {
       `Address: ${input.address}`,
       `Phone: ${input.phone}`,
       `Email: ${input.email}`,
-    ].join("\n");
+    ];
+    if (input.linkedin) {
+      details.push(`Linkedin: ${input.linkedin}`);
+    }
+    if (input.website) {
+      details.push(`Website: ${input.website}`);
+    }
+
     const result = {
-      original: details,
-      expanded: details,
+      original: details.join("\n"),
+      expanded: details.join("\n"),
       editable: false,
       joined: false,
     };

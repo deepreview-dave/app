@@ -56,10 +56,8 @@ export const ResumeResult = () => {
       return (
         <span>
           <small>
-            Address:{" "}
-            <b>
-              <Item />
-            </b>
+            <b>Address: </b>
+            <Item />
           </small>
         </span>
       );
@@ -80,10 +78,8 @@ export const ResumeResult = () => {
       return (
         <span>
           <small>
-            Phone:{" "}
-            <b>
-              <Item />
-            </b>
+            <b>Phone: </b>
+            <Item />
           </small>
         </span>
       );
@@ -104,21 +100,63 @@ export const ResumeResult = () => {
       return (
         <span>
           <small>
-            Email:{" "}
-            <b>
-              <Item />
-            </b>
+            <b>Email: </b>
+            <Item />
+          </small>
+        </span>
+      );
+    };
+    const Linkedin = () => {
+      if (!details.linkedin) {
+        return null;
+      }
+
+      return (
+        <span>
+          <small>
+            <b>Linkedin: </b>
+            <a target={"_blank"} href={details.linkedin}>
+              {details.linkedin}
+            </a>
+          </small>
+        </span>
+      );
+    };
+    const Website = () => {
+      if (!details.website) {
+        return null;
+      }
+
+      return (
+        <span>
+          <small>
+            <b>Website: </b>
+            <a target={"_blank"} href={details.website}>
+              {details.website}
+            </a>
           </small>
         </span>
       );
     };
     return (
       <div>
-        <Address />
-        <Separator />
-        <Phone />
-        <Separator />
-        <Email />
+        <div>
+          <Address />
+          <Separator />
+          <Phone />
+          <Separator />
+          <Email />
+        </div>
+        {details.linkedin && (
+          <div>
+            <Linkedin />
+          </div>
+        )}
+        {details.website && (
+          <div>
+            <Website />
+          </div>
+        )}
       </div>
     );
   };
@@ -226,6 +264,27 @@ export const ResumeResult = () => {
     );
   };
 
+  const SkillsInfo = () => {
+    const skills = useResumeSummaryState((state) => state.skills);
+    if (!skills) {
+      return (
+        <div className="mt-6">
+          <h4>Skills</h4>
+          <span className="has-background-warning has-text-warning-dark">
+            [Skill 1, Skill 2, Skill 3]
+          </span>
+        </div>
+      );
+    }
+
+    return (
+      <div className="mt-6">
+        <h4>Skills</h4>
+        <span>{skills}</span>
+      </div>
+    );
+  };
+
   const EducationHistoryInfo = () => {
     const education = useResumeEducationHistoryState((state) => state);
     const validItems = education.items.filter((e) =>
@@ -295,6 +354,7 @@ export const ResumeResult = () => {
           <ResumeInfo />
           <SummaryInfo />
           <WorkHistoryInfo />
+          <SkillsInfo />
           <EducationHistoryInfo />
         </div>
       </div>

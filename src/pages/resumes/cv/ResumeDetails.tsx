@@ -96,6 +96,36 @@ export const ResumeDetails = () => {
                   </td>
                 </tr>
                 <tr>
+                  <td>
+                    <label>Linkedin</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter your linkedin profile (if available)"
+                      type={"text"}
+                      value={state.linkedin}
+                      onChange={(e) => state.setLinkedin(e.currentTarget.value)}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Website</label>
+                  </td>
+                  <td>
+                    <input
+                      className="input is-small"
+                      disabled={resultLoading}
+                      placeholder="Please enter your profile website (if available)"
+                      type={"text"}
+                      value={state.website}
+                      onChange={(e) => state.setWebsite(e.currentTarget.value)}
+                    />
+                  </td>
+                </tr>
+                <tr>
                   <td colSpan={2}>
                     <div className="horizontal-line mt-2 mb-4"></div>
                   </td>
