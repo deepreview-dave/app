@@ -286,3 +286,23 @@ a.underlined-style {
     margin-right: auto;
   }
 }
+
+/** Things only available on desktop */
+
+.display-desktop {
+  display: inherit !important;
+}
+
+.display-mobile {
+  display: none !important;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .display-mobile {
+    display: inherit !important;
+  }
+
+  .display-desktop {
+    display: none !important;
+  }
+}
