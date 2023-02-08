@@ -42,6 +42,10 @@ export const ResultControlPanel = (props: {
     });
   };
 
+  const onTutorialClick = () => {
+    window.location.href = props.tutorial!;
+  };
+
   return (
     <div>
       <hr />
@@ -51,7 +55,8 @@ export const ResultControlPanel = (props: {
             <button
               className="button is-small"
               disabled={!props.tutorial}
-              title="Tutorial (Coming Soon)"
+              title={props.tutorial ? "Tutorial" : "Tutorial (Coming Soon)"}
+              onClick={onTutorialClick}
             >
               <span className="icon is-small">
                 <i className="fas fa-question-circle"></i>
