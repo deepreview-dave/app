@@ -11,19 +11,10 @@ import { ResumeResult } from "./ResumeResult";
 import { ResumeSummary } from "./ResumeSummary";
 import { ResumeWorkplaces } from "./ResumeWorkplaces";
 import { ResultControlPanel } from "../../../components/control/ResultControlPanel";
-import {
-  ControlStep,
-  useControlPanelState,
-} from "../../../state/control-panel.state";
+import { useControlPanelState } from "../../../state/control-panel.state";
 
 export const ResumePage = () => {
-  const isInput = useControlPanelState(
-    (state) => state.step === ControlStep.Edit
-  );
-  const isResult = useControlPanelState(
-    (state) => state.step === ControlStep.Review
-  );
-  const isDownloading = useControlPanelState((state) => state.isDownloading);
+  const state = useControlPanelState((state) => state);
 
   useEffect(() => {
     Analytics.tool(AnalyticsToolName.RESUME);
@@ -55,9 +46,9 @@ export const ResumePage = () => {
               a section of your resume.
             </p>
           </div>
-          <ResultControlPanel />
-          {isInput && <Content />}
-          {(isResult || isDownloading) && <ResumeResult />}
+          <ResultControlPanel fileName="resume.jpg" />
+          {state.isEdit && <Content />}
+          {(state.isPreview || state.isDownloading) && <ResumeResult />}
         </div>
       </div>
       <SubscribeFrom />

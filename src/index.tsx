@@ -12,7 +12,7 @@ import { SelectPersonaPage } from "./pages/performance-review/SelectPersonaPage"
 import { PerformanceReviewPage } from "./pages/performance-review/PerformanceReviewPage";
 import { ResumeSelectionPage } from "./pages/resumes/ResumeSelectionPage";
 import { CoverLetterPage } from "./pages/resumes/CoverLetterPage";
-import { ReferralPage } from "./pages/resumes/ReferralPage";
+import { ReferralPage } from "./pages/resumes/referral/ReferralPage";
 import { ResumePage } from "./pages/resumes/cv/ResumePage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { CookiePolicyPage } from "./pages/CookiePolicyPage";

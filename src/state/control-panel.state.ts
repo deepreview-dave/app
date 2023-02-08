@@ -8,6 +8,8 @@ export enum ControlStep {
 export type ControlPanelState = {
   step: ControlStep;
   isDownloading: boolean;
+  isEdit: boolean;
+  isPreview: boolean;
   seeEdit: () => void;
   seeReview: () => void;
   setDownloading: (isDownloading: boolean) => void;
@@ -16,8 +18,22 @@ export type ControlPanelState = {
 export const useControlPanelState = create<ControlPanelState>()((set) => ({
   step: ControlStep.Edit,
   isDownloading: false,
-  seeEdit: () => set((state) => ({ ...state, step: ControlStep.Edit })),
-  seeReview: () => set((state) => ({ ...state, step: ControlStep.Review })),
+  isEdit: true,
+  isPreview: false,
+  seeEdit: () =>
+    set((state) => ({
+      ...state,
+      step: ControlStep.Edit,
+      isEdit: true,
+      isPreview: false,
+    })),
+  seeReview: () =>
+    set((state) => ({
+      ...state,
+      step: ControlStep.Review,
+      isEdit: false,
+      isPreview: true,
+    })),
   setDownloading: (isDownloading: boolean) =>
     set((state) => ({ ...state, isDownloading })),
 }));

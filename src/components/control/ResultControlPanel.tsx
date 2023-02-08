@@ -8,7 +8,10 @@ import jsPDF from "jspdf";
 import saveAs from "file-saver";
 import { delay } from "../../utils/delay";
 
-export const ResultControlPanel = () => {
+export const ResultControlPanel = (props: {
+  fileName: string;
+  tutorial?: string;
+}) => {
   const state = useControlPanelState((state) => state);
   const isEdit = useControlPanelState(
     (state) => state.step === ControlStep.Edit
@@ -31,7 +34,7 @@ export const ResultControlPanel = () => {
     input.style.height = "297mm";
     html2canvas(input).then((canvas) => {
       canvas.toBlob(function (blob) {
-        saveAs(blob!, "resume.jpg");
+        saveAs(blob!, props.fileName);
         input.style.width = originalWidth + "px";
         input.style.height = originalHeight + "px";
         state.setDownloading(false);
@@ -47,7 +50,7 @@ export const ResultControlPanel = () => {
           <div className="buttons">
             <button
               className="button is-small"
-              disabled
+              disabled={!props.tutorial}
               title="Tutorial (Coming Soon)"
             >
               <span className="icon is-small">
@@ -87,7 +90,7 @@ export const ResultControlPanel = () => {
               onClick={() => state.seeEdit()}
             >
               <span className="icon is-small">
-                <i className="fas fa-eye"></i>
+                <i className="fas fa-pen"></i>
               </span>
               <span>Edit</span>
             </button>
