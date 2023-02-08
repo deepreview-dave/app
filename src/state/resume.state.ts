@@ -101,17 +101,6 @@ export type ResumeEducationState = {
   setLoading: (loading: boolean, index: number) => void;
 };
 
-export enum ResumeStep {
-  Input,
-  Result,
-}
-
-export type ResumeState = {
-  step: ResumeStep;
-  seeInput: () => void;
-  seeResult: () => void;
-};
-
 export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   name: "",
   address: "",
@@ -224,9 +213,3 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
       }),
   })
 );
-
-export const useResumeState = create<ResumeState>()((set) => ({
-  step: ResumeStep.Input,
-  seeInput: () => set((state) => ({ ...state, step: ResumeStep.Input })),
-  seeResult: () => set((state) => ({ ...state, step: ResumeStep.Result })),
-}));
