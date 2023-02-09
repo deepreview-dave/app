@@ -8,7 +8,7 @@ export type InputDetailsState = {
 };
 
 export const useInputDetailsState = create<InputDetailsState>()((set) => ({
-  details: "Default",
+  details: "",
   loading: false,
   setDetails: (details: string) =>
     set((state) => ({ details, loading: false })),
