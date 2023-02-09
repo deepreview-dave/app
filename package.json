@@ -5,6 +5,8 @@
   "dependencies": {
     "@cfworker/json-schema": "^1.12.5",
     "@haverstack/axios-fetch-adapter": "^0.4.0",
+    "@sentry/react": "^7.36.0",
+    "@sentry/tracing": "^7.36.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
