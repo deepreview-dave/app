@@ -87,6 +87,8 @@ export interface ResumeDetailsInput {
   address: string;
   phone: string;
   email: string;
+  linkedin?: string;
+  website?: string;
 }
 
 export interface ResumeSummaryInput {

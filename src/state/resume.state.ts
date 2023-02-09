@@ -6,12 +6,16 @@ export type ResumeDetailsState = {
   address: string;
   phone: string;
   email: string;
+  linkedin?: string;
+  website?: string;
   result: AIResult[];
   loading: boolean;
   setName: (name: string) => void;
   setAddress: (address: string) => void;
   setPhone: (phone: string) => void;
   setEmail: (email: string) => void;
+  setLinkedin: (linkedin: string) => void;
+  setWebsite: (website: string) => void;
   setResult: (result: AIResult[]) => void;
   setLoading: (loading: boolean) => void;
 };
@@ -106,12 +110,16 @@ export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   address: "",
   phone: "",
   email: "",
+  linkedin: "",
+  website: "",
   result: [],
   loading: false,
   setName: (name: string) => set((state) => ({ ...state, name })),
   setAddress: (address: string) => set((state) => ({ ...state, address })),
   setPhone: (phone: string) => set((state) => ({ ...state, phone })),
   setEmail: (email: string) => set((state) => ({ ...state, email })),
+  setLinkedin: (linkedin: string) => set((state) => ({ ...state, linkedin })),
+  setWebsite: (website: string) => set((state) => ({ ...state, website })),
   setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
   setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
 }));
