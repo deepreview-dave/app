@@ -42,6 +42,9 @@ export const NavbarMin = () => {
                 <a className="navbar-item" href={API_ROUTES.RESUME_TOOL}>
                   Resumes & Cover Letters
                 </a>
+                <a className="navbar-item" href={API_ROUTES.PRAISE}>
+                  Give Praise
+                </a>
                 <span className="navbar-item has-text-grey-light">
                   Compensation & Promotions (Coming Soon)
                 </span>

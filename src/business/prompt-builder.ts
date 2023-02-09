@@ -11,6 +11,7 @@ import {
   CoverLetterInput,
   ReferralLetterInput,
   ResumeSummaryInput,
+  PraiseInput,
 } from "./common";
 
 export class PerformanceReviewPromptBuilder {
@@ -285,6 +286,35 @@ export class ResumeEducationHistoryPromptBuilder {
     prompt.push(`More details: ${history.details}`);
     prompt.push(`Tense: Past.`);
     prompt.push(`Refer to me in the first person.`);
+    return prompt.join("\n");
+  }
+}
+
+export class PraisePromptBuilder {
+  build(details: PraiseInput): string {
+    const prompt: string[] = [];
+
+    prompt.push(details.question);
+    prompt.push(`Name: ${details.name}.`);
+
+    switch (details.pron) {
+      case Pronouns.NEUTRAL: {
+        prompt.push("Use pronoun: them/they");
+        break;
+      }
+      case Pronouns.HE: {
+        prompt.push("Use pronoun: he/him");
+        break;
+      }
+      case Pronouns.HER: {
+        prompt.push("Use pronoun: she/her");
+        break;
+      }
+    }
+
+    prompt.push(`Situation: ${details.what}.`);
+    prompt.push(`Additional details:\n ${details.details}`);
+
     return prompt.join("\n");
   }
 }

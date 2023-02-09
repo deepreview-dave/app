@@ -9,12 +9,14 @@ import {
   ResumeSummaryPromptBuilder,
   ResumeWorkHistoryPromptBuilder,
   ResumeEducationHistoryPromptBuilder,
+  PraisePromptBuilder,
 } from "./prompt-builder";
 import {
   AIResult,
   CoverLetterInput,
   PerformanceReviewInput,
   PerformanceScore,
+  PraiseInput,
   ReferralLetterInput,
   ResumeDetailsInput,
   ResumeSummaryInput,
@@ -96,6 +98,30 @@ export class OpenAIService {
     const builder = new CoverLetterPromptBuilder();
     const prompt = builder.build(input);
     const max_tokens = prompt.length + 2000;
+
+    const response = await this.getResponse({
+      model: this.MODEL,
+      temperature: 0.25,
+      max_tokens,
+      prompt,
+    });
+
+    return response
+      .split(".")
+      .map((e) => e.trim())
+      .filter((e) => !!e)
+      .map((original) => ({
+        original,
+        expanded: original,
+        editable: true,
+        joined: false,
+      }));
+  }
+
+  async generatePraise(input: PraiseInput): Promise<AIResult[]> {
+    const builder = new PraisePromptBuilder();
+    const prompt = builder.build(input);
+    const max_tokens = prompt.length + 1500;
 
     const response = await this.getResponse({
       model: this.MODEL,

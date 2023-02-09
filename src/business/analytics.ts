@@ -14,6 +14,7 @@ export enum AnalyticsToolName {
   COVER_LETTER = "cover_letter",
   REFERRAL_LETTER = "referral_letter",
   RESUME = "resume",
+  PRAISE = "praise",
 }
 
 export type GeneratedAnalyticsParams = {

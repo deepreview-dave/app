@@ -98,6 +98,14 @@ export interface ResumeSummaryInput {
   summary: string;
 }
 
+export interface PraiseInput {
+  question: string;
+  name: string;
+  pron: Pronouns;
+  what: string;
+  details: string;
+}
+
 export enum WorkHistory {
   One = "1",
   Two = "2",

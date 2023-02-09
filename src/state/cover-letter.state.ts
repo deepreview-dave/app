@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 import { AIResult, WorkHistory } from "../business/common";
 
 export type CoverLetterState = {
