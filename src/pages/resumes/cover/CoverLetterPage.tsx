@@ -32,7 +32,7 @@ export const CoverLetterPage = () => {
             </p>
           </div>
           <ResultControlPanel
-            fileName="cover-letter.jpg"
+            fileName="cover-letter.pdf"
             tutorial="https://medium.com/@contact_29453/how-to-create-a-meaningful-cover-letter-with-deepreview-791645be2455"
           />
           {state.isEdit && <CoverLetterDetails />}

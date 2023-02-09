@@ -46,7 +46,7 @@ export const ResumePage = () => {
               a section of your resume.
             </p>
           </div>
-          <ResultControlPanel fileName="resume.jpg" />
+          <ResultControlPanel fileName="resume.pdf" />
           {state.isEdit && <Content />}
           {(state.isPreview || state.isDownloading) && <ResumeResult />}
         </div>

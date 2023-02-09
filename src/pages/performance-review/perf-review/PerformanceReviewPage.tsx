@@ -31,7 +31,7 @@ export const PerformanceReviewPage = () => {
               Performance Review.
             </p>
           </div>
-          <ResultControlPanel fileName="perf-review.jpg" />
+          <ResultControlPanel fileName="perf-review.pdf" />
           {state.isEdit && <PerformanceReviewDetails />}
           {(state.isPreview || state.isDownloading) && (
             <PerformanceReviewResult />

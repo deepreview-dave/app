@@ -1,11 +1,8 @@
-import { Analytics } from "../../business/analytics";
 import {
   ControlStep,
   useControlPanelState,
 } from "../../state/control-panel.state";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import saveAs from "file-saver";
+import { savePDF } from "@progress/kendo-react-pdf";
 import { delay } from "../../utils/delay";
 
 export const ResultControlPanel = (props: {
@@ -21,25 +18,29 @@ export const ResultControlPanel = (props: {
   );
 
   // from here:
-  // https://stackoverflow.com/questions/44989119/generating-a-pdf-file-from-react-components
-  // https://stackoverflow.com/questions/31656689/how-to-save-img-to-users-local-computer-using-html2canvas
+  // https://wkwok.medium.com/lets-make-a-resume-in-react-2c9c5540f51a
   const onDownloadClick = async () => {
     state.setDownloading(true);
-    await delay(250); // add a bit of a delay
-    Analytics.download();
-    const input = document.getElementById("pdf-to-download")!;
-    const originalWidth = input.scrollWidth;
-    const originalHeight = input.scrollHeight;
-    input.style.width = "210mm";
-    input.style.height = "297mm";
-    html2canvas(input).then((canvas) => {
-      canvas.toBlob(function (blob) {
-        saveAs(blob!, props.fileName);
-        input.style.width = originalWidth + "px";
-        input.style.height = originalHeight + "px";
-        state.setDownloading(false);
-      });
+    await delay(150);
+
+    const element = document.getElementById("pdf-to-download")!;
+
+    const originalWidth = element.scrollWidth;
+    const originalHeight = element.scrollHeight;
+    // set element to A4 size
+    element.style.width = "210mm";
+    element.style.height = "297mm";
+
+    savePDF(element, {
+      paperSize: "auto",
+      margin: 20,
+      fileName: props.fileName,
     });
+
+    // set element back to its original size
+    element.style.width = originalWidth + "px";
+    element.style.height = originalHeight + "px";
+    state.setDownloading(false);
   };
 
   const onTutorialClick = () => {
