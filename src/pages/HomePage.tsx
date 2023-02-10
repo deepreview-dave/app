@@ -28,6 +28,36 @@ export const HomePage = () => {
               <figure className="image is-2by1">
                 <img
                   className="cover-fit"
+                  src="/images/cv-1.jpg"
+                  alt="Resumes & Cover Letters"
+                />
+              </figure>
+            </div>
+            <div className="card-content">
+              <div className="content">
+                <h4>Resumes & Cover Letters</h4>
+                <p>
+                  Finding the right words to highlight the best of you can be
+                  time consuming. Let DeepReview help with that.
+                </p>
+                <p>
+                  <a
+                    href={API_ROUTES.RESUME_TOOL}
+                    className="button is-primary"
+                  >
+                    Try it out!
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="column is-6">
+          <div className="card">
+            <div className="card-image">
+              <figure className="image is-2by1">
+                <img
+                  className="cover-fit"
                   src="/images/perf-review-1.jpg"
                   alt="Performance Reviews"
                 />
@@ -58,23 +88,23 @@ export const HomePage = () => {
               <figure className="image is-2by1">
                 <img
                   className="cover-fit"
-                  src="/images/cv-1.jpg"
-                  alt="Resumes & Cover Letters"
+                  src="/images/praise-1.jpg"
+                  alt="Give Praise"
                 />
               </figure>
             </div>
+            <div className="card-content is-overlay">
+              <span className="tag is-dark is-pulled-right">NEW</span>
+            </div>
             <div className="card-content">
               <div className="content">
-                <h4>Resumes & Cover Letters</h4>
+                <h4>Give Praise</h4>
                 <p>
-                  Finding the right words to highlight the best of you can be
-                  time consuming. Let DeepReview help with that.
+                  Say thank you to a colleague that helped you out and let
+                  DeepReview guide you.
                 </p>
                 <p>
-                  <a
-                    href={API_ROUTES.RESUME_TOOL}
-                    className="button is-primary"
-                  >
+                  <a href={API_ROUTES.PRAISE} className="button is-primary">
                     Try it out!
                   </a>
                 </p>
@@ -109,7 +139,6 @@ export const HomePage = () => {
             </div>
           </div>
         </div>
-
         <div className="column is-6">
           <div className="card">
             <div className="card-image">

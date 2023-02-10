@@ -137,3 +137,21 @@ export const ResumeBreadcrumbs = () => {
     </nav>
   );
 };
+
+export const PraiseBreadcrumbs = () => {
+  return (
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li className="is-active">
+          <a>Praise</a>
+        </li>
+      </ul>
+    </nav>
+  );
+};
