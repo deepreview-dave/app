@@ -155,75 +155,35 @@ export const ResultsInlineComponent = (props: {
     <>
       <div className="">
         {items.map((res, i) => (
-          <div className="results-container" key={i}>
-            <div
-              className={
-                items.length === 1
-                  ? "all-content"
-                  : i === 0
-                  ? res.joined
-                    ? "top-content no-bottom"
-                    : "top-content"
-                  : i === items.length - 1
-                  ? "bottom-content"
-                  : res.joined
-                  ? "normal-content no-bottom"
-                  : "normal-content"
-              }
-            >
-              <div className="pt-5 pl-3 pr-3 pb-5">
-                <button
-                  disabled={
-                    !res.editable ||
-                    props.loading ||
-                    reloadedSection !== undefined
-                  }
-                  title="Let DeepReview automatically expand this section."
-                  className={
-                    "button is-white is-small has-text-info is-text " +
-                    (reloadedSection === i ? "is-loading" : "") +
-                    (!res.editable ? "is-not-visible" : "")
-                  }
-                  onClick={() => onExpandClick(res.expanded, i)}
-                >
-                  Expand
-                  {/* <span className="icon is-small">
-                    <i className="fas fa-sync"></i>
-                  </span> */}
+          <div key={i} className="tmp-border">
+            <div className="columns is-mobile m-0 p-0 tmp-border-bottom">
+              <div className="column"></div>
+              <div className="column is-narrow m-0 p-0">
+                <button className="button is-small white">
+                  <span className="icon is-small">
+                    <i className="fas fa-times"></i>
+                  </span>
                 </button>
               </div>
-              <div
-                className={
-                  "big-div pt-5 pl-3 pr-3 " + (!res.joined ? "pb-5" : "")
-                }
-              >
-                <AutoTextArea
-                  disabled={props.loading || reloadedSection === i}
-                  index={i}
-                  value={res.expanded}
-                  className="autotext-area"
-                  placeholder="Please enter more details..."
-                  onChange={(e, i) => updateResults(e, i)}
-                  onBlur={() => removeElement(i)}
-                />
+            </div>
+            <div>
+              <AutoTextArea
+                disabled={props.loading || reloadedSection === i}
+                index={i}
+                value={res.expanded}
+                className="autotext-area"
+                placeholder="Please enter more details..."
+                onChange={(e, i) => updateResults(e, i)}
+                onBlur={() => removeElement(i)}
+              />
+            </div>
+            <div className="columns is-mobile m-0 p-0 tmp-border-top">
+              <div className="column m-0 p-0">
+                <button className="button is-small is-ghost">Expand</button>
               </div>
-              <div className="pt-5 pl-3 pr-3 pb-5">
-                <button
-                  disabled={
-                    !res.editable ||
-                    props.loading ||
-                    reloadedSection !== undefined
-                  }
-                  title="Undo"
-                  className={
-                    "button is-small is-white " +
-                    (!res.editable ? "is-not-visible" : "")
-                  }
-                  onClick={() => resetElement(i)}
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-history"></i>
-                  </span>
+              <div className="column m-0 p-0">
+                <button className="button is-small is-ghost is-pulled-right">
+                  Reset
                 </button>
               </div>
             </div>
@@ -243,6 +203,94 @@ export const ResultsInlineComponent = (props: {
               </button>
             </div>
           </div>
+          // <div className="results-container" key={i}>
+          //   <div
+          //     className={
+          //       items.length === 1
+          //         ? "all-content"
+          //         : i === 0
+          //         ? res.joined
+          //           ? "top-content no-bottom"
+          //           : "top-content"
+          //         : i === items.length - 1
+          //         ? "bottom-content"
+          //         : res.joined
+          //         ? "normal-content no-bottom"
+          //         : "normal-content"
+          //     }
+          //   >
+          //     <div className="pt-5 pl-3 pr-3 pb-5">
+          //       <button
+          //         disabled={
+          //           !res.editable ||
+          //           props.loading ||
+          //           reloadedSection !== undefined
+          //         }
+          //         title="Let DeepReview automatically expand this section."
+          //         className={
+          //           "button is-white is-small has-text-info is-text " +
+          //           (reloadedSection === i ? "is-loading" : "") +
+          //           (!res.editable ? "is-not-visible" : "")
+          //         }
+          //         onClick={() => onExpandClick(res.expanded, i)}
+          //       >
+          //         Expand
+          //         {/* <span className="icon is-small">
+          //           <i className="fas fa-sync"></i>
+          //         </span> */}
+          //       </button>
+          //     </div>
+          //     <div
+          //       className={
+          //         "big-div pt-5 pl-3 pr-3 " + (!res.joined ? "pb-5" : "")
+          //       }
+          //     >
+          // <AutoTextArea
+          //   disabled={props.loading || reloadedSection === i}
+          //   index={i}
+          //   value={res.expanded}
+          //   className="autotext-area"
+          //   placeholder="Please enter more details..."
+          //   onChange={(e, i) => updateResults(e, i)}
+          //   onBlur={() => removeElement(i)}
+          // />
+          //     </div>
+          //     <div className="pt-5 pl-3 pr-3 pb-5">
+          //       <button
+          //         disabled={
+          //           !res.editable ||
+          //           props.loading ||
+          //           reloadedSection !== undefined
+          //         }
+          //         title="Undo"
+          //         className={
+          //           "button is-small is-white " +
+          //           (!res.editable ? "is-not-visible" : "")
+          //         }
+          //         onClick={() => resetElement(i)}
+          //       >
+          //         <span className="icon is-small">
+          //           <i className="fas fa-history"></i>
+          //         </span>
+          //       </button>
+          //     </div>
+          //   </div>
+          // <div className="plus-button-holder">
+          //   <button
+          //     disabled={props.loading || reloadedSection !== undefined}
+          //     title="Add new section"
+          //     className={
+          //       "button is-small is-rounded plus-button " +
+          //       (!res.editable ? "is-not-visible" : "")
+          //     }
+          //     onClick={() => addElement(i)}
+          //   >
+          //     <span className="icon is-small has-text-success">
+          //       <i className="fas fa-plus"></i>
+          //     </span>
+          //   </button>
+          // </div>
+          // </div>
         ))}
       </div>
       {items.length === 0 && !props.loading && (
