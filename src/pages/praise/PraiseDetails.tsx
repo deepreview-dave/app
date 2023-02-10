@@ -1,4 +1,9 @@
-import { AIResult, PraiseInput, Pronouns } from "../../business/common";
+import {
+  AIResult,
+  PraiseInput,
+  PraiseTone,
+  Pronouns,
+} from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
 import {
@@ -23,6 +28,7 @@ export const PraiseDetails = () => {
       pron: state.pron,
       what: state.what,
       details: state.details,
+      tone: state.tone,
     };
 
     const res = await new OpenAIService().generatePraise(input);
@@ -96,6 +102,27 @@ export const PraiseDetails = () => {
                         <option value={Pronouns.NEUTRAL}>They</option>
                         <option value={Pronouns.HE}>He/Him</option>
                         <option value={Pronouns.HER}>She/Her</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <label>Tone</label>
+                  </td>
+                  <td>
+                    <div className="select is-small">
+                      <select
+                        className="is-monospace"
+                        disabled={state.loading}
+                        value={state.tone}
+                        onChange={(e) =>
+                          state.setTone(e.currentTarget.value as PraiseTone)
+                        }
+                      >
+                        <option value={PraiseTone.INFORMAL}>Informal</option>
+                        <option value={PraiseTone.FORMAL}>Formal</option>
                       </select>
                     </div>
                   </td>

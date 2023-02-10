@@ -98,12 +98,18 @@ export interface ResumeSummaryInput {
   summary: string;
 }
 
+export enum PraiseTone {
+  FORMAL = "formal",
+  INFORMAL = "informal",
+}
+
 export interface PraiseInput {
   question: string;
   name: string;
   pron: Pronouns;
   what: string;
   details: string;
+  tone: PraiseTone;
 }
 
 export enum WorkHistory {

@@ -12,6 +12,7 @@ import {
   ReferralLetterInput,
   ResumeSummaryInput,
   PraiseInput,
+  PraiseTone,
 } from "./common";
 
 export class PerformanceReviewPromptBuilder {
@@ -308,6 +309,17 @@ export class PraisePromptBuilder {
       }
       case Pronouns.HER: {
         prompt.push("Use pronoun: she/her");
+        break;
+      }
+    }
+
+    switch (details.tone) {
+      case PraiseTone.FORMAL: {
+        prompt.push("Use a formal tone");
+        break;
+      }
+      case PraiseTone.INFORMAL: {
+        prompt.push("Use an informal tone");
         break;
       }
     }
