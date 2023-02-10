@@ -17,7 +17,7 @@ export class EmailSubscribeService {
     const id = process.env.REACT_APP_MAILCHIMP_ID;
     const formData = { EMAIL: email };
     const query = queryString.stringify(formData);
-    const url = `https://deepreview.us11.list-manage.com/subscribe/post-json?u=${u}&id=${id}&${query}`;
+    const url = `https://deepreview.us10.list-manage.com/subscribe/post-json?u=${u}&id=${id}&${query}`;
     const options = { param: "c" };
 
     return new Promise((resolve) => {
