@@ -53,7 +53,17 @@ export const Footer = () => {
             on Freepik
             {" | "}
             <a href="https://www.freepik.com/free-vector/cheerful-couple-boosting-with-jet-pack-isolated-flat-illustration_11235261.htm#page=6&position=25&from_view=author">
-              Image by pch.vector
+              Praise Image by pch.vector
+            </a>{" "}
+            on Freepik
+            {" | "}
+            <a href="https://www.freepik.com/free-vector/new-employees-requiring-office-work-isolated-flat-vector-illustration-cartoon-hr-manager-hiring-recruiting-personnel-recruitment-vacancy-business-concept_10613259.htm#page=11&position=21&from_view=author">
+              Resignation Image by pch.vector
+            </a>{" "}
+            on Freepik
+            {" | "}
+            <a href="https://www.freepik.com/free-vector/tiny-business-persons-working-jigsaw-puzzle-together-metaphor-cooperation-partnership-collaboration-team-people-flat-vector-illustration-communication-teamwork-concept_28480855.htm#page=11&position=17&from_view=author">
+              Coming Soon Image by pch.vector
             </a>{" "}
             on Freepik
           </small>
