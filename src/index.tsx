@@ -17,6 +17,8 @@ import { ResumePage } from "./pages/resumes/cv/ResumePage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { CookiePolicyPage } from "./pages/CookiePolicyPage";
 import { PraisePage } from "./pages/praise/PraisePage";
+import { ResignationLetterPage } from "./pages/resignation-letter/ResignationLetterPrage";
+import { CompensationPage } from "./pages/compensation/CompensationPage";
 
 export enum API_ROUTES {
   HOME = "/",
@@ -29,6 +31,8 @@ export enum API_ROUTES {
   PRAISE = "/praise",
   PRIVACY_POLICY = "/privacy-policy",
   COOKIE_POLICY = "/cookie-policy",
+  RESIGNATION_LETTER = "/resignation-letter",
+  COMPENSATION = "/compensation",
   MAIL_TO_CONTACT = "mailto:contact@deepreview.eu",
 }
 
@@ -114,6 +118,24 @@ const router = createBrowserRouter([
     element: (
       <>
         <CookiePolicyPage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.RESIGNATION_LETTER,
+    element: (
+      <>
+        <ResignationLetterPage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.COMPENSATION,
+    element: (
+      <>
+        <CompensationPage />
         <ScrollRestoration />
       </>
     ),

@@ -123,6 +123,9 @@ export const HomePage = () => {
                 />
               </figure>
             </div>
+            <div className="card-content is-overlay">
+              <span className="tag is-dark is-pulled-right">NEW</span>
+            </div>
             <div className="card-content">
               <div className="content">
                 <h4>Compensation & Promotions</h4>
@@ -131,9 +134,48 @@ export const HomePage = () => {
                   hardest. Let DeepReview help with that.
                 </p>
                 <p>
-                  <button disabled className="button is-primary">
-                    Coming soon
-                  </button>
+                  <p>
+                    <a
+                      href={API_ROUTES.COMPENSATION}
+                      className="button is-primary"
+                    >
+                      Try it out!
+                    </a>
+                  </p>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="column is-6">
+          <div className="card">
+            <div className="card-image">
+              <figure className="image is-2by1">
+                <img
+                  className="cover-fit"
+                  src="/images/resignation-1.jpg"
+                  alt="Resignation Letter"
+                />
+              </figure>
+            </div>
+            <div className="card-content is-overlay">
+              <span className="tag is-dark is-pulled-right">NEW</span>
+            </div>
+            <div className="card-content">
+              <div className="content">
+                <h4>Resignation Letter</h4>
+                <p>
+                  Saying goodbye is always hard. Let DeepReview help with that.
+                </p>
+                <p>
+                  <p>
+                    <a
+                      href={API_ROUTES.RESIGNATION_LETTER}
+                      className="button is-primary"
+                    >
+                      Try it out!
+                    </a>
+                  </p>
                 </p>
               </div>
             </div>

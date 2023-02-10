@@ -72,6 +72,10 @@ footer > * a:hover {
   object-fit: cover;
 }
 
+.contain-fit {
+  object-fit: contain;
+}
+
 a.underlined-style {
   text-decoration: underline !important;
   color: inherit !important;
