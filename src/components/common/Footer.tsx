@@ -52,8 +52,8 @@ export const Footer = () => {
             </a>{" "}
             on Freepik
             {" | "}
-            <a href="https://www.freepik.com/free-vector/thank-you-concept-illustration_34680607.htm#query=thanks&position=15&from_view=search&track=sph">
-              Thank you Image by storyset
+            <a href="https://www.freepik.com/free-vector/cheerful-couple-boosting-with-jet-pack-isolated-flat-illustration_11235261.htm#page=6&position=25&from_view=author">
+              Image by pch.vector
             </a>{" "}
             on Freepik
           </small>
