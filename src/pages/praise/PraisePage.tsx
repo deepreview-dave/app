@@ -30,7 +30,10 @@ export const PraisePage = () => {
               DeepReview guide you.
             </p>
           </div>
-          <ResultControlPanel fileName="praise.pdf" />
+          <ResultControlPanel
+            fileName="praise.pdf"
+            tutorial="https://medium.com/@contact_29453/how-to-give-praise-with-deepreview-e6c6a86aebe9"
+          />
           {state.isEdit && <PraiseDetails />}
           {(state.isPreview || state.isDownloading) && <PraiseResult />}
           <ResultsError />
