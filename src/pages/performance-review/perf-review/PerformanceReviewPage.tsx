@@ -31,7 +31,10 @@ export const PerformanceReviewPage = () => {
               Performance Review.
             </p>
           </div>
-          <ResultControlPanel fileName="perf-review.pdf" />
+          <ResultControlPanel
+            fileName="perf-review.pdf"
+            tutorial="https://medium.com/@contact_29453/how-to-create-a-performance-review-with-deepreview-57be37ebef68"
+          />
           {state.isEdit && <PerformanceReviewDetails />}
           {(state.isPreview || state.isDownloading) && (
             <PerformanceReviewResult />
