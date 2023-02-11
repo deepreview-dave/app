@@ -14,13 +14,13 @@ export const GenerateResultsButton = (props: {
   const setError = useResultState((state) => state.setError);
 
   const onButtonClick = async () => {
+    Analytics.generated();
     try {
       setLoading(true);
       props.onLoad(true);
       await props.onClick();
       setLoading(false);
       props.onLoad(false);
-      Analytics.generated();
     } catch (e: any) {
       setError(e.message);
       props.onLoad(false);
@@ -92,11 +92,11 @@ export const ResultsInlineComponent = (props: {
   }, [props.startingState]);
 
   const onExpandClick = async (value: string, index: number) => {
+    Analytics.expanded();
     setReloading(index);
     try {
       const result = await new OpenAIService().expandText(value);
       updateResults(result, index);
-      Analytics.expanded();
       setReloading(undefined);
     } catch (e: any) {
       setError(e.message);
