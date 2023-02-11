@@ -1,5 +1,5 @@
 import * as bulmaToast from "bulma-toast";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Analytics } from "../../business/analytics";
 import { AIResult } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
@@ -129,6 +129,12 @@ export const ResultsInlineComponent = (props: {
   };
 
   const removeElement = (index: number) => {
+    const results = items.filter((e, i) => i !== index);
+    props.onUpdate?.(results);
+    setItems(results);
+  };
+
+  const removeElementIfEmpty = (index: number) => {
     const results = items.filter((e, i) =>
       i === index ? !(e.expanded === "") : true
     );
@@ -155,48 +161,26 @@ export const ResultsInlineComponent = (props: {
     <>
       <div className="">
         {items.map((res, i) => (
-          <div className="results-container" key={i}>
-            <div
-              className={
-                items.length === 1
-                  ? "all-content"
-                  : i === 0
-                  ? res.joined
-                    ? "top-content no-bottom"
-                    : "top-content"
-                  : i === items.length - 1
-                  ? "bottom-content"
-                  : res.joined
-                  ? "normal-content no-bottom"
-                  : "normal-content"
-              }
-            >
-              <div className="pt-5 pl-3 pr-3 pb-5">
-                <button
-                  disabled={
-                    !res.editable ||
-                    props.loading ||
-                    reloadedSection !== undefined
-                  }
-                  title="Let DeepReview automatically expand this section."
-                  className={
-                    "button is-white is-small has-text-info is-text " +
-                    (reloadedSection === i ? "is-loading" : "") +
-                    (!res.editable ? "is-not-visible" : "")
-                  }
-                  onClick={() => onExpandClick(res.expanded, i)}
-                >
-                  Expand
-                  {/* <span className="icon is-small">
-                    <i className="fas fa-sync"></i>
-                  </span> */}
-                </button>
+          <Fragment key={i}>
+            <div key={i} className="result-content">
+              <div className="columns is-mobile m-0 p-0 has-background-white-bis border-5px">
+                <div className="column"></div>
+                <div className="column is-narrow m-0 p-0">
+                  {res.editable && (
+                    <button
+                      title="Remove this section"
+                      onClick={() => removeElement(i)}
+                      className="button is-small is-ghost"
+                    >
+                      <span className="icon is-small  has-text-danger">
+                        <i className="fas fa-times"></i>
+                      </span>
+                    </button>
+                  )}
+                </div>
               </div>
-              <div
-                className={
-                  "big-div pt-5 pl-3 pr-3 " + (!res.joined ? "pb-5" : "")
-                }
-              >
+              <div className="horizontal-line"></div>
+              <div className="p-2">
                 <AutoTextArea
                   disabled={props.loading || reloadedSection === i}
                   index={i}
@@ -204,30 +188,47 @@ export const ResultsInlineComponent = (props: {
                   className="autotext-area"
                   placeholder="Please enter more details..."
                   onChange={(e, i) => updateResults(e, i)}
-                  onBlur={() => removeElement(i)}
+                  onBlur={() => removeElementIfEmpty(i)}
                 />
               </div>
-              <div className="pt-5 pl-3 pr-3 pb-5">
-                <button
-                  disabled={
-                    !res.editable ||
-                    props.loading ||
-                    reloadedSection !== undefined
-                  }
-                  title="Undo"
-                  className={
-                    "button is-small is-white " +
-                    (!res.editable ? "is-not-visible" : "")
-                  }
-                  onClick={() => resetElement(i)}
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-history"></i>
-                  </span>
-                </button>
-              </div>
+              {res.editable && <div className="horizontal-line"></div>}
+              {res.editable && (
+                <div className="columns is-mobile m-0 p-0">
+                  <div className="column m-0 p-0">
+                    <button
+                      title="Let DeepReview auto-expand this section"
+                      disabled={
+                        !res.editable ||
+                        props.loading ||
+                        reloadedSection !== undefined
+                      }
+                      onClick={() => onExpandClick(res.expanded, i)}
+                      className={
+                        "button is-small is-ghost has-text-success " +
+                        (reloadedSection === i ? "is-loading" : "")
+                      }
+                    >
+                      Expand
+                    </button>
+                  </div>
+                  <div className="column m-0 p-0">
+                    <button
+                      title="Unde all changes"
+                      disabled={
+                        !res.editable ||
+                        props.loading ||
+                        reloadedSection !== undefined
+                      }
+                      onClick={() => resetElement(i)}
+                      className="button is-small is-ghost is-pulled-right"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="plus-button-holder">
+            <div className="plus-button-holder mb-2">
               <button
                 disabled={props.loading || reloadedSection !== undefined}
                 title="Add new section"
@@ -242,7 +243,7 @@ export const ResultsInlineComponent = (props: {
                 </span>
               </button>
             </div>
-          </div>
+          </Fragment>
         ))}
       </div>
       {items.length === 0 && !props.loading && (
