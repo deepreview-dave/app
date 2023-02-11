@@ -58,7 +58,7 @@ export class OpenAIService {
   private api: OpenAIApi;
 
   constructor() {
-    this.apiKey = process.env.REACT_APP_OPEN_AI_KEY;
+    this.apiKey = process.env.REACT_APP_OPEN_AI_KEY_2;
 
     const configuration = new Configuration({
       apiKey: this.apiKey,

@@ -4,6 +4,7 @@ import {
 } from "../../state/control-panel.state";
 import { savePDF } from "@progress/kendo-react-pdf";
 import { delay } from "../../utils/delay";
+import { Analytics } from "../../business/analytics";
 
 export const ResultControlPanel = (props: {
   fileName: string;
@@ -20,6 +21,7 @@ export const ResultControlPanel = (props: {
   // from here:
   // https://wkwok.medium.com/lets-make-a-resume-in-react-2c9c5540f51a
   const onDownloadClick = async () => {
+    Analytics.download();
     state.setDownloading(true);
     await delay(150);
 
