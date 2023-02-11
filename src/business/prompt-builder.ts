@@ -13,6 +13,7 @@ import {
   ResumeSummaryInput,
   PraiseInput,
   PraiseTone,
+  Relationship,
 } from "./common";
 
 export class PerformanceReviewPromptBuilder {
@@ -24,7 +25,7 @@ export class PerformanceReviewPromptBuilder {
       prompt.push(details.details);
     }
     prompt.push(`Please also add the following personal details`);
-    if (details.name) {
+    if (details.name && details.relationship !== Relationship.MYSELF) {
       prompt.push(`Person Name: ${details.name}`);
       switch (details.pron) {
         case Pronouns.NEUTRAL: {
