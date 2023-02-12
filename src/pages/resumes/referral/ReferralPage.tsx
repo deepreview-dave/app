@@ -37,7 +37,10 @@ export const ReferralPage = () => {
               </small>
             </p>
           </div>
-          <ResultControlPanel fileName="referral.pdf" />
+          <ResultControlPanel
+            fileName="referral.pdf"
+            tutorial="https://medium.com/@contact_29453/how-to-create-a-meaningful-referral-letter-with-deepreview-e0b0c17f0e16"
+          />
           {state.isEdit && <ReferralDetails />}
           {(state.isPreview || state.isDownloading) && <ReferralResult />}
           <ResultsError />
