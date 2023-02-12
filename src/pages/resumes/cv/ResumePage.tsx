@@ -46,7 +46,10 @@ export const ResumePage = () => {
               a section of your resume.
             </p>
           </div>
-          <ResultControlPanel fileName="resume.pdf" />
+          <ResultControlPanel
+            fileName="resume.pdf"
+            tutorial="https://medium.com/@contact_29453/how-to-write-a-resume-with-deepreview-9f44e3b1f3f3"
+          />
           {state.isEdit && <Content />}
           {(state.isPreview || state.isDownloading) && <ResumeResult />}
         </div>
