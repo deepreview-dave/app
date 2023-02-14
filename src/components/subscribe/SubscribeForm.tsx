@@ -2,6 +2,7 @@ import { useState } from "react";
 import validator from "validator";
 import { useSubscribeState } from "../../state/subscribe.state";
 import { EmailSubscribeService } from "../../business/email-subscribe.service";
+import { Analytics } from "../../business/analytics";
 
 export const SubscribeFrom = () => {
   const [emailInput, updateEmail] = useState("");
@@ -33,6 +34,7 @@ export const SubscribeFrom = () => {
     if (subscribeResult) {
       setSubscribed();
       updateEmail("");
+      Analytics.subscribed();
     } else {
       setSubscribeError(true);
     }

@@ -8,6 +8,7 @@ enum AnalyticsEventName {
   TOOL = "tool",
   DOWNLOAD = "download",
   GENERATE_ERROR = "generate_error",
+  SUBSCRIBED = "subscribed",
 }
 
 export enum AnalyticsToolName {
@@ -68,5 +69,9 @@ export class Analytics {
 
   static generateError() {
     mixpanel.track(AnalyticsEventName.GENERATE_ERROR);
+  }
+
+  static subscribed() {
+    mixpanel.track(AnalyticsEventName.SUBSCRIBED);
   }
 }
