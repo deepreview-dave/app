@@ -8,6 +8,7 @@ export const AutoTextArea = (props: {
   placeholder: string;
   onChange: (value: string, index: number) => void;
   onBlur?: () => void;
+  onCopy?: () => void;
   className?: string;
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -31,6 +32,7 @@ export const AutoTextArea = (props: {
       disabled={props.disabled}
       onChange={(e) => handleChange(e)}
       onBlur={props.onBlur}
+      onCopy={props.onCopy}
       ref={textAreaRef}
       rows={1}
       value={props.value}

@@ -134,14 +134,12 @@ export const HomePage = () => {
                   hardest. Let DeepReview help with that.
                 </p>
                 <p>
-                  <p>
-                    <a
-                      href={API_ROUTES.COMPENSATION}
-                      className="button is-primary"
-                    >
-                      Try it out!
-                    </a>
-                  </p>
+                  <a
+                    href={API_ROUTES.COMPENSATION}
+                    className="button is-primary"
+                  >
+                    Try it out!
+                  </a>
                 </p>
               </div>
             </div>
@@ -168,14 +166,12 @@ export const HomePage = () => {
                   Saying goodbye is always hard. Let DeepReview help with that.
                 </p>
                 <p>
-                  <p>
-                    <a
-                      href={API_ROUTES.RESIGNATION_LETTER}
-                      className="button is-primary"
-                    >
-                      Try it out!
-                    </a>
-                  </p>
+                  <a
+                    href={API_ROUTES.RESIGNATION_LETTER}
+                    className="button is-primary"
+                  >
+                    Try it out!
+                  </a>
                 </p>
               </div>
             </div>

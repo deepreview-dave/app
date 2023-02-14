@@ -22,6 +22,7 @@ export const GenerateResultsButton = (props: {
       setLoading(false);
       props.onLoad(false);
     } catch (e: any) {
+      Analytics.generateError();
       setError(e.message);
       props.onLoad(false);
       setLoading(false);
@@ -99,6 +100,7 @@ export const ResultsInlineComponent = (props: {
       updateResults(result, index);
       setReloading(undefined);
     } catch (e: any) {
+      Analytics.generateError();
       setError(e.message);
       setReloading(undefined);
     }
@@ -157,6 +159,8 @@ export const ResultsInlineComponent = (props: {
     setItems(results);
   };
 
+  const onCopy = () => Analytics.copied();
+
   return (
     <>
       <div className="">
@@ -189,6 +193,7 @@ export const ResultsInlineComponent = (props: {
                   placeholder="Please enter more details..."
                   onChange={(e, i) => updateResults(e, i)}
                   onBlur={() => removeElementIfEmpty(i)}
+                  onCopy={() => onCopy()}
                 />
               </div>
               {res.editable && <div className="horizontal-line"></div>}

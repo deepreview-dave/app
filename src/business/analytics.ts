@@ -7,6 +7,7 @@ enum AnalyticsEventName {
   COPIED = "copied",
   TOOL = "tool",
   DOWNLOAD = "download",
+  GENERATE_ERROR = "generate_error",
 }
 
 export enum AnalyticsToolName {
@@ -63,5 +64,9 @@ export class Analytics {
 
   static download() {
     mixpanel.track(AnalyticsEventName.DOWNLOAD);
+  }
+
+  static generateError() {
+    mixpanel.track(AnalyticsEventName.GENERATE_ERROR);
   }
 }
