@@ -1,7 +1,8 @@
-import { API_ROUTES } from "..";
-import { Footer } from "../components/common/Footer";
-import { NavbarBig } from "../components/common/NavbarBig";
-import { SubscribeFrom } from "../components/subscribe/SubscribeForm";
+import { API_ROUTES } from "../..";
+import { Footer } from "../../components/common/Footer";
+import { NavbarBig } from "../../components/common/NavbarBig";
+import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
+import { ResumeAnalyserCard } from "./ResumeAnalyserCard";
 
 export const HomePage = () => {
   const PageInfo = () => {
@@ -215,6 +216,8 @@ export const HomePage = () => {
         <div className="container narrow-container">
           <hr />
           <PageInfo />
+          <hr />
+          <ResumeAnalyserCard />
           <hr />
           <AvailableOptions />
         </div>

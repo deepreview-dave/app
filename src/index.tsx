@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router-dom";
 import { Analytics } from "./business/analytics";
-import { HomePage } from "./pages/HomePage";
+import { HomePage } from "./pages/home/HomePage";
 import { SelectPersonaPage } from "./pages/performance-review/SelectPersonaPage";
 import { PerformanceReviewPage } from "./pages/performance-review/perf-review/PerformanceReviewPage";
 import { ResumeSelectionPage } from "./pages/resumes/ResumeSelectionPage";
@@ -19,6 +19,7 @@ import { CookiePolicyPage } from "./pages/CookiePolicyPage";
 import { PraisePage } from "./pages/praise/PraisePage";
 import { ResignationLetterPage } from "./pages/resignation-letter/ResignationLetterPrage";
 import { CompensationPage } from "./pages/compensation/CompensationPage";
+import { ResumeAnalyserPage } from "./pages/resume-analyser/ResumeAnalyserPage";
 
 export enum API_ROUTES {
   HOME = "/",
@@ -33,6 +34,7 @@ export enum API_ROUTES {
   COOKIE_POLICY = "/cookie-policy",
   RESIGNATION_LETTER = "/resignation-letter",
   COMPENSATION = "/compensation",
+  AUTO_REVIEW_RESUME = "/auto-review/resume",
   MAIL_TO_CONTACT = "mailto:contact@deepreview.eu",
 }
 
@@ -136,6 +138,15 @@ const router = createBrowserRouter([
     element: (
       <>
         <CompensationPage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.AUTO_REVIEW_RESUME,
+    element: (
+      <>
+        <ResumeAnalyserPage />
         <ScrollRestoration />
       </>
     ),

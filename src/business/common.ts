@@ -1,3 +1,8 @@
+import {
+  ResumeEducationHistory,
+  ResumeWorkHistory,
+} from "../state/resume.state";
+
 export enum PerformanceScore {
   BELOW_EXPECTATIONS = "below-expectations",
   MEETS_EXPECTATIONS = "meets-expectations",
@@ -130,4 +135,33 @@ export type AIResult = {
   expanded: string;
   editable: boolean;
   joined: boolean;
+};
+
+export type ResumeAnalyserOutput = {
+  details: {
+    name: string;
+    address: string;
+    email: string;
+    phone: string;
+    linkedin: string;
+    website: string;
+  };
+  summary: {
+    skills: string;
+    summary: string;
+  };
+  workplaces: {
+    role: string;
+    company: string;
+    start: string;
+    end: string;
+    details: string;
+  }[];
+  education: {
+    school: string;
+    degree: string;
+    start: string;
+    end: string;
+    details: string;
+  }[];
 };

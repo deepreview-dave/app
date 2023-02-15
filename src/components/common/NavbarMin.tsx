@@ -33,15 +33,19 @@ export const NavbarMin = () => {
               <a className="navbar-link">Tools</a>
 
               <div className="navbar-dropdown">
+                <a className="navbar-item" href={API_ROUTES.AUTO_REVIEW_RESUME}>
+                  Resume Analyser
+                </a>
+                <a className="navbar-item" href={API_ROUTES.RESUME_TOOL}>
+                  Resumes & Cover Letters
+                </a>
                 <a
                   className="navbar-item"
                   href={API_ROUTES.PERF_REVIEW_PERSONA}
                 >
                   Performance Reviews
                 </a>
-                <a className="navbar-item" href={API_ROUTES.RESUME_TOOL}>
-                  Resumes & Cover Letters
-                </a>
+
                 <a className="navbar-item" href={API_ROUTES.PRAISE}>
                   Give Praise
                 </a>
