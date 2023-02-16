@@ -54,16 +54,21 @@ export const ResumeAnalyserPage = () => {
   };
 
   const startAnalysis = async () => {
-    console.log("start analysis");
     state.setLoading(true);
     const service = new ResumeAnalyserService();
-    const output = await service.analyseResume();
+
+    try {
+      const output = await service.analyseResume(state.file!);
+      setDetailsData(output);
+      setSummaryData(output);
+      setWorkData(output);
+      setEducationData(output);
+      navigate(API_ROUTES.RESUME_CV);
+    } catch (e: any) {
+      state.setError(e.message);
+    }
+
     state.setLoading(false);
-    setDetailsData(output);
-    setSummaryData(output);
-    setWorkData(output);
-    setEducationData(output);
-    navigate(API_ROUTES.RESUME_CV);
   };
 
   return (
@@ -96,6 +101,14 @@ export const ResumeAnalyserPage = () => {
                 15%
               </progress>
             </div>
+          )}
+          {!!state.error && (
+            <article className="message is-danger mt-2">
+              <div className="message-header">
+                <p>Error</p>
+              </div>
+              <div className="message-body">{state.error}</div>
+            </article>
           )}
         </div>
       </div>

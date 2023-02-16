@@ -1,43 +1,65 @@
-import { delay } from "../utils/delay";
-import { ResumeAnalyserOutput, WorkHistory } from "./common";
+import { ResumeAnalyserOutput } from "./common";
+import { AffindaCredential, AffindaAPI, Resume } from "@affinda/affinda";
 
-export class ResumeAnalyserService {
-  async analyseResume(): Promise<ResumeAnalyserOutput> {
-    await delay(2500);
-    return mockResult;
-  }
+export enum ResumeAnalyseErrorMessage {
+  PDFAnalyseError = "Error trying to analyse the Resume. Please try again.",
 }
 
-const mockResult: ResumeAnalyserOutput = {
-  details: {
-    name: "John Doe",
-    address: "New York",
-    email: "john.doe@email.com",
-    phone: "",
-    linkedin: "",
-    website: "https://john.doe@email.com",
-  },
-  summary: {
-    skills: "TypeScript",
-    summary:
-      "I am an experienced tech lead with 10+ years of experience in the industry. I have a proven track record of mentoring junior engineers and helping them develop their skills. My technical expertise includes NodeJS, Typescript, and other related technologies. I am confident in my ability to lead and mentor teams, and I am looking for a new opportunity to continue to grow my skills.",
-  },
-  workplaces: [
-    {
-      role: "Developer",
-      company: "Epic Games",
-      start: "2020",
-      end: "Current",
+export class ResumeAnalyserService {
+  async analyseResume(file: File): Promise<ResumeAnalyserOutput> {
+    const credential = new AffindaCredential(
+      process.env.REACT_APP_AFFINDA_KEY!
+    );
+    const client = new AffindaAPI(credential);
+
+    try {
+      const parsed = await client.createResume({ file });
+      const details = this.praseDetails(parsed);
+      const summary = this.parseSummary(parsed);
+      const workplaces = this.parseWorkExp(parsed);
+      const education = this.parseEducation(parsed);
+      return { details, summary, workplaces, education };
+    } catch (e) {
+      throw new Error(ResumeAnalyseErrorMessage.PDFAnalyseError);
+    }
+  }
+
+  private praseDetails = (resume: Resume) => {
+    const name = resume.data?.name?.raw ?? "";
+    const address = resume.data?.location?.formatted ?? "";
+    const email = resume.data?.emails?.[0] ?? "";
+    const phone = resume.data?.phoneNumbers?.[0] ?? "";
+    const website = resume.data?.websites?.[0] ?? "";
+    const linkedin = resume.data?.linkedin ?? "";
+    return { name, address, email, phone, linkedin, website };
+  };
+
+  private parseSummary = (resume: Resume) => {
+    const summary = resume.data?.summary ?? "";
+    const skill = resume.data?.skills ?? [];
+    const skills = skill.map((e) => e.name).join(", ") ?? "";
+    return { skills, summary };
+  };
+
+  private parseWorkExp = (resume: Resume) => {
+    const experiences = resume.data?.workExperience ?? [];
+    return experiences.map((exp) => ({
+      role: exp.jobTitle ?? "",
+      company: exp.organization ?? "",
+      details: exp.jobDescription ?? "",
+      start: exp.dates?.startDate?.toDateString() ?? "",
+      end: exp.dates?.endDate?.toDateString() ?? "",
+    }));
+  };
+
+  private parseEducation = (resume: Resume) => {
+    const education = resume.data?.education ?? [];
+    return education.map((edu) => ({
+      school: edu.organization ?? "",
+      degree: edu.accreditation?.education ?? "",
+      start: edu.dates?.startDate?.toDateString() ?? "",
+      end: edu.dates?.completionDate?.toDateString() ?? "",
       details: "",
-    },
-  ],
-  education: [
-    {
-      school: "Aachen University",
-      degree: "CS",
-      start: "2006",
-      end: "2010",
-      details: "",
-    },
-  ],
-};
+    }));
+  };
+}
