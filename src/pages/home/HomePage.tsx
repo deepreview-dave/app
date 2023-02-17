@@ -218,7 +218,7 @@ export const HomePage = () => {
           <PageInfo />
           <hr />
           <ResumeAnalyserCard />
-          <hr />
+          <div className="mt-6"></div>
           <AvailableOptions />
         </div>
       </div>

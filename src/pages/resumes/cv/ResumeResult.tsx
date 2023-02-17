@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   isValidEducationHistory,
   isValidWorkHistory,
@@ -218,7 +219,7 @@ export const ResumeResult = () => {
       return (
         <div>
           {validItems.map((e) => (
-            <>
+            <Fragment key={e.company + "-" + e.role}>
               <p>
                 <span>
                   <b>{e.role}</b>
@@ -250,7 +251,7 @@ export const ResumeResult = () => {
                   </span>
                 </p>
               )}
-            </>
+            </Fragment>
           ))}
         </div>
       );
