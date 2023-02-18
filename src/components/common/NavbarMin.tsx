@@ -33,7 +33,10 @@ export const NavbarMin = () => {
               <a className="navbar-link">Tools</a>
 
               <div className="navbar-dropdown">
-                <a className="navbar-item" href={API_ROUTES.AUTO_REVIEW_RESUME}>
+                <a
+                  className="navbar-item"
+                  href={API_ROUTES.AUTO_REVIEW_RESUME_ANALYSE}
+                >
                   Resume Analyser
                 </a>
                 <a className="navbar-item" href={API_ROUTES.RESUME_TOOL}>

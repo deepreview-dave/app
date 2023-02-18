@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../..";
 import { useResumeAnalyserState } from "../../state/resume-analyser.state";
-import { ResumeUploader } from "../resume-analyser/ResumeUploader";
+import { ResumeUploader } from "../resume-analyser/analyse/ResumeUploader";
 
 export const ResumeAnalyserCard = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const ResumeAnalyserCard = () => {
     state.clearFile();
   }, []);
 
-  const onAnalyseClick = () => navigate(API_ROUTES.AUTO_REVIEW_RESUME);
+  const onAnalyseClick = () => navigate(API_ROUTES.AUTO_REVIEW_RESUME_ANALYSE);
 
   return (
     <div className="card">

@@ -1,5 +1,5 @@
-import { Analytics } from "../../business/analytics";
-import { useResumeAnalyserState } from "../../state/resume-analyser.state";
+import { Analytics } from "../../../business/analytics";
+import { useResumeAnalyserState } from "../../../state/resume-analyser.state";
 
 export const ResumeUploader = () => {
   const state = useResumeAnalyserState((state) => state);

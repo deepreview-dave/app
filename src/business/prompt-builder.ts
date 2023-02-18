@@ -266,6 +266,15 @@ export class ResumeSummaryPromptBuilder {
   }
 }
 
+export class SummariseToBulletPointsPromptBuilder {
+  build(question: string, text: string): string {
+    const prompt: string[] = [];
+    prompt.push(question);
+    prompt.push(text);
+    return prompt.join("\n");
+  }
+}
+
 export class ResumeWorkHistoryPromptBuilder {
   build(question: string, history: ResumeWorkHistory): string {
     const prompt: string[] = [];

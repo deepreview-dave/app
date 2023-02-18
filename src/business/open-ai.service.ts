@@ -10,6 +10,7 @@ import {
   ResumeWorkHistoryPromptBuilder,
   ResumeEducationHistoryPromptBuilder,
   PraisePromptBuilder,
+  SummariseToBulletPointsPromptBuilder,
 } from "./prompt-builder";
 import {
   AIResult,
@@ -243,6 +244,32 @@ export class OpenAIService {
       };
     }
     return [summary];
+  }
+
+  async generateBulletPointSummary(
+    question: string,
+    text: string
+  ): Promise<AIResult[]> {
+    const prompt = new SummariseToBulletPointsPromptBuilder().build(
+      question,
+      text
+    );
+    const max_tokens = prompt.length + 750;
+    const response = await this.getResponse({
+      model: this.MODEL,
+      temperature: 0.25,
+      max_tokens,
+      prompt,
+    });
+    const value = response.trim();
+    return [
+      {
+        original: value,
+        expanded: value,
+        editable: true,
+        joined: false,
+      },
+    ];
   }
 
   async generateResumeWorkHistoryItem(

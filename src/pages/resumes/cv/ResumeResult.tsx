@@ -181,8 +181,8 @@ export const ResumeResult = () => {
           <>
             {summary.result
               .map((e) => e.expanded)
-              .map((e) => (
-                <p>{e}</p>
+              .map((e, i) => (
+                <p key={i}>{e}</p>
               ))}
           </>
         );
@@ -310,7 +310,7 @@ export const ResumeResult = () => {
       return (
         <div>
           {validItems.map((e) => (
-            <>
+            <Fragment key={e.school + "-" + e.degree}>
               <p>
                 <span>
                   <b>{e.school}</b>
@@ -332,7 +332,7 @@ export const ResumeResult = () => {
                 .map((i) => (
                   <p>{i}</p>
                 ))}
-            </>
+            </Fragment>
           ))}
         </div>
       );

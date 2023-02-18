@@ -19,7 +19,8 @@ import { CookiePolicyPage } from "./pages/CookiePolicyPage";
 import { PraisePage } from "./pages/praise/PraisePage";
 import { ResignationLetterPage } from "./pages/resignation-letter/ResignationLetterPrage";
 import { CompensationPage } from "./pages/compensation/CompensationPage";
-import { ResumeAnalyserPage } from "./pages/resume-analyser/ResumeAnalyserPage";
+import { ResumeAnalyserPage } from "./pages/resume-analyser/analyse/ResumeAnalyserPage";
+import { ResumePrepPage } from "./pages/resume-analyser/prep/ResumePrepPage";
 
 export enum API_ROUTES {
   HOME = "/",
@@ -34,7 +35,8 @@ export enum API_ROUTES {
   COOKIE_POLICY = "/cookie-policy",
   RESIGNATION_LETTER = "/resignation-letter",
   COMPENSATION = "/compensation",
-  AUTO_REVIEW_RESUME = "/auto-review/resume",
+  AUTO_REVIEW_RESUME_ANALYSE = "/auto-review/resume/analyse",
+  AUTO_REVIEW_RESUME_PREP = "/auto-review/resume/prep",
   MAIL_TO_CONTACT = "mailto:contact@deepreview.eu",
 }
 
@@ -143,10 +145,19 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: API_ROUTES.AUTO_REVIEW_RESUME,
+    path: API_ROUTES.AUTO_REVIEW_RESUME_ANALYSE,
     element: (
       <>
         <ResumeAnalyserPage />
+        <ScrollRestoration />
+      </>
+    ),
+  },
+  {
+    path: API_ROUTES.AUTO_REVIEW_RESUME_PREP,
+    element: (
+      <>
+        <ResumePrepPage />
         <ScrollRestoration />
       </>
     ),

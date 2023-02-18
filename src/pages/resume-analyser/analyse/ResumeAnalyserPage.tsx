@@ -1,19 +1,22 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../..";
-import { Analytics, AnalyticsToolName } from "../../business/analytics";
-import { ResumeAnalyserService } from "../../business/resume-analyser.service";
-import { ResumeAnalyserBreadcrumbs } from "../../components/common/Breadcrumbs";
-import { Footer } from "../../components/common/Footer";
-import { NavbarMin } from "../../components/common/NavbarMin";
-import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
-import { useResumeAnalyserState } from "../../state/resume-analyser.state";
+import { API_ROUTES } from "../../..";
+import { Analytics, AnalyticsToolName } from "../../../business/analytics";
+import { ResumeAnalyserService } from "../../../business/resume-analyser.service";
+import { ResumeAnalyserBreadcrumbs } from "../../../components/common/Breadcrumbs";
+import { Footer } from "../../../components/common/Footer";
+import { NavbarMin } from "../../../components/common/NavbarMin";
+import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
+import {
+  useResumeAnalyserState,
+  useResumePrepareState,
+} from "../../../state/resume-analyser.state";
 import {
   useResumeDetailsState,
   useResumeEducationHistoryState,
   useResumeSummaryState,
   useResumeWorkHistoryState,
-} from "../../state/resume.state";
+} from "../../../state/resume.state";
 import { ResumeUploader } from "./ResumeUploader";
 
 export const ResumeAnalyserPage = () => {
@@ -25,6 +28,7 @@ export const ResumeAnalyserPage = () => {
   const setEducationData = useResumeEducationHistoryState(
     (state) => state.setData
   );
+  const prepState = useResumePrepareState((state) => state);
 
   useEffect(() => {
     Analytics.tool(AnalyticsToolName.RESUME_ANALYSER);
@@ -63,7 +67,8 @@ export const ResumeAnalyserPage = () => {
       setSummaryData(output);
       setWorkData(output);
       setEducationData(output);
-      navigate(API_ROUTES.RESUME_CV);
+      prepState.setIsPrepared();
+      navigate(API_ROUTES.AUTO_REVIEW_RESUME_PREP);
     } catch (e: any) {
       state.setError(e.message);
     }

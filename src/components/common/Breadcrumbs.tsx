@@ -173,3 +173,24 @@ export const ResumeAnalyserBreadcrumbs = () => {
     </nav>
   );
 };
+
+export const ResumePrepBreadcrumbs = () => {
+  return (
+    <nav
+      className="m-4 breadcrumb has-succeeds-separator display-desktop"
+      aria-label="breadcrumbs"
+    >
+      <ul>
+        <li>
+          <a href={API_ROUTES.HOME}>DeepReview</a>
+        </li>
+        <li>
+          <a href={API_ROUTES.AUTO_REVIEW_RESUME_ANALYSE}>Resume Analyser</a>
+        </li>
+        <li className="is-active">
+          <a>Resume Prepare</a>
+        </li>
+      </ul>
+    </nav>
+  );
+};

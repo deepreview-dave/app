@@ -20,3 +20,24 @@ export const useResumeAnalyserState = create<ResumeAnalyserState>()((set) => ({
   setError: (error: string) =>
     set((state) => ({ ...state, error, isLoading: false })),
 }));
+
+export enum ResumePrepareStep {
+  Details,
+  Skills,
+  Summary,
+  Finish,
+}
+
+export type ResumePrepareState = {
+  isPrepared: boolean;
+  step: ResumePrepareStep;
+  setIsPrepared: () => void;
+  setStep: (step: ResumePrepareStep) => void;
+};
+
+export const useResumePrepareState = create<ResumePrepareState>()((set) => ({
+  isPrepared: false,
+  step: ResumePrepareStep.Details,
+  setIsPrepared: () => set((state) => ({ ...state, isPrepared: true })),
+  setStep: (step: ResumePrepareStep) => set((state) => ({ ...state, step })),
+}));
