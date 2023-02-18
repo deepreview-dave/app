@@ -25,6 +25,7 @@ export enum ResumePrepareStep {
   Details,
   Skills,
   Summary,
+  Work,
   Finish,
 }
 

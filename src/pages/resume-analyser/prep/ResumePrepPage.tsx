@@ -9,6 +9,7 @@ import {
 import { ResumePrepDetails } from "./subsections/ResumePrepDetails";
 import { ResumePrepSkills } from "./subsections/ResumePrepSkills";
 import { ResumePrepSummary } from "./subsections/ResumePrepSummary";
+import { ResumePrepWork } from "./subsections/ResumePrepWork";
 
 export const ResumePrepPage = () => {
   const step = useResumePrepareState((state) => state.step);
@@ -21,6 +22,8 @@ export const ResumePrepPage = () => {
         return <ResumePrepSkills />;
       case ResumePrepareStep.Summary:
         return <ResumePrepSummary />;
+      case ResumePrepareStep.Work:
+        return <ResumePrepWork />;
       default:
         return null;
     }

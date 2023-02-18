@@ -147,6 +147,33 @@ const mockResponse = {
           },
         },
       },
+      {
+        id: 9999999,
+        jobTitle: "Mobile Developer",
+        organization: "Thyseen Corp",
+        location: null,
+        jobDescription:
+          "As a Mobile Dev at Thyseen Corp, I was in charge of their main mobile app",
+        dates: {
+          startDate: new Date("2008-01-01T00:00:00.000Z"),
+          endDate: new Date("2010-01-01T00:00:00.000Z"),
+          monthsInPosition: 158,
+          isCurrent: true,
+        },
+        occupation: {
+          jobTitle: "Developer",
+          jobTitleNormalized: "Developer",
+          managementLevel: "Low",
+          classification: {
+            title: "Programmers and software development professionals ",
+            minorGroup: "Information Technology Professionals",
+            subMajorGroup:
+              "SCIENCE, RESEARCH, ENGINEERING AND TECHNOLOGY PROFESSIONALS",
+            majorGroup: "PROFESSIONAL OCCUPATIONS",
+            socCode: 2134,
+          },
+        },
+      },
     ],
     skills: [
       {

@@ -21,9 +21,8 @@ export const ResumePrepSummary = () => {
   const [loading, setLoading] = useState(false);
   const [tempResult, setTempResult] = useState<AIResult[]>([]);
 
-  const onNext = () => setStep(ResumePrepareStep.Finish);
+  const onNext = () => setStep(ResumePrepareStep.Work);
   const onPrev = () => setStep(ResumePrepareStep.Skills);
-
   const onUpdate = (result: AIResult[]) => setTempResult(result);
 
   const onSummariseClick = async () => {
