@@ -114,98 +114,29 @@ export const ResumePrepSummary = () => {
     </button>
   );
 
-  const ValidContent = () => {
-    if (!getIsValid()) {
-      return null;
-    }
-
+  const Footer = () => {
     return (
       <>
-        <div className="content">
-          We've identified the following <b>Summary Statement</b> from your
-          Resume:
-        </div>
-        <div className="message">
-          <div className="message-body">{getOriginalSummary()}</div>
-        </div>
-        {!getChanged() && (
-          <>
-            <div className="content">
-              You also have two options: use the existing summary as is or let
-              DeepReview attempt to improve on it.
-            </div>
+        <hr />
+        <div className="columns mt-4 is-mobile">
+          <div className="column">
             <div className="buttons">
-              <UseExistingButton />
-              <button
-                disabled={state.loading}
-                onClick={onImproveClick}
-                title="Let DeepReview improve on the existing summary"
-                className={
-                  "button is-info " + (state.loading ? "is-loading" : "")
-                }
-              >
-                Improve
+              <button className="button is-secondary" onClick={onPrevClick}>
+                Prev
               </button>
             </div>
-          </>
-        )}
-        {getChanged() && (
-          <>
-            <div className="content">
-              DeepReview has generated this improved personal{" "}
-              <b>Summary Statement</b>.
-            </div>
-            <div className="review-content">
-              <div className="p-4">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <label>New Summary</label>
-                      </td>
-                      <td>
-                        <AutoTextArea
-                          disabled={state.loading}
-                          className="input"
-                          placeholder={""}
-                          index={0}
-                          value={getNewSummary()}
-                          onChange={onNewSummaryEdit}
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="content mt-4">
-              Now you can choose to still use the existing summary of the new
-              summary.
-            </div>
-            <div className="buttons mt-4">
-              <UseExistingButton />
-              <UseNewButton />
-              <button
-                disabled={state.loading}
-                className="button"
-                onClick={onResetClick}
-              >
-                Reset
-              </button>
-            </div>
-          </>
-        )}
+          </div>
+          <div className="column is-narrow">
+            <ResumePrepSkipButton />
+          </div>
+        </div>
       </>
     );
   };
 
-  const InvalidContent = () => {
-    if (getIsValid()) {
-      return null;
-    }
-
+  if (!getIsValid()) {
     return (
-      <>
+      <div>
         <div className="message is-warning">
           <div className="message-body">
             We were not able to identify a valid <b>Summary Statement</b>.
@@ -216,30 +147,91 @@ export const ResumePrepSummary = () => {
             Continue
           </button>
         </div>
-      </>
+        <Footer />
+      </div>
     );
-  };
+  }
 
   return (
     <div>
-      <ValidContent />
-      <InvalidContent />
+      <div className="content">
+        We've identified the following <b>Summary Statement</b> from your
+        Resume:
+      </div>
+      <div className="message">
+        <div className="message-body">{getOriginalSummary()}</div>
+      </div>
+      {!getChanged() && (
+        <>
+          <div className="content">
+            You also have two options: use the existing summary as is or let
+            DeepReview attempt to improve on it.
+          </div>
+          <div className="buttons">
+            <UseExistingButton />
+            <button
+              disabled={state.loading}
+              onClick={onImproveClick}
+              title="Let DeepReview improve on the existing summary"
+              className={
+                "button is-info " + (state.loading ? "is-loading" : "")
+              }
+            >
+              Improve
+            </button>
+          </div>
+        </>
+      )}
+      {getChanged() && (
+        <>
+          <div className="content">
+            DeepReview has generated this improved personal{" "}
+            <b>Summary Statement</b>.
+          </div>
+          <div className="review-content">
+            <div className="p-4">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label>New Summary</label>
+                    </td>
+                    <td>
+                      <AutoTextArea
+                        disabled={state.loading}
+                        className="input"
+                        placeholder={""}
+                        index={0}
+                        value={getNewSummary()}
+                        onChange={onNewSummaryEdit}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="content mt-4">
+            Now you can choose to still use the existing summary of the new
+            summary.
+          </div>
+          <div className="buttons mt-4">
+            <UseExistingButton />
+            <UseNewButton />
+            <button
+              disabled={state.loading}
+              className="button"
+              onClick={onResetClick}
+            >
+              Reset
+            </button>
+          </div>
+        </>
+      )}
       <div>
         <ResultsError />
       </div>
-      <hr />
-      <div className="columns mt-4 is-mobile">
-        <div className="column">
-          <div className="buttons">
-            <button className="button is-secondary" onClick={onPrevClick}>
-              Prev
-            </button>
-          </div>
-        </div>
-        <div className="column is-narrow">
-          <ResumePrepSkipButton />
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 };

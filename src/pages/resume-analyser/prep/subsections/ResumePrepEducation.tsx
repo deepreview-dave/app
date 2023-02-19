@@ -145,236 +145,15 @@ export const ResumePrepEducation = () => {
     </button>
   );
 
-  const ValidContent = () => {
-    if (!getIsValid()) {
-      return null;
-    }
+  const Header = () => (
+    <div className="content">
+      We've identified the following <b>Schools</b> from your Resume:{" "}
+      <b>{h.degree}</b> at <b>{h.school}</b>
+    </div>
+  );
 
-    const InvalidDescription = () => {
-      if (getIsValidDescription()) {
-        return null;
-      }
-
-      return (
-        <div className="buttons mt-4">
-          <button className="button is-success" onClick={onNextClick}>
-            Continue
-          </button>
-        </div>
-      );
-    };
-
-    const ValidDescription = () => {
-      if (!getIsValidDescription()) {
-        return null;
-      }
-
-      return (
-        <>
-          <div className="content mt-4">
-            For this school we've identified the following <b>Description:</b>
-          </div>
-          <div className="message">
-            <div className="message-body">{getOriginalDetails()}</div>
-          </div>
-          {!getHasChanged() && (
-            <>
-              <div className="content">
-                You have two options for this description: use the existing one
-                or let DeepReview attempt to improve it.
-              </div>
-              <div className="buttons">
-                <UseExistingButton />
-                <button
-                  title="Let DeepReview improve on the existing description"
-                  disabled={h.loading}
-                  onClick={onImproveClick}
-                  className={
-                    "button is-info " + (h.loading ? "is-loading" : "")
-                  }
-                >
-                  Improve
-                </button>
-              </div>
-            </>
-          )}
-          {getHasChanged() && (
-            <>
-              <div className="content">
-                DeepReview has generated this improved job description.
-              </div>
-              <div className="review-content">
-                <div className="p-4">
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <label>New Summary</label>
-                        </td>
-                        <td>
-                          <AutoTextArea
-                            disabled={h.loading}
-                            className="input"
-                            placeholder={""}
-                            index={0}
-                            value={getNewDetails()}
-                            onChange={onNewDetailsValueEdit}
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div className="content mt-4">
-                Now you can choose to still use the existing details of the new
-                details.
-              </div>
-              <div className="buttons mt-4">
-                <UseExistingButton />
-                <UseNewButton />
-                <button
-                  disabled={h.loading}
-                  className="button"
-                  onClick={onResetClick}
-                >
-                  Reset
-                </button>
-              </div>
-            </>
-          )}
-        </>
-      );
-    };
-
-    return (
-      <>
-        <div className="content">
-          We've identified the following <b>Schools</b> from your Resume:{" "}
-          <b>{h.degree}</b> at <b>{h.school}</b>
-        </div>
-        <div className="review-content">
-          <div className="p-4">
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <label>School</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={h.loading}
-                      placeholder="Please enter the name of the school"
-                      type={"text"}
-                      value={h.school}
-                      onChange={(e) =>
-                        state.setHistory(currentIndex, {
-                          ...h,
-                          school: e.currentTarget.value,
-                        })
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Degree</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={h.loading}
-                      placeholder="Please enter your degree"
-                      type={"text"}
-                      value={h.degree}
-                      onChange={(e) =>
-                        state.setHistory(currentIndex, {
-                          ...h,
-                          degree: e.currentTarget.value,
-                        })
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Start</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={h.loading}
-                      placeholder="Please enter the start date (e.g. 2019)"
-                      type={"text"}
-                      value={h.start}
-                      onChange={(e) =>
-                        state.setHistory(currentIndex, {
-                          ...h,
-                          start: e.currentTarget.value,
-                        })
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>End</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={h.loading}
-                      placeholder="Please enter the end date (e.g. 2022)"
-                      type={"text"}
-                      value={h.end}
-                      onChange={(e) =>
-                        state.setHistory(currentIndex, {
-                          ...h,
-                          end: e.currentTarget.value,
-                        })
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <ValidDescription />
-        <InvalidDescription />
-      </>
-    );
-  };
-
-  const InvalidContent = () => {
-    if (getIsValid()) {
-      return null;
-    }
-
-    return (
-      <>
-        <div className="message is-warning">
-          <div className="message-body">
-            We were not able to identify a any <b>Schools</b> from your Resume.
-          </div>
-        </div>
-        <div>
-          <button className="is-success button" onClick={onNextClick}>
-            Continue
-          </button>
-        </div>
-      </>
-    );
-  };
-
-  return (
-    <div>
-      <ValidContent />
-      <InvalidContent />
-      <div>
-        <ResultsError />
-      </div>
+  const Footer = () => (
+    <>
       <hr />
       <div className="columns mt-4 is-mobile">
         <div className="column">
@@ -388,6 +167,209 @@ export const ResumePrepEducation = () => {
           <ResumePrepSkipButton />
         </div>
       </div>
+    </>
+  );
+
+  const MainContent = () => (
+    <div className="review-content">
+      <div className="p-4">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <label>School</label>
+              </td>
+              <td>
+                <input
+                  className="input is-small"
+                  disabled={h.loading}
+                  placeholder="Please enter the name of the school"
+                  type={"text"}
+                  value={h.school}
+                  onChange={(e) =>
+                    state.setHistory(currentIndex, {
+                      ...h,
+                      school: e.currentTarget.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>Degree</label>
+              </td>
+              <td>
+                <input
+                  className="input is-small"
+                  disabled={h.loading}
+                  placeholder="Please enter your degree"
+                  type={"text"}
+                  value={h.degree}
+                  onChange={(e) =>
+                    state.setHistory(currentIndex, {
+                      ...h,
+                      degree: e.currentTarget.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>Start</label>
+              </td>
+              <td>
+                <input
+                  className="input is-small"
+                  disabled={h.loading}
+                  placeholder="Please enter the start date (e.g. 2019)"
+                  type={"text"}
+                  value={h.start}
+                  onChange={(e) =>
+                    state.setHistory(currentIndex, {
+                      ...h,
+                      start: e.currentTarget.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>End</label>
+              </td>
+              <td>
+                <input
+                  className="input is-small"
+                  disabled={h.loading}
+                  placeholder="Please enter the end date (e.g. 2022)"
+                  type={"text"}
+                  value={h.end}
+                  onChange={(e) =>
+                    state.setHistory(currentIndex, {
+                      ...h,
+                      end: e.currentTarget.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  const InvalidDescription = () => {
+    return (
+      <div className="buttons mt-4">
+        <button className="button is-success" onClick={onNextClick}>
+          Continue
+        </button>
+      </div>
+    );
+  };
+
+  if (!getIsValid()) {
+    return (
+      <div>
+        <div className="message is-warning">
+          <div className="message-body">
+            We were not able to identify a any <b>Schools</b> from your Resume.
+          </div>
+        </div>
+        <div>
+          <button className="is-success button" onClick={onNextClick}>
+            Continue
+          </button>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <Header />
+      <MainContent />
+      {!getIsValidDescription() && <InvalidDescription />}
+      {getIsValidDescription() && (
+        <div className="content mt-4">
+          For this school we've identified the following <b>Description:</b>
+        </div>
+      )}
+      {getIsValidDescription() && (
+        <div className="message">
+          <div className="message-body">{getOriginalDetails()}</div>
+        </div>
+      )}
+      {!getHasChanged() && getIsValidDescription() && (
+        <>
+          <div className="content">
+            You have two options for this description: use the existing one or
+            let DeepReview attempt to improve it.
+          </div>
+          <div className="buttons">
+            <UseExistingButton />
+            <button
+              title="Let DeepReview improve on the existing description"
+              disabled={h.loading}
+              onClick={onImproveClick}
+              className={"button is-info " + (h.loading ? "is-loading" : "")}
+            >
+              Improve
+            </button>
+          </div>
+        </>
+      )}
+      {getHasChanged() && getIsValidDescription() && (
+        <>
+          <div className="content">
+            DeepReview has generated this improved job description.
+          </div>
+          <div className="review-content">
+            <div className="p-4">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label>New Summary</label>
+                    </td>
+                    <td>
+                      <AutoTextArea
+                        disabled={h.loading}
+                        className="input"
+                        placeholder={""}
+                        index={0}
+                        value={getNewDetails()}
+                        onChange={onNewDetailsValueEdit}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="content mt-4">
+            Now you can choose to still use the existing details of the new
+            details.
+          </div>
+          <div className="buttons mt-4">
+            <UseExistingButton />
+            <UseNewButton />
+            <button
+              disabled={h.loading}
+              className="button"
+              onClick={onResetClick}
+            >
+              Reset
+            </button>
+          </div>
+        </>
+      )}
+      <ResultsError />
+      <Footer />
     </div>
   );
 };

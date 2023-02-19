@@ -15,6 +15,7 @@ export class ResumeAnalyserService {
     try {
       // const parsed = await client.createResume({ file });
       const parsed = mockResponse as unknown as Resume;
+      console.log(parsed);
       const details = this.praseDetails(parsed);
       const summary = this.parseSummary(parsed);
       const workplaces = this.parseWorkExp(parsed);
