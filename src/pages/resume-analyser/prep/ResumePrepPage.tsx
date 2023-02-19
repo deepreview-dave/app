@@ -9,6 +9,7 @@ import {
   useResumePrepareState,
 } from "../../../state/resume-analyser.state";
 import { ResumePrepDetails } from "./subsections/ResumePrepDetails";
+import { ResumePrepEducation } from "./subsections/ResumePrepEducation";
 import { ResumePrepSkills } from "./subsections/ResumePrepSkills";
 import { ResumePrepSummary } from "./subsections/ResumePrepSummary";
 import { ResumePrepWork } from "./subsections/ResumePrepWork";
@@ -27,6 +28,8 @@ export const ResumePrepPage = () => {
         return <ResumePrepSummary />;
       case ResumePrepareStep.Work:
         return <ResumePrepWork />;
+      case ResumePrepareStep.Education:
+        return <ResumePrepEducation />;
       case ResumePrepareStep.Finish: {
         navigation(API_ROUTES.RESUME_CV);
         return null;

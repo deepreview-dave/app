@@ -281,7 +281,15 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
           start: e.start,
           end: e.end,
           details: e.details,
-          results: [],
+          results: [
+            OpenAIServiceUtils.getBakedEducationResult(e),
+            {
+              original: e.details,
+              expanded: e.details,
+              editable: true,
+              joined: false,
+            },
+          ],
           loading: false,
         }));
         return { ...state, items };

@@ -12,22 +12,24 @@ import {
   useResumeAnalyserState,
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
-import { useResumeWorkHistoryState } from "../../../../state/resume.state";
+import { useResumeEducationHistoryState } from "../../../../state/resume.state";
 import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
 
-export const ResumePrepWork = () => {
+export const ResumePrepEducation = () => {
   const resumeToAnalyse = useResumeAnalyserState(
     (state) => state.resumeToAnalyse
   );
   const setStep = useResumePrepareState((state) => state.setStep);
-  const state = useResumeWorkHistoryState((state) => state);
+  const state = useResumeEducationHistoryState((state) => state);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const h = useResumeWorkHistoryState((state) => state.items[currentIndex]);
+  const h = useResumeEducationHistoryState(
+    (state) => state.items[currentIndex]
+  );
   const setError = useResultState((state) => state.setError);
   const resetError = useResultState((state) => state.resetError);
 
   const getOriginalDetails = () =>
-    resumeToAnalyse?.workplaces[currentIndex]?.details ?? "";
+    resumeToAnalyse?.education[currentIndex]?.details ?? "";
 
   const getNewDetails = () => {
     const value = h.results
@@ -41,7 +43,7 @@ export const ResumePrepWork = () => {
 
   const onPrevClick = () => {
     if (currentIndex === 0) {
-      setStep(ResumePrepareStep.Summary);
+      setStep(ResumePrepareStep.Work);
     } else {
       setCurrentIndex(currentIndex - 1);
     }
@@ -49,7 +51,7 @@ export const ResumePrepWork = () => {
 
   const onNextClick = () => {
     if (currentIndex === state.items.length - 1) {
-      setStep(ResumePrepareStep.Education);
+      setStep(ResumePrepareStep.Finish);
     } else {
       setCurrentIndex(currentIndex + 1);
     }
@@ -67,9 +69,8 @@ export const ResumePrepWork = () => {
           question,
           textToSummarise
         );
-
       const details = detailsResult.map((e) => e.expanded).join("\n");
-      const results = await new OpenAIService().generateResumeWorkHistoryItem(
+      const results = await new OpenAIService().generateEducationHistoryItem(
         state.question,
         h
       );
@@ -83,7 +84,7 @@ export const ResumePrepWork = () => {
   const onResetClick = () => {
     const existingDetails = getOriginalDetails();
     state.setHistory(currentIndex, { ...h, details: existingDetails });
-    const baked = OpenAIServiceUtils.getBakedWorkResults(h);
+    const baked = OpenAIServiceUtils.getBakedEducationResult(h);
     const result: AIResult = {
       original: existingDetails,
       expanded: existingDetails,
@@ -140,8 +141,8 @@ export const ResumePrepWork = () => {
   return (
     <div>
       <div className="content">
-        We've identified the following <b>Job</b> from your Resume:{" "}
-        <b>{h.role}</b> at <b>{h.company}</b>
+        We've identified the following <b>Schools</b> from your Resume:{" "}
+        <b>{h.degree}</b> at <b>{h.school}</b>
       </div>
       <div className="review-content">
         <div className="p-4">
@@ -149,19 +150,19 @@ export const ResumePrepWork = () => {
             <tbody>
               <tr>
                 <td>
-                  <label>Company</label>
+                  <label>School</label>
                 </td>
                 <td>
                   <input
                     className="input is-small"
                     disabled={h.loading}
-                    placeholder="Please enter the name of the company"
+                    placeholder="Please enter the name of the school"
                     type={"text"}
-                    value={h.company}
+                    value={h.school}
                     onChange={(e) =>
                       state.setHistory(currentIndex, {
                         ...h,
-                        company: e.currentTarget.value,
+                        school: e.currentTarget.value,
                       })
                     }
                   />
@@ -169,19 +170,19 @@ export const ResumePrepWork = () => {
               </tr>
               <tr>
                 <td>
-                  <label>Role</label>
+                  <label>Degree</label>
                 </td>
                 <td>
                   <input
                     className="input is-small"
                     disabled={h.loading}
-                    placeholder="Please enter the role or title"
+                    placeholder="Please enter your degree"
                     type={"text"}
-                    value={h.role}
+                    value={h.degree}
                     onChange={(e) =>
                       state.setHistory(currentIndex, {
                         ...h,
-                        role: e.currentTarget.value,
+                        degree: e.currentTarget.value,
                       })
                     }
                   />
@@ -232,7 +233,7 @@ export const ResumePrepWork = () => {
         </div>
       </div>
       <div className="content mt-4">
-        For this job we've also identified the following <b>Description:</b>
+        For this school we've identified the following <b>Description:</b>
       </div>
       <div className="message">
         <div className="message-body">{getOriginalDetails()}</div>
@@ -240,8 +241,8 @@ export const ResumePrepWork = () => {
       {!getHasChanged() && (
         <>
           <div className="content">
-            You have two options for this job description: use the existing one
-            or let DeepReview attempt to improve it.
+            You have two options for this description: use the existing one or
+            let DeepReview attempt to improve it.
           </div>
           <div className="buttons">
             <UseExistingButton />
