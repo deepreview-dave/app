@@ -20,7 +20,8 @@ export enum AnalyticsToolName {
   PRAISE = "praise",
   RESIGNATION = "resignation_letter",
   COMPENSATION = "compensation",
-  RESUME_ANALYSER = "resume_analyser",
+  RESUME_ANALYSER = "resume_analyser_1",
+  RESUME_PREP = "resume_analyser_2",
 }
 
 export type GeneratedAnalyticsParams = {

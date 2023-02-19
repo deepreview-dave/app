@@ -32,6 +32,7 @@ import {
   ResumeEducationHistory,
   ResumeWorkHistory,
 } from "../state/resume.state";
+import { Analytics } from "./analytics";
 
 type NetworkInput = {
   model: string;
@@ -86,6 +87,8 @@ export class OpenAIService {
       prompt,
     });
 
+    Analytics.generated();
+
     return response
       .split(".")
       .map((e) => e.trim())
@@ -110,6 +113,8 @@ export class OpenAIService {
       prompt,
     });
 
+    Analytics.generated();
+
     return response
       .split(".")
       .map((e) => e.trim())
@@ -133,6 +138,8 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+
+    Analytics.generated();
 
     return response
       .split(".")
@@ -159,6 +166,8 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+
+    Analytics.generated();
 
     const aiResult = response
       .split(".")
@@ -195,6 +204,7 @@ export class OpenAIService {
 
   async generateResumeDetails(input: ResumeDetailsInput): Promise<AIResult[]> {
     const result = OpenAIServiceUtils.getBakedDetailsResult(input);
+    Analytics.generated();
     return [result];
   }
 
@@ -228,6 +238,7 @@ export class OpenAIService {
         joined: false,
       };
     }
+    Analytics.generated();
     return [summary];
   }
 
@@ -247,6 +258,7 @@ export class OpenAIService {
       prompt,
     });
     const value = response.trim();
+    Analytics.generated();
     return [
       {
         original: value,
@@ -277,7 +289,7 @@ export class OpenAIService {
       editable: true,
       joined: false,
     };
-
+    Analytics.generated();
     return [baked, aiResult];
   }
 
@@ -310,7 +322,7 @@ export class OpenAIService {
       editable: true,
       joined: false,
     };
-
+    Analytics.generated();
     return [bakedResult, aiResult];
   }
 
@@ -325,6 +337,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+    Analytics.expanded();
     return response.trim();
   }
 
@@ -346,6 +359,8 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+
+    Analytics.generated();
     return response.trim();
   }
 
@@ -358,6 +373,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+    Analytics.generated();
     return response.trim();
   }
 
@@ -370,6 +386,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+    Analytics.generated();
     return response.trim();
   }
 
@@ -380,15 +397,19 @@ export class OpenAIService {
       )) as NetworkResponse;
 
       if (response.status !== 200) {
+        Analytics.generateError();
         throw new Error(OpenAIErrorMessage.BadStatus);
       } else if (response.data.choices.length === 0) {
+        Analytics.generateError();
         throw new Error(OpenAIErrorMessage.NoContent);
       } else if (response.data.choices[0].text === undefined) {
+        Analytics.generateError();
         throw new Error(OpenAIErrorMessage.MissingText);
       }
 
       return response.data.choices[0].text ?? "";
     } catch (e) {
+      Analytics.generateError();
       throw new Error(OpenAIErrorMessage.Network);
     }
   }

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { Analytics, AnalyticsToolName } from "../../../business/analytics";
 import { ResumePrepBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
@@ -34,6 +36,10 @@ export const ResumePrepPage = () => {
         return null;
     }
   };
+
+  useEffect(() => {
+    Analytics.tool(AnalyticsToolName.RESUME_PREP);
+  }, []);
 
   return (
     <div className="main-body">
