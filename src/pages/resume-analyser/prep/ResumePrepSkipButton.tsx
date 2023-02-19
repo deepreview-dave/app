@@ -1,12 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../../..";
-import { useResumePrepareState } from "../../../state/resume-analyser.state";
+import {
+  ResumePrepareStep,
+  useResumePrepareState,
+} from "../../../state/resume-analyser.state";
 
 export const ResumePrepSkipButton = () => {
-  const navigate = useNavigate();
-  const state = useResumePrepareState((state) => state);
-
-  const onClick = () => navigate(API_ROUTES.RESUME_CV);
+  const setStep = useResumePrepareState((state) => state.setStep);
+  const onClick = () => setStep(ResumePrepareStep.Finish);
 
   return (
     <button className="button is-text" onClick={onClick}>

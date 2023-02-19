@@ -218,9 +218,9 @@ export const ResumeResult = () => {
     const History = () => {
       return (
         <div>
-          {validItems.map((e) => (
-            <Fragment key={e.company + "-" + e.role}>
-              <p>
+          {validItems.map((e, index) => (
+            <Fragment key={e.company + "-" + e.role + "-" + index}>
+              <p key={e.company + "-" + e.role + "-" + index}>
                 <span>
                   <b>{e.role}</b>
                 </span>
@@ -238,8 +238,8 @@ export const ResumeResult = () => {
               {e.results
                 .filter((i) => i.editable)
                 .map((i) => i.expanded)
-                .map((i) => (
-                  <p>{i}</p>
+                .map((i, index) => (
+                  <p key={index}>{i}</p>
                 ))}
               {e.results.length === 0 && (
                 <p>
