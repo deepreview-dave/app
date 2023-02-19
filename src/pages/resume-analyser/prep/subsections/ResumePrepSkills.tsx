@@ -68,16 +68,17 @@ export const ResumePrepSkills = () => {
           </table>
         </div>
       </div>
-      <div className="columns mt-4 is-mobile">
+      <div className="buttons mt-4">
+        <button className="button is-success" onClick={onNext}>
+          Use these Skills
+        </button>
+      </div>
+      <hr />
+      <div className="columns is-mobile">
         <div className="column">
-          <div className="buttons">
-            <button className="button is-secondary" onClick={onPrev}>
-              Prev
-            </button>
-            <button className="button is-primary" onClick={onNext}>
-              Next
-            </button>
-          </div>
+          <button className="button is-secondary" onClick={onPrev}>
+            Prev
+          </button>
         </div>
         <div className="column is-narrow">
           <ResumePrepSkipButton />

@@ -109,15 +109,14 @@ export const ResumePrepDetails = () => {
           </table>
         </div>
       </div>
-      <div className="columns mt-4 is-mobile">
-        <div className="column">
-          <button className="button is-primary" onClick={onNext}>
-            Next
-          </button>
-        </div>
-        <div className="column is-narrow">
-          <ResumePrepSkipButton />
-        </div>
+      <div className="buttons mt-4">
+        <button className="button is-success" onClick={onNext}>
+          Use these Details
+        </button>
+      </div>
+      <hr />
+      <div className="buttons is-pulled-right">
+        <ResumePrepSkipButton />
       </div>
     </div>
   );

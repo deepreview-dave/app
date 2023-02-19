@@ -20,6 +20,7 @@ import {
   PraiseInput,
   ReferralLetterInput,
   ResumeAnalyserDetails,
+  ResumeAnalyserEducationHistory,
   ResumeAnalyserWorkHistory,
   ResumeDetailsInput,
   ResumeSummaryInput,
@@ -284,17 +285,7 @@ export class OpenAIService {
     question: string,
     input: ResumeEducationHistory
   ): Promise<AIResult[]> {
-    const result = [
-      `School: ${input.school}`,
-      `Degree: ${input.degree} (${input.start} - ${input.end})`,
-    ].join("\n");
-
-    const bakedResult = {
-      original: result,
-      expanded: result,
-      editable: false,
-      joined: true,
-    };
+    const bakedResult = OpenAIServiceUtils.getBakedEducationResult(input);
 
     if (!input.details) {
       return [bakedResult];
@@ -434,6 +425,22 @@ export class OpenAIServiceUtils {
     return {
       original: bakedResult,
       expanded: bakedResult,
+      editable: false,
+      joined: true,
+    };
+  }
+
+  static getBakedEducationResult(
+    input: ResumeAnalyserEducationHistory
+  ): AIResult {
+    const result = [
+      `School: ${input.school}`,
+      `Degree: ${input.degree} (${input.start} - ${input.end})`,
+    ].join("\n");
+
+    return {
+      original: result,
+      expanded: result,
       editable: false,
       joined: true,
     };
