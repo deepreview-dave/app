@@ -1,3 +1,4 @@
+import { OpenAIServiceUtils } from "../../../../business/open-ai.service";
 import {
   ResumePrepareStep,
   useResumePrepareState,
@@ -9,7 +10,10 @@ export const ResumePrepDetails = () => {
   const state = useResumeDetailsState((state) => state);
   const setStep = useResumePrepareState((state) => state.setStep);
 
-  const onNext = () => setStep(ResumePrepareStep.Skills);
+  const onNext = () => {
+    state.setResult([OpenAIServiceUtils.getBakedDetailsResult(state)]);
+    setStep(ResumePrepareStep.Skills);
+  };
 
   return (
     <div>
