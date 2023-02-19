@@ -24,12 +24,9 @@ export const ResumePrepSummary = () => {
   const setError = useResultState((state) => state.setError);
   const resetError = useResultState((state) => state.resetError);
 
-  const onNext = () => setStep(ResumePrepareStep.Work);
-  const onPrev = () => setStep(ResumePrepareStep.Skills);
-
   const getOriginalSummary = () => resumeToAnalyse?.summary?.summary ?? "";
 
-  const getNewSummaryValue = () => {
+  const getNewSummary = () => {
     const value = state.result
       .filter((e) => e.editable)
       .map((e) => e.expanded)
@@ -37,7 +34,12 @@ export const ResumePrepSummary = () => {
     return value;
   };
 
-  const hasChanged = () => getNewSummaryValue() !== state.summary;
+  const getChanged = () => getNewSummary() !== state.summary;
+
+  const getIsValid = () => !!getOriginalSummary();
+
+  const onNext = () => setStep(ResumePrepareStep.Work);
+  const onPrev = () => setStep(ResumePrepareStep.Skills);
 
   const onImproveClick = async () => {
     resetError();
@@ -63,14 +65,14 @@ export const ResumePrepSummary = () => {
     state.setLoading(false);
   };
 
-  const onUseExistingSummary = () => {
-    onReset();
+  const onUseExistingClick = () => {
+    onResetClick();
     setStep(ResumePrepareStep.Work);
   };
 
-  const onUseNewSummary = () => setStep(ResumePrepareStep.Work);
+  const onUseNewClick = () => setStep(ResumePrepareStep.Work);
 
-  const onNewSummaryValueEdit = (e: string) => {
+  const onNewSummaryEdit = (e: string) => {
     const first = state.result.map((res) => ({
       ...res,
       expanded: e,
@@ -78,7 +80,7 @@ export const ResumePrepSummary = () => {
     state.setResult(first);
   };
 
-  const onReset = () => {
+  const onResetClick = () => {
     const existingSummary = getOriginalSummary();
     state.setSummary(existingSummary);
     const result: AIResult = {
@@ -93,7 +95,7 @@ export const ResumePrepSummary = () => {
   const UseExistingButton = () => (
     <button
       disabled={state.loading}
-      onClick={onUseExistingSummary}
+      onClick={onUseExistingClick}
       title="Accept the existing summary"
       className="button is-success"
     >
@@ -106,88 +108,122 @@ export const ResumePrepSummary = () => {
       title="Accept the new summary"
       disabled={state.loading}
       className="button is-success"
-      onClick={onUseNewSummary}
+      onClick={onUseNewClick}
     >
       Use new summary
     </button>
   );
 
+  const ValidContent = () => {
+    if (!getIsValid()) {
+      return null;
+    }
+
+    return (
+      <>
+        <div className="content">
+          We've identified the following <b>Summary Statement</b> from your
+          Resume:
+        </div>
+        <div className="message">
+          <div className="message-body">{getOriginalSummary()}</div>
+        </div>
+        {!getChanged() && (
+          <>
+            <div className="content">
+              You also have two options: use the existing summary as is or let
+              DeepReview attempt to improve on it.
+            </div>
+            <div className="buttons">
+              <UseExistingButton />
+              <button
+                disabled={state.loading}
+                onClick={onImproveClick}
+                title="Let DeepReview improve on the existing summary"
+                className={
+                  "button is-info " + (state.loading ? "is-loading" : "")
+                }
+              >
+                Improve
+              </button>
+            </div>
+          </>
+        )}
+        {getChanged() && (
+          <>
+            <div className="content">
+              DeepReview has generated this improved personal{" "}
+              <b>Summary Statement</b>.
+            </div>
+            <div className="review-content">
+              <div className="p-4">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>New Summary</label>
+                      </td>
+                      <td>
+                        <AutoTextArea
+                          disabled={state.loading}
+                          className="input"
+                          placeholder={""}
+                          index={0}
+                          value={getNewSummary()}
+                          onChange={onNewSummaryEdit}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="content mt-4">
+              Now you can choose to still use the existing summary of the new
+              summary.
+            </div>
+            <div className="buttons mt-4">
+              <UseExistingButton />
+              <UseNewButton />
+              <button
+                disabled={state.loading}
+                className="button"
+                onClick={onResetClick}
+              >
+                Reset
+              </button>
+            </div>
+          </>
+        )}
+      </>
+    );
+  };
+
+  const InvalidContent = () => {
+    if (getIsValid()) {
+      return null;
+    }
+
+    return (
+      <>
+        <div className="message is-warning">
+          <div className="message-body">
+            We were not able to identify a valid <b>Summary Statement</b>.
+          </div>
+        </div>
+        <div>
+          <button className="is-success button" onClick={onNext}>
+            Continue
+          </button>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div>
-      <div className="content">
-        We've identified the following <b>Summary Statement</b> from your
-        Resume:
-      </div>
-      <div className="message">
-        <div className="message-body">{getOriginalSummary()}</div>
-      </div>
-      {!hasChanged() && (
-        <>
-          <div className="content">
-            You also have two options: use the existing summary as is or let
-            DeepReview attempt to improve on it.
-          </div>
-          <div className="buttons">
-            <UseExistingButton />
-            <button
-              disabled={state.loading}
-              onClick={onImproveClick}
-              title="Let DeepReview improve on the existing summary"
-              className={
-                "button is-info " + (state.loading ? "is-loading" : "")
-              }
-            >
-              Improve
-            </button>
-          </div>
-        </>
-      )}
-      {hasChanged() && (
-        <>
-          <div className="content">
-            DeepReview has generated this improved personal{" "}
-            <b>Summary Statement</b>.
-          </div>
-          <div className="review-content">
-            <div className="p-4">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <label>New Summary</label>
-                    </td>
-                    <td>
-                      <AutoTextArea
-                        disabled={state.loading}
-                        className="input"
-                        placeholder={""}
-                        index={0}
-                        value={getNewSummaryValue()}
-                        onChange={onNewSummaryValueEdit}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className="content mt-4">
-            Now you can choose to still use the existing summary of the new
-            summary.
-          </div>
-          <div className="buttons mt-4">
-            <UseExistingButton />
-            <UseNewButton />
-            <button
-              disabled={state.loading}
-              className="button"
-              onClick={onReset}
-            >
-              Reset
-            </button>
-          </div>
-        </>
-      )}
+      <ValidContent />
+      <InvalidContent />
       <div>
         <ResultsError />
       </div>

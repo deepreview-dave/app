@@ -9,7 +9,7 @@ import { ResumeResult } from "../../../resumes/cv/ResumeResult";
 export const ResumePrepFinal = () => {
   const navitate = useNavigate();
   const setStep = useResumePrepareState((state) => state.setStep);
-  const onPrev = () => setStep(ResumePrepareStep.Education);
+  const onPrev = () => setStep(ResumePrepareStep.Details);
 
   const onFinish = () => navitate(API_ROUTES.RESUME_CV);
 
