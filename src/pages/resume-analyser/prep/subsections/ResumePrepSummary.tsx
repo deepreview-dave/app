@@ -38,8 +38,8 @@ export const ResumePrepSummary = () => {
 
   const getIsValid = () => !!getOriginalSummary();
 
-  const onNext = () => setStep(ResumePrepareStep.Work);
-  const onPrev = () => setStep(ResumePrepareStep.Skills);
+  const onNextClick = () => setStep(ResumePrepareStep.Work);
+  const onPrevClick = () => setStep(ResumePrepareStep.Skills);
 
   const onImproveClick = async () => {
     resetError();
@@ -212,7 +212,7 @@ export const ResumePrepSummary = () => {
           </div>
         </div>
         <div>
-          <button className="is-success button" onClick={onNext}>
+          <button className="is-success button" onClick={onNextClick}>
             Continue
           </button>
         </div>
@@ -231,7 +231,7 @@ export const ResumePrepSummary = () => {
       <div className="columns mt-4 is-mobile">
         <div className="column">
           <div className="buttons">
-            <button className="button is-secondary" onClick={onPrev}>
+            <button className="button is-secondary" onClick={onPrevClick}>
               Prev
             </button>
           </div>
