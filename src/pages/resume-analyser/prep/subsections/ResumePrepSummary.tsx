@@ -68,11 +68,7 @@ export const ResumePrepSummary = () => {
     setStep(ResumePrepareStep.Work);
   };
 
-  const onUseNewSummary = () => {
-    const newSummary = state.summary;
-    state.setSummary(newSummary);
-    setStep(ResumePrepareStep.Work);
-  };
+  const onUseNewSummary = () => setStep(ResumePrepareStep.Work);
 
   const onNewSummaryValueEdit = (e: string) => {
     const first = state.result.map((res) => ({

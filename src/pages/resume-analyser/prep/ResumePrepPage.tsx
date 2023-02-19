@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { API_ROUTES } from "../../..";
 import { ResumePrepBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
@@ -12,6 +14,7 @@ import { ResumePrepSummary } from "./subsections/ResumePrepSummary";
 import { ResumePrepWork } from "./subsections/ResumePrepWork";
 
 export const ResumePrepPage = () => {
+  const navigation = useNavigate();
   const step = useResumePrepareState((state) => state.step);
 
   const MainContent = () => {
@@ -24,6 +27,10 @@ export const ResumePrepPage = () => {
         return <ResumePrepSummary />;
       case ResumePrepareStep.Work:
         return <ResumePrepWork />;
+      case ResumePrepareStep.Finish: {
+        navigation(API_ROUTES.RESUME_CV);
+        return null;
+      }
       default:
         return null;
     }
