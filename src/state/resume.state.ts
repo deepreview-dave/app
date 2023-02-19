@@ -4,6 +4,7 @@ import {
   ResumeAnalyserOutput,
   WorkHistory,
 } from "../business/common";
+import { OpenAIServiceUtils } from "../business/open-ai.service";
 
 export type ResumeDetailsState = {
   name: string;
@@ -161,6 +162,14 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
       ...state,
       skills: data.summary.skills,
       summary: data.summary.summary,
+      result: [
+        {
+          original: data.summary.summary,
+          expanded: data.summary.summary,
+          editable: true,
+          joined: false,
+        },
+      ],
     })),
 }));
 
@@ -208,7 +217,15 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
           start: e.start,
           end: e.end,
           details: e.details,
-          results: [],
+          results: [
+            OpenAIServiceUtils.getBakedWorkResults(e),
+            {
+              original: e.details,
+              expanded: e.details,
+              editable: true,
+              joined: false,
+            },
+          ],
           loading: false,
         }));
         return { ...state, items };

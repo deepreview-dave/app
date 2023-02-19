@@ -68,6 +68,7 @@ export const ResumeAnalyserPage = () => {
       setWorkData(output);
       setEducationData(output);
       prepState.setIsPrepared();
+      state.setResume(output);
       navigate(API_ROUTES.AUTO_REVIEW_RESUME_PREP);
     } catch (e: any) {
       state.setError(e.message);

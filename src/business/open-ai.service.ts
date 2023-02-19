@@ -19,6 +19,8 @@ import {
   PerformanceScore,
   PraiseInput,
   ReferralLetterInput,
+  ResumeAnalyserDetails,
+  ResumeAnalyserWorkHistory,
   ResumeDetailsInput,
   ResumeSummaryInput,
   ReviewTone,
@@ -191,25 +193,7 @@ export class OpenAIService {
   }
 
   async generateResumeDetails(input: ResumeDetailsInput): Promise<AIResult[]> {
-    const details = [
-      `Name: ${input.name}`,
-      `Address: ${input.address}`,
-      `Phone: ${input.phone}`,
-      `Email: ${input.email}`,
-    ];
-    if (input.linkedin) {
-      details.push(`Linkedin: ${input.linkedin}`);
-    }
-    if (input.website) {
-      details.push(`Website: ${input.website}`);
-    }
-
-    const result = {
-      original: details.join("\n"),
-      expanded: details.join("\n"),
-      editable: false,
-      joined: false,
-    };
+    const result = OpenAIServiceUtils.getBakedDetailsResult(input);
     return [result];
   }
 
@@ -284,17 +268,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
-    const bakedResult = [
-      `Company: ${input.company}`,
-      `Role: ${input.role} (${input.start} - ${input.end})`,
-    ].join("\n");
-    const baked = {
-      original: bakedResult,
-      expanded: bakedResult,
-      editable: false,
-      joined: true,
-    };
-
+    const baked = OpenAIServiceUtils.getBakedWorkResults(input);
     const value = response.trim();
     const aiResult = {
       original: value,
@@ -426,5 +400,42 @@ export class OpenAIService {
     } catch (e) {
       throw new Error(OpenAIErrorMessage.Network);
     }
+  }
+}
+
+export class OpenAIServiceUtils {
+  static getBakedDetailsResult(input: ResumeAnalyserDetails): AIResult {
+    const details = [
+      `Name: ${input.name}`,
+      `Address: ${input.address}`,
+      `Phone: ${input.phone}`,
+      `Email: ${input.email}`,
+    ];
+    if (input.linkedin) {
+      details.push(`Linkedin: ${input.linkedin}`);
+    }
+    if (input.website) {
+      details.push(`Website: ${input.website}`);
+    }
+
+    return {
+      original: details.join("\n"),
+      expanded: details.join("\n"),
+      editable: false,
+      joined: false,
+    };
+  }
+
+  static getBakedWorkResults(input: ResumeAnalyserWorkHistory): AIResult {
+    const bakedResult = [
+      `Company: ${input.company}`,
+      `Role: ${input.role} (${input.start} - ${input.end})`,
+    ].join("\n");
+    return {
+      original: bakedResult,
+      expanded: bakedResult,
+      editable: false,
+      joined: true,
+    };
   }
 }

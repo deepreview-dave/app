@@ -137,31 +137,39 @@ export type AIResult = {
   joined: boolean;
 };
 
+export type ResumeAnalyserDetails = {
+  name: string;
+  address: string;
+  email: string;
+  phone: string;
+  linkedin?: string;
+  website?: string;
+};
+
+export type ResumeAnalyserSummary = {
+  skills: string;
+  summary: string;
+};
+
+export type ResumeAnalyserWorkHistory = {
+  role: string;
+  company: string;
+  start: string;
+  end: string;
+  details: string;
+};
+
+export type ResumeAnalyserEducationHistory = {
+  school: string;
+  degree: string;
+  start: string;
+  end: string;
+  details: string;
+};
+
 export type ResumeAnalyserOutput = {
-  details: {
-    name: string;
-    address: string;
-    email: string;
-    phone: string;
-    linkedin: string;
-    website: string;
-  };
-  summary: {
-    skills: string;
-    summary: string;
-  };
-  workplaces: {
-    role: string;
-    company: string;
-    start: string;
-    end: string;
-    details: string;
-  }[];
-  education: {
-    school: string;
-    degree: string;
-    start: string;
-    end: string;
-    details: string;
-  }[];
+  details: ResumeAnalyserDetails;
+  summary: ResumeAnalyserSummary;
+  workplaces: ResumeAnalyserWorkHistory[];
+  education: ResumeAnalyserEducationHistory[];
 };

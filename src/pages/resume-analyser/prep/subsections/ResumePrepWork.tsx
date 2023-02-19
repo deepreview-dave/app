@@ -1,30 +1,30 @@
 import { useState } from "react";
 import { AIResult } from "../../../../business/common";
-import { OpenAIService } from "../../../../business/open-ai.service";
+import {
+  OpenAIService,
+  OpenAIServiceUtils,
+} from "../../../../business/open-ai.service";
 import { AutoTextArea } from "../../../../components/common/AutoTextArea";
 import { ResultsError } from "../../../../components/results/ResultsError";
-import { ResultsInlineComponent } from "../../../../components/results/ResultsInlineComponent";
 import { useResultState } from "../../../../state/result-state";
 import {
   ResumePrepareStep,
+  useResumeAnalyserState,
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
 import { useResumeWorkHistoryState } from "../../../../state/resume.state";
 import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
 
 export const ResumePrepWork = () => {
+  const resumeToAnalyse = useResumeAnalyserState(
+    (state) => state.resumeToAnalyse
+  );
   const setStep = useResumePrepareState((state) => state.setStep);
   const state = useResumeWorkHistoryState((state) => state);
   const [currentIndex, setCurrentIndex] = useState(0);
   const h = useResumeWorkHistoryState((state) => state.items[currentIndex]);
-
   const setError = useResultState((state) => state.setError);
   const resetError = useResultState((state) => state.resetError);
-
-  const [loading, setLoading] = useState(false);
-  const [tempResult, setTempResult] = useState<AIResult[]>([]);
-
-  const onUpdate = (result: AIResult[]) => setTempResult(result);
 
   const onPrev = () => {
     if (currentIndex === 0) {
@@ -42,29 +42,65 @@ export const ResumePrepWork = () => {
     }
   };
 
-  const onSummariseClick = async () => {
+  const onImproveClick = async () => {
     resetError();
-    setLoading(true);
+    state.setLoading(true, currentIndex);
     try {
       const question =
         "Can you summarise the below text, using at most 3 bullet points, in the context of a resume summary, using the first person: ";
-      const result = await new OpenAIService().generateBulletPointSummary(
-        question,
-        h.details
-      );
-      setTempResult(result);
+      const textToSummarise =
+        resumeToAnalyse?.workplaces[currentIndex]?.details ?? "";
+      const detailsResult =
+        await new OpenAIService().generateBulletPointSummary(
+          question,
+          textToSummarise
+        );
+      const details = detailsResult.map((e) => e.expanded).join("\n");
+      state.setHistory(currentIndex, { ...h, details, loading: true });
+
+      const expandedResult = await new OpenAIService().expandText(details);
+      const baked = OpenAIServiceUtils.getBakedWorkResults(h);
+      const expanded: AIResult = {
+        original: expandedResult,
+        expanded: expandedResult,
+        editable: true,
+        joined: false,
+      };
+      const result = [baked, expanded];
+      state.setResults(result, currentIndex);
     } catch (e: any) {
       setError(e.message);
     }
-    setLoading(false);
+    state.setLoading(false, currentIndex);
   };
 
-  const onUseVersionClick = () => {
-    const result = tempResult.map((e) => e.expanded).join("\n");
-    if (!result) {
-      return;
+  const onResetClick = async () => {
+    const item = resumeToAnalyse!.workplaces[currentIndex];
+    const original = resumeToAnalyse?.workplaces[currentIndex]?.details ?? "";
+    state.setHistory(currentIndex, { ...h, details: original });
+    state.setResults(
+      [
+        OpenAIServiceUtils.getBakedWorkResults(item),
+        {
+          original,
+          expanded: original,
+          editable: true,
+          joined: false,
+        },
+      ],
+      currentIndex
+    );
+  };
+
+  const getResult = () => {
+    const expanded = h.results
+      .filter((e) => e.editable)
+      .map((e) => e.expanded)
+      .join("\n");
+    if (!expanded) {
+      return resumeToAnalyse?.workplaces[currentIndex]?.details ?? "";
     }
-    state.setHistory(currentIndex, { ...h, details: result });
+    return expanded;
   };
 
   return (
@@ -158,6 +194,16 @@ export const ResumePrepWork = () => {
                       />
                     </td>
                   </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div className="column">
+          <div className="review-content">
+            <div className="p-4">
+              <table>
+                <tbody>
                   <tr>
                     <td>
                       <label>Details</label>
@@ -166,7 +212,7 @@ export const ResumePrepWork = () => {
                       <AutoTextArea
                         className="input"
                         disabled={h.loading}
-                        value={h.details}
+                        value={getResult()}
                         index={currentIndex}
                         placeholder={""}
                         onChange={(details) =>
@@ -187,13 +233,21 @@ export const ResumePrepWork = () => {
                     <td colSpan={2}>
                       <div className="buttons">
                         <button
-                          disabled={loading}
+                          onClick={onImproveClick}
+                          disabled={h.loading}
                           className={
-                            "button is-info " + (loading ? "is-loading" : "")
+                            "button is-primary " +
+                            (h.loading ? "is-loading" : "")
                           }
-                          onClick={onSummariseClick}
                         >
-                          Summarise
+                          Improve
+                        </button>
+                        <button
+                          onClick={onResetClick}
+                          disabled={h.loading}
+                          className="button is-info"
+                        >
+                          Reset
                         </button>
                       </div>
                     </td>
@@ -202,24 +256,6 @@ export const ResumePrepWork = () => {
               </table>
             </div>
           </div>
-        </div>
-        <div className="column">
-          <ResultsInlineComponent
-            startingState={tempResult}
-            onUpdate={onUpdate}
-            loading={loading}
-          />
-          {tempResult.length > 0 && (
-            <div>
-              <button
-                disabled={loading}
-                className="button is-primary"
-                onClick={onUseVersionClick}
-              >
-                Use this version
-              </button>
-            </div>
-          )}
         </div>
       </div>
 

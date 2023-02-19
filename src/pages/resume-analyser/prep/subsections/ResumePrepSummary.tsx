@@ -1,127 +1,141 @@
-import { useState } from "react";
 import { AIResult } from "../../../../business/common";
 import { OpenAIService } from "../../../../business/open-ai.service";
 import { AutoTextArea } from "../../../../components/common/AutoTextArea";
 import { ResultsError } from "../../../../components/results/ResultsError";
-import { ResultsInlineComponent } from "../../../../components/results/ResultsInlineComponent";
 import { useResultState } from "../../../../state/result-state";
 import {
   useResumePrepareState,
   ResumePrepareStep,
+  useResumeAnalyserState,
 } from "../../../../state/resume-analyser.state";
 import { useResumeSummaryState } from "../../../../state/resume.state";
 import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
 
 export const ResumePrepSummary = () => {
+  const resumeToAnalyse = useResumeAnalyserState(
+    (state) => state.resumeToAnalyse
+  );
   const state = useResumeSummaryState((state) => state);
   const setStep = useResumePrepareState((state) => state.setStep);
   const setError = useResultState((state) => state.setError);
   const resetError = useResultState((state) => state.resetError);
 
-  const [loading, setLoading] = useState(false);
-  const [tempResult, setTempResult] = useState<AIResult[]>([]);
-
   const onNext = () => setStep(ResumePrepareStep.Work);
   const onPrev = () => setStep(ResumePrepareStep.Skills);
-  const onUpdate = (result: AIResult[]) => setTempResult(result);
 
-  const onSummariseClick = async () => {
+  const onImproveClick = async () => {
     resetError();
-    setLoading(true);
+    state.setLoading(true);
     try {
       const question =
         "Can you summarise the below text, using at most 3 bullet points, in the context of a resume summary, using the first person: ";
-      const result = await new OpenAIService().generateBulletPointSummary(
-        question,
-        state.summary
-      );
-      setTempResult(result);
+      const textToSummarise = resumeToAnalyse?.summary?.summary ?? "";
+      const summaryResult =
+        await new OpenAIService().generateBulletPointSummary(
+          question,
+          textToSummarise
+        );
+      const summary = summaryResult.map((e) => e.expanded).join("\n");
+      state.setSummary(summary);
+
+      const expandedResult = await new OpenAIService().expandText(summary);
+      const expanded: AIResult[] = [
+        {
+          original: expandedResult,
+          expanded: expandedResult,
+          editable: true,
+          joined: true,
+        },
+      ];
+      state.setResult(expanded);
     } catch (e: any) {
       setError(e.message);
     }
-    setLoading(false);
+    state.setLoading(false);
   };
 
-  const onUseVersionClick = () => {
-    const result = tempResult.map((e) => e.expanded).join("\n");
-    if (!result) {
-      return;
+  const onResetClick = async () => {
+    const original = resumeToAnalyse?.summary.summary ?? "";
+    state.setSummary(original);
+    state.setResult([
+      {
+        original,
+        expanded: original,
+        editable: true,
+        joined: false,
+      },
+    ]);
+  };
+
+  const getResult = () => {
+    const expanded = state.result.map((e) => e.expanded).join("\n");
+    if (!expanded) {
+      return resumeToAnalyse?.summary.summary ?? "";
     }
-    state.setSummary(result);
+    return expanded;
   };
 
   return (
     <div>
       <div className="content">
         We've identified the following <b>Summary Statement</b> from your
-        Resume.
+        Resume:
       </div>
-      <div className="columns">
-        <div className="column">
-          <div className="review-content">
-            <div className="p-4">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <label>Existing summary</label>
-                    </td>
-                    <td>
-                      <AutoTextArea
-                        disabled={false}
-                        className="input"
-                        placeholder={""}
-                        index={0}
-                        value={state.summary}
-                        onChange={(e) => state.setSummary(e)}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2}>
-                      <div className="horizontal-line mt-4 mb-4"></div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2}>
-                      <div className="buttons">
+      <div className="review-content">
+        <div className="p-4">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label>Summary</label>
+                </td>
+                <td>
+                  <AutoTextArea
+                    disabled={state.loading}
+                    className="input"
+                    placeholder={""}
+                    index={0}
+                    value={getResult()}
+                    onChange={(e) => state.setSummary(e)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={2}>
+                  <div className="horizontal-line mt-4 mb-4"></div>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={2}>
+                  <div className="mt-2">
+                    <div className="buttons">
+                      <button
+                        disabled={state.loading}
+                        className={
+                          "button is-primary " +
+                          (state.loading ? "is-loading" : "")
+                        }
+                        onClick={onImproveClick}
+                      >
+                        Improve
+                      </button>
+                      {state.result.length > 0 && (
                         <button
-                          disabled={loading}
-                          className={
-                            "button is-info " + (loading ? "is-loading" : "")
-                          }
-                          onClick={onSummariseClick}
+                          disabled={state.loading}
+                          className="button is-info"
+                          onClick={onResetClick}
                         >
-                          Summarise
+                          Reset
                         </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div className="column">
-          <ResultsInlineComponent
-            startingState={tempResult}
-            onUpdate={onUpdate}
-            loading={loading}
-          />
-          {tempResult.length > 0 && (
-            <div>
-              <button
-                disabled={loading}
-                className="button is-primary"
-                onClick={onUseVersionClick}
-              >
-                Use this version
-              </button>
-            </div>
-          )}
+                      )}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-
       <div>
         <ResultsError />
       </div>
