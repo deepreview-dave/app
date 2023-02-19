@@ -33,6 +33,8 @@ export const ResumePrepEducation = () => {
 
   const getIsValid = () => state.items.length > 0;
 
+  const getIsValidDescription = () => !!h.details;
+
   const getNewDetails = () => {
     const value = h.results
       .filter((e) => e.editable)
@@ -148,6 +150,103 @@ export const ResumePrepEducation = () => {
       return null;
     }
 
+    const InvalidDescription = () => {
+      if (getIsValidDescription()) {
+        return null;
+      }
+
+      return (
+        <div className="buttons mt-4">
+          <button className="button is-success" onClick={onNextClick}>
+            Continue
+          </button>
+        </div>
+      );
+    };
+
+    const ValidDescription = () => {
+      if (!getIsValidDescription()) {
+        return null;
+      }
+
+      return (
+        <>
+          <div className="content mt-4">
+            For this school we've identified the following <b>Description:</b>
+          </div>
+          <div className="message">
+            <div className="message-body">{getOriginalDetails()}</div>
+          </div>
+          {!getHasChanged() && (
+            <>
+              <div className="content">
+                You have two options for this description: use the existing one
+                or let DeepReview attempt to improve it.
+              </div>
+              <div className="buttons">
+                <UseExistingButton />
+                <button
+                  title="Let DeepReview improve on the existing description"
+                  disabled={h.loading}
+                  onClick={onImproveClick}
+                  className={
+                    "button is-info " + (h.loading ? "is-loading" : "")
+                  }
+                >
+                  Improve
+                </button>
+              </div>
+            </>
+          )}
+          {getHasChanged() && (
+            <>
+              <div className="content">
+                DeepReview has generated this improved job description.
+              </div>
+              <div className="review-content">
+                <div className="p-4">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <label>New Summary</label>
+                        </td>
+                        <td>
+                          <AutoTextArea
+                            disabled={h.loading}
+                            className="input"
+                            placeholder={""}
+                            index={0}
+                            value={getNewDetails()}
+                            onChange={onNewDetailsValueEdit}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="content mt-4">
+                Now you can choose to still use the existing details of the new
+                details.
+              </div>
+              <div className="buttons mt-4">
+                <UseExistingButton />
+                <UseNewButton />
+                <button
+                  disabled={h.loading}
+                  className="button"
+                  onClick={onResetClick}
+                >
+                  Reset
+                </button>
+              </div>
+            </>
+          )}
+        </>
+      );
+    };
+
     return (
       <>
         <div className="content">
@@ -242,76 +341,8 @@ export const ResumePrepEducation = () => {
             </table>
           </div>
         </div>
-        <div className="content mt-4">
-          For this school we've identified the following <b>Description:</b>
-        </div>
-        <div className="message">
-          <div className="message-body">{getOriginalDetails()}</div>
-        </div>
-        {!getHasChanged() && (
-          <>
-            <div className="content">
-              You have two options for this description: use the existing one or
-              let DeepReview attempt to improve it.
-            </div>
-            <div className="buttons">
-              <UseExistingButton />
-              <button
-                title="Let DeepReview improve on the existing description"
-                disabled={h.loading}
-                onClick={onImproveClick}
-                className={"button is-info " + (h.loading ? "is-loading" : "")}
-              >
-                Improve
-              </button>
-            </div>
-          </>
-        )}
-        {getHasChanged() && (
-          <>
-            <div className="content">
-              DeepReview has generated this improved job description.
-            </div>
-            <div className="review-content">
-              <div className="p-4">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <label>New Summary</label>
-                      </td>
-                      <td>
-                        <AutoTextArea
-                          disabled={h.loading}
-                          className="input"
-                          placeholder={""}
-                          index={0}
-                          value={getNewDetails()}
-                          onChange={onNewDetailsValueEdit}
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="content mt-4">
-              Now you can choose to still use the existing details of the new
-              details.
-            </div>
-            <div className="buttons mt-4">
-              <UseExistingButton />
-              <UseNewButton />
-              <button
-                disabled={h.loading}
-                className="button"
-                onClick={onResetClick}
-              >
-                Reset
-              </button>
-            </div>
-          </>
-        )}
+        <ValidDescription />
+        <InvalidDescription />
       </>
     );
   };

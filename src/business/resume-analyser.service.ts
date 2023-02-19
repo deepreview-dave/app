@@ -60,7 +60,7 @@ export class ResumeAnalyserService {
       degree: edu.accreditation?.education ?? "",
       start: edu.dates?.startDate?.toDateString() ?? "",
       end: edu.dates?.completionDate?.toDateString() ?? "",
-      details: "Did a major in Computer Science with a GPA or 3.2",
+      details: "", // "Did a major in Computer Science with a GPA or 3.2",
     }));
   };
 }
