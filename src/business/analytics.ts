@@ -9,6 +9,7 @@ enum AnalyticsEventName {
   DOWNLOAD = "download",
   GENERATE_ERROR = "generate_error",
   SUBSCRIBED = "subscribed",
+  UPLOAD_RESUME = "upload_resume_to_analyse",
 }
 
 export enum AnalyticsToolName {
@@ -19,6 +20,8 @@ export enum AnalyticsToolName {
   PRAISE = "praise",
   RESIGNATION = "resignation_letter",
   COMPENSATION = "compensation",
+  RESUME_ANALYSER = "resume_analyser_1",
+  RESUME_PREP = "resume_analyser_2",
 }
 
 export type GeneratedAnalyticsParams = {
@@ -73,5 +76,9 @@ export class Analytics {
 
   static subscribed() {
     mixpanel.track(AnalyticsEventName.SUBSCRIBED);
+  }
+
+  static uploadResume() {
+    mixpanel.track(AnalyticsEventName.UPLOAD_RESUME);
   }
 }

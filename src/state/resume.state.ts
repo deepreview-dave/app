@@ -1,5 +1,10 @@
 import create from "zustand";
-import { AIResult, WorkHistory } from "../business/common";
+import {
+  AIResult,
+  ResumeAnalyserOutput,
+  WorkHistory,
+} from "../business/common";
+import { OpenAIServiceUtils } from "../business/open-ai.service";
 
 export type ResumeDetailsState = {
   name: string;
@@ -18,6 +23,7 @@ export type ResumeDetailsState = {
   setWebsite: (website: string) => void;
   setResult: (result: AIResult[]) => void;
   setLoading: (loading: boolean) => void;
+  setData: (data: ResumeAnalyserOutput) => void;
 };
 
 export type ResumeSummaryState = {
@@ -33,6 +39,7 @@ export type ResumeSummaryState = {
   setSummary: (summary: string) => void;
   setResult: (result: AIResult[]) => void;
   setLoading: (loading: boolean) => void;
+  setData: (data: ResumeAnalyserOutput) => void;
 };
 
 export type ResumeWorkHistory = {
@@ -67,6 +74,7 @@ export type ResumeHistoryState = {
   setHistory: (index: number, history: ResumeWorkHistory) => void;
   setResults: (results: AIResult[], index: number) => void;
   setLoading: (loading: boolean, index: number) => void;
+  setData: (data: ResumeAnalyserOutput) => void;
 };
 
 export type ResumeEducationHistory = {
@@ -103,6 +111,7 @@ export type ResumeEducationState = {
   selectHistory: (selectedIndex: number) => void;
   setResults: (results: AIResult[], index: number) => void;
   setLoading: (loading: boolean, index: number) => void;
+  setData: (data: ResumeAnalyserOutput) => void;
 };
 
 export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
@@ -122,6 +131,16 @@ export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   setWebsite: (website: string) => set((state) => ({ ...state, website })),
   setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
   setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
+  setData: (data: ResumeAnalyserOutput) =>
+    set((state) => ({
+      ...state,
+      name: data.details.name,
+      address: data.details.address,
+      phone: data.details.phone,
+      email: data.details.email,
+      linkedin: data.details.linkedin,
+      website: data.details.website,
+    })),
 }));
 
 export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
@@ -138,6 +157,20 @@ export const useResumeSummaryState = create<ResumeSummaryState>()((set) => ({
   setSummary: (summary: string) => set((state) => ({ ...state, summary })),
   setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
   setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
+  setData: (data: ResumeAnalyserOutput) =>
+    set((state) => ({
+      ...state,
+      skills: data.summary.skills,
+      summary: data.summary.summary,
+      result: [
+        {
+          original: data.summary.summary,
+          expanded: data.summary.summary,
+          editable: true,
+          joined: false,
+        },
+      ],
+    })),
 }));
 
 export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
@@ -174,6 +207,27 @@ export const useResumeWorkHistoryState = create<ResumeHistoryState>()(
         const items = state.items.map((e, i) =>
           i === index ? { ...e, loading } : e
         );
+        return { ...state, items };
+      }),
+    setData: (data: ResumeAnalyserOutput) =>
+      set((state) => {
+        const items: ResumeWorkHistory[] = data.workplaces.map((e) => ({
+          role: e.role,
+          company: e.company,
+          start: e.start,
+          end: e.end,
+          details: e.details,
+          results: [
+            OpenAIServiceUtils.getBakedWorkResults(e),
+            {
+              original: e.details,
+              expanded: e.details,
+              editable: true,
+              joined: false,
+            },
+          ],
+          loading: false,
+        }));
         return { ...state, items };
       }),
   })
@@ -217,6 +271,27 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
         const items = state.items.map((e, i) =>
           i === index ? { ...e, loading } : e
         );
+        return { ...state, items };
+      }),
+    setData: (data: ResumeAnalyserOutput) =>
+      set((state) => {
+        const items: ResumeEducationHistory[] = data.education.map((e) => ({
+          school: e.school,
+          degree: e.degree,
+          start: e.start,
+          end: e.end,
+          details: e.details,
+          results: [
+            OpenAIServiceUtils.getBakedEducationResult(e),
+            {
+              original: e.details,
+              expanded: e.details,
+              editable: true,
+              joined: false,
+            },
+          ],
+          loading: false,
+        }));
         return { ...state, items };
       }),
   })

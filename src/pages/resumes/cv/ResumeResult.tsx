@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   isValidEducationHistory,
   isValidWorkHistory,
@@ -180,8 +181,8 @@ export const ResumeResult = () => {
           <>
             {summary.result
               .map((e) => e.expanded)
-              .map((e) => (
-                <p>{e}</p>
+              .map((e, i) => (
+                <p key={i}>{e}</p>
               ))}
           </>
         );
@@ -217,9 +218,9 @@ export const ResumeResult = () => {
     const History = () => {
       return (
         <div>
-          {validItems.map((e) => (
-            <>
-              <p>
+          {validItems.map((e, index) => (
+            <Fragment key={e.company + "-" + e.role + "-" + index}>
+              <p key={e.company + "-" + e.role + "-" + index}>
                 <span>
                   <b>{e.role}</b>
                 </span>
@@ -237,8 +238,8 @@ export const ResumeResult = () => {
               {e.results
                 .filter((i) => i.editable)
                 .map((i) => i.expanded)
-                .map((i) => (
-                  <p>{i}</p>
+                .map((i, index) => (
+                  <p key={index}>{i}</p>
                 ))}
               {e.results.length === 0 && (
                 <p>
@@ -250,7 +251,7 @@ export const ResumeResult = () => {
                   </span>
                 </p>
               )}
-            </>
+            </Fragment>
           ))}
         </div>
       );
@@ -309,7 +310,7 @@ export const ResumeResult = () => {
       return (
         <div>
           {validItems.map((e) => (
-            <>
+            <Fragment key={e.school + "-" + e.degree}>
               <p>
                 <span>
                   <b>{e.school}</b>
@@ -331,7 +332,7 @@ export const ResumeResult = () => {
                 .map((i) => (
                   <p>{i}</p>
                 ))}
-            </>
+            </Fragment>
           ))}
         </div>
       );

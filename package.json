@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@affinda/affinda": "^4.3.0",
     "@cfworker/json-schema": "^1.12.5",
     "@haverstack/axios-fetch-adapter": "^0.4.0",
     "@progress/kendo-drawing": "^1.17.3",

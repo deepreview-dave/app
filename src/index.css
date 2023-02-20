@@ -109,6 +109,10 @@ a.underlined-style {
   text-align: right;
 }
 
+.review-content table > tbody > tr > td.is-vcentered {
+  vertical-align: middle;
+}
+
 .review-content table {
   width: 100%;
 }

@@ -34,7 +34,6 @@ export const SubscribeFrom = () => {
     if (subscribeResult) {
       setSubscribed();
       updateEmail("");
-      Analytics.subscribed();
     } else {
       setSubscribeError(true);
     }

@@ -1,5 +1,6 @@
 import jsonp from "jsonp";
 import queryString from "query-string";
+import { Analytics } from "./analytics";
 
 enum Result {
   SUCCESS = "success",
@@ -34,6 +35,7 @@ export class EmailSubscribeService {
           return;
         }
 
+        Analytics.subscribed();
         resolve(result.result === Result.SUCCESS);
       });
     });

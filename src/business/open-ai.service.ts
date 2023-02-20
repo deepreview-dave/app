@@ -10,6 +10,7 @@ import {
   ResumeWorkHistoryPromptBuilder,
   ResumeEducationHistoryPromptBuilder,
   PraisePromptBuilder,
+  SummariseToBulletPointsPromptBuilder,
 } from "./prompt-builder";
 import {
   AIResult,
@@ -18,6 +19,9 @@ import {
   PerformanceScore,
   PraiseInput,
   ReferralLetterInput,
+  ResumeAnalyserDetails,
+  ResumeAnalyserEducationHistory,
+  ResumeAnalyserWorkHistory,
   ResumeDetailsInput,
   ResumeSummaryInput,
   ReviewTone,
@@ -28,6 +32,7 @@ import {
   ResumeEducationHistory,
   ResumeWorkHistory,
 } from "../state/resume.state";
+import { Analytics } from "./analytics";
 
 type NetworkInput = {
   model: string;
@@ -82,6 +87,8 @@ export class OpenAIService {
       prompt,
     });
 
+    Analytics.generated();
+
     return response
       .split(".")
       .map((e) => e.trim())
@@ -106,6 +113,8 @@ export class OpenAIService {
       prompt,
     });
 
+    Analytics.generated();
+
     return response
       .split(".")
       .map((e) => e.trim())
@@ -129,6 +138,8 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+
+    Analytics.generated();
 
     return response
       .split(".")
@@ -155,6 +166,8 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+
+    Analytics.generated();
 
     const aiResult = response
       .split(".")
@@ -190,25 +203,8 @@ export class OpenAIService {
   }
 
   async generateResumeDetails(input: ResumeDetailsInput): Promise<AIResult[]> {
-    const details = [
-      `Name: ${input.name}`,
-      `Address: ${input.address}`,
-      `Phone: ${input.phone}`,
-      `Email: ${input.email}`,
-    ];
-    if (input.linkedin) {
-      details.push(`Linkedin: ${input.linkedin}`);
-    }
-    if (input.website) {
-      details.push(`Website: ${input.website}`);
-    }
-
-    const result = {
-      original: details.join("\n"),
-      expanded: details.join("\n"),
-      editable: false,
-      joined: false,
-    };
+    const result = OpenAIServiceUtils.getBakedDetailsResult(input);
+    Analytics.generated();
     return [result];
   }
 
@@ -242,7 +238,35 @@ export class OpenAIService {
         joined: false,
       };
     }
+    Analytics.generated();
     return [summary];
+  }
+
+  async generateBulletPointSummary(
+    question: string,
+    text: string
+  ): Promise<AIResult[]> {
+    const prompt = new SummariseToBulletPointsPromptBuilder().build(
+      question,
+      text
+    );
+    const max_tokens = prompt.length + 750;
+    const response = await this.getResponse({
+      model: this.MODEL,
+      temperature: 0.25,
+      max_tokens,
+      prompt,
+    });
+    const value = response.trim();
+    Analytics.generated();
+    return [
+      {
+        original: value,
+        expanded: value,
+        editable: true,
+        joined: false,
+      },
+    ];
   }
 
   async generateResumeWorkHistoryItem(
@@ -257,17 +281,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
-    const bakedResult = [
-      `Company: ${input.company}`,
-      `Role: ${input.role} (${input.start} - ${input.end})`,
-    ].join("\n");
-    const baked = {
-      original: bakedResult,
-      expanded: bakedResult,
-      editable: false,
-      joined: true,
-    };
-
+    const baked = OpenAIServiceUtils.getBakedWorkResults(input);
     const value = response.trim();
     const aiResult = {
       original: value,
@@ -275,7 +289,7 @@ export class OpenAIService {
       editable: true,
       joined: false,
     };
-
+    Analytics.generated();
     return [baked, aiResult];
   }
 
@@ -283,17 +297,7 @@ export class OpenAIService {
     question: string,
     input: ResumeEducationHistory
   ): Promise<AIResult[]> {
-    const result = [
-      `School: ${input.school}`,
-      `Degree: ${input.degree} (${input.start} - ${input.end})`,
-    ].join("\n");
-
-    const bakedResult = {
-      original: result,
-      expanded: result,
-      editable: false,
-      joined: true,
-    };
+    const bakedResult = OpenAIServiceUtils.getBakedEducationResult(input);
 
     if (!input.details) {
       return [bakedResult];
@@ -318,7 +322,7 @@ export class OpenAIService {
       editable: true,
       joined: false,
     };
-
+    Analytics.generated();
     return [bakedResult, aiResult];
   }
 
@@ -333,6 +337,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+    Analytics.expanded();
     return response.trim();
   }
 
@@ -354,6 +359,8 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+
+    Analytics.generated();
     return response.trim();
   }
 
@@ -366,6 +373,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+    Analytics.generated();
     return response.trim();
   }
 
@@ -378,6 +386,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
+    Analytics.generated();
     return response.trim();
   }
 
@@ -388,16 +397,73 @@ export class OpenAIService {
       )) as NetworkResponse;
 
       if (response.status !== 200) {
+        Analytics.generateError();
         throw new Error(OpenAIErrorMessage.BadStatus);
       } else if (response.data.choices.length === 0) {
+        Analytics.generateError();
         throw new Error(OpenAIErrorMessage.NoContent);
       } else if (response.data.choices[0].text === undefined) {
+        Analytics.generateError();
         throw new Error(OpenAIErrorMessage.MissingText);
       }
 
       return response.data.choices[0].text ?? "";
     } catch (e) {
+      Analytics.generateError();
       throw new Error(OpenAIErrorMessage.Network);
     }
+  }
+}
+
+export class OpenAIServiceUtils {
+  static getBakedDetailsResult(input: ResumeAnalyserDetails): AIResult {
+    const details = [
+      `Name: ${input.name}`,
+      `Address: ${input.address}`,
+      `Phone: ${input.phone}`,
+      `Email: ${input.email}`,
+    ];
+    if (input.linkedin) {
+      details.push(`Linkedin: ${input.linkedin}`);
+    }
+    if (input.website) {
+      details.push(`Website: ${input.website}`);
+    }
+
+    return {
+      original: details.join("\n"),
+      expanded: details.join("\n"),
+      editable: false,
+      joined: false,
+    };
+  }
+
+  static getBakedWorkResults(input: ResumeAnalyserWorkHistory): AIResult {
+    const bakedResult = [
+      `Company: ${input.company}`,
+      `Role: ${input.role} (${input.start} - ${input.end})`,
+    ].join("\n");
+    return {
+      original: bakedResult,
+      expanded: bakedResult,
+      editable: false,
+      joined: true,
+    };
+  }
+
+  static getBakedEducationResult(
+    input: ResumeAnalyserEducationHistory
+  ): AIResult {
+    const result = [
+      `School: ${input.school}`,
+      `Degree: ${input.degree} (${input.start} - ${input.end})`,
+    ].join("\n");
+
+    return {
+      original: result,
+      expanded: result,
+      editable: false,
+      joined: true,
+    };
   }
 }

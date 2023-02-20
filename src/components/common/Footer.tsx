@@ -66,6 +66,11 @@ export const Footer = () => {
               Coming Soon Image by pch.vector
             </a>{" "}
             on Freepik
+            {" | "}
+            <a href="https://www.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_12849227.htm#query=success&position=9&from_view=search&track=sph">
+              Success Image by syarifahbrit
+            </a>{" "}
+            on Freepik
           </small>
         </p>
       </div>

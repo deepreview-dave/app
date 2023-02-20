@@ -1,7 +1,8 @@
-import { API_ROUTES } from "..";
-import { Footer } from "../components/common/Footer";
-import { NavbarBig } from "../components/common/NavbarBig";
-import { SubscribeFrom } from "../components/subscribe/SubscribeForm";
+import { API_ROUTES } from "../..";
+import { Footer } from "../../components/common/Footer";
+import { NavbarBig } from "../../components/common/NavbarBig";
+import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
+import { ResumeAnalyserCard } from "./ResumeAnalyserCard";
 
 export const HomePage = () => {
   const PageInfo = () => {
@@ -216,6 +217,8 @@ export const HomePage = () => {
           <hr />
           <PageInfo />
           <hr />
+          <ResumeAnalyserCard />
+          <div className="mt-6"></div>
           <AvailableOptions />
         </div>
       </div>
