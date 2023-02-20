@@ -125,6 +125,7 @@ export const ResumePrepSummary = () => {
           </div>
         </div>
         <ContinueButton onClick={onNextClick} />
+        <PrevButton onClick={onPrevClick} />
       </div>
     );
   }

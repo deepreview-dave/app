@@ -278,6 +278,7 @@ export const ResumePrepEducation = () => {
           </div>
         </div>
         <ContinueButton onClick={onNextClick} />
+        <PrevButton onClick={onPrevClick} />
       </div>
     );
   }

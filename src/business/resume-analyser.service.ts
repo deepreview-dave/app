@@ -7,14 +7,14 @@ export enum ResumeAnalyseErrorMessage {
 
 export class ResumeAnalyserService {
   async analyseResume(file: File): Promise<ResumeAnalyserOutput> {
-    // const credential = new AffindaCredential(
-    //   process.env.REACT_APP_AFFINDA_KEY!
-    // );
-    // const client = new AffindaAPI(credential);
+    const credential = new AffindaCredential(
+      process.env.REACT_APP_AFFINDA_KEY!
+    );
+    const client = new AffindaAPI(credential);
 
     try {
-      // const parsed = await client.createResume({ file });
-      const parsed = mockResponse as unknown as Resume;
+      const parsed = await client.createResume({ file });
+      // const parsed = mockResponse as unknown as Resume;
       const details = this.praseDetails(parsed);
       const summary = this.parseSummary(parsed);
       const workplaces = this.parseWorkExp(parsed);
@@ -60,7 +60,7 @@ export class ResumeAnalyserService {
       degree: edu.accreditation?.education ?? "",
       start: edu.dates?.startDate?.toDateString() ?? "",
       end: edu.dates?.completionDate?.toDateString() ?? "",
-      details: "Studied CS with a minor in Biology.", // not supported atm
+      details: "", // not supported atm
     }));
   };
 }
