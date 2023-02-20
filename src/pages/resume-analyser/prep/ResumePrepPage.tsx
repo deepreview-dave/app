@@ -8,6 +8,7 @@ import {
   ResumePrepareStep,
   useResumePrepareState,
 } from "../../../state/resume-analyser.state";
+import { ResumePrepSteps } from "./subcomponents/ResumePrepSteps";
 import { ResumePrepDetails } from "./subsections/ResumePrepDetails";
 import { ResumePrepEducation } from "./subsections/ResumePrepEducation";
 import { ResumePrepFinal } from "./subsections/ResumePrepFinal";
@@ -47,10 +48,7 @@ export const ResumePrepPage = () => {
       <ResumePrepBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container">
-          <div className="content">
-            <h3>Prepare Resume</h3>
-            <p>DeepReview has successfully analysed your Resume.</p>
-          </div>
+          <ResumePrepSteps />
           <hr />
           <MainContent />
         </div>
