@@ -142,7 +142,7 @@ export const ResumePrepSummary = () => {
             You can either let DeepReview attempt to improve it or continue
             using the existing one.
           </div>
-          <div className="columns is-mobile">
+          <div className="columns">
             <div className="column">
               <button
                 disabled={state.loading}

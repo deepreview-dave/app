@@ -13,6 +13,7 @@ import {
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
 import { useResumeEducationHistoryState } from "../../../../state/resume.state";
+import { ordinalOfNumber } from "../../../../utils/string";
 import { ContinueButton } from "../subcomponents/ContinueButton";
 
 export const ResumePrepEducation = () => {
@@ -130,7 +131,7 @@ export const ResumePrepEducation = () => {
       title="Accept the existing description"
       className="button is-success"
     >
-      Use existing description
+      Continue with existing Description
     </button>
   );
 
@@ -141,16 +142,32 @@ export const ResumePrepEducation = () => {
       className="button is-success"
       onClick={onUseNewClick}
     >
-      Use new description
+      Continue with new Description
     </button>
   );
 
-  const Header = () => (
-    <div className="content">
-      We've identified the following <b>Schools</b> from your Resume:{" "}
-      <b>{h.degree}</b> at <b>{h.school}</b>
-    </div>
-  );
+  const Header = () => {
+    if (state.items.length === 1) {
+      return (
+        <div className="content">
+          We've identified one School from your Resume: <b>{h.degree}</b> at{" "}
+          <b>{h.school}</b>.
+        </div>
+      );
+    }
+
+    return (
+      <div className="content">
+        <p>
+          We've identified <b>{state.items.length} Schools</b> from your Resume.
+        </p>
+        <p>
+          The {ordinalOfNumber(currentIndex + 1)} one is <b>{h.degree}</b> at{" "}
+          <b>{h.school}</b>.
+        </p>
+      </div>
+    );
+  };
 
   const MainContent = () => (
     <div className="review-content">
@@ -245,10 +262,8 @@ export const ResumePrepEducation = () => {
 
   const InvalidDescription = () => {
     return (
-      <div className="buttons mt-4">
-        <button className="button is-success" onClick={onNextClick}>
-          Continue
-        </button>
+      <div className="mt-4">
+        <ContinueButton onClick={onNextClick} />
       </div>
     );
   };
@@ -273,7 +288,8 @@ export const ResumePrepEducation = () => {
       {!getIsValidDescription() && <InvalidDescription />}
       {getIsValidDescription() && (
         <div className="content mt-4">
-          For this school we've identified the following <b>Description:</b>
+          For this school we've also identified the following{" "}
+          <b>Description:</b>
         </div>
       )}
       {getIsValidDescription() && (
@@ -284,26 +300,30 @@ export const ResumePrepEducation = () => {
       {!getHasChanged() && getIsValidDescription() && (
         <>
           <div className="content">
-            You have two options for this description: use the existing one or
-            let DeepReview attempt to improve it.
+            You can either let DeepReview attempt to improve it or continue
+            using the existing one.
           </div>
-          <div className="buttons">
-            <UseExistingButton />
-            <button
-              title="Let DeepReview improve on the existing description"
-              disabled={h.loading}
-              onClick={onImproveClick}
-              className={"button is-info " + (h.loading ? "is-loading" : "")}
-            >
-              Improve
-            </button>
+          <div className="columns">
+            <div className="column">
+              <button
+                title="Let DeepReview improve on the existing description"
+                disabled={h.loading}
+                onClick={onImproveClick}
+                className={"button is-info " + (h.loading ? "is-loading" : "")}
+              >
+                Improve
+              </button>
+            </div>
+            <div className="column is-narrow">
+              <UseExistingButton />
+            </div>
           </div>
         </>
       )}
       {getHasChanged() && getIsValidDescription() && (
         <>
           <div className="content">
-            DeepReview has generated this improved job description.
+            DeepReview has generated this improved school Description.
           </div>
           <div className="review-content">
             <div className="p-4">
@@ -329,19 +349,25 @@ export const ResumePrepEducation = () => {
             </div>
           </div>
           <div className="content mt-4">
-            Now you can choose to still use the existing details of the new
-            details.
+            Now you can choose to still use the existing description of the new
+            description.
           </div>
-          <div className="buttons mt-4">
-            <UseExistingButton />
-            <UseNewButton />
-            <button
-              disabled={h.loading}
-              className="button"
-              onClick={onResetClick}
-            >
-              Reset
-            </button>
+          <div className="columns">
+            <div className="column">
+              <button
+                disabled={h.loading}
+                className="button"
+                onClick={onResetClick}
+              >
+                Reset
+              </button>
+            </div>
+            <div className="column is-narrow">
+              <div className="buttons">
+                <UseExistingButton />
+                <UseNewButton />
+              </div>
+            </div>
           </div>
         </>
       )}

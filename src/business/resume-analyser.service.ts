@@ -15,7 +15,6 @@ export class ResumeAnalyserService {
     try {
       // const parsed = await client.createResume({ file });
       const parsed = mockResponse as unknown as Resume;
-      console.log(parsed);
       const details = this.praseDetails(parsed);
       const summary = this.parseSummary(parsed);
       const workplaces = this.parseWorkExp(parsed);
@@ -61,7 +60,7 @@ export class ResumeAnalyserService {
       degree: edu.accreditation?.education ?? "",
       start: edu.dates?.startDate?.toDateString() ?? "",
       end: edu.dates?.completionDate?.toDateString() ?? "",
-      details: "", // not supported atm
+      details: "Studied CS with a minor in Biology.", // not supported atm
     }));
   };
 }
