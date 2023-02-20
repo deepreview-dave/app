@@ -5,12 +5,14 @@ import {
 } from "../../../../state/resume-analyser.state";
 import { useResumeSummaryState } from "../../../../state/resume.state";
 import { ContinueButton } from "../subcomponents/ContinueButton";
+import { PrevButton } from "../subcomponents/PrevButton";
 
 export const ResumePrepSkills = () => {
   const state = useResumeSummaryState((state) => state);
   const setStep = useResumePrepareState((state) => state.setStep);
 
   const onNextClick = () => setStep(ResumePrepareStep.Summary);
+  const onPrevClick = () => setStep(ResumePrepareStep.Details);
 
   return (
     <div>
@@ -70,6 +72,7 @@ export const ResumePrepSkills = () => {
       <div className="mt-4">
         <ContinueButton onClick={onNextClick} />
       </div>
+      <PrevButton onClick={onPrevClick} />
     </div>
   );
 };

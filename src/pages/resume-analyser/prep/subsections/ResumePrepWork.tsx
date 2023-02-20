@@ -15,6 +15,7 @@ import {
 import { useResumeWorkHistoryState } from "../../../../state/resume.state";
 import { ordinalOfNumber } from "../../../../utils/string";
 import { ContinueButton } from "../subcomponents/ContinueButton";
+import { PrevButton } from "../subcomponents/PrevButton";
 
 export const ResumePrepWork = () => {
   const resumeToAnalyse = useResumeAnalyserState(
@@ -127,7 +128,7 @@ export const ResumePrepWork = () => {
       onClick={onUseExistingClick}
       disabled={h.loading}
       title="Accept the existing description"
-      className="button is-success"
+      className={"button " + (getHasChanged() ? "" : "is-success")}
     >
       Continue with existing Description
     </button>
@@ -370,6 +371,7 @@ export const ResumePrepWork = () => {
         </>
       )}
       <ResultsError />
+      <PrevButton onClick={onPrevClick} />
     </div>
   );
 };

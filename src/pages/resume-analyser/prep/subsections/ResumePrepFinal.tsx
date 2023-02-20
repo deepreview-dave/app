@@ -5,13 +5,13 @@ import {
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
 import { ResumeResult } from "../../../resumes/cv/ResumeResult";
+import { PrevButton } from "../subcomponents/PrevButton";
 
 export const ResumePrepFinal = () => {
   const navitate = useNavigate();
   const setStep = useResumePrepareState((state) => state.setStep);
-  const onPrev = () => setStep(ResumePrepareStep.Details);
-
-  const onFinish = () => navitate(API_ROUTES.RESUME_CV);
+  const onPrevClick = () => setStep(ResumePrepareStep.Details);
+  const onFinishClick = () => navitate(API_ROUTES.RESUME_CV);
 
   return (
     <div>
@@ -21,12 +21,13 @@ export const ResumePrepFinal = () => {
           able to edit, preview and download your Resume.
         </div>
         <div className="column is-narrow">
-          <button className="button is-success" onClick={onFinish}>
+          <button className="button is-success" onClick={onFinishClick}>
             Finish
           </button>
         </div>
       </div>
       <ResumeResult />
+      <PrevButton onClick={onPrevClick} />
     </div>
   );
 };

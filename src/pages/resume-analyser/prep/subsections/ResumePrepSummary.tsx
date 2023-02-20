@@ -1,3 +1,4 @@
+import { getHashes } from "crypto";
 import { AIResult } from "../../../../business/common";
 import { OpenAIService } from "../../../../business/open-ai.service";
 import { AutoTextArea } from "../../../../components/common/AutoTextArea";
@@ -13,6 +14,7 @@ import {
   useResumeSummaryState,
 } from "../../../../state/resume.state";
 import { ContinueButton } from "../subcomponents/ContinueButton";
+import { PrevButton } from "../subcomponents/PrevButton";
 
 export const ResumePrepSummary = () => {
   const resumeToAnalyse = useResumeAnalyserState(
@@ -97,7 +99,7 @@ export const ResumePrepSummary = () => {
       disabled={state.loading}
       onClick={onUseExistingClick}
       title="Accept the existing summary"
-      className="button is-success"
+      className={"button " + (getChanged() ? "" : "is-success")}
     >
       Continue with existing Summary
     </button>
@@ -216,6 +218,7 @@ export const ResumePrepSummary = () => {
       <div>
         <ResultsError />
       </div>
+      <PrevButton onClick={onPrevClick} />
     </div>
   );
 };

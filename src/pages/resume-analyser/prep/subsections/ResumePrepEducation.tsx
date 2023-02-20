@@ -15,6 +15,7 @@ import {
 import { useResumeEducationHistoryState } from "../../../../state/resume.state";
 import { ordinalOfNumber } from "../../../../utils/string";
 import { ContinueButton } from "../subcomponents/ContinueButton";
+import { PrevButton } from "../subcomponents/PrevButton";
 
 export const ResumePrepEducation = () => {
   const resumeToAnalyse = useResumeAnalyserState(
@@ -129,7 +130,7 @@ export const ResumePrepEducation = () => {
       onClick={onUseExistingClick}
       disabled={h.loading}
       title="Accept the existing description"
-      className="button is-success"
+      className={"button " + (getHasChanged() ? "" : "is-success")}
     >
       Continue with existing Description
     </button>
@@ -372,6 +373,7 @@ export const ResumePrepEducation = () => {
         </>
       )}
       <ResultsError />
+      <PrevButton onClick={onPrevClick} />
     </div>
   );
 };
