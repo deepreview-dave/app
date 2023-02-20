@@ -15,20 +15,18 @@ export const ResumePrepFinal = () => {
 
   return (
     <div>
-      <ResumeResult />
-      <hr />
-      <div className="columns is-mobile">
+      <div className="columns is-mobile is-vcentered">
         <div className="column">
-          <button className="button is-secondary" onClick={onPrev}>
-            Prev
-          </button>
+          Click Finish to complete the process. Don't worry, you'll still be
+          able to edit, preview and download your Resume.
         </div>
         <div className="column is-narrow">
-          <button className="button is-primary" onClick={onFinish}>
+          <button className="button is-success" onClick={onFinish}>
             Finish
           </button>
         </div>
       </div>
+      <ResumeResult />
     </div>
   );
 };
