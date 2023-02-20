@@ -4,20 +4,19 @@ import {
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
 import { useResumeSummaryState } from "../../../../state/resume.state";
-import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
+import { ContinueButton } from "../subcomponents/ContinueButton";
 
 export const ResumePrepSkills = () => {
   const state = useResumeSummaryState((state) => state);
   const setStep = useResumePrepareState((state) => state.setStep);
 
-  const onNext = () => setStep(ResumePrepareStep.Summary);
-  const onPrev = () => setStep(ResumePrepareStep.Details);
+  const onNextClick = () => setStep(ResumePrepareStep.Summary);
 
   return (
     <div>
       <div className="content">
-        We've found the following <b>Skills</b> in your Resume. Check if they're
-        correct or if anything is missing.
+        We've found the following <b>Skills</b> in your Resume. Please check to
+        see if they're correct.
       </div>
       <div className="review-content">
         <div className="p-4">
@@ -68,21 +67,8 @@ export const ResumePrepSkills = () => {
           </table>
         </div>
       </div>
-      <div className="buttons mt-4">
-        <button className="button is-success" onClick={onNext}>
-          Use these Skills
-        </button>
-      </div>
-      <hr />
-      <div className="columns is-mobile">
-        <div className="column">
-          <button className="button is-secondary" onClick={onPrev}>
-            Prev
-          </button>
-        </div>
-        <div className="column is-narrow">
-          <ResumePrepSkipButton />
-        </div>
+      <div className="mt-4">
+        <ContinueButton onClick={onNextClick} />
       </div>
     </div>
   );

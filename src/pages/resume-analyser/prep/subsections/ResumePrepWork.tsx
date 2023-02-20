@@ -13,7 +13,7 @@ import {
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
 import { useResumeWorkHistoryState } from "../../../../state/resume.state";
-import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
+import { ContinueButton } from "../subcomponents/ContinueButton";
 
 export const ResumePrepWork = () => {
   const resumeToAnalyse = useResumeAnalyserState(
@@ -143,26 +143,6 @@ export const ResumePrepWork = () => {
     </button>
   );
 
-  const Footer = () => {
-    return (
-      <>
-        <hr />
-        <div className="columns mt-4 is-mobile">
-          <div className="column">
-            <div className="buttons">
-              <button className="button is-secondary" onClick={onPrevClick}>
-                Prev
-              </button>
-            </div>
-          </div>
-          <div className="column is-narrow">
-            <ResumePrepSkipButton />
-          </div>
-        </div>
-      </>
-    );
-  };
-
   const Header = () => (
     <div className="content">
       We've identified the following <b>Job</b> from your Resume:{" "}
@@ -276,15 +256,11 @@ export const ResumePrepWork = () => {
       <div>
         <div className="message is-warning">
           <div className="message-body">
-            We were not able to identify a any <b>Jobs</b> from your Resume.
+            We were not able to identify any <b>Work Experience</b> from your
+            Resume.
           </div>
         </div>
-        <div>
-          <button className="is-success button" onClick={onNextClick}>
-            Continue
-          </button>
-        </div>
-        <Footer />
+        <ContinueButton onClick={onNextClick} />
       </div>
     );
   }
@@ -369,7 +345,6 @@ export const ResumePrepWork = () => {
         </>
       )}
       <ResultsError />
-      <Footer />
     </div>
   );
 };

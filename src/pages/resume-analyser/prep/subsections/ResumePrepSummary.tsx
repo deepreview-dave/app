@@ -12,7 +12,7 @@ import {
   useResumeDetailsState,
   useResumeSummaryState,
 } from "../../../../state/resume.state";
-import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
+import { ContinueButton } from "../subcomponents/ContinueButton";
 
 export const ResumePrepSummary = () => {
   const resumeToAnalyse = useResumeAnalyserState(
@@ -99,7 +99,7 @@ export const ResumePrepSummary = () => {
       title="Accept the existing summary"
       className="button is-success"
     >
-      Use existing summary
+      Continue with existing Summary
     </button>
   );
 
@@ -110,29 +110,9 @@ export const ResumePrepSummary = () => {
       className="button is-success"
       onClick={onUseNewClick}
     >
-      Use new summary
+      Continue with new Summary
     </button>
   );
-
-  const Footer = () => {
-    return (
-      <>
-        <hr />
-        <div className="columns mt-4 is-mobile">
-          <div className="column">
-            <div className="buttons">
-              <button className="button is-secondary" onClick={onPrevClick}>
-                Prev
-              </button>
-            </div>
-          </div>
-          <div className="column is-narrow">
-            <ResumePrepSkipButton />
-          </div>
-        </div>
-      </>
-    );
-  };
 
   if (!getIsValid()) {
     return (
@@ -142,12 +122,7 @@ export const ResumePrepSummary = () => {
             We were not able to identify a valid <b>Summary Statement</b>.
           </div>
         </div>
-        <div>
-          <button className="is-success button" onClick={onNextClick}>
-            Continue
-          </button>
-        </div>
-        <Footer />
+        <ContinueButton onClick={onNextClick} />
       </div>
     );
   }
@@ -164,21 +139,25 @@ export const ResumePrepSummary = () => {
       {!getChanged() && (
         <>
           <div className="content">
-            You also have two options: use the existing summary as is or let
-            DeepReview attempt to improve on it.
+            You can either let DeepReview attempt to improve it or continue
+            using the existing one.
           </div>
-          <div className="buttons">
-            <UseExistingButton />
-            <button
-              disabled={state.loading}
-              onClick={onImproveClick}
-              title="Let DeepReview improve on the existing summary"
-              className={
-                "button is-info " + (state.loading ? "is-loading" : "")
-              }
-            >
-              Improve
-            </button>
+          <div className="columns is-mobile">
+            <div className="column">
+              <button
+                disabled={state.loading}
+                onClick={onImproveClick}
+                title="Let DeepReview improve on the existing summary"
+                className={
+                  "button is-info " + (state.loading ? "is-loading" : "")
+                }
+              >
+                Improve
+              </button>
+            </div>
+            <div className="column is-narrow">
+              <UseExistingButton />
+            </div>
           </div>
         </>
       )}
@@ -215,23 +194,28 @@ export const ResumePrepSummary = () => {
             Now you can choose to still use the existing summary of the new
             summary.
           </div>
-          <div className="buttons mt-4">
-            <UseExistingButton />
-            <UseNewButton />
-            <button
-              disabled={state.loading}
-              className="button"
-              onClick={onResetClick}
-            >
-              Reset
-            </button>
+          <div className="columns mt-4">
+            <div className="column">
+              <button
+                disabled={state.loading}
+                className="button"
+                onClick={onResetClick}
+              >
+                Reset
+              </button>
+            </div>
+            <div className="column is-narrow">
+              <div className="buttons">
+                <UseExistingButton />
+                <UseNewButton />
+              </div>
+            </div>
           </div>
         </>
       )}
       <div>
         <ResultsError />
       </div>
-      <Footer />
     </div>
   );
 };

@@ -13,7 +13,7 @@ import {
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
 import { useResumeEducationHistoryState } from "../../../../state/resume.state";
-import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
+import { ContinueButton } from "../subcomponents/ContinueButton";
 
 export const ResumePrepEducation = () => {
   const resumeToAnalyse = useResumeAnalyserState(
@@ -152,24 +152,6 @@ export const ResumePrepEducation = () => {
     </div>
   );
 
-  const Footer = () => (
-    <>
-      <hr />
-      <div className="columns mt-4 is-mobile">
-        <div className="column">
-          <div className="buttons">
-            <button className="button is-secondary" onClick={onPrevClick}>
-              Prev
-            </button>
-          </div>
-        </div>
-        <div className="column is-narrow">
-          <ResumePrepSkipButton />
-        </div>
-      </div>
-    </>
-  );
-
   const MainContent = () => (
     <div className="review-content">
       <div className="p-4">
@@ -279,12 +261,7 @@ export const ResumePrepEducation = () => {
             We were not able to identify a any <b>Schools</b> from your Resume.
           </div>
         </div>
-        <div>
-          <button className="is-success button" onClick={onNextClick}>
-            Continue
-          </button>
-        </div>
-        <Footer />
+        <ContinueButton onClick={onNextClick} />
       </div>
     );
   }
@@ -369,7 +346,6 @@ export const ResumePrepEducation = () => {
         </>
       )}
       <ResultsError />
-      <Footer />
     </div>
   );
 };

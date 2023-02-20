@@ -4,13 +4,13 @@ import {
   useResumePrepareState,
 } from "../../../../state/resume-analyser.state";
 import { useResumeDetailsState } from "../../../../state/resume.state";
-import { ResumePrepSkipButton } from "../ResumePrepSkipButton";
+import { ContinueButton } from "../subcomponents/ContinueButton";
 
 export const ResumePrepDetails = () => {
   const state = useResumeDetailsState((state) => state);
   const setStep = useResumePrepareState((state) => state.setStep);
 
-  const onNext = () => {
+  const onNextClick = () => {
     state.setResult([OpenAIServiceUtils.getBakedDetailsResult(state)]);
     setStep(ResumePrepareStep.Skills);
   };
@@ -18,8 +18,8 @@ export const ResumePrepDetails = () => {
   return (
     <div>
       <div className="content">
-        We've found the following starting <b>Details</b> in your Resume. Check
-        if they're correct or if anything is missing.
+        We've found the following starting <b>Details</b> in your Resume. Please
+        check to see if they're correct.
       </div>
       <div className="review-content">
         <div className="p-4">
@@ -113,14 +113,8 @@ export const ResumePrepDetails = () => {
           </table>
         </div>
       </div>
-      <div className="buttons mt-4">
-        <button className="button is-success" onClick={onNext}>
-          Use these Details
-        </button>
-      </div>
-      <hr />
-      <div className="buttons is-pulled-right">
-        <ResumePrepSkipButton />
+      <div className="mt-4">
+        <ContinueButton onClick={onNextClick} />
       </div>
     </div>
   );
