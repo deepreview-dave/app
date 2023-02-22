@@ -3,7 +3,6 @@ import { NavbarMin } from "../../../components/common/NavbarMin";
 import { Footer } from "../../../components/common/Footer";
 import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
 import { ResultsError } from "../../../components/results/ResultsError";
-import { ResultsBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../../business/analytics";
 import { useControlPanelState } from "../../../state/control-panel.state";
@@ -21,7 +20,6 @@ export const PerformanceReviewPage = () => {
   return (
     <div className="main-body">
       <NavbarMin />
-      <ResultsBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container">
           <div className="content">

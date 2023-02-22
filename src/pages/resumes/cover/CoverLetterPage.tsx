@@ -1,5 +1,4 @@
 import "../../../index.css";
-import { CoverLetterBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
@@ -21,7 +20,6 @@ export const CoverLetterPage = () => {
   return (
     <div className="main-body">
       <NavbarMin />
-      <CoverLetterBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container">
           <div className="content">

@@ -71,6 +71,11 @@ export const Footer = () => {
               Success Image by syarifahbrit
             </a>{" "}
             on Freepik
+            {" | "}
+            <a href="https://www.freepik.com/free-vector/manager-prioritizing-tasks-list_7732645.htm#page=3&position=8&from_view=author">
+              Image by pch.vector
+            </a>{" "}
+            on Freepik
           </small>
         </p>
       </div>

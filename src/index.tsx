@@ -10,7 +10,6 @@ import { Analytics } from "./business/analytics";
 import { HomePage } from "./pages/home/HomePage";
 import { SelectPersonaPage } from "./pages/performance-review/SelectPersonaPage";
 import { PerformanceReviewPage } from "./pages/performance-review/perf-review/PerformanceReviewPage";
-import { ResumeSelectionPage } from "./pages/resumes/ResumeSelectionPage";
 import { CoverLetterPage } from "./pages/resumes/cover/CoverLetterPage";
 import { ReferralPage } from "./pages/resumes/referral/ReferralPage";
 import { ResumePage } from "./pages/resumes/cv/ResumePage";
@@ -26,15 +25,14 @@ export enum API_ROUTES {
   HOME = "/",
   PERF_REVIEW_PERSONA = "/performance-review/persona",
   PERF_REVIEW_RESULT = "/performance-review/result",
-  RESUME_TOOL = "/resume/tool",
   RESUME_COVER_LETTER = "/resume/cover-letter",
   RESUME_REFERRAL = "/resume/referral-letter",
-  RESUME_CV = "/resume/cv",
   PRAISE = "/praise",
   PRIVACY_POLICY = "/privacy-policy",
   COOKIE_POLICY = "/cookie-policy",
   RESIGNATION_LETTER = "/resignation-letter",
   COMPENSATION = "/compensation",
+  RESUME_CV = "/resume/cv",
   AUTO_REVIEW_RESUME_ANALYSE = "/auto-review/resume/analyse",
   AUTO_REVIEW_RESUME_PREP = "/auto-review/resume/prep",
   MAIL_TO_CONTACT = "mailto:contact@deepreview.eu",
@@ -59,15 +57,6 @@ const router = createBrowserRouter([
     element: (
       <>
         <PerformanceReviewPage />
-        <ScrollRestoration />
-      </>
-    ),
-  },
-  {
-    path: API_ROUTES.RESUME_TOOL,
-    element: (
-      <>
-        <ResumeSelectionPage />
         <ScrollRestoration />
       </>
     ),

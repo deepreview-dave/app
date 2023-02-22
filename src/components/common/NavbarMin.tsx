@@ -39,8 +39,8 @@ export const NavbarMin = () => {
                 >
                   Resume Analyser
                 </a>
-                <a className="navbar-item" href={API_ROUTES.RESUME_TOOL}>
-                  Resumes & Cover Letters
+                <a className="navbar-item" href={API_ROUTES.RESUME_CV}>
+                  Resume Edit
                 </a>
                 <a
                   className="navbar-item"
@@ -48,13 +48,24 @@ export const NavbarMin = () => {
                 >
                   Performance Reviews
                 </a>
-
+                <a
+                  className="navbar-item"
+                  href={API_ROUTES.RESUME_COVER_LETTER}
+                >
+                  Cover Letters
+                </a>
+                <a className="navbar-item" href={API_ROUTES.RESUME_REFERRAL}>
+                  Referral Letters
+                </a>
                 <a className="navbar-item" href={API_ROUTES.PRAISE}>
                   Give Praise
                 </a>
-                <span className="navbar-item has-text-grey-light">
-                  Compensation & Promotions (Coming Soon)
-                </span>
+                <a className="navbar-item" href={API_ROUTES.RESIGNATION_LETTER}>
+                  Resignation Letter
+                </a>
+                <a className="navbar-item" href={API_ROUTES.COMPENSATION}>
+                  Compensation & Promotions
+                </a>
               </div>
             </div>
           </div>

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../../..";
 import { Analytics, AnalyticsToolName } from "../../../business/analytics";
 import { ResumeAnalyserService } from "../../../business/resume-analyser.service";
-import { ResumeAnalyserBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
@@ -80,7 +79,6 @@ export const ResumeAnalyserPage = () => {
   return (
     <div className="main-body">
       <NavbarMin />
-      <ResumeAnalyserBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container">
           <div className="content">

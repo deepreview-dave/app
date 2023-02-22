@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../../business/analytics";
-import { ResumeBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
 import { ResultsError } from "../../../components/results/ResultsError";
@@ -35,7 +34,6 @@ export const ResumePage = () => {
   return (
     <div className="main-body">
       <NavbarMin />
-      <ResumeBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container">
           <div className="content">

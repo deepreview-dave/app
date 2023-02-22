@@ -6,7 +6,6 @@ import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { usePerformanceReviewState } from "../../state/perf-review.state";
-import { PersonaBreadcrumbs } from "../../components/common/Breadcrumbs";
 
 export const SelectPersonaPage = () => {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ export const SelectPersonaPage = () => {
   return (
     <div className="main-body">
       <NavbarMin />
-      <PersonaBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container narrow-container">
           <div className="content">

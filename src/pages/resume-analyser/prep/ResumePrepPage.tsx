@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../../business/analytics";
-import { ResumePrepBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../../components/subscribe/SubscribeForm";
@@ -45,7 +44,6 @@ export const ResumePrepPage = () => {
   return (
     <div className="main-body">
       <NavbarMin />
-      <ResumePrepBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container">
           <ResumePrepSteps />

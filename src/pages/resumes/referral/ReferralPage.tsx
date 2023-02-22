@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Analytics, AnalyticsToolName } from "../../../business/analytics";
-import { ReferralLetterBreadcrumbs } from "../../../components/common/Breadcrumbs";
 import { Footer } from "../../../components/common/Footer";
 import { NavbarMin } from "../../../components/common/NavbarMin";
 import { ResultControlPanel } from "../../../components/control/ResultControlPanel";
@@ -20,7 +19,6 @@ export const ReferralPage = () => {
   return (
     <div className="main-body">
       <NavbarMin />
-      <ReferralLetterBreadcrumbs />
       <div className="layout m-4 mt-6">
         <div className="container">
           <div className="content">

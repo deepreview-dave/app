@@ -258,7 +258,7 @@ export class OpenAIService {
       prompt,
     });
     const value = response.trim();
-    Analytics.generated();
+    // Analytics.generated();
     return [
       {
         original: value,

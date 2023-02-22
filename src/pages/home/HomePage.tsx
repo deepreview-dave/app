@@ -29,21 +29,21 @@ export const HomePage = () => {
               <figure className="image is-2by1">
                 <img
                   className="cover-fit"
-                  src="/images/cv-1.jpg"
-                  alt="Resumes & Cover Letters"
+                  src="/images/cover-1.jpg"
+                  alt="Cover Letters"
                 />
               </figure>
             </div>
             <div className="card-content">
               <div className="content">
-                <h4>Resumes & Cover Letters</h4>
+                <h4>Cover Letters</h4>
                 <p>
-                  Finding the right words to highlight the best of you can be
-                  time consuming. Let DeepReview help with that.
+                  Find the right words to highlight why you're the best fit for
+                  that special job.
                 </p>
                 <p>
                   <a
-                    href={API_ROUTES.RESUME_TOOL}
+                    href={API_ROUTES.RESUME_COVER_LETTER}
                     className="button is-primary"
                   >
                     Try it out!
@@ -52,6 +52,38 @@ export const HomePage = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="column is-6">
+          <div className="card">
+            <div className="card-image">
+              <figure className="image is-2by1">
+                <img
+                  className="cover-fit"
+                  src="/images/referral-1.jpg"
+                  alt="Referral Letters"
+                />
+              </figure>
+            </div>
+            <div className="card-content">
+              <div className="content">
+                <h4>Referral Letters</h4>
+                <p>
+                  Get help writing a Referral Letter for a colleague or friend.
+                </p>
+                <p>
+                  <a
+                    href={API_ROUTES.RESUME_REFERRAL}
+                    className="button is-primary"
+                  >
+                    Try it out!
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="column is-12">
+          <hr />
         </div>
         <div className="column is-6">
           <div className="card">
@@ -216,7 +248,7 @@ export const HomePage = () => {
         <div className="container narrow-container">
           <hr />
           <PageInfo />
-          <hr />
+          {/* <hr /> */}
           <ResumeAnalyserCard />
           <div className="mt-6"></div>
           <AvailableOptions />
