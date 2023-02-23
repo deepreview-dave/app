@@ -6,6 +6,7 @@ import { NavbarMin } from "../../components/common/NavbarMin";
 
 export const ResignationLetterPage = () => {
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.REFERRAL_LETTER);
   }, []);
 

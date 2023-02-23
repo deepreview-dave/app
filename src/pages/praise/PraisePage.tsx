@@ -13,6 +13,7 @@ export const PraisePage = () => {
   const state = useControlPanelState((state) => state);
 
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.PRAISE);
   }, []);
 

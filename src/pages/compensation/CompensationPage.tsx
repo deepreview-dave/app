@@ -6,6 +6,7 @@ import { NavbarMin } from "../../components/common/NavbarMin";
 
 export const CompensationPage = () => {
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.COMPENSATION);
   }, []);
 

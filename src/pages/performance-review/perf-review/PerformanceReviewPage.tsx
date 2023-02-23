@@ -14,6 +14,7 @@ export const PerformanceReviewPage = () => {
   const state = useControlPanelState((state) => state);
 
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.PERF_REVIEW);
   }, []);
 

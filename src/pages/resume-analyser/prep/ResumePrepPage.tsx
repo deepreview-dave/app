@@ -38,6 +38,7 @@ export const ResumePrepPage = () => {
   };
 
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.RESUME_PREP);
   }, []);
 

@@ -54,10 +54,6 @@ export class Analytics {
     mixpanel.track(AnalyticsEventName.GENERATED);
   }
 
-  static expanded() {
-    mixpanel.track(AnalyticsEventName.EXPANDED);
-  }
-
   static copied() {
     mixpanel.track(AnalyticsEventName.COPIED);
   }

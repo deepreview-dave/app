@@ -163,4 +163,3 @@ root.render(<RouterProvider router={router} />);
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 Analytics.init(process.env.REACT_APP_MIXPANEL_TOKEN);
-Analytics.loaded();
