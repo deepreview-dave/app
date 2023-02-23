@@ -168,6 +168,11 @@ a.underlined-style {
   line-height: 1.5;
 }
 
+.autoscaling-textarea {
+  scroll-behavior: none;
+  resize: none;
+}
+
 /** auto text area */
 
 .autotext-area {

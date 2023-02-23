@@ -171,17 +171,17 @@ export const ResumePrepEducation = () => {
   };
 
   const MainContent = () => (
-    <div className="review-content">
-      <div className="p-4">
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <label>School</label>
-              </td>
-              <td>
+    <div className="card">
+      <div className="card-content">
+        <div className="field is-horizontal">
+          <div className="field-label is-normal">
+            <label className="label">School</label>
+          </div>
+          <div className="field-body">
+            <div className="field">
+              <p className="control">
                 <input
-                  className="input is-small"
+                  className="input"
                   disabled={h.loading}
                   placeholder="Please enter the name of the school"
                   type={"text"}
@@ -193,15 +193,20 @@ export const ResumePrepEducation = () => {
                     })
                   }
                 />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>Degree</label>
-              </td>
-              <td>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="field is-horizontal">
+          <div className="field-label is-normal">
+            <label className="label">Degree</label>
+          </div>
+          <div className="field-body">
+            <div className="field">
+              <p className="control">
                 <input
-                  className="input is-small"
+                  className="input"
                   disabled={h.loading}
                   placeholder="Please enter your degree"
                   type={"text"}
@@ -213,15 +218,20 @@ export const ResumePrepEducation = () => {
                     })
                   }
                 />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>Start</label>
-              </td>
-              <td>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="field is-horizontal">
+          <div className="field-label is-normal">
+            <label className="label">Start</label>
+          </div>
+          <div className="field-body">
+            <div className="field">
+              <p className="control">
                 <input
-                  className="input is-small"
+                  className="input"
                   disabled={h.loading}
                   placeholder="Please enter the start date (e.g. 2019)"
                   type={"text"}
@@ -233,15 +243,20 @@ export const ResumePrepEducation = () => {
                     })
                   }
                 />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>End</label>
-              </td>
-              <td>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="field is-horizontal">
+          <div className="field-label is-normal">
+            <label className="label">End</label>
+          </div>
+          <div className="field-body">
+            <div className="field">
+              <p className="control">
                 <input
-                  className="input is-small"
+                  className="input"
                   disabled={h.loading}
                   placeholder="Please enter the end date (e.g. 2022)"
                   type={"text"}
@@ -253,10 +268,10 @@ export const ResumePrepEducation = () => {
                     })
                   }
                 />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -327,27 +342,27 @@ export const ResumePrepEducation = () => {
           <div className="content">
             DeepReview has generated this improved school Description.
           </div>
-          <div className="review-content">
-            <div className="p-4">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <label>New Summary</label>
-                    </td>
-                    <td>
+          <div className="card">
+            <div className="card-content">
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">New Summary</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
                       <AutoTextArea
                         disabled={h.loading}
-                        className="input"
+                        className="input autoscaling-textarea is-success"
                         placeholder={""}
                         index={0}
                         value={getNewDetails()}
                         onChange={onNewDetailsValueEdit}
                       />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="content mt-4">
