@@ -47,6 +47,7 @@ export class Analytics {
   }
 
   static loaded() {
+    console.log("loaded");
     mixpanel.track(AnalyticsEventName.LOADED);
   }
 
