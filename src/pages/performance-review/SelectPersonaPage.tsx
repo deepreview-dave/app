@@ -6,6 +6,8 @@ import { Footer } from "../../components/common/Footer";
 import { NavbarMin } from "../../components/common/NavbarMin";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { usePerformanceReviewState } from "../../state/perf-review.state";
+import { useEffect } from "react";
+import { Analytics } from "../../business/analytics";
 
 export const SelectPersonaPage = () => {
   const navigate = useNavigate();
@@ -17,6 +19,10 @@ export const SelectPersonaPage = () => {
     updateRelationship(relationship);
     navigate(API_ROUTES.PERF_REVIEW_RESULT);
   };
+
+  useEffect(() => {
+    Analytics.loaded();
+  }, []);
 
   return (
     <div className="main-body">

@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import { API_ROUTES } from "../..";
+import { Analytics } from "../../business/analytics";
 import { Footer } from "../../components/common/Footer";
 import { NavbarBig } from "../../components/common/NavbarBig";
 import { SubscribeFrom } from "../../components/subscribe/SubscribeForm";
 import { ResumeAnalyserCard } from "./ResumeAnalyserCard";
 
 export const HomePage = () => {
+  useEffect(() => {
+    Analytics.loaded();
+  }, []);
+
   const PageInfo = () => {
     return (
       <div className="content has-text-centered">

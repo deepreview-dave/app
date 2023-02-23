@@ -13,6 +13,7 @@ export const ReferralPage = () => {
   const state = useControlPanelState((state) => state);
 
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.REFERRAL_LETTER);
   }, []);
 

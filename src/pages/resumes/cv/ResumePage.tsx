@@ -16,6 +16,7 @@ export const ResumePage = () => {
   const state = useControlPanelState((state) => state);
 
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.RESUME);
   }, []);
 

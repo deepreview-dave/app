@@ -337,7 +337,7 @@ export class OpenAIService {
       max_tokens,
       prompt,
     });
-    Analytics.expanded();
+    Analytics.generated();
     return response.trim();
   }
 

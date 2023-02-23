@@ -1,9 +1,15 @@
+import { useEffect } from "react";
 import { API_ROUTES } from "..";
+import { Analytics } from "../business/analytics";
 import { Footer } from "../components/common/Footer";
 import { NavbarMin } from "../components/common/NavbarMin";
 import { SubscribeFrom } from "../components/subscribe/SubscribeForm";
 
 export const PrivacyPolicyPage = () => {
+  useEffect(() => {
+    Analytics.loaded();
+  }, []);
+
   return (
     <div className="main-body">
       <NavbarMin />

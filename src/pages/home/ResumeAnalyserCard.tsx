@@ -13,7 +13,6 @@ export const ResumeAnalyserCard = () => {
   }, []);
 
   const onAnalyseClick = () => navigate(API_ROUTES.AUTO_REVIEW_RESUME_ANALYSE);
-  const onStartFromScratchClick = () => navigate(API_ROUTES.RESUME_CV);
 
   return (
     <div className="card">
@@ -55,12 +54,12 @@ export const ResumeAnalyserCard = () => {
               </p>
             </div>
             <div className="mt-4">
-              <button
+              <a
                 className="button is-primary is-outlined"
-                onClick={onStartFromScratchClick}
+                href={API_ROUTES.RESUME_CV}
               >
                 Start from scratch
-              </button>
+              </a>
             </div>
           </div>
         </div>

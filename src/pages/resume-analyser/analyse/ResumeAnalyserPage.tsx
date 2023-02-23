@@ -30,6 +30,7 @@ export const ResumeAnalyserPage = () => {
   const prepState = useResumePrepareState((state) => state);
 
   useEffect(() => {
+    Analytics.loaded();
     Analytics.tool(AnalyticsToolName.RESUME_ANALYSER);
 
     setTimeout(async () => {
