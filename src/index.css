@@ -180,7 +180,10 @@ a.underlined-style {
   resize: none;
   background: transparent;
   border-radius: 0;
-  font-size: medium;
+  /* font-size: 1rem; */
+  /* color: darkgreen; */
+  /* font-size: larger; */
+  /* font-size: medium; */
   font-family: monospace;
   padding: 0;
   margin: 0;
