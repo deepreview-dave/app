@@ -96,7 +96,7 @@ export const ReferralDetails = () => {
               onChange={(e) => state.setYourContact(e.currentTarget.value)}
             />
           </FormField>
-          <div className="mb-4">
+          <div className="mb-4 mt-6">
             <b>Then input the recipient's details</b>
           </div>
           <FormField field="Name">
@@ -143,7 +143,7 @@ export const ReferralDetails = () => {
               onChange={(e) => state.setRecipientAddress(e.currentTarget.value)}
             />
           </FormField>
-          <div className="mb-4">
+          <div className="mb-4 mt-6">
             <b>Finally, fill in the applicant's details</b>
           </div>
           <FormField field="Name">
@@ -190,6 +190,7 @@ export const ReferralDetails = () => {
               resultLoading={state.loading}
             />
           </FormField>
+          <div className="horizontal-line mt-4 mb-4"></div>
           <div className="buttons">
             <GenerateResultsButton onClick={onGenerateClick} onLoad={onLoad} />
             <CopyResultsButton
