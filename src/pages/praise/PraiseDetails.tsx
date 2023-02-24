@@ -6,6 +6,7 @@ import {
 } from "../../business/common";
 import { OpenAIService } from "../../business/open-ai.service";
 import { AutoTextArea } from "../../components/common/AutoTextArea";
+import { FormField } from "../../components/common/FormField";
 import {
   CopyResultsButton,
   GenerateResultsButton,
@@ -42,132 +43,76 @@ export const PraiseDetails = () => {
     <div className="columns">
       <div className="column">
         <div className="result-content p-4">
-          <div className="field is-horizontal">
-            <div className="field-label is-normal">
-              <label className="label has-text-info">Prompt</label>
-            </div>
-            <div className="field-body">
-              <div className="field">
-                <p className="control">
-                  <AutoTextArea
-                    disabled={state.loading}
-                    value={state.question}
-                    index={0}
-                    className="input autoscaling-textarea"
-                    placeholder="Please enter your prompt here"
-                    onChange={(e, i) => state.setQuestion(e)}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-
+          <FormField field="Prompt" className="has-text-info">
+            <AutoTextArea
+              disabled={state.loading}
+              value={state.question}
+              index={0}
+              className="input autoscaling-textarea"
+              placeholder="Please enter your prompt here"
+              onChange={(e, i) => state.setQuestion(e)}
+            />
+          </FormField>
           <div className="horizontal-line mt-4 mb-4"></div>
-
-          <div className="field is-horizontal">
-            <div className="field-label is-normal">
-              <label className="label">Name</label>
+          <FormField field="Name">
+            <input
+              className="input"
+              placeholder="Plase enter your name here"
+              type={"text"}
+              value={state.name}
+              disabled={state.loading}
+              onChange={(e) => state.setName(e.currentTarget.value)}
+            />
+          </FormField>
+          <FormField field="Pronoun">
+            <div className="select">
+              <select
+                disabled={state.loading}
+                value={state.pron}
+                onChange={(e) =>
+                  state.setPron(e.currentTarget.value as Pronouns)
+                }
+              >
+                <option value={Pronouns.NEUTRAL}>They</option>
+                <option value={Pronouns.HE}>He/Him</option>
+                <option value={Pronouns.HER}>She/Her</option>
+              </select>
             </div>
-            <div className="field-body">
-              <div className="field">
-                <p className="control">
-                  <input
-                    className="input"
-                    placeholder="Plase enter your name here"
-                    type={"text"}
-                    value={state.name}
-                    disabled={state.loading}
-                    onChange={(e) => state.setName(e.currentTarget.value)}
-                  />
-                </p>
-              </div>
+          </FormField>
+          <FormField field="Tone">
+            <div className="select">
+              <select
+                disabled={state.loading}
+                value={state.tone}
+                onChange={(e) =>
+                  state.setTone(e.currentTarget.value as PraiseTone)
+                }
+              >
+                <option value={PraiseTone.INFORMAL}>Informal</option>
+                <option value={PraiseTone.FORMAL}>Formal</option>
+              </select>
             </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-label is-normal">
-              <label className="label">Pronoun</label>
-            </div>
-            <div className="field-body">
-              <div className="field">
-                <div className="select">
-                  <select
-                    disabled={state.loading}
-                    value={state.pron}
-                    onChange={(e) =>
-                      state.setPron(e.currentTarget.value as Pronouns)
-                    }
-                  >
-                    <option value={Pronouns.NEUTRAL}>They</option>
-                    <option value={Pronouns.HE}>He/Him</option>
-                    <option value={Pronouns.HER}>She/Her</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-label is-normal">
-              <label className="label">Tone</label>
-            </div>
-            <div className="field-body">
-              <div className="field">
-                <div className="select">
-                  <select
-                    disabled={state.loading}
-                    value={state.tone}
-                    onChange={(e) =>
-                      state.setTone(e.currentTarget.value as PraiseTone)
-                    }
-                  >
-                    <option value={PraiseTone.INFORMAL}>Informal</option>
-                    <option value={PraiseTone.FORMAL}>Formal</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-label is-normal">
-              <label className="label">Situation</label>
-            </div>
-            <div className="field-body">
-              <div className="field">
-                <p className="control">
-                  <input
-                    className="input"
-                    placeholder="Plase enter a summary of the work or situation"
-                    type={"text"}
-                    value={state.what}
-                    disabled={state.loading}
-                    onChange={(e) => state.setWhat(e.currentTarget.value)}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="field is-horizontal">
-            <div className="field-label is-normal">
-              <label className="label">Details</label>
-            </div>
-            <div className="field-body">
-              <div className="field">
-                <p className="control">
-                  <AutoTextArea
-                    disabled={state.loading}
-                    value={state.details}
-                    index={0}
-                    className="input autoscaling-textarea"
-                    placeholder={detailsHint}
-                    onChange={(e, i) => state.setDetails(e)}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
+          </FormField>
+          <FormField field="Situation">
+            <input
+              className="input"
+              placeholder="Plase enter a summary of the work or situation"
+              type={"text"}
+              value={state.what}
+              disabled={state.loading}
+              onChange={(e) => state.setWhat(e.currentTarget.value)}
+            />
+          </FormField>
+          <FormField field="Details">
+            <AutoTextArea
+              disabled={state.loading}
+              value={state.details}
+              index={0}
+              className="input autoscaling-textarea"
+              placeholder={detailsHint}
+              onChange={(e, i) => state.setDetails(e)}
+            />
+          </FormField>
 
           <div className="horizontal-line mt-4 mb-4"></div>
 
@@ -179,292 +124,6 @@ export const PraiseDetails = () => {
             />
           </div>
         </div>
-        {/* <div className="card">
-          <div className="card-content">
-            <div className="field is-horizontal">
-              <div className="field-label is-normal">
-                <label className="label has-text-info">Prompt</label>
-              </div>
-              <div className="field-body">
-                <div className="field">
-                  <p className="control">
-                    <AutoTextArea
-                      disabled={state.loading}
-                      value={state.question}
-                      index={0}
-                      className="input autoscaling-textarea"
-                      placeholder="Please enter your prompt here"
-                      onChange={(e, i) => state.setQuestion(e)}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="horizontal-line mt-4 mb-4"></div>
-
-            <div className="field is-horizontal">
-              <div className="field-label is-normal">
-                <label className="label">Name</label>
-              </div>
-              <div className="field-body">
-                <div className="field">
-                  <p className="control">
-                    <input
-                      className="input"
-                      placeholder="Plase enter your name here"
-                      type={"text"}
-                      value={state.name}
-                      disabled={state.loading}
-                      onChange={(e) => state.setName(e.currentTarget.value)}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="field is-horizontal">
-              <div className="field-label is-normal">
-                <label className="label">Pronoun</label>
-              </div>
-              <div className="field-body">
-                <div className="field">
-                  <div className="select">
-                    <select
-                      disabled={state.loading}
-                      value={state.pron}
-                      onChange={(e) =>
-                        state.setPron(e.currentTarget.value as Pronouns)
-                      }
-                    >
-                      <option value={Pronouns.NEUTRAL}>They</option>
-                      <option value={Pronouns.HE}>He/Him</option>
-                      <option value={Pronouns.HER}>She/Her</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="field is-horizontal">
-              <div className="field-label is-normal">
-                <label className="label">Tone</label>
-              </div>
-              <div className="field-body">
-                <div className="field">
-                  <div className="select">
-                    <select
-                      disabled={state.loading}
-                      value={state.tone}
-                      onChange={(e) =>
-                        state.setTone(e.currentTarget.value as PraiseTone)
-                      }
-                    >
-                      <option value={PraiseTone.INFORMAL}>Informal</option>
-                      <option value={PraiseTone.FORMAL}>Formal</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="field is-horizontal">
-              <div className="field-label is-normal">
-                <label className="label">Situation</label>
-              </div>
-              <div className="field-body">
-                <div className="field">
-                  <p className="control">
-                    <input
-                      className="input"
-                      placeholder="Plase enter a summary of the work or situation"
-                      type={"text"}
-                      value={state.what}
-                      disabled={state.loading}
-                      onChange={(e) => state.setWhat(e.currentTarget.value)}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="field is-horizontal">
-              <div className="field-label is-normal">
-                <label className="label">Details</label>
-              </div>
-              <div className="field-body">
-                <div className="field">
-                  <p className="control">
-                    <AutoTextArea
-                      disabled={state.loading}
-                      value={state.details}
-                      index={0}
-                      className="input autoscaling-textarea"
-                      placeholder={detailsHint}
-                      onChange={(e, i) => state.setDetails(e)}
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="horizontal-line mt-4 mb-4"></div>
-
-            <div className="buttons">
-              <GenerateResultsButton
-                onClick={onGenerateClick}
-                onLoad={onLoad}
-              />
-              <CopyResultsButton
-                startingState={state.result}
-                loading={state.loading}
-              />
-            </div>
-
-          </div>
-        </div> */}
-        {/* <div className="review-content">
-          <div className="p-4">
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <label className="has-text-info">
-                      <b>Prompt</b>
-                    </label>
-                  </td>
-                  <td>
-                    <AutoTextArea
-                      disabled={state.loading}
-                      value={state.question}
-                      index={0}
-                      className="input is-bold"
-                      placeholder="Please enter your prompt here"
-                      onChange={(e, i) => state.setQuestion(e)}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td colSpan={2}>
-                    <div className="horizontal-line mt-4 mb-4"></div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <label>Name</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      placeholder="Plase enter your name here"
-                      type={"text"}
-                      value={state.name}
-                      disabled={state.loading}
-                      onChange={(e) => state.setName(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <label>Pronoun</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
-                        disabled={state.loading}
-                        value={state.pron}
-                        onChange={(e) =>
-                          state.setPron(e.currentTarget.value as Pronouns)
-                        }
-                      >
-                        <option value={Pronouns.NEUTRAL}>They</option>
-                        <option value={Pronouns.HE}>He/Him</option>
-                        <option value={Pronouns.HER}>She/Her</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <label>Tone</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
-                        disabled={state.loading}
-                        value={state.tone}
-                        onChange={(e) =>
-                          state.setTone(e.currentTarget.value as PraiseTone)
-                        }
-                      >
-                        <option value={PraiseTone.INFORMAL}>Informal</option>
-                        <option value={PraiseTone.FORMAL}>Formal</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <label>Situation</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      placeholder="Plase enter a summary of the work or situation"
-                      type={"text"}
-                      value={state.what}
-                      disabled={state.loading}
-                      onChange={(e) => state.setWhat(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <label>Details</label>
-                  </td>
-                  <td>
-                    <AutoTextArea
-                      disabled={state.loading}
-                      value={state.details}
-                      index={0}
-                      className="input"
-                      placeholder={detailsHint}
-                      onChange={(e, i) => state.setDetails(e)}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td colSpan={2}>
-                    <div className="horizontal-line mt-4 mb-4"></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    <div className="buttons">
-                      <GenerateResultsButton
-                        onClick={onGenerateClick}
-                        onLoad={onLoad}
-                      />
-                      <CopyResultsButton
-                        startingState={state.result}
-                        loading={state.loading}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div> */}
       </div>
       <div className="column">
         <ResultsInlineComponent

@@ -44,7 +44,7 @@ export const InputDetailsComponent = (props: {
     <>
       <div className="">
         <AutoTextArea
-          className="input"
+          className="input autoscaling-textarea"
           disabled={loading || props.resultLoading}
           value={details}
           placeholder={props.hint}

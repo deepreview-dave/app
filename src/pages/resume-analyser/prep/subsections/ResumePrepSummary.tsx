@@ -1,6 +1,7 @@
 import { AIResult } from "../../../../business/common";
 import { OpenAIService } from "../../../../business/open-ai.service";
 import { AutoTextArea } from "../../../../components/common/AutoTextArea";
+import { FormField } from "../../../../components/common/FormField";
 import { ResultsError } from "../../../../components/results/ResultsError";
 import { useResultState } from "../../../../state/result-state";
 import {
@@ -169,28 +170,17 @@ export const ResumePrepSummary = () => {
             DeepReview has generated this improved personal{" "}
             <b>Summary Statement</b>.
           </div>
-          <div className="card">
-            <div className="card-content">
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">New Summary</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <AutoTextArea
-                        disabled={state.loading}
-                        className="input autoscaling-textarea is-success"
-                        placeholder={""}
-                        index={0}
-                        value={getNewSummary()}
-                        onChange={onNewSummaryEdit}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="result-content p-4">
+            <FormField field="New Summary">
+              <AutoTextArea
+                disabled={state.loading}
+                className="input autoscaling-textarea is-success"
+                placeholder={""}
+                index={0}
+                value={getNewSummary()}
+                onChange={onNewSummaryEdit}
+              />
+            </FormField>
           </div>
           <div className="content mt-4">
             Now you can choose to still use the existing summary of the new
