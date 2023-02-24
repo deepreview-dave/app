@@ -52,11 +52,8 @@ export const InputDetailsComponent = (props: {
           onChange={(e, i) => setDetails(e)}
         />
       </div>
-      <div className="columns is-mobile is-vcentered pt-1">
-        <div
-          className="column pr-0 is-monospace is-size-7"
-          style={{ textAlign: "right" }}
-        >
+      <div className="columns is-mobile is-vcentered pt-2">
+        <div className="column pr-0 is-size-7" style={{ textAlign: "right" }}>
           Click here to get a starting point:
         </div>
         <div className="column is-narrow">
