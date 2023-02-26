@@ -1,6 +1,7 @@
 import { AIResult, WorkHistory } from "../../../business/common";
 import { OpenAIService } from "../../../business/open-ai.service";
 import { AutoTextArea } from "../../../components/common/AutoTextArea";
+import { FormField } from "../../../components/common/FormField";
 import {
   GenerateResultsButton,
   CopyResultsButton,
@@ -32,97 +33,59 @@ export const ResumeSummary = () => {
   return (
     <div className="columns">
       <div className="column">
-        <div className="review-content">
-          <div className="p-4">
-            <table>
-              <tbody>
-                <tr>
-                  <td
-                    colSpan={2}
-                    className="row-title is-monospace is-bold pb-4"
-                  >
-                    Continue by adding information for a short summary
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Skills</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={resultLoading}
-                      placeholder="Please enter a comma separated list of skills e.g. Driving, Excel, Management, etc"
-                      type={"text"}
-                      value={state.skills}
-                      onChange={(e) => state.setSkills(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>History</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
-                        disabled={resultLoading}
-                        value={state.history}
-                        onChange={(e) =>
-                          state.setHistory(e.currentTarget.value as WorkHistory)
-                        }
-                      >
-                        <option value={WorkHistory.One}>1 Year</option>
-                        <option value={WorkHistory.Two}>2 Years</option>
-                        <option value={WorkHistory.Three}>3 Years</option>
-                        <option value={WorkHistory.Four}>4 Years</option>
-                        <option value={WorkHistory.Five}>5 Years</option>
-                        <option value={WorkHistory.Six}>6 Years</option>
-                        <option value={WorkHistory.Seven}>7 Years</option>
-                        <option value={WorkHistory.Eight}>8 Years</option>
-                        <option value={WorkHistory.Nine}>9 Years</option>
-                        <option value={WorkHistory.TenPlus}>10+ Years</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Details</label>
-                  </td>
-                  <td>
-                    <AutoTextArea
-                      disabled={resultLoading}
-                      className="input"
-                      placeholder={detailsHint}
-                      index={0}
-                      value={state.summary}
-                      onChange={(e) => state.setSummary(e)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    <div className="horizontal-line mt-4 mb-4"></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    <div className="buttons">
-                      <GenerateResultsButton
-                        onClick={onGenerateClick}
-                        onLoad={onLoad}
-                      />
-                      <CopyResultsButton
-                        startingState={state.result}
-                        loading={state.loading}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <div className="result-content p-4">
+          <div className="mb-4">
+            <b>Continue by adding information for a short summary</b>
+          </div>
+          <FormField field="Skills">
+            <input
+              className="input"
+              disabled={resultLoading}
+              placeholder="Please enter a comma separated list of skills e.g. Driving, Excel, Management, etc"
+              type={"text"}
+              value={state.skills}
+              onChange={(e) => state.setSkills(e.currentTarget.value)}
+            />
+          </FormField>
+          <FormField field="History">
+            <div className="select">
+              <select
+                disabled={resultLoading}
+                value={state.history}
+                onChange={(e) =>
+                  state.setHistory(e.currentTarget.value as WorkHistory)
+                }
+              >
+                <option value={WorkHistory.One}>1 Year</option>
+                <option value={WorkHistory.Two}>2 Years</option>
+                <option value={WorkHistory.Three}>3 Years</option>
+                <option value={WorkHistory.Four}>4 Years</option>
+                <option value={WorkHistory.Five}>5 Years</option>
+                <option value={WorkHistory.Six}>6 Years</option>
+                <option value={WorkHistory.Seven}>7 Years</option>
+                <option value={WorkHistory.Eight}>8 Years</option>
+                <option value={WorkHistory.Nine}>9 Years</option>
+                <option value={WorkHistory.TenPlus}>10+ Years</option>
+              </select>
+            </div>
+          </FormField>
+          <FormField field="Details">
+            <AutoTextArea
+              disabled={resultLoading}
+              className="input autoscaling-textarea"
+              placeholder={detailsHint}
+              index={0}
+              value={state.summary}
+              onChange={(e) => state.setSummary(e)}
+            />
+          </FormField>
+          <div className="horizontal-line mt-4 mb-4"></div>
+          <div className="buttons">
+            <GenerateResultsButton onClick={onGenerateClick} onLoad={onLoad} />
+            <CopyResultsButton
+              startingState={state.result}
+              loading={state.loading}
+            />
           </div>
         </div>
       </div>

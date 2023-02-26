@@ -5,6 +5,7 @@ import {
   OpenAIServiceUtils,
 } from "../../../../business/open-ai.service";
 import { AutoTextArea } from "../../../../components/common/AutoTextArea";
+import { FormField } from "../../../../components/common/FormField";
 import { ResultsError } from "../../../../components/results/ResultsError";
 import { useResultState } from "../../../../state/result-state";
 import {
@@ -171,93 +172,67 @@ export const ResumePrepEducation = () => {
   };
 
   const MainContent = () => (
-    <div className="review-content">
-      <div className="p-4">
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <label>School</label>
-              </td>
-              <td>
-                <input
-                  className="input is-small"
-                  disabled={h.loading}
-                  placeholder="Please enter the name of the school"
-                  type={"text"}
-                  value={h.school}
-                  onChange={(e) =>
-                    state.setHistory(currentIndex, {
-                      ...h,
-                      school: e.currentTarget.value,
-                    })
-                  }
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>Degree</label>
-              </td>
-              <td>
-                <input
-                  className="input is-small"
-                  disabled={h.loading}
-                  placeholder="Please enter your degree"
-                  type={"text"}
-                  value={h.degree}
-                  onChange={(e) =>
-                    state.setHistory(currentIndex, {
-                      ...h,
-                      degree: e.currentTarget.value,
-                    })
-                  }
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>Start</label>
-              </td>
-              <td>
-                <input
-                  className="input is-small"
-                  disabled={h.loading}
-                  placeholder="Please enter the start date (e.g. 2019)"
-                  type={"text"}
-                  value={h.start}
-                  onChange={(e) =>
-                    state.setHistory(currentIndex, {
-                      ...h,
-                      start: e.currentTarget.value,
-                    })
-                  }
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>End</label>
-              </td>
-              <td>
-                <input
-                  className="input is-small"
-                  disabled={h.loading}
-                  placeholder="Please enter the end date (e.g. 2022)"
-                  type={"text"}
-                  value={h.end}
-                  onChange={(e) =>
-                    state.setHistory(currentIndex, {
-                      ...h,
-                      end: e.currentTarget.value,
-                    })
-                  }
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div className="result-content p-4">
+      <FormField field="School">
+        <input
+          className="input"
+          disabled={h.loading}
+          placeholder="Please enter the name of the school"
+          type={"text"}
+          value={h.school}
+          onChange={(e) =>
+            state.setHistory(currentIndex, {
+              ...h,
+              school: e.currentTarget.value,
+            })
+          }
+        />
+      </FormField>
+      <FormField field="Degree">
+        <input
+          className="input"
+          disabled={h.loading}
+          placeholder="Please enter your degree"
+          type={"text"}
+          value={h.degree}
+          onChange={(e) =>
+            state.setHistory(currentIndex, {
+              ...h,
+              degree: e.currentTarget.value,
+            })
+          }
+        />
+      </FormField>
+      <FormField field="Start">
+        <input
+          className="input"
+          disabled={h.loading}
+          placeholder="Please enter the start date (e.g. 2019)"
+          type={"text"}
+          value={h.start}
+          onChange={(e) =>
+            state.setHistory(currentIndex, {
+              ...h,
+              start: e.currentTarget.value,
+            })
+          }
+        />
+      </FormField>
+      <FormField field="End">
+        <input
+          className="input"
+          disabled={h.loading}
+          placeholder="Please enter the end date (e.g. 2022)"
+          type={"text"}
+          value={h.end}
+          onChange={(e) =>
+            state.setHistory(currentIndex, {
+              ...h,
+              end: e.currentTarget.value,
+            })
+          }
+        />
+      </FormField>
     </div>
   );
 
@@ -327,28 +302,17 @@ export const ResumePrepEducation = () => {
           <div className="content">
             DeepReview has generated this improved school Description.
           </div>
-          <div className="review-content">
-            <div className="p-4">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <label>New Summary</label>
-                    </td>
-                    <td>
-                      <AutoTextArea
-                        disabled={h.loading}
-                        className="input"
-                        placeholder={""}
-                        index={0}
-                        value={getNewDetails()}
-                        onChange={onNewDetailsValueEdit}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div className="result-content p-4">
+            <FormField field="New Description">
+              <AutoTextArea
+                disabled={h.loading}
+                className="input autoscaling-textarea is-success"
+                placeholder={""}
+                index={0}
+                value={getNewDetails()}
+                onChange={onNewDetailsValueEdit}
+              />
+            </FormField>
           </div>
           <div className="content mt-4">
             Now you can choose to still use the existing description of the new

@@ -9,6 +9,7 @@ import {
 } from "../../../business/common";
 import { OpenAIService } from "../../../business/open-ai.service";
 import { AutoTextArea } from "../../../components/common/AutoTextArea";
+import { FormField } from "../../../components/common/FormField";
 import { InputDetailsComponent } from "../../../components/results/InputDetailsComponent";
 import {
   GenerateResultsButton,
@@ -127,209 +128,124 @@ export const PerformanceReviewDetails = () => {
   return (
     <div className="columns">
       <div className="column">
-        <div className="review-content">
-          <div id="input" className="p-4">
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <label className="has-text-info">
-                      <b>Prompt</b>
-                    </label>
-                  </td>
-                  <td>
-                    <AutoTextArea
-                      disabled={resultLoading}
-                      value={question}
-                      index={0}
-                      className="input is-bold"
-                      placeholder="Please enter your prompt here"
-                      onChange={(e, i) => setQuestion(e)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    <div className="horizontal-line mt-4 mb-4"></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Name</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={resultLoading}
-                      placeholder={getNamePlaceholder()}
-                      type={"text"}
-                      value={name}
-                      onChange={(e) => setName(e.currentTarget.value)}
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Role</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={resultLoading}
-                      placeholder={getRolePlaceholder()}
-                      type={"text"}
-                      value={role}
-                      onChange={(e) => setRole(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Team</label>
-                  </td>
-                  <td>
-                    <input
-                      className="input is-small"
-                      disabled={resultLoading}
-                      placeholder={getTeamPlaceholder()}
-                      type={"text"}
-                      value={team}
-                      onChange={(e) => setTeam(e.currentTarget.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Result</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
-                        disabled={resultLoading}
-                        value={perf}
-                        onChange={(e) =>
-                          setPerf(e.currentTarget.value as PerformanceScore)
-                        }
-                      >
-                        <option value={PerformanceScore.BELOW_EXPECTATIONS}>
-                          Below expectation
-                        </option>
-                        <option value={PerformanceScore.MEETS_EXPECTATIONS}>
-                          Meets expectation
-                        </option>
-                        <option value={PerformanceScore.ABOVE_EXPECTATIONS}>
-                          Above expectation
-                        </option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Time</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
-                        disabled={resultLoading}
-                        value={time}
-                        onChange={(e) =>
-                          setTime(e.currentTarget.value as TimePeriod)
-                        }
-                      >
-                        <option value={TimePeriod.LAST_MONTH}>
-                          Previous month
-                        </option>
-                        <option value={TimePeriod.LAST_3_MONTHS}>
-                          Previous 3 months
-                        </option>
-                        <option value={TimePeriod.LAST_6_MONTHS}>
-                          Previous 6 months
-                        </option>
-                        <option value={TimePeriod.LAST_6_MONTHS}>
-                          Previous year
-                        </option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Tone</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
-                        disabled={resultLoading}
-                        value={tone}
-                        onChange={(e) =>
-                          setTone(e.currentTarget.value as ReviewTone)
-                        }
-                      >
-                        <option value={ReviewTone.NEUTRAL}>Neutral</option>
-                        <option value={ReviewTone.FRIENDLY}>Friendly</option>
-                        <option value={ReviewTone.CRITICAL}>Critical</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Pronoun</label>
-                  </td>
-                  <td>
-                    <div className="select is-small">
-                      <select
-                        className="is-monospace"
-                        disabled={resultLoading}
-                        value={pron}
-                        onChange={(e) =>
-                          setPron(e.currentTarget.value as Pronouns)
-                        }
-                      >
-                        <option value={Pronouns.NEUTRAL}>They</option>
-                        <option value={Pronouns.HE}>He/Him</option>
-                        <option value={Pronouns.HER}>She/Her</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>Details</label>
-                  </td>
-                  <td>
-                    <InputDetailsComponent
-                      hint={detailsHint}
-                      onHintClick={onHintClick}
-                      resultLoading={resultLoading}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    <div className="horizontal-line mt-4 mb-4"></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    <div className="buttons">
-                      <GenerateResultsButton
-                        onClick={onGenerateClick}
-                        onLoad={onLoad}
-                      />
-                      <CopyResultsButton
-                        startingState={result}
-                        loading={resultLoading}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <div className="result-content p-4">
+          <FormField field="Prompt" className="has-text-info">
+            <AutoTextArea
+              disabled={resultLoading}
+              value={question}
+              index={0}
+              className="input autoscaling-textarea"
+              placeholder="Please enter your prompt here"
+              onChange={(e, i) => setQuestion(e)}
+            />
+          </FormField>
+          <div className="horizontal-line mt-4 mb-4"></div>
+          <FormField field="Name">
+            <input
+              className="input"
+              disabled={resultLoading}
+              placeholder={getNamePlaceholder()}
+              type={"text"}
+              value={name}
+              onChange={(e) => setName(e.currentTarget.value)}
+            ></input>
+          </FormField>
+          <FormField field="Role">
+            <input
+              className="input"
+              disabled={resultLoading}
+              placeholder={getRolePlaceholder()}
+              type={"text"}
+              value={role}
+              onChange={(e) => setRole(e.currentTarget.value)}
+            />
+          </FormField>
+          <FormField field="Team">
+            <input
+              className="input"
+              disabled={resultLoading}
+              placeholder={getTeamPlaceholder()}
+              type={"text"}
+              value={team}
+              onChange={(e) => setTeam(e.currentTarget.value)}
+            />
+          </FormField>
+          <FormField field="Result">
+            <div className="select">
+              <select
+                disabled={resultLoading}
+                value={perf}
+                onChange={(e) =>
+                  setPerf(e.currentTarget.value as PerformanceScore)
+                }
+              >
+                <option value={PerformanceScore.BELOW_EXPECTATIONS}>
+                  Below expectation
+                </option>
+                <option value={PerformanceScore.MEETS_EXPECTATIONS}>
+                  Meets expectation
+                </option>
+                <option value={PerformanceScore.ABOVE_EXPECTATIONS}>
+                  Above expectation
+                </option>
+              </select>
+            </div>
+          </FormField>
+          <FormField field="Period">
+            <div className="select">
+              <select
+                disabled={resultLoading}
+                value={time}
+                onChange={(e) => setTime(e.currentTarget.value as TimePeriod)}
+              >
+                <option value={TimePeriod.LAST_MONTH}>Previous month</option>
+                <option value={TimePeriod.LAST_3_MONTHS}>
+                  Previous 3 months
+                </option>
+                <option value={TimePeriod.LAST_6_MONTHS}>
+                  Previous 6 months
+                </option>
+                <option value={TimePeriod.LAST_6_MONTHS}>Previous year</option>
+              </select>
+            </div>
+          </FormField>
+          <FormField field="Tone">
+            <div className="select">
+              <select
+                disabled={resultLoading}
+                value={tone}
+                onChange={(e) => setTone(e.currentTarget.value as ReviewTone)}
+              >
+                <option value={ReviewTone.NEUTRAL}>Neutral</option>
+                <option value={ReviewTone.FRIENDLY}>Friendly</option>
+                <option value={ReviewTone.CRITICAL}>Critical</option>
+              </select>
+            </div>
+          </FormField>
+          <FormField field="Pronoun">
+            <div className="select">
+              <select
+                disabled={resultLoading}
+                value={pron}
+                onChange={(e) => setPron(e.currentTarget.value as Pronouns)}
+              >
+                <option value={Pronouns.NEUTRAL}>They</option>
+                <option value={Pronouns.HE}>He/Him</option>
+                <option value={Pronouns.HER}>She/Her</option>
+              </select>
+            </div>
+          </FormField>
+          <FormField field="Details">
+            <InputDetailsComponent
+              hint={detailsHint}
+              onHintClick={onHintClick}
+              resultLoading={resultLoading}
+            />
+          </FormField>
+          <div className="horizontal-line mt-4 mb-4"></div>
+          <div className="buttons">
+            <GenerateResultsButton onClick={onGenerateClick} onLoad={onLoad} />
+            <CopyResultsButton startingState={result} loading={resultLoading} />
           </div>
         </div>
       </div>

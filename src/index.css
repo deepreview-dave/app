@@ -95,77 +95,9 @@ a.underlined-style {
   font-family: monospace;
 }
 
-.review-content {
-  border: 1px solid lightgrey;
-  /* border: 1px solid hsl(0, 0%, 71%); */
-  border-radius: 5px;
-}
-
-.review-content table > tbody > tr > td:first-child {
-  text-align: right;
-}
-
-.review-content table > tbody > tr > td.is-right {
-  text-align: right;
-}
-
-.review-content table > tbody > tr > td.is-vcentered {
-  vertical-align: middle;
-}
-
-.review-content table {
-  width: 100%;
-}
-
-.review-content table > tbody {
-  width: 100%;
-}
-
-.review-content table > tbody > tr > td.row-title {
-  text-align: left !important;
-  font-size: medium;
-  color: hsl(0, 0%, 29%);
-}
-
-.review-content table > tbody > tr > td:last-child {
-  width: 100%;
-}
-
-.review-content label {
-  font-family: monospace;
-  margin-right: 10px;
-  font-size: medium;
-  display: inline-block;
-}
-
-.review-content input {
-  width: 100%;
-  font-family: monospace;
-  margin-bottom: 8px;
-  box-shadow: none;
-}
-
-.review-content input::placeholder {
-  color: hsl(0, 0%, 71%);
-}
-
-.review-content .select {
-  margin-bottom: 8px;
-}
-
-.review-content select {
-  margin-bottom: 8px;
-}
-
-.review-content textarea {
-  width: 100%;
-  resize: none;
-  background: transparent;
-  font-size: medium;
-  font-family: monospace;
+.autoscaling-textarea {
   scroll-behavior: none;
-  margin-bottom: 0px !important;
-  line-height: 1.5;
+  resize: none;
 }
 
 /** auto text area */
@@ -175,7 +107,6 @@ a.underlined-style {
   resize: none;
   background: transparent;
   border-radius: 0;
-  font-size: medium;
   font-family: monospace;
   padding: 0;
   margin: 0;

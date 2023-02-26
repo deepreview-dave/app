@@ -1,4 +1,5 @@
 import { OpenAIServiceUtils } from "../../../../business/open-ai.service";
+import { FormField } from "../../../../components/common/FormField";
 import {
   ResumePrepareStep,
   useResumePrepareState,
@@ -21,97 +22,61 @@ export const ResumePrepDetails = () => {
         We've found the following starting <b>Details</b> in your Resume. Please
         check to see if they're correct.
       </div>
-      <div className="review-content">
-        <div className="p-4">
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <label>Name</label>
-                </td>
-                <td>
-                  <input
-                    className="input is-small"
-                    placeholder="Please enter your name"
-                    type={"text"}
-                    value={state.name}
-                    onChange={(e) => state.setName(e.currentTarget.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>Address</label>
-                </td>
-                <td>
-                  <input
-                    className="input is-small"
-                    placeholder="Please enter your address"
-                    type={"text"}
-                    value={state.address}
-                    onChange={(e) => state.setAddress(e.currentTarget.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>Phone</label>
-                </td>
-                <td>
-                  <input
-                    className="input is-small"
-                    placeholder="Please enter your phone number"
-                    type={"text"}
-                    value={state.phone}
-                    onChange={(e) => state.setPhone(e.currentTarget.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>Email</label>
-                </td>
-                <td>
-                  <input
-                    className="input is-small"
-                    placeholder="Please enter your email address"
-                    type={"text"}
-                    value={state.email}
-                    onChange={(e) => state.setEmail(e.currentTarget.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>Linkedin</label>
-                </td>
-                <td>
-                  <input
-                    className="input is-small"
-                    placeholder="Please enter your linkedin profile (if available)"
-                    type={"text"}
-                    value={state.linkedin}
-                    onChange={(e) => state.setLinkedin(e.currentTarget.value)}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>Website</label>
-                </td>
-                <td>
-                  <input
-                    className="input is-small"
-                    placeholder="Please enter your profile website (if available)"
-                    type={"text"}
-                    value={state.website}
-                    onChange={(e) => state.setWebsite(e.currentTarget.value)}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div className="result-content p-4">
+        <FormField field="Name">
+          <input
+            className="input"
+            placeholder="Please enter your name"
+            type={"text"}
+            value={state.name}
+            onChange={(e) => state.setName(e.currentTarget.value)}
+          />
+        </FormField>
+        <FormField field="Address">
+          <input
+            className="input"
+            placeholder="Please enter your address"
+            type={"text"}
+            value={state.address}
+            onChange={(e) => state.setAddress(e.currentTarget.value)}
+          />
+        </FormField>
+        <FormField field="Phone">
+          <input
+            className="input"
+            placeholder="Please enter your phone number"
+            type={"text"}
+            value={state.phone}
+            onChange={(e) => state.setPhone(e.currentTarget.value)}
+          />
+        </FormField>
+        <FormField field="Email">
+          <input
+            className="input"
+            placeholder="Please enter your email address"
+            type={"email"}
+            value={state.email}
+            onChange={(e) => state.setEmail(e.currentTarget.value)}
+          />
+        </FormField>
+        <FormField field="Linkedin">
+          <input
+            className="input"
+            placeholder="Please enter your linkedin profile (if available)"
+            type={"text"}
+            value={state.linkedin}
+            onChange={(e) => state.setLinkedin(e.currentTarget.value)}
+          />
+        </FormField>
+        <FormField field="Website">
+          <input
+            className="input"
+            placeholder="Please enter your profile website (if available)"
+            type={"text"}
+            value={state.website}
+            onChange={(e) => state.setWebsite(e.currentTarget.value)}
+          />
+        </FormField>
       </div>
       <div className="mt-4">
         <ContinueButton onClick={onNextClick} />

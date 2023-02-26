@@ -1,6 +1,7 @@
 import { AIResult } from "../../../business/common";
 import { OpenAIService } from "../../../business/open-ai.service";
 import { AutoTextArea } from "../../../components/common/AutoTextArea";
+import { FormField } from "../../../components/common/FormField";
 import {
   GenerateResultsButton,
   CopyResultsButton,
@@ -41,155 +42,109 @@ export const ResumeEducation = () => {
       {state.items.map((h, i) => (
         <div className="columns" key={i}>
           <div className="column">
-            <div className="review-content">
-              <div className="p-4">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td
-                        colSpan={2}
-                        className="row-title is-monospace is-bold pb-4"
-                      >
-                        <div className="columns is-vcentered is-mobile">
-                          <div className="column">
-                            Add education history information
-                          </div>
-                          <div className="column is-narrow">
-                            <button
-                              disabled={h.loading || i === 0}
-                              title="Remove school"
-                              className="button is-small"
-                              onClick={() => state.removeHistory(i)}
-                            >
-                              <span className="icon is-small">
-                                <i className="fas fa-times"></i>
-                              </span>
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>School</label>
-                      </td>
-                      <td>
-                        <input
-                          className="input is-small"
-                          disabled={h.loading}
-                          placeholder="Please enter the name of the school"
-                          type={"text"}
-                          value={h.school}
-                          onChange={(e) =>
-                            state.setHistory(i, {
-                              ...h,
-                              school: e.currentTarget.value,
-                            })
-                          }
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>Degree</label>
-                      </td>
-                      <td>
-                        <input
-                          className="input is-small"
-                          disabled={h.loading}
-                          placeholder="Please enter your degree"
-                          type={"text"}
-                          value={h.degree}
-                          onChange={(e) =>
-                            state.setHistory(i, {
-                              ...h,
-                              degree: e.currentTarget.value,
-                            })
-                          }
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>Start</label>
-                      </td>
-                      <td>
-                        <input
-                          className="input is-small"
-                          disabled={h.loading}
-                          placeholder="Please enter the start date (e.g. 2019)"
-                          type={"text"}
-                          value={h.start}
-                          onChange={(e) =>
-                            state.setHistory(i, {
-                              ...h,
-                              start: e.currentTarget.value,
-                            })
-                          }
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>End</label>
-                      </td>
-                      <td>
-                        <input
-                          className="input is-small"
-                          disabled={h.loading}
-                          placeholder="Please enter the end date (e.g. 2022)"
-                          type={"text"}
-                          value={h.end}
-                          onChange={(e) =>
-                            state.setHistory(i, {
-                              ...h,
-                              end: e.currentTarget.value,
-                            })
-                          }
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label>Details</label>
-                      </td>
-                      <td>
-                        <AutoTextArea
-                          className="input"
-                          disabled={h.loading}
-                          value={h.details}
-                          index={i}
-                          placeholder={detailsHint}
-                          onChange={(details) =>
-                            state.setHistory(i, {
-                              ...h,
-                              details,
-                            })
-                          }
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>
-                        <div className="horizontal-line mt-4 mb-4"></div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>
-                        <div className="buttons">
-                          <GenerateResultsButton
-                            onClick={() => onGenerateClick(h, i)}
-                            onLoad={(loading) => onLoad(loading, i)}
-                          />
-                          <CopyResultsButton
-                            startingState={h.results}
-                            loading={h.loading}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+            <div className="result-content p-4">
+              <div className="columns is-vcentered is-mobile">
+                <div className="column">
+                  <b>Add education history information</b>
+                </div>
+                <div className="column is-narrow">
+                  <button
+                    disabled={h.loading || i === 0}
+                    title="Remove school"
+                    className="button is-small"
+                    onClick={() => state.removeHistory(i)}
+                  >
+                    <span className="icon is-small">
+                      <i className="fas fa-times"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <FormField field="School">
+                <input
+                  className="input"
+                  disabled={h.loading}
+                  placeholder="Please enter the name of the school"
+                  type={"text"}
+                  value={h.school}
+                  onChange={(e) =>
+                    state.setHistory(i, {
+                      ...h,
+                      school: e.currentTarget.value,
+                    })
+                  }
+                />
+              </FormField>
+              <FormField field="Degree">
+                <input
+                  className="input"
+                  disabled={h.loading}
+                  placeholder="Please enter your degree"
+                  type={"text"}
+                  value={h.degree}
+                  onChange={(e) =>
+                    state.setHistory(i, {
+                      ...h,
+                      degree: e.currentTarget.value,
+                    })
+                  }
+                />
+              </FormField>
+              <FormField field="Start">
+                <input
+                  className="input"
+                  disabled={h.loading}
+                  placeholder="Please enter the start date (e.g. 2019)"
+                  type={"text"}
+                  value={h.start}
+                  onChange={(e) =>
+                    state.setHistory(i, {
+                      ...h,
+                      start: e.currentTarget.value,
+                    })
+                  }
+                />
+              </FormField>
+              <FormField field="End">
+                <input
+                  className="input"
+                  disabled={h.loading}
+                  placeholder="Please enter the end date (e.g. 2022)"
+                  type={"text"}
+                  value={h.end}
+                  onChange={(e) =>
+                    state.setHistory(i, {
+                      ...h,
+                      end: e.currentTarget.value,
+                    })
+                  }
+                />
+              </FormField>
+              <FormField field="Details">
+                <AutoTextArea
+                  className="input autoscaling-textarea"
+                  disabled={h.loading}
+                  value={h.details}
+                  index={i}
+                  placeholder={detailsHint}
+                  onChange={(details) =>
+                    state.setHistory(i, {
+                      ...h,
+                      details,
+                    })
+                  }
+                />
+              </FormField>
+              <div className="horizontal-line mt-4 mb-4"></div>
+              <div className="buttons">
+                <GenerateResultsButton
+                  onClick={() => onGenerateClick(h, i)}
+                  onLoad={(loading) => onLoad(loading, i)}
+                />
+                <CopyResultsButton
+                  startingState={h.results}
+                  loading={h.loading}
+                />
               </div>
             </div>
           </div>
