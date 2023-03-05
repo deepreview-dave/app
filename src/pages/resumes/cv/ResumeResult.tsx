@@ -348,7 +348,7 @@ export const ResumeResult = () => {
 
   return (
     <div className="has-background-white-ter">
-      <div id="pdf-to-download" className="result-display">
+      <div id="pdf-to-download" className="result-display pb-6">
         <div className="has-background-info p-2"></div>
         <div className="p-4 has-background-white content">
           <ResumeDetails />

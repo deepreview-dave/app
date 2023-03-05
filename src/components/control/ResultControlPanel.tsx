@@ -28,10 +28,10 @@ export const ResultControlPanel = (props: {
     const element = document.getElementById("pdf-to-download")!;
 
     const originalWidth = element.scrollWidth;
-    const originalHeight = element.scrollHeight;
+    // const originalHeight = element.scrollHeight;
     // set element to A4 size
     element.style.width = "210mm";
-    element.style.height = "297mm";
+    // element.style.height = "297mm";
 
     savePDF(element, {
       paperSize: "auto",
@@ -41,7 +41,7 @@ export const ResultControlPanel = (props: {
 
     // set element back to its original size
     element.style.width = originalWidth + "px";
-    element.style.height = originalHeight + "px";
+    // element.style.height = originalHeight + "px";
     state.setDownloading(false);
   };
 
