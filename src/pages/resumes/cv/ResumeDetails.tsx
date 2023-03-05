@@ -26,7 +26,7 @@ export const ResumeDetails = () => {
       <div className="column">
         <div className="result-content p-4">
           <div className="mb-4">
-            <b>Start by entering your details</b>
+            <i>Start by entering your details</i>
           </div>
           <FormField field="Name">
             <input

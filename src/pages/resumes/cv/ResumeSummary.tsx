@@ -35,7 +35,7 @@ export const ResumeSummary = () => {
       <div className="column">
         <div className="result-content p-4">
           <div className="mb-4">
-            <b>Continue by adding information for a short summary</b>
+            <i>Continue by adding information for a short summary</i>
           </div>
           <FormField field="Skills">
             <input

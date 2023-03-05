@@ -42,7 +42,7 @@ export const ResumeWorkplaces = () => {
             <div className="result-content p-4">
               <div className="columns is-vcentered is-mobile">
                 <div className="column">
-                  <b>Add details about this position</b>
+                  <i>Add details about this position</i>
                 </div>
                 <div className="column is-narrow">
                   <button

@@ -61,7 +61,7 @@ export const ReferralDetails = () => {
           </FormField>
           <div className="horizontal-line mt-4 mb-4"></div>
           <div className="mb-4">
-            <b>First input your own details</b>
+            <i>First input your own details</i>
           </div>
           <FormField field="Name">
             <input
@@ -97,7 +97,7 @@ export const ReferralDetails = () => {
             />
           </FormField>
           <div className="mb-4 mt-6">
-            <b>Then input the recipient's details</b>
+            <i>Then input the recipient's details</i>
           </div>
           <FormField field="Name">
             <input
@@ -144,7 +144,7 @@ export const ReferralDetails = () => {
             />
           </FormField>
           <div className="mb-4 mt-6">
-            <b>Finally, fill in the applicant's details</b>
+            <i>Finally, fill in the applicant's details</i>
           </div>
           <FormField field="Name">
             <input

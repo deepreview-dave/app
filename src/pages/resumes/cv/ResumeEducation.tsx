@@ -45,7 +45,7 @@ export const ResumeEducation = () => {
             <div className="result-content p-4">
               <div className="columns is-vcentered is-mobile">
                 <div className="column">
-                  <b>Add details about this qualification</b>
+                  <i>Add details about this qualification</i>
                 </div>
                 <div className="column is-narrow">
                   <button
