@@ -40,7 +40,7 @@ export const ResumePrepSteps = () => {
         <span className="steps-marker"></span>
         <div className="steps-content">
           <p className="is-size-4">
-            <a onClick={() => setStep(ResumePrepareStep.Work)}>Work</a>
+            <a onClick={() => setStep(ResumePrepareStep.Work)}>Experience</a>
           </p>
         </div>
       </li>

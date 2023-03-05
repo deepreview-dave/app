@@ -16,7 +16,7 @@ export const ResumeWorkplaces = () => {
   const state = useResumeWorkHistoryState((state) => state);
 
   const detailsHint = `Please enter more details, such as:
-  - main achievements in the job
+  - main achievements in the position
   - your principal responsibilities
   - or be as succint as listing attributes 'communication: good, leadership: to improve'`;
 
@@ -42,12 +42,12 @@ export const ResumeWorkplaces = () => {
             <div className="result-content p-4">
               <div className="columns is-vcentered is-mobile">
                 <div className="column">
-                  <b>Add job history details</b>
+                  <b>Add details about this position</b>
                 </div>
                 <div className="column is-narrow">
                   <button
                     disabled={h.loading || i === 0}
-                    title="Remove job"
+                    title="Remove position"
                     className="button is-small"
                     onClick={() => state.removeHistory(i)}
                   >
@@ -157,10 +157,10 @@ export const ResumeWorkplaces = () => {
       <div className="buttons mt-4">
         <button
           className="button is-info"
-          title="Add more jobs"
+          title="Add more positions"
           onClick={() => state.addHistory()}
         >
-          Add more jobs
+          Add more positions
         </button>
       </div>
     </>

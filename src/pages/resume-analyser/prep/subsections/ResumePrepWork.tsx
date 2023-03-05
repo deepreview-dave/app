@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AIResult } from "../../../../business/common";
 import {
   OpenAIService,
@@ -150,7 +150,7 @@ export const ResumePrepWork = () => {
     if (state.items.length === 1) {
       return (
         <div className="content">
-          We've identified one Job from your Resume: <b>{h.role}</b> at{" "}
+          We've identified one Posiiton from your Resume: <b>{h.role}</b> at{" "}
           <b>{h.company}</b>.
         </div>
       );
@@ -159,7 +159,8 @@ export const ResumePrepWork = () => {
     return (
       <div className="content">
         <p>
-          We've identified <b>{state.items.length} Jobs</b> from your Resume.
+          We've identified <b>{state.items.length} Positions</b> from your
+          Resume.
         </p>
         <p>
           The {ordinalOfNumber(currentIndex + 1)} one is <b>{h.role}</b> at{" "}
@@ -168,71 +169,6 @@ export const ResumePrepWork = () => {
       </div>
     );
   };
-
-  const MainContent = () => (
-    <div className="result-content p-4">
-      <FormField field="Company">
-        <input
-          className="input"
-          disabled={h.loading}
-          placeholder="Please enter the name of the company"
-          type={"text"}
-          value={h.company}
-          onChange={(e) =>
-            state.setHistory(currentIndex, {
-              ...h,
-              company: e.currentTarget.value,
-            })
-          }
-        />
-      </FormField>
-      <FormField field="Role">
-        <input
-          className="input"
-          disabled={h.loading}
-          placeholder="Please enter the role or title"
-          type={"text"}
-          value={h.role}
-          onChange={(e) =>
-            state.setHistory(currentIndex, {
-              ...h,
-              role: e.currentTarget.value,
-            })
-          }
-        />
-      </FormField>
-      <FormField field="Start">
-        <input
-          className="input"
-          disabled={h.loading}
-          placeholder="Please enter the start date (e.g. 2019)"
-          type={"text"}
-          value={h.start}
-          onChange={(e) =>
-            state.setHistory(currentIndex, {
-              ...h,
-              start: e.currentTarget.value,
-            })
-          }
-        />
-      </FormField>
-      <FormField field="End">
-        <input
-          className="input"
-          disabled={h.loading}
-          placeholder="Please enter the end date (e.g. 2022)"
-          type={"text"}
-          value={h.end}
-          onChange={(e) =>
-            state.setHistory(currentIndex, {
-              ...h,
-              end: e.currentTarget.value,
-            })
-          }
-        />
-      </FormField>
-    </div>
-  );
 
   const InvalidDescription = () => {
     return (
@@ -247,8 +183,7 @@ export const ResumePrepWork = () => {
       <div>
         <div className="message is-warning">
           <div className="message-body">
-            We were not able to identify any <b>Work Experience</b> from your
-            Resume.
+            We were not able to identify any <b>Positions</b> from your Resume.
           </div>
         </div>
         <ContinueButton onClick={onNextClick} />
@@ -260,11 +195,73 @@ export const ResumePrepWork = () => {
   return (
     <div>
       <Header />
-      <MainContent />
+      <div className="result-content p-4">
+        <FormField field="Company">
+          <input
+            className="input"
+            disabled={h.loading}
+            placeholder="Please enter the name of the company"
+            type={"text"}
+            value={h.company}
+            onChange={(e) =>
+              state.setHistory(currentIndex, {
+                ...h,
+                company: e.currentTarget.value,
+              })
+            }
+          />
+        </FormField>
+        <FormField field="Role">
+          <input
+            className="input"
+            disabled={h.loading}
+            placeholder="Please enter the role or title"
+            type={"text"}
+            value={h.role}
+            onChange={(e) =>
+              state.setHistory(currentIndex, {
+                ...h,
+                role: e.currentTarget.value,
+              })
+            }
+          />
+        </FormField>
+        <FormField field="Start">
+          <input
+            className="input"
+            disabled={h.loading}
+            placeholder="Please enter the start date (e.g. 2019)"
+            type={"text"}
+            value={h.start}
+            onChange={(e) =>
+              state.setHistory(currentIndex, {
+                ...h,
+                start: e.currentTarget.value,
+              })
+            }
+          />
+        </FormField>
+        <FormField field="End">
+          <input
+            className="input"
+            disabled={h.loading}
+            placeholder="Please enter the end date (e.g. 2022)"
+            type={"text"}
+            value={h.end}
+            onChange={(e) =>
+              state.setHistory(currentIndex, {
+                ...h,
+                end: e.currentTarget.value,
+              })
+            }
+          />
+        </FormField>
+      </div>
       {!getIsValidDescription() && <InvalidDescription />}
       {getIsValidDescription() && (
         <div className="content mt-4">
-          For this job we've also identified the following <b>Description:</b>
+          For this position we've also identified the following{" "}
+          <b>Description:</b>
         </div>
       )}
       {getIsValidDescription() && (
@@ -298,7 +295,7 @@ export const ResumePrepWork = () => {
       {getHasChanged() && getIsValidDescription() && (
         <>
           <div className="content">
-            DeepReview has generated this improved job Description.
+            DeepReview has generated this improved Description.
           </div>
           <div className="result-content p-4">
             <FormField field="New Description">

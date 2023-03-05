@@ -16,7 +16,7 @@ export const ResumeEducation = () => {
   const state = useResumeEducationHistoryState((state) => state);
 
   const detailsHint = `Please enter more details, such as:
-  - what your degree or certificate was about
+  - what your degree or certification was about
   - your grade
   - etc`;
 
@@ -45,12 +45,12 @@ export const ResumeEducation = () => {
             <div className="result-content p-4">
               <div className="columns is-vcentered is-mobile">
                 <div className="column">
-                  <b>Add education history information</b>
+                  <b>Add details about this qualification</b>
                 </div>
                 <div className="column is-narrow">
                   <button
                     disabled={h.loading || i === 0}
-                    title="Remove school"
+                    title="Remove qualification"
                     className="button is-small"
                     onClick={() => state.removeHistory(i)}
                   >
@@ -60,32 +60,32 @@ export const ResumeEducation = () => {
                   </button>
                 </div>
               </div>
-              <FormField field="School">
+              <FormField field="Qualification">
                 <input
                   className="input"
                   disabled={h.loading}
-                  placeholder="Please enter the name of the school"
-                  type={"text"}
-                  value={h.school}
-                  onChange={(e) =>
-                    state.setHistory(i, {
-                      ...h,
-                      school: e.currentTarget.value,
-                    })
-                  }
-                />
-              </FormField>
-              <FormField field="Degree">
-                <input
-                  className="input"
-                  disabled={h.loading}
-                  placeholder="Please enter your degree"
+                  placeholder="Please enter your qualification"
                   type={"text"}
                   value={h.degree}
                   onChange={(e) =>
                     state.setHistory(i, {
                       ...h,
                       degree: e.currentTarget.value,
+                    })
+                  }
+                />
+              </FormField>
+              <FormField field="Institution">
+                <input
+                  className="input"
+                  disabled={h.loading}
+                  placeholder="Please enter the name of the Educational Institution"
+                  type={"text"}
+                  value={h.school}
+                  onChange={(e) =>
+                    state.setHistory(i, {
+                      ...h,
+                      school: e.currentTarget.value,
                     })
                   }
                 />
@@ -160,10 +160,10 @@ export const ResumeEducation = () => {
       <div className="buttons mt-4">
         <button
           className="button is-info"
-          title="Add more schools"
+          title="Add more qualifications"
           onClick={() => state.addHistory()}
         >
-          Add more schools
+          Add more qualifications
         </button>
       </div>
     </>

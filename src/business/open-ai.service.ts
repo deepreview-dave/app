@@ -455,8 +455,8 @@ export class OpenAIServiceUtils {
     input: ResumeAnalyserEducationHistory
   ): AIResult {
     const result = [
-      `School: ${input.school}`,
-      `Degree: ${input.degree} (${input.start} - ${input.end})`,
+      `Institution: ${input.school}`,
+      `Qualification: ${input.degree} (${input.start} - ${input.end})`,
     ].join("\n");
 
     return {
