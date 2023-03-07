@@ -33,8 +33,8 @@ export const ResumeAnalyserCard = () => {
             <div className="content">
               <h4>Resume Enhancer</h4>
               <p>
-                Already have a resume? Upload the PDF and DeepReview will
-                analyse it and suggest improvements.
+                Already have a resume? Upload a PDF or DOCX file and DeepReview
+                will analyse it and suggest improvements.
               </p>
               <ResumeUploader />
             </div>

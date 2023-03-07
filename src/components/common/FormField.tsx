@@ -10,7 +10,7 @@ export const FormField = (props: {
       </div>
       <div className="field-body">
         <div className="field">
-          <p className="control">{props.children}</p>
+          <div className="control">{props.children}</div>
         </div>
       </div>
     </div>

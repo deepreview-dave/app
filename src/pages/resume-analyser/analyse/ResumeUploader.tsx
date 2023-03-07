@@ -25,7 +25,7 @@ export const ResumeUploader = () => {
           <span className="file-label">Choose a file…</span>
         </span>
         <span className="file-name">
-          {state.file?.name ?? "Select PDF file to upload"}
+          {state.file?.name ?? "Select PDF or DOCX file to upload"}
         </span>
       </label>
     </div>

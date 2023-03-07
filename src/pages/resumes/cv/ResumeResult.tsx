@@ -330,8 +330,8 @@ export const ResumeResult = () => {
               {e.results
                 .filter((i) => i.editable)
                 .map((i) => i.expanded)
-                .map((i) => (
-                  <p>{i}</p>
+                .map((i, index) => (
+                  <p key={index}>{i}</p>
                 ))}
             </Fragment>
           ))}

@@ -46,8 +46,8 @@ export const ResumeAnalyserPage = () => {
     if (!state.isLoading) {
       return (
         <p>
-          Already have a resume? Upload the PDF and DeepReview will analyse it
-          and suggest improvements.
+          Already have a resume? Upload a PDF of DOCX file and DeepReview will
+          analyse it and suggest improvements.
         </p>
       );
     }
