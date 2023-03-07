@@ -191,12 +191,20 @@ export const ReferralDetails = () => {
             />
           </FormField>
           <div className="horizontal-line mt-4 mb-4"></div>
-          <div className="buttons">
-            <GenerateResultsButton onClick={onGenerateClick} onLoad={onLoad} />
-            <CopyResultsButton
-              startingState={state.result}
-              loading={state.loading}
-            />
+          <div className="columns is-mobile">
+            <div className="column"></div>
+            <div className="column is-narrow">
+              <div className="buttons">
+                <CopyResultsButton
+                  startingState={state.result}
+                  loading={state.loading}
+                />
+                <GenerateResultsButton
+                  onClick={onGenerateClick}
+                  onLoad={onLoad}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -136,15 +136,20 @@ export const ResumeEducation = () => {
                 />
               </FormField>
               <div className="horizontal-line mt-4 mb-4"></div>
-              <div className="buttons">
-                <GenerateResultsButton
-                  onClick={() => onGenerateClick(h, i)}
-                  onLoad={(loading) => onLoad(loading, i)}
-                />
-                <CopyResultsButton
-                  startingState={h.results}
-                  loading={h.loading}
-                />
+              <div className="columns is-mobile">
+                <div className="column"></div>
+                <div className="column is-narrow">
+                  <div className="buttons">
+                    <CopyResultsButton
+                      startingState={h.results}
+                      loading={h.loading}
+                    />
+                    <GenerateResultsButton
+                      onClick={() => onGenerateClick(h, i)}
+                      onLoad={(loading) => onLoad(loading, i)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

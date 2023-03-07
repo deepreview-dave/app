@@ -243,9 +243,20 @@ export const PerformanceReviewDetails = () => {
             />
           </FormField>
           <div className="horizontal-line mt-4 mb-4"></div>
-          <div className="buttons">
-            <GenerateResultsButton onClick={onGenerateClick} onLoad={onLoad} />
-            <CopyResultsButton startingState={result} loading={resultLoading} />
+          <div className="columns is-mobile">
+            <div className="column"></div>
+            <div className="column is-narrow">
+              <div className="buttons">
+                <CopyResultsButton
+                  startingState={result}
+                  loading={resultLoading}
+                />
+                <GenerateResultsButton
+                  onClick={onGenerateClick}
+                  onLoad={onLoad}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
