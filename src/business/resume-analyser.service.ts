@@ -19,7 +19,8 @@ export class ResumeAnalyserService {
       const summary = this.parseSummary(parsed);
       const workplaces = this.parseWorkExp(parsed);
       const education = this.parseEducation(parsed);
-      return { details, summary, workplaces, education };
+      const languages = this.parseLanguages(parsed);
+      return { details, summary, workplaces, education, languages };
     } catch (e) {
       throw new Error(ResumeAnalyseErrorMessage.PDFAnalyseError);
     }
@@ -63,6 +64,12 @@ export class ResumeAnalyserService {
       details: "", // not supported atm
     }));
   };
+
+  private parseLanguages = (resume: Resume) => {
+    const languageArray = resume.data?.languages ?? [];
+    const languages = languageArray.join(", ");
+    return { languages };
+  };
 }
 
 const mockResponse = {
@@ -74,6 +81,7 @@ const mockResponse = {
       middle: "",
       title: "",
     },
+    languages: ["English", "French", "Arabic"],
     phoneNumbers: ["+447442099240"],
     websites: ["https://deepreview.eu"],
     emails: ["liviu.coman10@gmail.com"],
@@ -93,7 +101,6 @@ const mockResponse = {
       longitude: 0.002784,
     },
     objective: "",
-    languages: ["English"],
     summary:
       "I am an experienced tech lead with 10+ years of experience in the industry. I have a proven track record of mentoring junior engineers and helping them develop their skills. My technical expertise includes NodeJS, Typescript, and other related technologies. I am confident in my ability to lead and mentor teams, and I am looking for a new opportunity to continue to grow my skills.",
     totalYearsExperience: 13,

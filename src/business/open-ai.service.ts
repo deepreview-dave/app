@@ -208,6 +208,12 @@ export class OpenAIService {
     return [result];
   }
 
+  async generateResumeLanguages(languages: string): Promise<AIResult[]> {
+    const result = OpenAIServiceUtils.getBakedLanguageResult(languages);
+    Analytics.generated();
+    return [result];
+  }
+
   async generateResumeSummary(
     input: ResumeSummaryInput,
     name: string
@@ -459,6 +465,16 @@ export class OpenAIServiceUtils {
       `Qualification: ${input.degree} (${input.start} - ${input.end})`,
     ].join("\n");
 
+    return {
+      original: result,
+      expanded: result,
+      editable: false,
+      joined: true,
+    };
+  }
+
+  static getBakedLanguageResult(languages: string): AIResult {
+    const result = `languages: ${languages}`;
     return {
       original: result,
       expanded: result,

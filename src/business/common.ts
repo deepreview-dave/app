@@ -167,9 +167,14 @@ export type ResumeAnalyserEducationHistory = {
   details: string;
 };
 
+export type ResumeAnalyserLanguages = {
+  languages: string;
+};
+
 export type ResumeAnalyserOutput = {
   details: ResumeAnalyserDetails;
   summary: ResumeAnalyserSummary;
   workplaces: ResumeAnalyserWorkHistory[];
   education: ResumeAnalyserEducationHistory[];
+  languages: ResumeAnalyserLanguages;
 };

@@ -11,6 +11,7 @@ import { ResumeSummary } from "./ResumeSummary";
 import { ResumeWorkplaces } from "./ResumeWorkplaces";
 import { ResultControlPanel } from "../../../components/control/ResultControlPanel";
 import { useControlPanelState } from "../../../state/control-panel.state";
+import { ResumeLanguages } from "./ResumeLanguages";
 
 export const ResumePage = () => {
   const state = useControlPanelState((state) => state);
@@ -25,6 +26,7 @@ export const ResumePage = () => {
       <>
         <ResumeDetails />
         <ResumeSummary />
+        <ResumeLanguages />
         <ResumeWorkplaces />
         <ResumeEducation />
         <ResultsError />

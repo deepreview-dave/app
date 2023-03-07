@@ -114,6 +114,16 @@ export type ResumeEducationState = {
   setData: (data: ResumeAnalyserOutput) => void;
 };
 
+export type ResumeLanguagesState = {
+  languages: string;
+  result: AIResult[];
+  loading: boolean;
+  setLanguages: (languages: string) => void;
+  setResult: (result: AIResult[]) => void;
+  setLoading: (loading: boolean) => void;
+  setData: (data: ResumeAnalyserOutput) => void;
+};
+
 export const useResumeDetailsState = create<ResumeDetailsState>()((set) => ({
   name: "",
   address: "",
@@ -296,3 +306,15 @@ export const useResumeEducationHistoryState = create<ResumeEducationState>()(
       }),
   })
 );
+
+export const useResumeLanguageState = create<ResumeLanguagesState>()((set) => ({
+  languages: "",
+  result: [],
+  loading: false,
+  setLanguages: (languages: string) =>
+    set((state) => ({ ...state, languages })),
+  setResult: (result: AIResult[]) => set((state) => ({ ...state, result })),
+  setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
+  setData: (data: ResumeAnalyserOutput) =>
+    set((state) => ({ ...state, languages: data.languages.languages })),
+}));

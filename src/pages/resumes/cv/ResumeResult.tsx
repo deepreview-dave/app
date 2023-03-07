@@ -4,6 +4,7 @@ import {
   isValidWorkHistory,
   useResumeDetailsState,
   useResumeEducationHistoryState,
+  useResumeLanguageState,
   useResumeSummaryState,
   useResumeWorkHistoryState,
 } from "../../../state/resume.state";
@@ -346,6 +347,20 @@ export const ResumeResult = () => {
     );
   };
 
+  const LanaguageInfo = () => {
+    const state = useResumeLanguageState((state) => state);
+    if (!state.languages) {
+      return null;
+    }
+
+    return (
+      <div className="mt-5">
+        <h4>Languages</h4>
+        <p>{state.languages}</p>
+      </div>
+    );
+  };
+
   return (
     <div className="has-background-white-ter">
       <div id="pdf-to-download" className="result-display pb-6">
@@ -357,6 +372,7 @@ export const ResumeResult = () => {
           <WorkHistoryInfo />
           <SkillsInfo />
           <EducationHistoryInfo />
+          <LanaguageInfo />
         </div>
       </div>
     </div>
