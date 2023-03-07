@@ -37,10 +37,10 @@ export const NavbarMin = () => {
                   className="navbar-item"
                   href={API_ROUTES.AUTO_REVIEW_RESUME_ANALYSE}
                 >
-                  Resume Analyser
+                  Resume Enhancer
                 </a>
                 <a className="navbar-item" href={API_ROUTES.RESUME_CV}>
-                  Resume Edit
+                  Resume Creator
                 </a>
                 <a
                   className="navbar-item"

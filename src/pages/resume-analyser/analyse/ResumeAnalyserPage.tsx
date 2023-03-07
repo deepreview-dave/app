@@ -43,7 +43,7 @@ export const ResumeAnalyserPage = () => {
   }, []);
 
   const InfoText = () => {
-    if (!state.file) {
+    if (!state.isLoading) {
       return (
         <p>
           Already have a resume? Upload the PDF and DeepReview will analyse it
@@ -86,7 +86,7 @@ export const ResumeAnalyserPage = () => {
       <div className="layout m-4 mt-6">
         <div className="container">
           <div className="content">
-            <h3>Resume Analyser</h3>
+            <h3>Resume Enhancer</h3>
             <InfoText />
           </div>
           {!state.isLoading && (
@@ -98,7 +98,7 @@ export const ResumeAnalyserPage = () => {
                   disabled={!state.file}
                   className="button is-primary"
                 >
-                  Analyse & Improve
+                  Enhance
                 </button>
               </div>
             </>

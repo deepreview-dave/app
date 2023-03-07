@@ -31,7 +31,7 @@ export const ResumeAnalyserCard = () => {
         <div className="column">
           <div className="card-content">
             <div className="content">
-              <h4>Resume Analyser</h4>
+              <h4>Resume Enhancer</h4>
               <p>
                 Already have a resume? Upload the PDF and DeepReview will
                 analyse it and suggest improvements.
@@ -44,7 +44,7 @@ export const ResumeAnalyserCard = () => {
                 className="button is-primary"
                 onClick={onAnalyseClick}
               >
-                Analyse & Improve
+                Enhance
               </button>
             </div>
             <hr />
