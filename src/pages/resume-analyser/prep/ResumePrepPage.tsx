@@ -11,6 +11,7 @@ import { ResumePrepSteps } from "./subcomponents/ResumePrepSteps";
 import { ResumePrepDetails } from "./subsections/ResumePrepDetails";
 import { ResumePrepEducation } from "./subsections/ResumePrepEducation";
 import { ResumePrepFinal } from "./subsections/ResumePrepFinal";
+import { ResumePrepLanguage } from "./subsections/ResumePrepLanguage";
 import { ResumePrepSkills } from "./subsections/ResumePrepSkills";
 import { ResumePrepSummary } from "./subsections/ResumePrepSummary";
 import { ResumePrepWork } from "./subsections/ResumePrepWork";
@@ -24,6 +25,8 @@ export const ResumePrepPage = () => {
         return <ResumePrepDetails />;
       case ResumePrepareStep.Skills:
         return <ResumePrepSkills />;
+      case ResumePrepareStep.Language:
+        return <ResumePrepLanguage />;
       case ResumePrepareStep.Summary:
         return <ResumePrepSummary />;
       case ResumePrepareStep.Work:

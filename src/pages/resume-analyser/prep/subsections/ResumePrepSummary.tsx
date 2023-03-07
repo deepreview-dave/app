@@ -41,7 +41,7 @@ export const ResumePrepSummary = () => {
   const getIsValid = () => !!getOriginalSummary();
 
   const onNextClick = () => setStep(ResumePrepareStep.Work);
-  const onPrevClick = () => setStep(ResumePrepareStep.Skills);
+  const onPrevClick = () => setStep(ResumePrepareStep.Language);
 
   const onImproveClick = async () => {
     resetError();

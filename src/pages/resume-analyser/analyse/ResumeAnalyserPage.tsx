@@ -13,6 +13,7 @@ import {
 import {
   useResumeDetailsState,
   useResumeEducationHistoryState,
+  useResumeLanguageState,
   useResumeSummaryState,
   useResumeWorkHistoryState,
 } from "../../../state/resume.state";
@@ -27,6 +28,7 @@ export const ResumeAnalyserPage = () => {
   const setEducationData = useResumeEducationHistoryState(
     (state) => state.setData
   );
+  const setLanguageData = useResumeLanguageState((state) => state.setData);
   const prepState = useResumePrepareState((state) => state);
 
   useEffect(() => {
@@ -67,6 +69,7 @@ export const ResumeAnalyserPage = () => {
       setSummaryData(output);
       setWorkData(output);
       setEducationData(output);
+      setLanguageData(output);
       prepState.setIsPrepared();
       state.setResume(output);
       navigate(API_ROUTES.AUTO_REVIEW_RESUME_PREP);

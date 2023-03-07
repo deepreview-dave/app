@@ -30,6 +30,7 @@ export const useResumeAnalyserState = create<ResumeAnalyserState>()((set) => ({
 export enum ResumePrepareStep {
   Details,
   Skills,
+  Language,
   Summary,
   Work,
   Education,

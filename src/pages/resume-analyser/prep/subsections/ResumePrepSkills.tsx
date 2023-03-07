@@ -12,7 +12,7 @@ export const ResumePrepSkills = () => {
   const state = useResumeSummaryState((state) => state);
   const setStep = useResumePrepareState((state) => state.setStep);
 
-  const onNextClick = () => setStep(ResumePrepareStep.Summary);
+  const onNextClick = () => setStep(ResumePrepareStep.Language);
   const onPrevClick = () => setStep(ResumePrepareStep.Details);
 
   return (

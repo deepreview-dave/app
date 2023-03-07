@@ -28,6 +28,14 @@ export const ResumePrepSteps = () => {
           </p>
         </div>
       </li>
+      <li className={isActiveClass(ResumePrepareStep.Language)}>
+        <span className="steps-marker"></span>
+        <div className="steps-content">
+          <p className="is-size-4">
+            <a onClick={() => setStep(ResumePrepareStep.Language)}>Languages</a>
+          </p>
+        </div>
+      </li>
       <li className={isActiveClass(ResumePrepareStep.Summary)}>
         <span className="steps-marker"></span>
         <div className="steps-content">
